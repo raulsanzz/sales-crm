@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const app = express();
+require("dotenv").config();
 const publicPath = path.join(__dirname, "..", "public");
 const port = process.env.PORT || 5000;
 const db = require("./database/db");
@@ -13,7 +14,10 @@ var ip = require("ip");
 app.use("/api/user", require("./routes/user"));
 app.use("/api/job", require("./routes/job"));
 app.use("/api/auth", require("./routes/auth"));
-app.listen(port, ip.address(), () => {
+// app.listen(port, ip.address(), () => {
+//   console.log("Server is up");
+//   console.log(ip.address());
+// });
+app.listen(port, () => {
   console.log("Server is up");
-  console.log(ip.address());
 });
