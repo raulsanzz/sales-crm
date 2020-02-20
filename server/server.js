@@ -18,6 +18,8 @@ app.use("/api/auth", require("./routes/auth"));
 //   console.log("Server is up");
 //   console.log(ip.address());
 // });
+
+// test comment
 app.listen(port, () => {
   console.log("Server is up");
 });
