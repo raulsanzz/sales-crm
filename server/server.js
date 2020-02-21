@@ -21,5 +21,5 @@ app.use("/api/auth", require("./routes/auth"));
 
 // test comment
 app.listen(port, () => {
-  console.log("Server is up");
+  console.log("Server is up on port:"+port);
 });
