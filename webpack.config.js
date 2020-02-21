@@ -55,7 +55,7 @@ module.exports = (env, argv) => {
         inject: false
       }),
       new webpack.DefinePlugin({
-        REACT_APP_BASE_URL: JSON.stringify("http://localhost:5000")
+        REACT_APP_BASE_URL: JSON.stringify("http://127.0.0.1:5000")
       }),
       new BundleAnalyzerPlugin({
         analyzerMode: "disable",
@@ -67,7 +67,7 @@ module.exports = (env, argv) => {
       contentBase: path.join(__dirname, "public"),
       // for all 404 pages send back the html file
       inline: true,
-      host: "localhost",
+      host: "0.0.0.0",
       historyApiFallback: true,
       disableHostCheck: true,
       publicPath: "/dist/",
