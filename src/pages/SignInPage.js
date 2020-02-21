@@ -8,16 +8,17 @@ export class LoginPage extends React.Component {
   constructor(props) {
     super(props);
   }
-  onSubmit = e => {
-    e.preventDefault();
-    this.props.login();
-    //this.props.history.push("/dashboard");
-  };
+  // onSubmit = e => {
+  //   e.preventDefault();
+  //   this.props.login();
+  //   //this.props.history.push("/dashboard");
+  // };
 
   render() {
     return (
       <React.Fragment>
-        <SignInForm onSubmit={this.onSubmit} />
+        {/* <SignInForm onSubmit={this.onSubmit} /> */}
+        <SignInForm />
       </React.Fragment>
     );
   }

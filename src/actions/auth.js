@@ -52,8 +52,6 @@ export const signUp = (
   });
 
   try {
-    console.log(BASE_URL + "/api/user");
-    debugger;
     const res = await axios.post(BASE_URL + "/api/user", body, config);
 
     dispatch({
