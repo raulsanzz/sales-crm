@@ -55,7 +55,7 @@ module.exports = (env, argv) => {
         inject: false
       }),
       new webpack.DefinePlugin({
-        REACT_APP_BASE_URL: JSON.stringify("http://ec2-3-12-84-126.us-east-2.compute.amazonaws.com/:5000")
+        REACT_APP_BASE_URL: JSON.stringify("http://ec2-3-12-84-126.us-east-2.compute.amazonaws.com:5000")
       }),
       new BundleAnalyzerPlugin({
         analyzerMode: "disable",
