@@ -7,7 +7,7 @@
     "dev": "webpack --env development --mode=development",
     "test": "cross-env NODE_ENV=test jest --config=jest.config.json",
     "dev-server": "webpack-dev-server --env development --mode=development --open",
-    "build": "webpack  --env production --mode=production",
+    "build": "webpack --config webpack.config.js --env production --mode=production",
     "start": "node server/server.js",
     "heroku-postbuild": "npm run build"
   },

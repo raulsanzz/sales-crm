@@ -26,7 +26,7 @@ module.exports = (env, argv) => {
     entry: ["babel-polyfill", "./src/index.js"],
     output: {
       path: path.join(__dirname, "public", "dist"),
-      filename: "bundle.js"
+      filename: "[name].bundle.js"
     },
     module: {
       rules: [
@@ -62,6 +62,20 @@ module.exports = (env, argv) => {
         generateStatsFile: false
       })
     ],
+       // optimization: {
+    //   minimize: true
+    // }, 
+    optimization: {
+      splitChunks: {
+       cacheGroups: {
+         vendor: {
+           test: /[\\/]node_modules[\\/]/,
+           name: 'vendors',
+           chunks: 'all',
+         }
+       }
+     },
+    },
     devtool: env === "production" ? "source-map" : "inline-source-map",
     devServer: {
       contentBase: path.join(__dirname, "public"),
