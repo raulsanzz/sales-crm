@@ -1,4 +1,5 @@
-import React, { useEffect, Fragment } from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useEffect, Fragment, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -13,7 +14,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import { useAlert } from "react-alert";
 
-const BASE_URL = REACT_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const useStyles = makeStyles({
   root: {
     width: "100%",
@@ -34,8 +35,8 @@ const useStyles = makeStyles({
 });
 
 export default function salesDetail({ history }) {
-  const [data, SetData] = React.useState([]);
-  const [count, setCount] = React.useState(0);
+  const [data, SetData] = useState([]);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     axios.get(BASE_URL + "/api/job/lead_scedule").then(res => {

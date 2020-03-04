@@ -18,7 +18,7 @@ const ul = {
   fontSize: "15px"
 };
 
-const BASE_URL = REACT_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const DashboardPage = ({ user }) => {
   //week state
   const [job, SetJob] = React.useState([]);

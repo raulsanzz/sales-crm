@@ -11,7 +11,7 @@ import {
   LOGOUT
 } from "../actions/types";
 import setAuthToken from "../utills/setAuthToken";
-const BASE_URL = REACT_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 export const loadUser = () => async dispatch => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -63,8 +63,8 @@ export const signUp = (
     history.push("/dashboard");
   } catch (error) {
     const errors = error.response.data.errors;
-    const error = error.response.data.msg;
-    if (error) {
+    const error1 = error.response.data.msg;
+    if (error1) {
       dispatch(setAlert(error));
     }
     if (errors) {
@@ -107,8 +107,8 @@ export const logIn = (
     history.push("/dashboard");
   } catch (error) {
     const errors = error.response.data.errors;
-    const error = error.response.data.msg;
-    if (error) {
+    const error1 = error.response.data.msg;
+    if (error1) {
       dispatch(setAlert(error));
     }
     if (errors) {

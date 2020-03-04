@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/styles";
 import Paper from "@material-ui/core/Paper";
@@ -13,7 +14,7 @@ import { connect } from "react-redux";
 import { useAlert } from "react-alert";
 import { fetchJob } from "../../actions/job";
 import axios from "axios";
-const BASE_URL = REACT_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const columns = [
   { id: "name", label: "Company Name", minWidth: 170 },
   { id: "code", label: "Job Title", minWidth: 100, align: "center" },
@@ -76,8 +77,8 @@ const jobList = ({ fetchJob, job }) => {
 
   console.log(dailyJob, "dailyyyyyyyy");
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -121,7 +122,7 @@ const jobList = ({ fetchJob, job }) => {
                 return (
                   <TableRow
                     className={
-                      row.status == "job"
+                      row.status === "job"
                         ? classes.job
                         : row.status === "lead"
                         ? classes.lead

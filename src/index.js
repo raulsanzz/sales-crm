@@ -7,7 +7,8 @@ import deepOrange from "@material-ui/core/colors/deepOrange";
 
 import App from "./App";
 import store from "./store/store";
-
+import * as serviceWorker from './serviceWorker';
+// import('dotenv').config();
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -19,7 +20,7 @@ const theme = createMuiTheme({
     secondary: deepOrange
   }
 });
-
+console.log(process.env);
 ReactDOM.render(
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
@@ -30,3 +31,6 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("app")
 );
+
+
+serviceWorker.unregister();

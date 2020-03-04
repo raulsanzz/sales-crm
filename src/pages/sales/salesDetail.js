@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -8,7 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import axios from "axios";
 import Badge from "@material-ui/core/Badge";
-const BASE_URL = REACT_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const useStyles = makeStyles({
   root: {
     width: "100%",
@@ -29,8 +30,8 @@ const useStyles = makeStyles({
 });
 
 export default function salesDetail() {
-  const [data, SetData] = React.useState([]);
-  const [count, setCount] = React.useState(0);
+  const [data, SetData] = useState([]);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     axios.get(BASE_URL + "/api/job/count").then(res => {

@@ -7,12 +7,13 @@ import {
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
   USER_UPDATE_SUCCESS,
+  USER_UPDATE_FAIL,
   USER_MONTHLY_DETAILS_SUCCESS,
   USER_MONTHLY_DETAILS_FAIL,
   USER_WEEKLY_DETAILS_SUCCESS,
   USER_WEEKLY_DETAILS_FAIL
 } from "../actions/types";
-const BASE_URL = REACT_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 export const fetchUser = () => async dispatch => {
   try {
     const res = await axios.get(BASE_URL + "/api/user");

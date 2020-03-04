@@ -14,7 +14,7 @@ import {
   LEAD_UPDATE_SUCCESS,
   LEAD_UPDATE_FAIL
 } from "../actions/types";
-const BASE_URL = REACT_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 export const fetchJob = () => async dispatch => {
   try {
     const res = await axios.get(BASE_URL + "/api/job");

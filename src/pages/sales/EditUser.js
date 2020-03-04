@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Paper from "@material-ui/core/Paper";
@@ -62,7 +63,7 @@ const styles = theme => ({
 const editUser = ({ classes, children, history, location, updateUser }) => {
   //const alert = useAlert();
   const [formData, setFormData] = useState(location.state.detail);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const { registrationNumber, name, designation, id } = formData;
   const [role, setRole] = useState(formData.role);
   const [profile, setProfile] = useState(formData.profile);

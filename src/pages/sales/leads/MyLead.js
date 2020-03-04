@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -13,7 +14,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import { useAlert } from "react-alert";
 
-const BASE_URL = REACT_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const useStyles = makeStyles({
   root: {
     width: "100%",
@@ -34,9 +35,9 @@ const useStyles = makeStyles({
 });
 
 export default function salesDetail({ history }) {
-  const [data, SetData] = React.useState([]);
-  const [count, setCount] = React.useState(0);
-  const [open, setOpen] = React.useState(false);
+  const [data, SetData] = useState([]);
+  const [count, setCount] = useState(0);
+  const [open, setOpen] = useState(false);
   const alert = useAlert();
   const handleClose = () => {
     setOpen(false);

@@ -1,22 +1,15 @@
-import React from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useState}from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
-import StarIcon from "@material-ui/icons/Star";
-import SendIcon from "@material-ui/icons/Send";
-import MailIcon from "@material-ui/icons/Mail";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
-import DeleteIcon from "@material-ui/icons/Delete";
-import ReportIcon from "@material-ui/icons/Report";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import StarBorder from "@material-ui/icons/StarBorder";
 import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
 import ListIcon from "@material-ui/icons/List";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
@@ -31,9 +24,9 @@ const styles = theme => ({
   }
 });
 const mailFolderListItems = ({ user, classes }) => {
-  const [open, setOpen] = React.useState(false);
-  const [userOpen, setuserOpen] = React.useState(false);
-  const [leadsOpen, setleadsOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [userOpen, setuserOpen] = useState(false);
+  const [leadsOpen, setleadsOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);

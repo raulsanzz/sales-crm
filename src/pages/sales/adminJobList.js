@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
@@ -30,7 +31,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import TextField from "@material-ui/core/TextField";
-const BASE_URL = REACT_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
@@ -257,16 +258,16 @@ const useStyles = makeStyles(theme => ({
 const adminjobList = ({ deleteJob, history }) => {
   const alert = useAlert();
   const classes = useStyles();
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("calories");
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [match, setMatch] = useState("Search");
   const [count, setCount] = useState(0);
-  const [open, setOpen] = React.useState(false);
-  const [status, setStatus] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [status, setStatus] = useState("");
   const [job, setJob] = useState([]);
 
   useEffect(() => {

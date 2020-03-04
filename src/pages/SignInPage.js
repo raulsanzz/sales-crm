@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import SignInForm from "../components/SignInForm";
-import { login } from "../actions/auth";
+import { logIn } from "../actions/auth";
 
 export class LoginPage extends React.Component {
   constructor(props) {
@@ -24,4 +24,4 @@ export class LoginPage extends React.Component {
   }
 }
 
-export default connect(null, { login })(LoginPage);
+export default connect(null, { logIn })(LoginPage);
