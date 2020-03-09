@@ -17,7 +17,7 @@ import {
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 export const fetchJob = () => async dispatch => {
   try {
-    const res = await axios.get(BASE_URL + "/api/job");
+    const res = await axios.get( "/api/job");
 
     dispatch({
       type: FETCH_JOB_DATA_SUCCESS,
@@ -55,7 +55,7 @@ export const addJob = (
   });
 
   try {
-    const res = await axios.post(BASE_URL + "/api/job", body, config);
+    const res = await axios.post( "/api/job", body, config);
 
     dispatch({
       type: JOB_ADD_SUCCESS,
@@ -87,7 +87,7 @@ export const deleteJob = id => async dispatch => {
     id
   });
   try {
-    const res = await axios.post(BASE_URL + "/api/job/delete", body, config);
+    const res = await axios.post( "/api/job/delete", body, config);
 
     dispatch({
       type: JOB_DELETE_SUCCESS
@@ -124,7 +124,7 @@ export const updateJob = (
   });
 
   try {
-    const res = await axios.post(BASE_URL + "/api/job/edit", body, config);
+    const res = await axios.post( "/api/job/edit", body, config);
 
     dispatch({
       type: JOB_UPDATE_SUCCESS
@@ -184,7 +184,7 @@ export const updateLead = (
   });
 
   try {
-    const res = await axios.post(BASE_URL + "/api/job/lead/edit", body, config);
+    const res = await axios.post( "/api/job/lead/edit", body, config);
 
     dispatch({
       type: LEAD_UPDATE_SUCCESS

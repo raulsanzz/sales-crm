@@ -271,7 +271,7 @@ const adminjobList = ({ deleteJob, history }) => {
   const [job, setJob] = useState([]);
 
   useEffect(() => {
-    axios.get(BASE_URL + "/api/job").then(res => {
+    axios.get( "/api/job").then(res => {
       setJob(res.data.result);
     });
   }, [count]);
@@ -388,7 +388,7 @@ const adminjobList = ({ deleteJob, history }) => {
     });
     try {
       const res = axios
-        .post(BASE_URL + "/api/job/changed_staus", body, config)
+        .post( "/api/job/changed_staus", body, config)
         .then(response => {
           alert.success("Job Status Changed !");
           setCount(count + 1);

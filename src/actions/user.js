@@ -16,7 +16,7 @@ import {
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 export const fetchUser = () => async dispatch => {
   try {
-    const res = await axios.get(BASE_URL + "/api/user");
+    const res = await axios.get( "/api/user");
 
     dispatch({
       type: FETCH_USER_SUCCESS,
@@ -31,7 +31,7 @@ export const fetchUser = () => async dispatch => {
 
 export const deleteUser = id => async dispatch => {
   try {
-    const res = await axios.delete(BASE_URL + `/api/user/${id}`);
+    const res = await axios.delete( `/api/user/${id}`);
 
     dispatch({
       type: USER_DELETE_SUCCESS
@@ -68,7 +68,7 @@ export const updateUser = (
   });
 
   try {
-    const res = await axios.post(BASE_URL + "/api/user/edit", body, config);
+    const res = await axios.post( "/api/user/edit", body, config);
 
     dispatch({
       type: USER_UPDATE_SUCCESS
@@ -101,7 +101,7 @@ export const userDetails = (registration_number, role) => async dispatch => {
   });
 
   try {
-    const res = await axios.post(BASE_URL + "/api/user/details", body, config);
+    const res = await axios.post( "/api/user/details", body, config);
 
     dispatch({
       type: USER_WEEKLY_DETAILS_SUCCESS,
@@ -124,7 +124,7 @@ export const userDetails = (registration_number, role) => async dispatch => {
 
   try {
     const res = await axios.post(
-      BASE_URL + "/api/user/monthly_details",
+       "/api/user/monthly_details",
       body,
       config
     );

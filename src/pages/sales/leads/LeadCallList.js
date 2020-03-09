@@ -39,7 +39,7 @@ export default function salesDetail({ history }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    axios.get(BASE_URL + "/api/job/lead_scedule").then(res => {
+    axios.get( "/api/job/lead_scedule").then(res => {
       SetData(res.data.result);
     });
   }, [count]);

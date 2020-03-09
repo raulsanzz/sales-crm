@@ -70,7 +70,7 @@ const jobList = ({ fetchJob, job }) => {
 
   useEffect(() => {
     fetchJob();
-    axios.get(BASE_URL + "/api/job/user_daily_job_created").then(res => {
+    axios.get( "/api/job/user_daily_job_created").then(res => {
       setDailyJob(res.data.result);
     });
   }, [count]);

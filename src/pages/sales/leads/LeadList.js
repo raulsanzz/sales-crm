@@ -277,7 +277,7 @@ const adminjobList = ({ deleteJob, history, fetchUser, users }) => {
   const [job, setJob] = useState([]);
 
   useEffect(() => {
-    axios.get(BASE_URL + "/api/job/leads").then(res => {
+    axios.get( "/api/job/leads").then(res => {
       setJob(res.data.result);
     });
   }, [count]);
@@ -399,7 +399,7 @@ const adminjobList = ({ deleteJob, history, fetchUser, users }) => {
 
     try {
       const res = axios
-        .post(BASE_URL + "/api/job/assign_to", body, config)
+        .post( "/api/job/assign_to", body, config)
         .then(response => {
           alert.success("Successfully Assigned !");
           setCount(count + 1);
@@ -423,7 +423,7 @@ const adminjobList = ({ deleteJob, history, fetchUser, users }) => {
     });
     try {
       const res = axios
-        .post(BASE_URL + "/api/job/call_status", body, config)
+        .post( "/api/job/call_status", body, config)
         .then(response => {
           alert.success("Call Status Changed !");
           setCount(count + 1);
@@ -447,7 +447,7 @@ const adminjobList = ({ deleteJob, history, fetchUser, users }) => {
     });
     try {
       const res = axios
-        .post(BASE_URL + "/api/job/changed_staus", body, config)
+        .post( "/api/job/changed_staus", body, config)
         .then(response => {
           alert.success("Job Status Changed !");
           setCount(count + 1);
