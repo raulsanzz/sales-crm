@@ -13,7 +13,7 @@ import compose from "recompose/compose";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import { signUp } from "../actions/auth";
-import { Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),

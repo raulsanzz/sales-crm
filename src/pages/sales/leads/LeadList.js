@@ -21,7 +21,6 @@ import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { CsvDataService } from "../exportCsv";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import { fetchJob } from "../../../actions/job";
 import { connect } from "react-redux";
 import { deleteJob } from "../../../actions/job";
 import { useAlert } from "react-alert";
@@ -32,9 +31,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import TextField from "@material-ui/core/TextField";
 import { fetchUser } from "../../../actions/user";
-import { Document, Page } from "react-pdf";
+// import { Document, Page } from "react-pdf";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
@@ -79,7 +79,6 @@ const headCells = [
     label: "Company Name"
   },
   { id: "carbs", numeric: true, disablePadding: false, label: "Job Title" },
-
   { id: "carbs", numeric: true, disablePadding: false, label: "Assigned To" },
   { id: "carbs", numeric: true, disablePadding: false, label: "Status" },
   { id: "carbs", numeric: true, disablePadding: false, label: "Call" },
@@ -277,7 +276,7 @@ const adminjobList = ({ deleteJob, history, fetchUser, users }) => {
   const [job, setJob] = useState([]);
 
   useEffect(() => {
-    axios.get( "/api/job/leads").then(res => {
+    axios.get ( BASE_URL + "/api/job/leads").then(res => {
       setJob(res.data.result);
     });
   }, [count]);
@@ -399,7 +398,7 @@ const adminjobList = ({ deleteJob, history, fetchUser, users }) => {
 
     try {
       const res = axios
-        .post( "/api/job/assign_to", body, config)
+        .post ( BASE_URL + "/api/job/assign_to", body, config)
         .then(response => {
           alert.success("Successfully Assigned !");
           setCount(count + 1);
@@ -423,7 +422,7 @@ const adminjobList = ({ deleteJob, history, fetchUser, users }) => {
     });
     try {
       const res = axios
-        .post( "/api/job/call_status", body, config)
+        .post ( BASE_URL + "/api/job/call_status", body, config)
         .then(response => {
           alert.success("Call Status Changed !");
           setCount(count + 1);
@@ -447,7 +446,7 @@ const adminjobList = ({ deleteJob, history, fetchUser, users }) => {
     });
     try {
       const res = axios
-        .post( "/api/job/changed_staus", body, config)
+        .post ( BASE_URL + "/api/job/changed_staus", body, config)
         .then(response => {
           alert.success("Job Status Changed !");
           setCount(count + 1);

@@ -14,7 +14,9 @@ import { connect } from "react-redux";
 import { useAlert } from "react-alert";
 import { fetchJob } from "../../actions/job";
 import axios from "axios";
+
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 const columns = [
   { id: "name", label: "Company Name", minWidth: 170 },
   { id: "code", label: "Job Title", minWidth: 100, align: "center" },
@@ -70,12 +72,11 @@ const jobList = ({ fetchJob, job }) => {
 
   useEffect(() => {
     fetchJob();
-    axios.get( "/api/job/user_daily_job_created").then(res => {
+    axios.get ( BASE_URL + "/api/job/user_daily_job_created").then(res => {
       setDailyJob(res.data.result);
     });
   }, [count]);
 
-  console.log(dailyJob, "dailyyyyyyyy");
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -90,15 +91,16 @@ const jobList = ({ fetchJob, job }) => {
   };
 
   const countAdd = (company_name, job_title, url) => {
+    
     if (company_name && url) {
       alert.success("Job Successfully Added !");
     }
     setCount(count + 1);
   };
-
+  
   return (
     <Paper className={classes.root}>
-      <AddJob job={job} count={countAdd} />
+      <AddJob job={dailyJob} count={countAdd} />
       <div className={classes.tableWrapper}>
         <h1 className={classes.jobHeader}>Job List</h1>
         <Table stickyHeader aria-label="sticky table">

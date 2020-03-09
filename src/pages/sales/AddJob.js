@@ -1,28 +1,13 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
-import AddIcon from "@material-ui/icons/Add";
-import Fab from "@material-ui/core/Fab";
-import Tooltip from "@material-ui/core/Tooltip";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import HowToReg from "@material-ui/icons/HowToReg";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addJob } from "../../actions/job";
-import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
-import MenuItem from "@material-ui/core/MenuItem";
-import { Redirect, withRouter } from "react-router-dom";
-import axios from "axios";
-import {
-  NotificationContainer,
-  NotificationManager
-} from "react-notifications";
+import { withRouter } from "react-router-dom";
+
 const useStyles = makeStyles(theme => ({
   modal: {
     display: "flex",
@@ -146,22 +131,25 @@ const AddJob = ({ addJob, history, job, count }) => {
         company_name: e.target.value
       });
       const exist = job.filter(item => {
-        return item.companyName.toLowerCase() == e.target.value.toLowerCase();
+        return item.companyName.toLowerCase() === e.target.value.toLowerCase();
       });
 
       if (exist.length > 0) {
         setExistComp("Company Name Already Exist");
         setCompExist(exist);
+        setExist(true);
       } else {
         setCompExist([]);
         setExistComp("");
+        setExist(false);
       }
     } else {
       setCompExist([]);
       setExistComp("");
+      setExist(false);
     }
   };
-
+  
   const searchHandlerUrl = e => {
     if (e.target.value) {
       setFormData({
@@ -170,14 +158,13 @@ const AddJob = ({ addJob, history, job, count }) => {
       });
     }
   };
-
+  
   const onSubmitHandler = e => {
     e.preventDefault();
     addJob(company_name, job_title, url, profile, location, salary, history);
     count(company_name, job_title, url);
   };
 
-  console.log(compExist, "eeeeeeee");
   return (
     <div>
       <div className={classes.paper}>
@@ -232,7 +219,7 @@ const AddJob = ({ addJob, history, job, count }) => {
               className="form-control"
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" disabled={exist} className="btn btn-primary">
             Add Job
           </button>
         </form>

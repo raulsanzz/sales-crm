@@ -13,10 +13,12 @@ import {
   USER_WEEKLY_DETAILS_SUCCESS,
   USER_WEEKLY_DETAILS_FAIL
 } from "../actions/types";
+
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 export const fetchUser = () => async dispatch => {
   try {
-    const res = await axios.get( "/api/user");
+    const res = await axios.get ( BASE_URL + "/api/user");
 
     dispatch({
       type: FETCH_USER_SUCCESS,
@@ -68,7 +70,7 @@ export const updateUser = (
   });
 
   try {
-    const res = await axios.post( "/api/user/edit", body, config);
+    const res = await axios.post ( BASE_URL + "/api/user/edit", body, config);
 
     dispatch({
       type: USER_UPDATE_SUCCESS
@@ -101,7 +103,7 @@ export const userDetails = (registration_number, role) => async dispatch => {
   });
 
   try {
-    const res = await axios.post( "/api/user/details", body, config);
+    const res = await axios.post ( BASE_URL + "/api/user/details", body, config);
 
     dispatch({
       type: USER_WEEKLY_DETAILS_SUCCESS,

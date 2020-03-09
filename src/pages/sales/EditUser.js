@@ -12,13 +12,10 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import IconButton from "@material-ui/core/IconButton";
 import { updateUser } from "../../actions/user";
 import { connect } from "react-redux";
-import { Redirect, withRouter } from "react-router-dom";
 import compose from "recompose/compose";
-import { useAlert } from "react-alert";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
 
 const styles = theme => ({
   layout: {

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, Fragment, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -8,13 +8,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import axios from "axios";
-import Badge from "@material-ui/core/Badge";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
-import { useAlert } from "react-alert";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 const useStyles = makeStyles({
   root: {
     width: "100%",
@@ -39,7 +35,7 @@ export default function salesDetail({ history }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    axios.get( "/api/job/lead_scedule").then(res => {
+    axios.get ( BASE_URL + "/api/job/lead_scedule").then(res => {
       SetData(res.data.result);
     });
   }, [count]);

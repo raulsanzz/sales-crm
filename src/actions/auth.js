@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Redirect } from "react-router-dom";
 import { setAlert } from "../actions/alert";
 import {
   REGISTER_SUCCESS,
@@ -11,14 +10,16 @@ import {
   LOGOUT
 } from "../actions/types";
 import setAuthToken from "../utills/setAuthToken";
+
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 export const loadUser = () => async dispatch => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   try {
-    const res = await axios.get( "/api/auth");
+    const res = await axios.get ( BASE_URL + "/api/auth");
 
     dispatch({
       type: USER_LOADED,
@@ -50,9 +51,8 @@ export const signUp = (
     designation,
     password
   });
-
   try {
-    const res = await axios.post( "/api/user", body, config);
+    const res = await axios.post ( BASE_URL + "/api/user", body, config);
 
     dispatch({
       type: REGISTER_SUCCESS,
@@ -95,9 +95,9 @@ export const logIn = (
     password
   });
   
-  
+  console.log(BASE_URL);  
   try {
-    const res = await axios.post("/api/auth", body, config);
+    const res = await axios.post( BASE_URL + "/api/auth", body, config);
 
     dispatch({
       type: LOGIN_SUCCESS,

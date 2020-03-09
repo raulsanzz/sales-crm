@@ -15,7 +15,7 @@ const divStyle = {
   zIndex: "11111",
   border: "5px solid #780c0c",
   borderRadius: "20px",
-  zIndex: "10000"
+  // zIndex: "10000"
 };
 const Alert = ({ alerts }) =>
   alerts !== null &&

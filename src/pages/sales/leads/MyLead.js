@@ -47,7 +47,7 @@ export default function salesDetail({ history }) {
     setOpen(true);
   };
   useEffect(() => {
-    axios.get( "/api/job/my_leads").then(res => {
+    axios.get ( BASE_URL + "/api/job/my_leads").then(res => {
       SetData(res.data.result);
     });
   }, [count]);
@@ -65,7 +65,7 @@ export default function salesDetail({ history }) {
     });
     try {
       const res = axios
-        .post( "/api/job/lead_status", body, config)
+        .post ( BASE_URL + "/api/job/lead_status", body, config)
         .then(response => {
           alert.success(" Lead Status Changed !");
           setCount(count + 1);

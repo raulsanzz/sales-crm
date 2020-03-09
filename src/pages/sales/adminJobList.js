@@ -31,7 +31,9 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import TextField from "@material-ui/core/TextField";
+
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
@@ -271,7 +273,7 @@ const adminjobList = ({ deleteJob, history }) => {
   const [job, setJob] = useState([]);
 
   useEffect(() => {
-    axios.get( "/api/job").then(res => {
+    axios.get ( BASE_URL + "/api/job").then(res => {
       setJob(res.data.result);
     });
   }, [count]);
@@ -326,7 +328,7 @@ const adminjobList = ({ deleteJob, history }) => {
 
   const handleDelete = () => {
     var confirm = window.confirm("Do you want to Delete this Items ?");
-    if (confirm == true) {
+    if (confirm === true) {
       const filteredItems = job.filter(item => !selected.includes(item.id));
       setJob(filteredItems);
       deleteJob(selected);
@@ -388,7 +390,7 @@ const adminjobList = ({ deleteJob, history }) => {
     });
     try {
       const res = axios
-        .post( "/api/job/changed_staus", body, config)
+        .post ( BASE_URL + "/api/job/changed_staus", body, config)
         .then(response => {
           alert.success("Job Status Changed !");
           setCount(count + 1);
@@ -542,6 +544,7 @@ const adminjobList = ({ deleteJob, history }) => {
 const mapStateToProps = state => ({
   job: state.JobReducer.job
 });
+
 adminjobList.propTypes = {
   fetchJob: PropTypes.func,
   deleteJob: PropTypes.func.isRequired,

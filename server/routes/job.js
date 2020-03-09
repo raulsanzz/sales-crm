@@ -1,9 +1,6 @@
 const express = require("express");
 const Route = express.Router();
 const { check, validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const config = require("../database/config");
 const auth = require("../middleware/auth");
 const sequelize = require("../database/db").Sequelize;
 const db = require("../database/db");
@@ -763,13 +760,7 @@ Route.get("/status_rejected_lead_monthly_count", auth, async (req, res) => {
 // user daily job created
 Route.get("/user_daily_job_created", auth, async (req, res) => {
   try {
-    const result = await Job.findAll({
-      where: {
-        createdAt: new Date(),
-        userId: req.user.user.id
-      }
-    });
-
+    const result = await Job.findAll();
     res.json({ result });
   } catch (error) {
     console.log(error.message);

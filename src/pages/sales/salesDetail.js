@@ -34,7 +34,7 @@ export default function salesDetail() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    axios.get( "/api/job/count").then(res => {
+    axios.get ( BASE_URL + "/api/job/count").then(res => {
       SetData(res.data.result);
     });
   }, []);
