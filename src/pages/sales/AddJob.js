@@ -86,63 +86,79 @@ const useStyles = makeStyles(theme => ({
 const AddJob = ({ addJob, history, job, count }) => {
   const [dailyJob, setDailyJob] = useState([]);
   const [formData, setFormData] = useState({
-    job_title: null,
-    profile: null,
-    location: null,
-    salary: null,
-    company_name: null,
-    url: null
+      job_title: {
+        elementType: 'input',
+        elementConfig:{
+          type: 'text',
+          placeholder: 'Job Title'
+        },
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
+      },
+      location: {
+        elementType: 'input',
+        elementConfig:{
+          type: 'text',
+          placeholder: 'Location'
+        },
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
+      },
+      company_name: {
+        elementType: 'input',
+        elementConfig:{
+          type: 'text',
+          placeholder: 'Company Name'
+        },
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
+      },  
+      url: {
+        elementType: 'input',
+        elementConfig:{
+          type: 'text',
+          placeholder: 'URL'
+        },
+        value: '',
+        validation: {
+            required: true
+        },
+        valid: false,
+        touched: false
+      },
+    // profile: null,
+    // salary: '',
   });
-
+  const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const [exist, setExist] = useState("");
   const [existComp, setExistComp] = useState("");
   const [compExist, setCompExist] = useState([]);
 
-  const { company_name, job_title, url, profile, location, salary } = formData;
+  // const { company_name, job_title, url, profile, location, salary } = formData;
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const onChangeHandler = e => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value
+  const searchCompany = (companyName) => {
+    const exist = job.filter(item => {
+      return item.companyName.toLowerCase() === companyName.toLowerCase();
     });
-  };
 
-  const selectHandler = e => {
-    setFormData({
-      ...formData,
-      profile: e.target.value
-    });
-  };
-
-  const searchHandler = e => {
-    if (e.target.value) {
-      setFormData({
-        ...formData,
-        company_name: e.target.value
-      });
-      const exist = job.filter(item => {
-        return item.companyName.toLowerCase() === e.target.value.toLowerCase();
-      });
-
-      if (exist.length > 0) {
-        setExistComp("Company Name Already Exist");
-        setCompExist(exist);
-        setExist(true);
-      } else {
-        setCompExist([]);
-        setExistComp("");
-        setExist(false);
-      }
+    if (exist.length > 0) {
+      setExistComp("Company Name Already Exist");
+      setCompExist(exist);
+      setExist(true);
     } else {
       setCompExist([]);
       setExistComp("");
@@ -150,23 +166,89 @@ const AddJob = ({ addJob, history, job, count }) => {
     }
   };
   
-  const searchHandlerUrl = e => {
-    if (e.target.value) {
-      setFormData({
-        ...formData,
-        url: e.target.value
-      });
-    }
-  };
   
-  const onSubmitHandler = e => {
-    e.preventDefault();
-    addJob(company_name, job_title, url, profile, location, salary, history);
-    count(company_name, job_title, url);
-  };
+  const validityCheck = (value, rules) => {
+    let isValid = true;
+    if(rules){
+      if(rules.required){
+          isValid = value.trim() !== '' && isValid;
+      };   
+    }
+    return isValid;
+  }
+  
+  const onChangeHandler = (e, elementIdentifier) => {
+    const updatedForm = {
+      ...formData
+    }
+    const updatedElement = {
+      ...updatedForm[elementIdentifier]
+    }
+    updatedElement.value = e.target.value;
+    updatedElement.valid = validityCheck(updatedElement.value, updatedElement.validation);
+    updatedElement.touched = true;
+    updatedForm[elementIdentifier] = updatedElement;
+    
+    let formIsValid = true;
+    for (let elemIdentifier in updatedForm){
+        formIsValid = updatedForm[elemIdentifier].valid && formIsValid;
+    }
+    
+    if(elementIdentifier === 'company_name'){
+      searchCompany(e.target.value);
+    }
+    setFormData(updatedForm);
+    setFromIsInvalid(!formIsValid);
+  }
+  const orderHandler = (e) => {
+    e.preventDefault(); 
+    addJob(
+      formData.company_name.value, 
+      formData.job_title.value, 
+      formData.url.value, 
+      null, //profile
+      formData.location.value,
+      null,//salary 
+      history
+      );
+    count(      
+      formData.company_name.value, 
+      formData.job_title.value, 
+      formData.url.value, 
+      );
+  }
 
-  return (
-    <div>
+  const formElementLoop = () => {
+    const fromElementArray = [];
+    for (let key in formData){
+      fromElementArray.push({
+          id: key,
+          config: formData[key]
+      });
+    };
+    let form = (
+      <form onSubmit={orderHandler} noValidate autoComplete="off">
+          {
+            fromElementArray.map( elem => (
+              <div className="form-group">
+                <label for={elem.id}>{elem.config.elementConfig.placeholder}</label>
+                <input
+                  id={elem.id}
+                  className="form-control"
+                  type={elem.config.elementConfig.type}
+                  value={elem.config.value}
+                  onChange={(event) => {onChangeHandler(event, elem.id)}}
+                />
+              </div>
+            ))
+          }
+          <button type="submit" disabled={exist || fromIsInvalid} className="btn btn-primary">Add Job</button>
+      </form>
+      );
+    return form;
+  }
+    return (
+      <div>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <HowToReg />
@@ -175,103 +257,11 @@ const AddJob = ({ addJob, history, job, count }) => {
           className={classes.typography}
           align="center"
           variant="headline"
-        >
+          >
           Add new Job
         </Typography>
 
-        <form onSubmit={onSubmitHandler} noValidate autoComplete="off">
-          <div className="form-group">
-            <label for="company_name">Company Name:</label>
-            <input
-              autoFocus
-              id="company_name"
-              onChange={searchHandler}
-              type="text"
-              className="form-control"
-            />
-          </div>
-          <div className="form-group">
-            <label for="job_title">Job Title:</label>
-            <input
-              id="job_title"
-              className="form-control"
-              type="text"
-              onChange={onChangeHandler}
-            />
-          </div>
-          <div className="form-group">
-            <label for="url">URL:</label>
-            <input
-              id="url"
-              type="text"
-              name="url"
-              onChange={searchHandlerUrl}
-              className="form-control"
-            />
-          </div>
-          <div className="form-group">
-            <label for="location">Location:</label>
-            <input
-              id="location"
-              type="text"
-              name="location"
-              onChange={onChangeHandler}
-              className="form-control"
-            />
-          </div>
-          <button type="submit" disabled={exist} className="btn btn-primary">
-            Add Job
-          </button>
-        </form>
-        {/* <form onSubmit={onSubmitHandler} noValidate autoComplete="off">
-          <span className={classes.error2}>{existComp}</span>
-          <TextField
-            autoFocus
-            id="company_name"
-            label="Company Name"
-            margin="normal"
-            onChange={searchHandler}
-          />
-          <TextField
-            id="job_title"
-            label="Job Title"
-            type="text"
-            margin="normal"
-            onChange={onChangeHandler}
-          />
-          <TextField
-            id="url"
-            label="URL"
-            type="text"
-            name="url"
-            margin="normal"
-            onChange={searchHandlerUrl}
-          />
-          <span className={classes.error1}>{exist}</span>
-          <br></br>
-          <TextField
-            id="location"
-            label="Location"
-            type="text"
-            margin="normal"
-            onChange={onChangeHandler}
-          />
-          <TextField
-            id="salary"
-            label="Salary"
-            type="text"
-            margin="normal"
-            onChange={onChangeHandler}
-          />
-          <Button
-            className={classes.profile}
-            variant="contained"
-            color="primary"
-            type="submit"
-          >
-            Add Job
-          </Button>
-        </form> */}
+          {formElementLoop()}
       </div>
       {compExist.length > 0 ? (
         <div className={classes.compExist}>

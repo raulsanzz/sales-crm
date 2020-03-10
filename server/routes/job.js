@@ -75,14 +75,14 @@ Route.post(
       }
     }).map(el => el.get("profile"));
     let profile = user_profile[0];
-
+    
     // fetch company profile if already exist
     const job_company = await Job.findAll({
       where: { companyName: company_name }
     }).map(el => el.get("profile"));
 
     const job_profile = job_company.filter(prop => {
-      return prop.toLowerCase() == profile.toLowerCase();
+      return prop.toLowerCase() === profile.toLowerCase();
     });
 
     // check if the user profile have alreday applied to this company
@@ -111,11 +111,13 @@ Route.post(
         location,
         status: "job"
       });
+      console.log("job------------ ",job);
       if (job) {
         res.json({ job });
       }
+
     } catch (error) {
-      console.log(error.message);
+      console.log("error------------- ", error.message);
       return res.status(402).json({ msg: "Server Error" });
     }
   }

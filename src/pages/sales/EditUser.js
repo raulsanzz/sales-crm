@@ -16,6 +16,7 @@ import compose from "recompose/compose";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import { useAlert } from "react-alert";
 
 const styles = theme => ({
   layout: {
@@ -58,7 +59,7 @@ const styles = theme => ({
 });
 
 const editUser = ({ classes, children, history, location, updateUser }) => {
-  //const alert = useAlert();
+  const alert = useAlert();
   const [formData, setFormData] = useState(location.state.detail);
   const [open, setOpen] = useState(false);
   const { registrationNumber, name, designation, id } = formData;

@@ -83,7 +83,7 @@ const useStyles = makeStyles({
 });
 
 const userList = ({ fetchUser, users, deleteUser, history }) => {
-  //const alert = useAlert();
+  const alert = useAlert();
   const [count, setCount] = useState(0);
 
   useEffect(() => {
