@@ -23,6 +23,7 @@ export default function(state = initialState, action) {
     case JOB_ADD_SUCCESS:
       return {
         ...state,
+        job: state.job.concat(action.payload),
         newjob: null,
         loading: false
       };

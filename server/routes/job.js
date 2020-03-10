@@ -111,9 +111,8 @@ Route.post(
         location,
         status: "job"
       });
-      console.log("job------------ ",job);
       if (job) {
-        res.json({ job });
+        return res.json({ job });
       }
 
     } catch (error) {
@@ -172,7 +171,6 @@ Route.get("/leads", auth, async (req, res) => {
 Route.post("/delete", auth, async (req, res) => {
   const { id } = req.body;
   console.log(id);
-  debugger;
 
   try {
     const result = await Job.destroy({

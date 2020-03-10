@@ -19,7 +19,6 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 export const fetchJob = () => async dispatch => {
   try {
     const res = await axios.get ( BASE_URL + "/api/job");
-
     dispatch({
       type: FETCH_JOB_DATA_SUCCESS,
       payload: res.data.result
@@ -57,20 +56,20 @@ export const addJob = (
 
   try {
     const res = await axios.post ( BASE_URL + "/api/job", body, config);
-
+    console.log("HERE-------------->>>>>>>", res);
     dispatch({
       type: JOB_ADD_SUCCESS,
-      payload: res.data
+      payload: res.data.job
     });
     return 1;
   } catch (error) {
+    console.log("HERE error-------------->>>>>>>", error);
     const errors = error.response.data.errors;
     if (errors) {
       errors.forEach(error => {
         dispatch(setAlert(error.msg));
       });
     }
-
     dispatch({
       type: JOB_ADD_FAIL
     });

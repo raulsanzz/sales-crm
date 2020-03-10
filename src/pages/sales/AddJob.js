@@ -84,7 +84,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AddJob = ({ addJob, history, job, count }) => {
-  const [dailyJob, setDailyJob] = useState([]);
   const [formData, setFormData] = useState({
       job_title: {
         elementType: 'input',
@@ -218,7 +217,7 @@ const AddJob = ({ addJob, history, job, count }) => {
       );
   }
 
-  const formElementLoop = () => {
+  const formRender = () => {
     const fromElementArray = [];
     for (let key in formData){
       fromElementArray.push({
@@ -260,8 +259,7 @@ const AddJob = ({ addJob, history, job, count }) => {
           >
           Add new Job
         </Typography>
-
-          {formElementLoop()}
+        {formRender()}
       </div>
       {compExist.length > 0 ? (
         <div className={classes.compExist}>

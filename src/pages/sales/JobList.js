@@ -118,7 +118,7 @@ const jobList = ({ fetchJob, job }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {dailyJob
+            {job
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map(row => {
                 return (
