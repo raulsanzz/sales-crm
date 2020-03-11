@@ -4,20 +4,13 @@ import PropTypes from "prop-types";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import Edit from "@material-ui/icons/Edit";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import IconButton from "@material-ui/core/IconButton";
 import { userDetails } from "../../../actions/user";
 import { connect } from "react-redux";
-import { Redirect, withRouter } from "react-router-dom";
 import compose from "recompose/compose";
-import { useAlert } from "react-alert";
-import Select from "@material-ui/core/Select";
-
-import MenuItem from "@material-ui/core/MenuItem";
 
 const styles = theme => ({
   layout: {
@@ -95,7 +88,7 @@ const userDetail = ({
           <Typography align="center" variant="headline">
             User Details
             <h2>{formData.name}</h2>
-            {formData.role == "user" ? (
+            {formData.role === "user" ? (
               <ul class="list-group" className={classes.list}>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                   Role
@@ -153,6 +146,7 @@ const mapStateToProps = state => ({
   weeklyuserData: state.userReducer.weeklyuserData,
   monthlyuserData: state.userReducer.monthlyuserData
 });
+
 export default compose(
   withStyles(styles),
   connect(mapStateToProps, { userDetails })

@@ -33,7 +33,7 @@ export const fetchUser = () => async dispatch => {
 
 export const deleteUser = id => async dispatch => {
   try {
-    const res = await axios.delete( `/api/user/${id}`);
+    const res = await axios.delete( BASE_URL + `/api/user/${id}`);
 
     dispatch({
       type: USER_DELETE_SUCCESS

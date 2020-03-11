@@ -362,7 +362,7 @@ Route.get("/my_leads", auth, async (req, res) => {
   try {
     const result = await Job.findAll({
       where: {
-        assignTo: id
+        status: ["lead", "good_lead"]
       }
     });
     if (result) {
