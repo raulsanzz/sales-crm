@@ -159,7 +159,7 @@ Route.post("/details", auth, async (req, res) => {
   const { startDate, endDate } = getPreviousWeekDate();
   let { registration_number, role } = req.body;
 
-  if (role == "user") {
+  if (role === "sales_executive") {
     try {
       const result = await Job.count({
         where: {
@@ -176,7 +176,7 @@ Route.post("/details", auth, async (req, res) => {
     }
   }
 
-  if (role == "admin" || role == "super_admin") {
+  if (role === "manager" || role === "admin") {
     try {
       const result = await Job.count({
         where: {
@@ -199,7 +199,7 @@ Route.post("/monthly_details", auth, async (req, res) => {
   const { first_date, last_date } = getMonthDate();
   let { registration_number, role } = req.body;
 
-  if (role == "user") {
+  if (role === "sales_executive") {
     try {
       const result = await Job.count({
         where: {
@@ -216,7 +216,7 @@ Route.post("/monthly_details", auth, async (req, res) => {
     }
   }
 
-  if (role == "admin" || role == "super_admin") {
+  if (role === "manager" || role === "admin") {
     try {
       const result = await Job.count({
         where: {

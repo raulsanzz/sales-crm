@@ -131,21 +131,22 @@ const editUser = ({ classes, children, history, location, updateUser }) => {
               onChange={onChangeHandler}
             />
             <TextField
-              id="name"
-              label="Name"
-              margin="normal"
-              type="text"
-              className={classes.textField}
-              value={formData.name}
-              onChange={onChangeHandler}
-            />
-            <TextField
+              disabled
               id="designation"
               label="Designation"
               margin="normal"
               type="text"
               className={classes.textField}
               value={formData.designation}
+              onChange={onChangeHandler}
+            />
+            <TextField
+              id="name"
+              label="Name"
+              margin="normal"
+              type="text"
+              className={classes.textField}
+              value={formData.name}
               onChange={onChangeHandler}
             />
 
@@ -161,9 +162,9 @@ const editUser = ({ classes, children, history, location, updateUser }) => {
               <MenuItem value="None">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value="super_admin">Super Admin</MenuItem>
               <MenuItem value="admin">Admin</MenuItem>
-              <MenuItem value="user">User</MenuItem>
+              <MenuItem value="manager">Manager</MenuItem>
+              <MenuItem value="sales_executive">Sales Exective</MenuItem>
             </Select>
 
             <InputLabel id="demo-controlled-open-select-label">

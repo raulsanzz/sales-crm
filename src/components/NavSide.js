@@ -53,7 +53,7 @@ const mailFolderListItems = ({ user, classes }) => {
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
       </ListItem>
-      {raceName == "user" || raceName == "super_admin" ? (
+      {raceName === "sales_executive" || raceName === "admin" ? (
         <ListItem button onClick={handleClick}>
           <ListItemIcon>
             <WorkOutlineIcon className={classes.root} />
@@ -66,7 +66,7 @@ const mailFolderListItems = ({ user, classes }) => {
       )}
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {raceName == "user" || raceName == "super_admin" ? (
+          {raceName === "sales_executive" || raceName === "admin" ? (
             <ListItem button component={Link} to="/job_list">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -76,7 +76,7 @@ const mailFolderListItems = ({ user, classes }) => {
           ) : (
             ""
           )}
-          {raceName == "super_admin" ? (
+          {raceName === "admin" ? (
             <ListItem button component={Link} to="/admin_job_list">
               <ListItemIcon>
                 <SupervisorAccountIcon className={classes.root} />
@@ -86,7 +86,7 @@ const mailFolderListItems = ({ user, classes }) => {
           ) : (
             ""
           )}
-          {raceName == "super_admin" ? (
+          {raceName === "admin" ? (
             <ListItem button component={Link} to="/sales_daily_details">
               <ListItemIcon>
                 <WorkIcon className={classes.root} />
@@ -98,7 +98,7 @@ const mailFolderListItems = ({ user, classes }) => {
           )}
         </List>
       </Collapse>
-      {raceName == "super_admin" || raceName == "admin" ? (
+      {raceName === "admin" || raceName === "manager" ? (
         <ListItem button onClick={userHandleClick}>
           <ListItemIcon>
             <PersonIcon className={classes.root} />
@@ -112,7 +112,7 @@ const mailFolderListItems = ({ user, classes }) => {
 
       <Collapse in={userOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {raceName == "super_admin" ? (
+          {raceName === "admin" ? (
             <ListItem button component={Link} to="/user_list">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -123,7 +123,7 @@ const mailFolderListItems = ({ user, classes }) => {
             ""
           )}
 
-          {raceName == "admin" && name == "Muddasir Ahmed" ? (
+          {raceName === "manager" && name === "Muddasir Ahmed" ? (
             <ListItem button component={Link} to="/user_report">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -135,7 +135,7 @@ const mailFolderListItems = ({ user, classes }) => {
           )}
         </List>
       </Collapse>
-      {raceName == "admin" || raceName == "super_admin" ? (
+      {raceName === "manager" || raceName === "admin" ? (
         <React.Fragment>
           <ListItem button onClick={leadsHandleClick}>
             <ListItemIcon>
@@ -146,7 +146,7 @@ const mailFolderListItems = ({ user, classes }) => {
           </ListItem>
           <Collapse in={leadsOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {raceName == "super_admin" ? (
+              {raceName === "admin" ? (
                 <ListItem button component={Link} to="/leads_list">
                   <ListItemIcon>
                     <ListIcon className={classes.root} />
@@ -156,7 +156,7 @@ const mailFolderListItems = ({ user, classes }) => {
               ) : (
                 ""
               )}
-              {raceName == "super_admin" || raceName == "admin" ? (
+              {raceName === "admin" || raceName === "manager" ? (
                 <ListItem button component={Link} to="/my_leads">
                   <ListItemIcon>
                     <ListIcon className={classes.root} />
@@ -166,7 +166,7 @@ const mailFolderListItems = ({ user, classes }) => {
               ) : (
                 ""
               )}
-              {raceName == "super_admin" || raceName == "admin" ? (
+              {raceName === "admin" || raceName === "manager" ? (
                 <ListItem button component={Link} to="/lead_scedule">
                   <ListItemIcon>
                     <ListIcon className={classes.root} />

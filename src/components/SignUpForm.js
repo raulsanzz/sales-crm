@@ -1,19 +1,21 @@
-import React from "react";
-import { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import HowToReg from "@material-ui/icons/HowToReg";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { connect } from "react-redux";
-import compose from "recompose/compose";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import { signUp } from "../actions/auth";
+import InputLabel from '@material-ui/core/InputLabel';
+import HowToReg from "@material-ui/icons/HowToReg";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import compose from "recompose/compose";
+import PropTypes from "prop-types";
+
+import { signUp } from "../actions/auth";
+
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
@@ -95,7 +97,7 @@ const PaperSheet = ({ signUp, classes, history }) => {
           <Typography variant="headline">Sign Up</Typography>
           <form
             onSubmit={submitHandler}
-            className={classes.container}
+            className={classes.formControl}
             autoComplete="on"
           >
             <TextField
@@ -106,6 +108,7 @@ const PaperSheet = ({ signUp, classes, history }) => {
               margin="normal"
               onChange={onChangesHandler}
             />
+            
             <TextField
               id="name"
               label="Name"
@@ -116,18 +119,20 @@ const PaperSheet = ({ signUp, classes, history }) => {
             />
             <br></br>
             <br></br>
+            
+            <InputLabel id="select-Designation" className={classes.textField} >Designation</InputLabel>
             <Select
               id="select"
-              label="Designation"
+              labelId="select-Designation"
               className={classes.textField}
-              margin="normal"
               onChange={setSelectHandler}
             >
-              <MenuItem value="Developer">Developer</MenuItem>
-
-              <MenuItem value="Project Manger">Project Manger</MenuItem>
+              <MenuItem value="Sales Voice">Sales Voice</MenuItem>
+              <MenuItem value="Sales Exective">Sales Exective</MenuItem>
               <MenuItem value="Sales Manger">Sales Manger</MenuItem>
-              <MenuItem value="Sales">Sales User</MenuItem>
+              <MenuItem value="Ast. Sales Manager">Ast. Sales Manger</MenuItem>
+              <MenuItem value="Technical Voice">Technical Voice</MenuItem>
+              <MenuItem value="Admin">Admin</MenuItem>
             </Select>
             <TextField
               id="password"

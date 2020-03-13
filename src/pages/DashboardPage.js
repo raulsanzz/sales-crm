@@ -108,7 +108,7 @@ const DashboardPage = ({ user }) => {
 
   return (
     <React.Fragment>
-      {raceName === "super_admin" ? (
+      {raceName === "manager" || raceName === "admin" ? (
         <div class="row">
           <div class="col-md-5 offset-md-1">
             <div style={jumbo} class="jumbotron jumbotron-fluid">
