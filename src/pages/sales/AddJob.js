@@ -93,11 +93,9 @@ const AddJob = ({ addJob, history, count }) => {
   const [jobs, setJobs] = React.useState([]);
 
   useEffect( () => {
-    console.log('====================================');
-    console.log("working");
-    console.log('====================================');
+    initializeForm();
     axios.get ( BASE_URL + "/api/job/user_daily_job_created").then(res => {
-      setJobs(res.data.result);
+      setJobs(res.data.result);     
     });
   }, [render]);
 
@@ -186,6 +184,22 @@ const AddJob = ({ addJob, history, count }) => {
   });
   const classes = useStyles();
 
+  const initializeForm = () => {
+    const updatedForm = {
+      ...formData
+    };
+
+    for(let ele in updatedForm){
+      updatedForm[ele] = {
+        ...updatedForm[ele],
+        value: '',
+        touched: false,
+        valid: false
+      }
+    };
+    setFormData(updatedForm);
+    setFromIsInvalid(true);
+  }
   const searchCompany = (companyName) => {
     console.log(jobs);
     const exist = jobs.filter(item => {
@@ -216,7 +230,7 @@ const AddJob = ({ addJob, history, count }) => {
       if(rules.urlReg){
         isValid = rules.urlReg.test(value.trim()) && isValid;
       };
-      if(!rules.required){
+      if(!rules.required && value.trim() < 1){
         isValid = true;
       }; 
     };
@@ -237,7 +251,9 @@ const AddJob = ({ addJob, history, count }) => {
     
     let formIsValid = true;
     for (let elemIdentifier in updatedForm){
+      if(updatedForm[elemIdentifier].touched || updatedForm[elemIdentifier].validation.required){
         formIsValid = updatedForm[elemIdentifier].valid && formIsValid;
+      }   
     }
     
     if(elementIdentifier === 'company_name'){
@@ -257,19 +273,9 @@ const AddJob = ({ addJob, history, count }) => {
       null,//salary
       formData.email.value,
       formData.website.value 
-      );
-    count(      
-      formData.company_name.value, 
-      formData.job_title.value, 
-      formData.url.value, 
-      );
-      setRender(!render);
-      // formData.company_name.value
-      // formData.job_title.value
-      // formData.url.value
-      // formData.location.value
-      // formData.email.value
-      // formData.website.value 
+    );
+    count();
+    setRender(!render);
   }
 
   const formRender = () => {

@@ -167,7 +167,7 @@ const editUser = ({ classes, children, history, location, updateUser }) => {
               <MenuItem value="sales_executive">Sales Exective</MenuItem>
             </Select>
 
-            <InputLabel id="demo-controlled-open-select-label">
+            {/* <InputLabel id="demo-controlled-open-select-label">
               Profile
             </InputLabel>
             <Select
@@ -184,7 +184,7 @@ const editUser = ({ classes, children, history, location, updateUser }) => {
               <MenuItem value="Ali Muhammad">Ali Muhammad</MenuItem>
               <MenuItem value="Amir Khan">Amir Khan</MenuItem>
               <MenuItem value="Kevan Jay">Kevn Jay</MenuItem>
-            </Select>
+            </Select> */}
 
             <Button
               variant="contained"

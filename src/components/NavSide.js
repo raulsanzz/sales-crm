@@ -11,6 +11,7 @@ import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
+import LinkIcon from '@material-ui/icons/Link';
 import ListIcon from "@material-ui/icons/List";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import WorkIcon from "@material-ui/icons/Work";
@@ -58,7 +59,7 @@ const mailFolderListItems = ({ user, classes }) => {
           <ListItemIcon>
             <WorkOutlineIcon className={classes.root} />
           </ListItemIcon>
-          <ListItemText primary="Sales" />
+          <ListItemText primary="Sales Executive" />
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
       ) : (
@@ -71,11 +72,23 @@ const mailFolderListItems = ({ user, classes }) => {
               <ListItemIcon>
                 <ListIcon className={classes.root} />
               </ListItemIcon>
-              <ListItemText primary="Job List" />
+              <ListItemText primary="Add Job" />
             </ListItem>
           ) : (
             ""
           )}
+          
+          {raceName === "admin" ? (
+            <ListItem button component={Link} to="/manager_job_links">
+              <ListItemIcon>
+                <LinkIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="job Links" />
+            </ListItem>
+          ) : (
+            ""
+          )}
+
           {raceName === "admin" ? (
             <ListItem button component={Link} to="/admin_job_list">
               <ListItemIcon>
@@ -86,12 +99,13 @@ const mailFolderListItems = ({ user, classes }) => {
           ) : (
             ""
           )}
+
           {raceName === "admin" ? (
             <ListItem button component={Link} to="/sales_daily_details">
               <ListItemIcon>
                 <WorkIcon className={classes.root} />
               </ListItemIcon>
-              <ListItemText primary="Daily Job" />
+              <ListItemText primary="Job Report" />
             </ListItem>
           ) : (
             ""

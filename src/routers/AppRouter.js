@@ -11,6 +11,7 @@ import AddPostPage from "../pages/AddPostPage";
 import Alert from "../pages/Alert";
 import JobList from "../pages/sales/JobList";
 import AdminJobList from "../pages/sales/adminJobList";
+import ManagerJobLinks from "../pages/sales/managerJobLinks";
 import EditJob from "../pages/sales/JobEdit";
 import SalesDetails from "../pages/sales/salesDetail";
 import UserList from "../pages/sales/UserList";
@@ -38,6 +39,7 @@ export default () => {
           <PrivateRoute path="/edit" component={EditUser} />
           <PrivateRoute path="/job_list" component={JobList} />
           <PrivateRoute path="/admin_job_list" component={AdminJobList} />
+          <PrivateRoute path="/manager_job_links" component={ManagerJobLinks} />
           <PrivateRoute path="/job_edit" component={EditJob} />
           <PrivateRoute path="/sales_daily_details" component={SalesDetails} />
           <PrivateRoute path="/leads_list" component={LeadsList} />

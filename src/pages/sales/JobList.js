@@ -11,11 +11,7 @@ import TableRow from "@material-ui/core/TableRow";
 import AddJob from "./AddJob";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { useAlert } from "react-alert";
 import { fetchJob } from "../../actions/job";
-import axios from "axios";
-
-const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const columns = [
   { id: "name", label: "Company Name", minWidth: 170 },
@@ -66,15 +62,10 @@ const useStyles = makeStyles({
   }
 });
 const jobList = ({ fetchJob, job }) => {
-  const alert = useAlert();
-  const [dailyJob, setDailyJob] = useState([]);
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     fetchJob();
-    axios.get ( BASE_URL + "/api/job/user_daily_job_created").then(res => {
-      setDailyJob(res.data.result);
-    });
   }, [count]);
 
   const classes = useStyles();
@@ -90,7 +81,7 @@ const jobList = ({ fetchJob, job }) => {
     setPage(0);
   };
 
-  const countAdd = (company_name, job_title, url) => {
+  const countAdd = () => {
     setCount(count + 1);
   };
   
