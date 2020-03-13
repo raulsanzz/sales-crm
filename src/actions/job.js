@@ -37,7 +37,8 @@ export const addJob = (
   profile,
   location,
   salary,
-  history
+  email,
+  website
 ) => async dispatch => {
   const config = {
     headers: {
@@ -51,19 +52,19 @@ export const addJob = (
     url,
     profile,
     location,
-    salary
+    salary,
+    email,
+    website
   });
 
   try {
     const res = await axios.post ( BASE_URL + "/api/job", body, config);
-    console.log("HERE-------------->>>>>>>", res);
     dispatch({
       type: JOB_ADD_SUCCESS,
       payload: res.data.job
     });
     return 1;
   } catch (error) {
-    console.log("HERE error-------------->>>>>>>", error);
     const errors = error.response.data.errors;
     if (errors) {
       errors.forEach(error => {

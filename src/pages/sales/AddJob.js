@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import HowToReg from "@material-ui/icons/HowToReg";
 import Avatar from "@material-ui/core/Avatar";
@@ -7,6 +7,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addJob } from "../../actions/job";
 import { withRouter } from "react-router-dom";
+import axios from "axios";
+
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -68,9 +71,7 @@ const useStyles = makeStyles(theme => ({
     top: "226px",
     color: "red"
   },
-  error2: {
-    position: "absolute",
-    top: "227px",
+  invalidElementError: {
     color: "red"
   },
   profile: {
@@ -83,7 +84,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const AddJob = ({ addJob, history, job, count }) => {
+const AddJob = ({ addJob, history, count }) => {
+  const [fromIsInvalid, setFromIsInvalid] = useState(true);
+  const [exist, setExist] = useState("");
+  const [existComp, setExistComp] = useState("");
+  const [compExist, setCompExist] = useState([]);
+  const [render, setRender] = useState('true');
+  const [jobs, setJobs] = React.useState([]);
+
+  useEffect( () => {
+    console.log('====================================');
+    console.log("working");
+    console.log('====================================');
+    axios.get ( BASE_URL + "/api/job/user_daily_job_created").then(res => {
+      setJobs(res.data.result);
+    });
+  }, [render]);
+
   const [formData, setFormData] = useState({
       job_title: {
         elementType: 'input',
@@ -106,7 +123,7 @@ const AddJob = ({ addJob, history, job, count }) => {
         },
         value: '',
         validation: {
-          required: true
+          required: false
         },
         valid: false,
         touched: false
@@ -128,29 +145,50 @@ const AddJob = ({ addJob, history, job, count }) => {
         elementType: 'input',
         elementConfig:{
           type: 'text',
-          placeholder: 'URL'
+          placeholder: 'Job Link URL'
         },
         value: '',
         validation: {
-            required: true
+            required: true,
+            urlReg:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+        },
+        valid: false,
+        touched: false
+      },  
+      email: {
+        elementType: 'input',
+        elementConfig:{
+          type: 'email',
+          placeholder: 'Company Email'
+        },
+        value: '',
+        validation: {
+            required: false,
+            emailReg: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+        },
+        valid: false,
+        touched: false
+      },  
+      website: {
+        elementType: 'input',
+        elementConfig:{
+          type: 'text',
+          placeholder: 'Company Website'
+        },
+        value: '',
+        validation: {
+            required: false,
+            urlReg:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
         },
         valid: false,
         touched: false
       },
-    // profile: null,
-    // salary: '',
   });
-  const [fromIsInvalid, setFromIsInvalid] = useState(true);
-  const [exist, setExist] = useState("");
-  const [existComp, setExistComp] = useState("");
-  const [compExist, setCompExist] = useState([]);
-
-  // const { company_name, job_title, url, profile, location, salary } = formData;
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
 
   const searchCompany = (companyName) => {
-    const exist = job.filter(item => {
+    console.log(jobs);
+    const exist = jobs.filter(item => {
       return item.companyName.toLowerCase() === companyName.toLowerCase();
     });
 
@@ -171,8 +209,17 @@ const AddJob = ({ addJob, history, job, count }) => {
     if(rules){
       if(rules.required){
           isValid = value.trim() !== '' && isValid;
-      };   
-    }
+      };
+      if(rules.emailReg){
+        isValid = rules.emailReg.test(value.trim()) && isValid;
+      };  
+      if(rules.urlReg){
+        isValid = rules.urlReg.test(value.trim()) && isValid;
+      };
+      if(!rules.required){
+        isValid = true;
+      }; 
+    };
     return isValid;
   }
   
@@ -207,14 +254,22 @@ const AddJob = ({ addJob, history, job, count }) => {
       formData.url.value, 
       null, //profile
       formData.location.value,
-      null,//salary 
-      history
+      null,//salary
+      formData.email.value,
+      formData.website.value 
       );
     count(      
       formData.company_name.value, 
       formData.job_title.value, 
       formData.url.value, 
       );
+      setRender(!render);
+      // formData.company_name.value
+      // formData.job_title.value
+      // formData.url.value
+      // formData.location.value
+      // formData.email.value
+      // formData.website.value 
   }
 
   const formRender = () => {
@@ -237,11 +292,20 @@ const AddJob = ({ addJob, history, job, count }) => {
                   type={elem.config.elementConfig.type}
                   value={elem.config.value}
                   onChange={(event) => {onChangeHandler(event, elem.id)}}
-                />
+                  />
+                  {(elem.config.touched && elem.config.validation.required && elem.config.value.trim().length < 1 ) ? 
+                    <p className={classes.invalidElementError}>{elem.config.elementConfig.placeholder} is required </p> : null
+                  }
+                  {(elem.config.touched && elem.config.validation.urlReg && !elem.config.valid && elem.config.value.trim().length > 0) ? 
+                    <p className={classes.invalidElementError}>not a valid {elem.config.elementConfig.placeholder}</p> : null
+                  }
+                  {(elem.config.touched && elem.config.validation.emailReg && !elem.config.valid && elem.config.value.trim().length > 0) ? 
+                    <p className={classes.invalidElementError}>Please enter a valid Email</p> : null
+                  }
               </div>
             ))
           }
-          <button type="submit" disabled={exist || fromIsInvalid} className="btn btn-primary">Add Job</button>
+          <button disabled={exist || fromIsInvalid} className="btn btn-primary">Add Job</button>
       </form>
       );
     return form;

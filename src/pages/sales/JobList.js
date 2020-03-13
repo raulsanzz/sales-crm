@@ -91,16 +91,12 @@ const jobList = ({ fetchJob, job }) => {
   };
 
   const countAdd = (company_name, job_title, url) => {
-    
-    if (company_name && url) {
-      alert.success("Job Successfully Added !");
-    }
     setCount(count + 1);
   };
   
   return (
     <Paper className={classes.root}>
-      <AddJob job={dailyJob} count={countAdd} />
+      <AddJob count={countAdd} />
       <div className={classes.tableWrapper}>
         <h1 className={classes.jobHeader}>Job List</h1>
         <Table stickyHeader aria-label="sticky table">
@@ -152,7 +148,7 @@ const jobList = ({ fetchJob, job }) => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={dailyJob.length}
+        count={job.length}
         rowsPerPage={rowsPerPage}
         page={page}
         backIconButtonProps={{

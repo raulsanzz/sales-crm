@@ -41,29 +41,12 @@ Route.get("/check_comp_name", async (req, res) => {
 });
 
 // Create new job
-Route.post(
-  "/",
-  [
-    auth,
-    [
-      check("company_name", "Company Name is required")
-        .not()
-        .isEmpty(),
-      check("url", "URL Name is required")
-        .not()
-        .isEmpty(),
-      check("job_title", "Job Title is required")
-        .not()
-        .isEmpty()
-    ]
-  ],
-
-  async (req, res) => {
+Route.post("/", auth, async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    const { company_name, url, job_title, location, salary } = req.body;
+    const { company_name, url, job_title, location, salary, email, website } = req.body;
 
     const registration_number = req.user.user.id;
 
@@ -109,7 +92,9 @@ Route.post(
         profile,
         salary,
         location,
-        status: "job"
+        status: "job",
+        email,
+        website
       });
       if (job) {
         return res.json({ job });

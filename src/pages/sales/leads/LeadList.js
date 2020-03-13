@@ -35,10 +35,6 @@ import { fetchUser } from "../../../actions/user";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -272,7 +268,6 @@ const adminjobList = ({ deleteJob, history, fetchUser, users }) => {
   const [match, setMatch] = useState("Search");
   const [count, setCount] = useState(0);
   const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState("");
   const [job, setJob] = useState([]);
 
   useEffect(() => {
@@ -554,13 +549,11 @@ const adminjobList = ({ deleteJob, history, fetchUser, users }) => {
                         >
                           <MenuItem value=""></MenuItem>
                           {users.map(user => {
-                            {
                               return (
                                 <MenuItem value={user.registrationNumber}>
                                   {user.name}
                                 </MenuItem>
-                              );
-                            }
+                              );                          
                           })}
                         </Select>
                       </TableCell>
