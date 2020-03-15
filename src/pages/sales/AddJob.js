@@ -84,20 +84,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const AddJob = ({ addJob, history, count }) => {
+const AddJob = ({ addJob, jobs}) => {
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const [exist, setExist] = useState("");
-  const [existComp, setExistComp] = useState("");
   const [compExist, setCompExist] = useState([]);
-  const [render, setRender] = useState('true');
-  const [jobs, setJobs] = React.useState([]);
 
   useEffect( () => {
     initializeForm();
-    axios.get ( BASE_URL + "/api/job/user_daily_job_created").then(res => {
-      setJobs(res.data.result);     
-    });
-  }, [render]);
+    console.log('====================================');
+    console.log(jobs);
+    console.log('====================================');
+  }, [jobs.length]);
 
   const [formData, setFormData] = useState({
       job_title: {
@@ -207,12 +204,10 @@ const AddJob = ({ addJob, history, count }) => {
     });
 
     if (exist.length > 0) {
-      setExistComp("Company Name Already Exist");
       setCompExist(exist);
       setExist(true);
     } else {
       setCompExist([]);
-      setExistComp("");
       setExist(false);
     }
   };
@@ -274,8 +269,6 @@ const AddJob = ({ addJob, history, count }) => {
       formData.email.value,
       formData.website.value 
     );
-    count();
-    setRender(!render);
   }
 
   const formRender = () => {
@@ -406,8 +399,12 @@ const AddJob = ({ addJob, history, count }) => {
   );
 };
 
+const mapStateToProps = state => ({
+  jobs: state.JobReducer.job
+});
+
 AddJob.propTypes = {
   addJob: PropTypes.func.isRequired
 };
 
-export default connect(null, { addJob })(withRouter(AddJob));
+export default connect(mapStateToProps, { addJob })(withRouter(AddJob));

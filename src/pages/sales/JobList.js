@@ -61,16 +61,22 @@ const useStyles = makeStyles({
     color: "blue"
   }
 });
-const jobList = ({ fetchJob, job }) => {
-  const [count, setCount] = useState(0);
+const jobList = ({ fetchJob, jobs }) => {
+  
+    const classes = useStyles();
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [filteredJobs, setFilteredJobs] = useState([]);
 
   useEffect(() => {
     fetchJob();
-  }, [count]);
-
-  const classes = useStyles();
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+    let arr = jobs.filter(job => {
+      return(
+          job.status === 'job' ? job : null
+      )
+    })
+    setFilteredJobs(arr);
+  }, [jobs.length]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -80,14 +86,10 @@ const jobList = ({ fetchJob, job }) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
-  const countAdd = () => {
-    setCount(count + 1);
-  };
   
   return (
     <Paper className={classes.root}>
-      <AddJob count={countAdd} />
+      <AddJob/>
       <div className={classes.tableWrapper}>
         <h1 className={classes.jobHeader}>Job List</h1>
         <Table stickyHeader aria-label="sticky table">
@@ -105,7 +107,7 @@ const jobList = ({ fetchJob, job }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {job
+            {filteredJobs
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map(row => {
                 return (
@@ -139,7 +141,7 @@ const jobList = ({ fetchJob, job }) => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={job.length}
+        count={filteredJobs.length}
         rowsPerPage={rowsPerPage}
         page={page}
         backIconButtonProps={{
@@ -156,11 +158,11 @@ const jobList = ({ fetchJob, job }) => {
 };
 
 const mapStateToProps = state => ({
-  job: state.JobReducer.job
+  jobs: state.JobReducer.job
 });
 jobList.propTypes = {
   fetchJob: PropTypes.func.isRequired,
-  job: PropTypes.array.isRequired
+  jobs: PropTypes.array.isRequired
 };
 
 export default connect(mapStateToProps, { fetchJob })(jobList);

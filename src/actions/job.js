@@ -18,7 +18,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const fetchJob = () => async dispatch => {
   try {
-    const res = await axios.get ( BASE_URL + "/api/job");
+    const res = await axios.get ( BASE_URL + "/api/job/user_daily_job_created");
     dispatch({
       type: FETCH_JOB_DATA_SUCCESS,
       payload: res.data.result

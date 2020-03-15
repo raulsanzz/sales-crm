@@ -745,7 +745,15 @@ Route.get("/status_rejected_lead_monthly_count", auth, async (req, res) => {
 // user daily job created
 Route.get("/user_daily_job_created", auth, async (req, res) => {
   try {
-    const result = await Job.findAll();
+    const result = await Job.findAll({
+      include: [
+        {
+          model: User,
+          as: "jobId",
+          attributes: ["name"]
+        }
+      ]
+    });
     res.json({ result });
   } catch (error) {
     console.log(error.message);

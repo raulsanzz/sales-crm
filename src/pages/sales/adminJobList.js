@@ -34,9 +34,6 @@ import TextField from "@material-ui/core/TextField";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -257,7 +254,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const adminjobList = ({ deleteJob, history }) => {
+const adminjobList = ({ deleteJob, history, jobs, fetchJob }) => {
   const alert = useAlert();
   const classes = useStyles();
   const [order, setOrder] = useState("asc");
@@ -269,14 +266,20 @@ const adminjobList = ({ deleteJob, history }) => {
   const [match, setMatch] = useState("Search");
   const [count, setCount] = useState(0);
   const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState("");
-  const [job, setJob] = useState([]);
+  const [filteredJobs, setFilteredJobs] = useState([]);
 
   useEffect(() => {
-    axios.get ( BASE_URL + "/api/job").then(res => {
-      setJob(res.data.result);
-    });
-  }, [count]);
+    console.log('====================================');
+    console.log(jobs);
+    console.log('====================================');
+    fetchJob();
+    let arr = jobs.filter(job => {
+      return(
+          job.status === 'job' ? job : null
+      )
+    })
+    setFilteredJobs(arr);
+  }, [jobs.length]);
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === "desc";
@@ -286,7 +289,7 @@ const adminjobList = ({ deleteJob, history }) => {
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = job.map(n => n.id);
+      const newSelecteds = filteredJobs.map(n => n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -329,15 +332,15 @@ const adminjobList = ({ deleteJob, history }) => {
   const handleDelete = () => {
     var confirm = window.confirm("Do you want to Delete this Items ?");
     if (confirm === true) {
-      const filteredItems = job.filter(item => !selected.includes(item.id));
-      setJob(filteredItems);
+      const filteredItems = filteredJobs.filter(item => !selected.includes(item.id));
+      setFilteredJobs(filteredItems);
       deleteJob(selected);
       alert.success("Job Successfully Deleted !");
     }
   };
 
   const ExportHandler = () => {
-    const exportItems = job.filter(item => selected.includes(item.id));
+    const exportItems = filteredJobs.filter(item => selected.includes(item.id));
     var download = [];
 
     exportItems.forEach(user => {
@@ -355,7 +358,7 @@ const adminjobList = ({ deleteJob, history }) => {
   };
 
   const searchHandler = e => {
-    let lists = job;
+    let lists = filteredJobs;
     console.log("search", lists);
     if (e.target.value) {
       const newList = lists.filter(item => {
@@ -365,7 +368,7 @@ const adminjobList = ({ deleteJob, history }) => {
       });
       if (newList.length > 0) {
         console.log("in newlist", lists);
-        setJob(newList);
+        setFilteredJobs(newList);
         setMatch("Match");
       } else {
         setCount(count + 1);
@@ -389,8 +392,7 @@ const adminjobList = ({ deleteJob, history }) => {
       status: e.target.value
     });
     try {
-      const res = axios
-        .post ( BASE_URL + "/api/job/changed_staus", body, config)
+      axios.post ( BASE_URL + "/api/job/changed_staus", body, config)
         .then(response => {
           alert.success("Job Status Changed !");
           setCount(count + 1);
@@ -410,7 +412,7 @@ const adminjobList = ({ deleteJob, history }) => {
   const isSelected = id => selected.indexOf(id) !== -1;
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, job.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, filteredJobs.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
@@ -443,10 +445,10 @@ const adminjobList = ({ deleteJob, history }) => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={job.length}
+              rowCount={filteredJobs.length}
             />
             <TableBody>
-              {stableSort(job, getSorting(order, orderBy))
+              {stableSort(filteredJobs, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
@@ -461,13 +463,12 @@ const adminjobList = ({ deleteJob, history }) => {
                       key={row.id}
                       selected={isItemSelected}
                       className={
-                        row.status == "job"
+                        row.status === "job"
                           ? classes.job
                           : row.status === "lead"
                           ? classes.lead
                           : " "
                       }
-                      key={row.id}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
@@ -527,7 +528,7 @@ const adminjobList = ({ deleteJob, history }) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
           component="div"
-          count={job.length}
+          count={filteredJobs.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
@@ -542,7 +543,7 @@ const adminjobList = ({ deleteJob, history }) => {
   );
 };
 const mapStateToProps = state => ({
-  job: state.JobReducer.job
+  jobs: state.JobReducer.job
 });
 
 adminjobList.propTypes = {
