@@ -91,9 +91,6 @@ const AddJob = ({ addJob, jobs}) => {
 
   useEffect( () => {
     initializeForm();
-    console.log('====================================');
-    console.log(jobs);
-    console.log('====================================');
   }, [jobs.length]);
 
   const [formData, setFormData] = useState({
@@ -283,8 +280,8 @@ const AddJob = ({ addJob, jobs}) => {
       <form onSubmit={orderHandler} noValidate autoComplete="off">
           {
             fromElementArray.map( elem => (
-              <div className="form-group">
-                <label for={elem.id}>{elem.config.elementConfig.placeholder}</label>
+              <div key={elem.id} className="form-group">
+                <label>{elem.config.elementConfig.placeholder}</label>
                 <input
                   id={elem.id}
                   className="form-control"

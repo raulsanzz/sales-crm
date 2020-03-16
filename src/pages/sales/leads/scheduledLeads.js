@@ -2,14 +2,17 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import Table from "./../../table";
 
-import Table from "./../table";
-import { fetchJob } from "../../actions/job";
+import { fetchJob } from "../../../actions/job";
 
 const columns = [
     { id: "companyName", label: "Company Name", minWidth: 170 },
-    { id: "jobUrl", label: "URL", minWidth: 100, align: "left" },
-    { id: "jobApplyButton", label: "action", minWidth: 100, align: "center" }
+    { id: "profile", label: "Profile", minWidth: 100, align: "center" },
+    { id: "leadStatus", label: "Lead Status", minWidth: 100, align: "center" },
+    { id: "callTime", label: "Time", minWidth: 100, align: "center" },
+    { id: "callDate", label: "Date", minWidth: 100, align: "center" },
+    { id: "voice", label: "Voice", minWidth: 100, align: "center" }
 ];
   
   const useStyles = makeStyles(theme => ({
@@ -23,6 +26,11 @@ const columns = [
       width: "100%",
       marginBottom: theme.spacing(2)
     },
+    textField: {
+      marginTop: "12px",
+      marginRight: "22px",
+      width: "100%"
+    },
     jobHeader: {
       textAlign: "center",
       fontFamily: "initial",
@@ -35,37 +43,30 @@ const columns = [
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
-    textField: {
-      marginTop: "12px",
-      marginRight: "22px",
-      width: "100%"
-    },
   }));
 
 const managerJobLinks = ({fetchJob, jobs}) => {
     const classes = useStyles();
+
     const [filteredJobs, setFilteredJobs] = useState([]);
 
     useEffect(() => {
         fetchJob();
-        // let arr = jobs.filter(job => {
-        //   return(
-        //       job.status === 'job' ? job : null
-        //   )
-        // })
-        setFilteredJobs(jobs);
+        let arr = jobs.filter(job => {
+          return(
+              job.status !== 'job' ? job : null
+          )
+        })
+        setFilteredJobs(arr);
       }, [jobs.length]);
-
-
-    return(       
+    return(
       <Table 
         jobs={filteredJobs}
         columns={columns}
         classes={classes}
-        tableHeader={"Job Links"}
+        tableHeader={"Scheduled Leads"}
         // history={history}
-      />
-    )
+      /> )
 }
 
 const mapStateToProps = state => ({
