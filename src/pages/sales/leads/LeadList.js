@@ -330,7 +330,7 @@ const adminjobList = ({ deleteJob, history, fetchUser, users }) => {
 
   const handleDelete = () => {
     var confirm = window.confirm("Do you want to Delete this Items ?");
-    if (confirm == true) {
+    if (confirm === true) {
       const filteredItems = job.filter(item => !selected.includes(item.id));
       setJob(filteredItems);
       deleteJob(selected);
@@ -512,7 +512,6 @@ const adminjobList = ({ deleteJob, history, fetchUser, users }) => {
                       tabIndex={-1}
                       key={row.id}
                       selected={isItemSelected}
-                      key={row.id}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox

@@ -9,19 +9,18 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import { connect } from "react-redux";
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
+import EditIcon from '@material-ui/icons/Edit';
 import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
+
+// import table from "../table";
 
 import { fetchJob } from "../../actions/job";
 
 const columns = [
     { id: "name", label: "Company Name", minWidth: 170 },
-    { id: "url", label: "URL", minWidth: 100, align: "left" },
-    { id: "button", label: "", minWidth: 100, align: "center" }
+    { id: "profile", label: "Profile", minWidth: 100, align: "center" },
+    { id: "button", label: "Action", minWidth: 100, align: "center" }
 ];
   
   const useStyles = makeStyles(theme => ({
@@ -35,6 +34,11 @@ const columns = [
       width: "100%",
       marginBottom: theme.spacing(2)
     },
+    textField: {
+      marginTop: "12px",
+      marginRight: "22px",
+      width: "100%"
+    },
     jobHeader: {
       textAlign: "center",
       fontFamily: "initial",
@@ -47,18 +51,13 @@ const columns = [
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
-    textField: {
-      marginTop: "12px",
-      marginRight: "22px",
-      width: "100%"
-    },
   }));
 
-const managerJobLinks = ({fetchJob, jobs}) => {
+const managerJobLinks = ({fetchJob, jobs, history}) => {
     const classes = useStyles();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [match, setMatch] = useState("Search");
+    const [match, setMatch] = useState("Search");
 
     const [filteredJobs, setFilteredJobs] = useState([]);
 
@@ -96,40 +95,28 @@ const managerJobLinks = ({fetchJob, jobs}) => {
             setFilteredJobs(newList);
             setMatch("Match");
           } else {
-            setMatch("Does not Match");
             setFilteredJobs(jobs);
+            setMatch("Does not Match");
           }
         } else {
-          setMatch("Search");
           setFilteredJobs(jobs);
+          setMatch("Search");
         }
       };
     return(
         <div className={classes.root}>
-                  <TextField
-        id="search"
-        label={match}
-        margin="normal"
-        type="text"
-        className={classes.textField}
-        placeholder="Search by Company Name ...."
-        onChange={searchHandler}
-        />
-    <Paper className={classes.paper}>
-        <FormControl className={classes.formControl}>
-        <InputLabel id="profile-label">Profile</InputLabel>
-        <Select
-          labelId="profile-label"
-          id="profile-select"
-          style={{justifyContent:"flex-end"}}
-        >
-          <MenuItem value={10}>Ali Muhammad</MenuItem>
-          <MenuItem value={20}>Aamir khan</MenuItem>
-          <MenuItem value={30}>Kevan Jay</MenuItem>
-        </Select>
-      </FormControl>
+        <TextField
+            id="search"
+            label={match}
+            margin="normal"
+            type="text"
+            className={classes.textField}
+            placeholder="Search by Company Name ...."
+            onChange={searchHandler}
+            />
+        <Paper className={classes.paper}>
       <div className={classes.tableWrapper}>
-        <h1 className={classes.jobHeader}>Job Links</h1>
+        <h1 className={classes.jobHeader}>Leads</h1>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -154,14 +141,21 @@ const managerJobLinks = ({fetchJob, jobs}) => {
                       {row.companyName}
                     </TableCell>
 
-                    <TableCell align="left">{row.url}</TableCell>
                     <TableCell align="center">
-                        <Button variant="contained" disabled>
-                            Applied 
-                        </Button>
-                        <Button variant="contained" color="secondary">
-                            Apply
-                        </Button>    
+                        {row.profile}
+                    </TableCell>
+                    <TableCell align="center">
+                    <IconButton aria-label="edit">
+                          <EditIcon
+                            fontSize="large"
+                            onClick={() =>
+                              history.push({
+                                pathname: "/",
+                                state: { detail: row }
+                              })
+                            }
+                          />
+                        </IconButton>
                     </TableCell>
                   </TableRow>
                 );

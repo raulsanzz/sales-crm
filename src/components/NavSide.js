@@ -26,11 +26,15 @@ const styles = theme => ({
 });
 const mailFolderListItems = ({ user, classes }) => {
   const [open, setOpen] = useState(false);
+  const [managerOpen, setManagerOpen] = useState(false);
   const [userOpen, setuserOpen] = useState(false);
   const [leadsOpen, setleadsOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
+  };
+  const ManagerHandleClick = () => {
+    setManagerOpen(!managerOpen);
   };
   const userHandleClick = () => {
     setuserOpen(!userOpen);
@@ -112,6 +116,122 @@ const mailFolderListItems = ({ user, classes }) => {
           )}
         </List>
       </Collapse>
+      {/*  */}
+      {raceName === "sales_manager" || raceName === "admin" ? (
+        <ListItem button onClick={ManagerHandleClick}>
+          <ListItemIcon>
+            <WorkOutlineIcon className={classes.root} />
+          </ListItemIcon>
+          <ListItemText primary="Sales Manager" />
+          {managerOpen ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+      ) : (
+        ""
+      )}
+      <Collapse in={managerOpen} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          {raceName === "sales_manager" || raceName === "admin" ? (
+            <ListItem button component={Link} to="/manager_job_list">
+              <ListItemIcon>
+                <ListIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Job List" />
+            </ListItem>
+          ) : (
+            ""
+          )}
+          
+          {raceName === "sales_manager" || raceName === "admin" ? (
+            <ListItem button component={Link} to="/manager_leads">
+              <ListItemIcon>
+                <ListIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Leads" />
+            </ListItem>
+          ) : (
+            ""
+          )}
+
+          {raceName === "sales_manager" || raceName === "admin" ? (
+            <ListItem button component={Link} to="/admin_job_list">
+              <ListItemIcon>
+                <ListIcon className={classes.root} />
+            </ListItemIcon>
+              <ListItemText primary="Scheduled Leads" />
+            </ListItem>
+          ) : (
+            ""
+          )}
+
+          {raceName === "sales_manager" || raceName === "admin" ? (
+            <ListItem button component={Link} to="/sales_daily_details">
+              <ListItemIcon>
+                <ListIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Good Leads" />
+            </ListItem>
+          ) : (
+            ""
+          )}
+
+          {raceName === "sales_manager" || raceName === "admin" ? (
+            <ListItem button component={Link} to="/sales_daily_details">
+              <ListItemIcon>
+                <ListIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Hot Leads" />
+            </ListItem>
+          ) : (
+            ""
+          )}
+
+          {raceName === "sales_manager" || raceName === "admin" ? (
+            <ListItem button component={Link} to="/sales_daily_details">
+              <ListItemIcon>
+                <ListIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Closed Leads" />
+            </ListItem>
+          ) : (
+            ""
+          )}
+
+          {raceName === "sales_manager" || raceName === "admin" ? (
+            <ListItem button component={Link} to="/sales_daily_details">
+              <ListItemIcon>
+                <ListIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Rejected by Clients" />
+            </ListItem>
+          ) : (
+            ""
+          )}
+
+          {raceName === "sales_manager" || raceName === "admin" ? (
+            <ListItem button component={Link} to="/sales_daily_details">
+              <ListItemIcon>
+                <ListIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Dead Leads" />
+            </ListItem>
+          ) : (
+            ""
+          )}
+
+          {raceName === "sales_manager" || raceName === "admin" ? (
+            <ListItem button component={Link} to="/sales_daily_details">
+              <ListItemIcon>
+                <ListIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Garbage/Recuriter" />
+            </ListItem>
+          ) : (
+            ""
+          )}
+        </List>
+      </Collapse>
+
+      {/*  */}
       {raceName === "admin" || raceName === "manager" ? (
         <ListItem button onClick={userHandleClick}>
           <ListItemIcon>

@@ -15,17 +15,17 @@ import { fetchJob } from "../../actions/job";
 
 const columns = [
   { id: "name", label: "Company Name", minWidth: 170 },
-  { id: "code", label: "Job Title", minWidth: 100, align: "center" },
-  { id: "code", label: "URL", minWidth: 100, align: "center" },
+  { id: "title", label: "Job Title", minWidth: 100, align: "center" },
+  { id: "url", label: "URL", minWidth: 100, align: "center" },
   {
-    id: "population",
+    id: "profile",
     label: "Profile",
     minWidth: 170,
     align: "center",
     format: value => value.toLocaleString()
   },
   {
-    id: "size",
+    id: "location",
     label: "Location",
     minWidth: 170,
     align: "right",
@@ -33,14 +33,14 @@ const columns = [
   },
 
   {
-    id: "density",
+    id: "status",
     label: "Status",
     minWidth: 170,
     align: "right",
     format: value => value.toFixed(2)
   },
   {
-    id: "density",
+    id: "appliedDate",
     label: "Applied Date",
     minWidth: 170,
     align: "right",

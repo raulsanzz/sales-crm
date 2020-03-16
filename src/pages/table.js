@@ -8,7 +8,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
-import { connect } from "react-redux";
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -16,14 +15,6 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import TextField from "@material-ui/core/TextField";
 
-import { fetchJob } from "../../actions/job";
-
-const columns = [
-    { id: "name", label: "Company Name", minWidth: 170 },
-    { id: "url", label: "URL", minWidth: 100, align: "left" },
-    { id: "button", label: "", minWidth: 100, align: "center" }
-];
-  
   const useStyles = makeStyles(theme => ({
     root:{
       width: "100%"
@@ -34,6 +25,11 @@ const columns = [
     paper: {
       width: "100%",
       marginBottom: theme.spacing(2)
+    },
+    textField: {
+      marginTop: "12px",
+      marginRight: "22px",
+      width: "100%"
     },
     jobHeader: {
       textAlign: "center",
@@ -47,31 +43,14 @@ const columns = [
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
-    textField: {
-      marginTop: "12px",
-      marginRight: "22px",
-      width: "100%"
-    },
   }));
 
-const managerJobLinks = ({fetchJob, jobs}) => {
+const table = ({ jobs , columns}) => {
     const classes = useStyles();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [match, setMatch] = useState("Search");
-
+    const [match, setMatch] = useState("Search");
     const [filteredJobs, setFilteredJobs] = useState([]);
-
-    useEffect(() => {
-        fetchJob();
-        // let arr = jobs.filter(job => {
-        //   return(
-        //       job.status === 'job' ? job : null
-        //   )
-        // })
-        setFilteredJobs(jobs);
-      }, [jobs.length]);
-
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -96,40 +75,28 @@ const managerJobLinks = ({fetchJob, jobs}) => {
             setFilteredJobs(newList);
             setMatch("Match");
           } else {
-            setMatch("Does not Match");
             setFilteredJobs(jobs);
+            setMatch("Does not Match");
           }
         } else {
-          setMatch("Search");
           setFilteredJobs(jobs);
+          setMatch("Search");
         }
       };
     return(
         <div className={classes.root}>
-                  <TextField
-        id="search"
-        label={match}
-        margin="normal"
-        type="text"
-        className={classes.textField}
-        placeholder="Search by Company Name ...."
-        onChange={searchHandler}
-        />
-    <Paper className={classes.paper}>
-        <FormControl className={classes.formControl}>
-        <InputLabel id="profile-label">Profile</InputLabel>
-        <Select
-          labelId="profile-label"
-          id="profile-select"
-          style={{justifyContent:"flex-end"}}
-        >
-          <MenuItem value={10}>Ali Muhammad</MenuItem>
-          <MenuItem value={20}>Aamir khan</MenuItem>
-          <MenuItem value={30}>Kevan Jay</MenuItem>
-        </Select>
-      </FormControl>
+        <TextField
+            id="search"
+            label={match}
+            margin="normal"
+            type="text"
+            className={classes.textField}
+            placeholder="Search by Company Name ...."
+            onChange={searchHandler}
+            />
+        <Paper className={classes.paper}>
       <div className={classes.tableWrapper}>
-        <h1 className={classes.jobHeader}>Job Links</h1>
+        <h1 className={classes.jobHeader}>Job List</h1>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -154,14 +121,37 @@ const managerJobLinks = ({fetchJob, jobs}) => {
                       {row.companyName}
                     </TableCell>
 
-                    <TableCell align="left">{row.url}</TableCell>
                     <TableCell align="center">
-                        <Button variant="contained" disabled>
-                            Applied 
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id="profile-label">Profile</InputLabel>
+                            <Select
+                            labelId="profile-label"
+                            id="profile-select"
+                            >
+                            <MenuItem value={"Ali Muhammad"}>Ali Muhammad</MenuItem>
+                            <MenuItem value={"Aamir khan"}>Aamir khan</MenuItem>
+                            <MenuItem value={"Kevan Jay"}>Kevan Jay</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </TableCell>
+                    <TableCell align="center">
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id="profile-label">status</InputLabel>
+                            <Select
+                            labelId="profile-label"
+                            id="profile-select"
+                            >
+                            <MenuItem value={"job"}>job</MenuItem>
+                            <MenuItem value={"lead"}>lead</MenuItem>
+                            <MenuItem value={"garbage"}>garbage</MenuItem>
+                            <MenuItem value={"recuriter"}>recuriter</MenuItem>
+                            </Select>
+                        </FormControl>   
+                    </TableCell>
+                    <TableCell align="center">
+                        <Button variant="contained" color="primary">
+                            Update
                         </Button>
-                        <Button variant="contained" color="secondary">
-                            Apply
-                        </Button>    
                     </TableCell>
                   </TableRow>
                 );
@@ -193,4 +183,4 @@ const mapStateToProps = state => ({
     jobs: state.JobReducer.job
   });
 
-export default  connect(mapStateToProps, { fetchJob })(managerJobLinks);
+export default table;

@@ -31,13 +31,13 @@ const useStyles = makeStyles({
 
 export default function salesDetail() {
   const [data, SetData] = useState([]);
-  const [count, setCount] = useState(0);
 
   useEffect(() => {
     axios.get ( BASE_URL + "/api/job/count").then(res => {
       SetData(res.data.result);
     });
   }, []);
+  
   if (data.length > 0) {
     var Total = data.reduce(
       (prev, cur) => parseInt(prev) + parseInt(cur.count),
@@ -55,22 +55,23 @@ export default function salesDetail() {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Registration Number</TableCell>
-            <TableCell>Job Applied</TableCell>
+            <TableCell>User Name</TableCell>
+            <TableCell>Fetched Jobs</TableCell>
+            <TableCell>Applied Job</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map(row => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
-                User
+                temp User
               </TableCell>
               <TableCell component="th" scope="row">
-                {row.userId}
+                  temp Fetched jobs
               </TableCell>
               <TableCell component="th" scope="row">
-                <Badge badgeContent={row.count} color="primary"></Badge>
+                temp Applied jobs
+                {/* <Badge badgeContent={row.count} color="primary"></Badge> */}
               </TableCell>
             </TableRow>
           ))}

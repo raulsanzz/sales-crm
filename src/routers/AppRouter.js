@@ -11,7 +11,6 @@ import AddPostPage from "../pages/AddPostPage";
 import Alert from "../pages/Alert";
 import JobList from "../pages/sales/JobList";
 import AdminJobList from "../pages/sales/adminJobList";
-import ManagerJobLinks from "../pages/sales/managerJobLinks";
 import EditJob from "../pages/sales/JobEdit";
 import SalesDetails from "../pages/sales/salesDetail";
 import UserList from "../pages/sales/UserList";
@@ -23,6 +22,9 @@ import MyLeads from "../pages/sales/leads/MyLead";
 import LeadSchedule from "../pages/sales/leads/LeadCallList";
 import UserReport from "../pages/sales/user/UserReport";
 import UserDetails from "../pages/sales/user/UserDetails";
+import ManagerJobLinks from "../pages/sales/managerJobLinks";
+import ManagerJobList from '../pages/sales/managerJobList'
+import ManagerLeads from '../pages/sales/managerLeads'
 const history = createBrowserHistory();
 
 export default () => {
@@ -39,7 +41,6 @@ export default () => {
           <PrivateRoute path="/edit" component={EditUser} />
           <PrivateRoute path="/job_list" component={JobList} />
           <PrivateRoute path="/admin_job_list" component={AdminJobList} />
-          <PrivateRoute path="/manager_job_links" component={ManagerJobLinks} />
           <PrivateRoute path="/job_edit" component={EditJob} />
           <PrivateRoute path="/sales_daily_details" component={SalesDetails} />
           <PrivateRoute path="/leads_list" component={LeadsList} />
@@ -49,6 +50,9 @@ export default () => {
           <PrivateRoute path="/lead_scedule" component={LeadSchedule} />
           <PrivateRoute path="/user_report" component={UserReport} />
           <PrivateRoute path="/user_details" component={UserDetails} />
+          <PrivateRoute path="/manager_job_list" component={ManagerJobList} />
+          <PrivateRoute path="/manager_job_links" component={ManagerJobLinks} />
+          <PrivateRoute path="/manager_leads" component={ManagerLeads} />
         </Switch>
       </Router>
     </Fragment>

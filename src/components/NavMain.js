@@ -144,7 +144,7 @@ class NavMain extends React.Component {
     if (auth) {
       return (
         <React.Fragment>
-          <h4 className={classes.h4}>Profile name :{profile}</h4>
+          <h4 className={classes.h4}>Profile name: {profile}</h4>
 
           <Button
             onClick={this.handleLogout}
