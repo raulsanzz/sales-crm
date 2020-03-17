@@ -1,5 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
 import Pdf from "react-to-pdf";
 const ref = React.createRef();
 
@@ -47,11 +52,12 @@ const useStyles = makeStyles(theme => ({
   },
   cardHeader1: {
     border: "2px solid #000",
-    marginBottom: "23px",
+    // marginBottom: "23px",
     padding: "10px"
   },
   cardBody1: {
-    border: "1px solid #000"
+    border: "1px solid #000",
+    padding: "20px"
   },
   cardContentRight: {
     padding: "20px",
@@ -62,10 +68,17 @@ const useStyles = makeStyles(theme => ({
   },
   cardContentInner: {
     marginBottom: "8px"
-  }
+  },  
+  formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120
+  },
+  selectEmpty: {
+      marginTop: theme.spacing(2),
+  },
 }));
 
-const Pricing = ({ history, location }) => {
+const LeadDetails = ({ history, location }) => {
   const classes = useStyles();
 
   const [formData, setFormData] = React.useState(location.state.detail);
@@ -77,34 +90,40 @@ const Pricing = ({ history, location }) => {
         </Pdf>
         <div class="card" className={classes.card} ref={ref}>
           <div class="card-header" className={classes.cardHeader1}>
-            <strong>Appllied at :</strong>
-            {formData.createdAt}
-
+            <strong>Time :</strong>
+            {/* {formData.createdAt} */}
+              0:0:0
             <span class="float-right">
-              <strong>Status:</strong> {formData.status}
+              <strong>Date:</strong> 
+              {/* {formData.status} */}
+              20/20/20
             </span>
           </div>
           <div class="card-body" className={classes.cardBody1}>
-            <div class="row">
-              <div class="col-sm-6">
+            <div className="row">
+              <div className="col-sm-6">
                 <div className={classes.cardContentRight}>
                   <div className={classes.cardContentInner}>
-                    <strong>Name :</strong>
+                    <strong>Name: </strong>
                     {formData.client_name}
                   </div>
                   <div className={classes.cardContentInner}>
-                    <b>Company Name :</b>
+                    <b>Company Name: </b>
                     {formData.companyName}
                   </div>
                   <div className={classes.cardContentInner}>
-                    <b>Location :</b>
+                    <b>Job Title: </b>
+                    {formData.job_title}
+                  </div>
+                  <div className={classes.cardContentInner}>
+                    <b>Location: </b>
                     {formData.location}
                   </div>
                   <div className={classes.cardContentInner}>
-                    <b>Email:</b> {formData.email}
+                    <b>Time Zone: </b> {formData.time_zone}
                   </div>
                   <div className={classes.cardContentInner}>
-                    <b>Website:</b> {formData.website}
+                    <b>Website: </b> {formData.website}
                   </div>
                 </div>
               </div>
@@ -112,28 +131,75 @@ const Pricing = ({ history, location }) => {
               <div class="col-sm-6">
                 <div className={classes.cardContentLeft}>
                   <div className={classes.cardContentInner}>
-                    <strong>Phone Number:</strong>
+                    <strong>Device: </strong>
+                    Some Device
+                  </div>
+                  <div className={classes.cardContentInner}>
+                    <strong>Client Number: </strong>
                     {formData.phone_number}
                   </div>
                   <div className={classes.cardContentInner}>
-                    <strong>Call Time:</strong>
-                    {formData.call_time}
+                    <b>Interview Status: </b>
+                      Some Status
                   </div>
                   <div className={classes.cardContentInner}>
-                    <b>Time Zone:</b>
-                    {formData.time_zone}
-                  </div>
-                  <div className={classes.cardContentInner}>
-                    <b>Call Status:</b>
+                    <b>Call Status: </b>
                     {formData.call_status}
                   </div>
                   <div className={classes.cardContentInner}>
-                    <b>Lead Status:</b>
-                    {formData.lead_status}
+                    <b>Job Link: </b>
+                    Some Job Link
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+          <div class="card-header" className={classes.cardHeader1}>
+          <FormControl className={classes.formControl}>
+                <InputLabel id="call-status-label">call status</InputLabel>
+                <Select
+                  labelId="call-status-label"
+                  id="call-status-select">
+                  <MenuItem value={"Reschedule"}>Reschedule</MenuItem>
+                  <MenuItem value={"Not Done"}>Not Done</MenuItem>
+                  <MenuItem value={"Not Taken By Client"}>Not Taken By Client</MenuItem>
+                </Select>
+            </FormControl>
+          </div>
+          <div class="card-header" className={classes.cardBody1}>
+            <form className={classes.root} noValidate autoComplete="off">
+              <strong>Are the ok with Remote? </strong>
+              <TextField id="Q1" label="" /><br></br>
+              <strong>Are they Firm on Relocation? </strong>
+              <TextField id="Q2" label="" /><br></br>
+              <strong>Type of Work? </strong>
+              <TextField id="Q3" label="" /><br></br>
+              <strong>F/T, P/T, Hourly Project? </strong>
+              <TextField id="Q4" label="" /><br></br>
+              <strong>What is the hourly rate/salary? </strong>
+              <TextField id="Q5" label="" /><br></br>
+              <strong>Technical interview required? </strong>
+              <TextField id="Q6" label="" /><br></br>
+              <strong>Is the same person on next call? </strong>
+              <TextField id="Q7" label="" /><br></br>
+              <strong>Next Step? </strong>
+              <TextField id="Q8" label="" /><br></br>
+              <strong>Is client ok with 1099? </strong>
+              <TextField id="Q9" label="" /><br></br>
+            </form>
+          </div>
+          <div class="card-header" className={classes.cardHeader1}>
+            <TextField
+            id="outlined-full-width"
+            label="Notes"
+            style={{ margin: 8 }}
+            fullWidth
+            margin="normal"
+            multiline
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="outlined" />
           </div>
         </div>
       </div>
@@ -141,4 +207,4 @@ const Pricing = ({ history, location }) => {
   );
 };
 
-export default Pricing;
+export default LeadDetails;

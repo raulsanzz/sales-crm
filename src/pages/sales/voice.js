@@ -8,8 +8,9 @@ import { fetchJob } from "../../actions/job";
 
 const columns = [
     { id: "companyName", label: "Company Name", minWidth: 170 },
-    { id: "url", label: "URL", minWidth: 100, align: "left" },
-    { id: "jobApplyButton", label: "Action", minWidth: 100, align: "center" }
+    { id: "client_name", label: "Client Name", minWidth: 100, align: "left" },
+    { id: "call_time", label: "Call Time", minWidth: 100, align: "center" },
+    { id: "device", label: "Device", minWidth: 100, align: "center" }
 ];
   
   const useStyles = makeStyles(theme => ({
@@ -62,7 +63,7 @@ const managerJobLinks = ({fetchJob, jobs}) => {
         jobs={filteredJobs}
         columns={columns}
         classes={classes}
-        tableHeader={"Job Links"}
+        tableHeader={"Scheduled Calls"}
         // history={history}
       />
     )

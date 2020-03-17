@@ -8,9 +8,13 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import axios from "axios";
+import InputLabel from '@material-ui/core/InputLabel';
 import Badge from "@material-ui/core/Badge";
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     overflowX: "auto"
@@ -26,8 +30,15 @@ const useStyles = makeStyles({
     fontFamily: "initial",
     fontSize: "18px",
     fontWeight: "bold"
-  }
-});
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
 
 export default function salesDetail() {
   const [data, SetData] = useState([]);
@@ -49,6 +60,19 @@ export default function salesDetail() {
 
   return (
     <Paper className={classes.root}>
+      <FormControl className={classes.formControl}>
+        <InputLabel id="Lead-status-label">Lead Status</InputLabel>
+        <Select
+          labelId="Lead-status-label"
+          id="Lead-status-select">
+          <MenuItem value={"Good Leads"}>Good Leads</MenuItem>
+          <MenuItem value={"Hot Leads"}>Hot Leads</MenuItem>
+          <MenuItem value={"Closed Leads"}>Closed Leads</MenuItem>
+          <MenuItem value={"Rejected By Clients"}>Rejected By Clients</MenuItem>
+          <MenuItem value={"Dead Leads"}>Dead Leads</MenuItem>
+          <MenuItem value={"Garbage"}>Garbage</MenuItem>
+        </Select>
+      </FormControl>
       <h1 className={classes.center}>Daily Applied Job Details</h1>
       <span className={classes.text}>Total Applied Job:</span>
       <Badge badgeContent={Total} color="secondary"></Badge>

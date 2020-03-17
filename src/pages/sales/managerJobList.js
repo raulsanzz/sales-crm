@@ -8,8 +8,8 @@ import { fetchJob } from "../../actions/job";
 
 const columns = [
     { id: "companyName", label: "Company Name", minWidth: 170 },
-    { id: "profile", label: "Profile", minWidth: 100, align: "center", dropDown: true },
-    { id: "status", label: "Status", minWidth: 100, align: "center", dropDown: true },
+    { id: "profileList", label: "Profile", minWidth: 100, align: "center" },
+    { id: "statusList", label: "Status", minWidth: 100, align: "center" },
     { id: "updateButton", label: "Action", minWidth: 100, align: "center" }
 ];
   
@@ -43,7 +43,7 @@ const columns = [
     },
   }));
 
-const managerJobLinks = ({fetchJob, jobs}) => {
+const managerJobLinks = ({fetchJob, jobs, history}) => {
     const classes = useStyles();
 
     const [filteredJobs, setFilteredJobs] = useState([]);
@@ -64,7 +64,7 @@ const managerJobLinks = ({fetchJob, jobs}) => {
         columns={columns}
         classes={classes}
         tableHeader={"Job List"}
-        // history={history}
+        history={history}
       />
     )
 }

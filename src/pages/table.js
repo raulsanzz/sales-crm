@@ -62,7 +62,9 @@ const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
 
     return(
         <div className={classes.root}>
-        <TextField
+        {
+          tableHeader !== "Job List" ? (
+          <TextField
             id="search"
             label={match}
             margin="normal"
@@ -70,7 +72,8 @@ const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
             className={classes.textField}
             placeholder="Search by Company Name ...."
             onChange={searchHandler}
-            />
+            />) : null
+        }
         <Paper className={classes.paper}>
         {
           tableHeader === "Job Links" ? (
@@ -115,65 +118,57 @@ const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
                             return (<TableCell key={column.id} component="th" scope="row">
                                       {row.companyName}
                                     </TableCell>)
+                                    // console.log();
+                          case "client_name":
                           case "profile":
-                            if(column.dropDown){
-                              return(<TableCell key={column.id} align="center">
-                                      <FormControl className={classes.formControl}>
-                                        <InputLabel id="profile-label">Profile</InputLabel>
+                          case "status":
+                          case "lead_status":
+                          case "call_date":
+                          case "location":
+                          case "job_title":
+                          case "createdAt":
+                            return (<TableCell key={column.id} align="center">
+                                      {row[column.id]}
+                                    </TableCell>)
+                          case "url":
+                            return(<TableCell key={column.id} align="left">
+                                      {row.url}
+                                   </TableCell>)
+                          case "call_time":
+                            return(<TableCell key={column.id} align="center">
+                                      {row.call_time} ({row.time_zone})
+                                   </TableCell>)
+                          case "device":
+                            return (<TableCell key={column.id} align="center">
+                                      some Device
+                                    </TableCell>)
+                          case "profileList":
+                            return(<TableCell key={column.id} align="center">
+                                    <FormControl className={classes.formControl}>
+                                      <InputLabel id="profile-label">Profile</InputLabel>
+                                      <Select
+                                        labelId="profile-label"
+                                        id="profile-select">
+                                        <MenuItem value={"Ali Muhammad"}>Ali Muhammad</MenuItem>
+                                        <MenuItem value={"Aamir khan"}>Aamir khan</MenuItem>
+                                        <MenuItem value={"Kevan Jay"}>Kevan Jay</MenuItem>
+                                      </Select>
+                                    </FormControl>
+                                  </TableCell>)
+                          case "statusList":
+                            return(<TableCell key={column.id} align="center">
+                                    <FormControl className={classes.formControl}>
+                                        <InputLabel id="profile-label">status</InputLabel>
                                         <Select
                                           labelId="profile-label"
                                           id="profile-select">
-                                          <MenuItem value={"Ali Muhammad"}>Ali Muhammad</MenuItem>
-                                          <MenuItem value={"Aamir khan"}>Aamir khan</MenuItem>
-                                          <MenuItem value={"Kevan Jay"}>Kevan Jay</MenuItem>
+                                          <MenuItem value={"job"}>job</MenuItem>
+                                          <MenuItem value={"lead"}>lead</MenuItem>
+                                          <MenuItem value={"garbage"}>garbage</MenuItem>
+                                          <MenuItem value={"recuriter"}>recuriter</MenuItem>
                                         </Select>
-                                      </FormControl>
-                                    </TableCell>)
-                            }
-                            else{
-                              return (<TableCell key={column.id} align="center">
-                                        {row.profile}
-                                      </TableCell>)
-                            }
-                          case "status":
-                            if(column.dropDown){
-                              return(<TableCell key={column.id} align="center">
-                                      <FormControl className={classes.formControl}>
-                                          <InputLabel id="profile-label">status</InputLabel>
-                                          <Select
-                                            labelId="profile-label"
-                                            id="profile-select">
-                                            <MenuItem value={"job"}>job</MenuItem>
-                                            <MenuItem value={"lead"}>lead</MenuItem>
-                                            <MenuItem value={"garbage"}>garbage</MenuItem>
-                                            <MenuItem value={"recuriter"}>recuriter</MenuItem>
-                                          </Select>
-                                      </FormControl>   
-                                    </TableCell>)
-                            }
-                            else{
-                              return (<TableCell key={column.id} align="center">
-                                        {row.status}
-                                      </TableCell>)
-                            }
-                          case "leadStatus":
-                            return(
-                              <TableCell key={column.id} align="center">
-                                {row.lead_status}
-                              </TableCell>
-                            )
-                          case "callTime":
-                            return(               
-                              <TableCell key={column.id} align="center">
-                                {row.call_time} ({row.time_zone})
-                              </TableCell>
-                            )
-                          case "callDate":
-                            return(     
-                              <TableCell key={column.id} align="center">
-                                {row.call_date}
-                              </TableCell>
-                            )
+                                    </FormControl>   
+                                  </TableCell>)
                           case "voice":
                             return(<TableCell key={column.id} align="center">
                                     <FormControl className={classes.formControl}>
@@ -187,30 +182,24 @@ const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
                                       </Select>
                                     </FormControl>
                                   </TableCell>)
-                          case "jobUrl":
-                            return(     
-                              <TableCell key={column.id} align="left">{row.url}</TableCell>  
-                            )
                           case "jobApplyButton":
-                            return(     
-                            <TableCell  key={column.id} align="center">
-                              <Button variant="contained" disabled>
-                                  Applied 
-                              </Button>
-                              <Button variant="contained" color="secondary">
-                                  Apply
-                              </Button>    
-                            </TableCell>)
+                            return(<TableCell  key={column.id} align="center">
+                                    <Button variant="contained" disabled>
+                                        Applied 
+                                    </Button>
+                                    <Button variant="contained" color="secondary">
+                                        Apply
+                                    </Button>    
+                                  </TableCell>)
                           case "editButton":
                             return (<TableCell key={column.id} align="center">
                                       <IconButton 
                                         aria-label="edit"
                                         onClick={() =>
                                           history.push({
-                                            pathname: "/",
+                                            pathname: "/lead_edit",
                                             state: { detail: row }
-                                          })}
-                                      >
+                                          })}>
                                         <EditIcon fontSize="large"/>
                                       </IconButton>
                                     </TableCell>)
@@ -223,14 +212,13 @@ const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
                                         history.push({
                                           pathname: "/",
                                           state: { detail: row }
-                                        })}
-                                    >
+                                        })}>
                                         Update
                                     </Button>
                                   </TableCell>
                             )
                           default:
-                            return  (<TableCell component="th" scope="row">
+                            return(<TableCell component="th" scope="row">
                                       {column.id} "case" not handles
                                     </TableCell>)
                         }

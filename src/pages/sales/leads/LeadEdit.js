@@ -11,8 +11,12 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import IconButton from "@material-ui/core/IconButton";
 import { connect } from "react-redux";
-import { Redirect, withRouter } from "react-router-dom";
 import compose from "recompose/compose";
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+
 import { updateLead } from "../../../actions/job";
 
 const styles = theme => ({
@@ -45,54 +49,285 @@ const styles = theme => ({
     backgroundColor: theme.palette.secondary.main
   },
 
+  invalidElementError: {
+    color: "red"
+  },
   button: {
     width: "100%",
     marginTop: "5%"
-  }
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
 });
 
 const editLead = ({ classes, children, history, location, updateLead }) => {
-  const [formData, setFormData] = useState(location.state.detail);
+  // make this true
+  const [fromIsInvalid, setFromIsInvalid] = useState(false);
 
-  const {
-    id,
-    profile,
-    job_title,
-    salary,
-    source,
-    email,
-    website,
-    client_name,
-    phone_number,
-    call_time,
-    time_zone,
-    call_date
-  } = formData;
-  const onChangeHandler = e => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value
-    });
+  const [formData, setFormData] = useState({
+    client_name: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Client Name'
+      },
+      value: location.state.detail.client_name,
+      validation: {
+        required: false
+      },
+      valid: false,
+      touched: false
+    },
+    call_time: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Call Time'
+      },
+      value: location.state.detail.call_time,
+      validation: {
+        required: false
+      },
+      valid: false,
+      touched: false
+    },
+    gmail_thread: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Gmail Thread'
+      },
+      value: '',
+      validation: {
+        required: false
+      },
+      valid: false,
+      touched: false
+    },  
+    call_date: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Call Date'
+      },
+      value:  location.state.detail.call_date,
+      validation: {
+          required: false,
+      },
+      valid: false,
+      touched: false
+    },  
+    time_zone: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Client Time Zone'
+      },
+      value:  location.state.detail.time_zone,
+      validation: {
+          required: false,
+      },
+      valid: false,
+      touched: false
+    },  
+    location: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Client Location'
+      },
+      value:  location.state.detail.location,
+      validation: {
+        required: false,
+      },
+      valid: false,
+      touched: false
+    },  
+    device: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Device'
+      },
+      value: '',
+      validation: {
+        required: false,
+      },
+      valid: false,
+      touched: false
+    },  
+    phone_number: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Client Number'
+      },
+      value:  location.state.detail.phone_number,
+      validation: {
+        required: false,
+      },
+      valid: false,
+      touched: false
+    },  
+    call_status: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Call Status'
+      },
+      value: '',
+      validation: {
+        required: false,
+      },
+      valid: false,
+      touched: false
+    },  
+    interview_status: {
+      elementType: 'input',
+      elementConfig:{
+        options: [
+        {value: '1st Tech', displayValue: '1st Tech' },
+        {value: '2nd Tech', displayValue: '2nd Tech' }
+       ],
+        placeholder: 'Interview Status'
+      },
+      value: '',
+      validation: {
+        required: false,
+      },
+      valid: false,
+      touched: false
+    }
+});
+
+const validityCheck = (value, rules) => {
+  let isValid = true;
+  if(rules){
+    if(rules.required){
+        isValid = value.trim() !== '' && isValid;
+    };
+    if(rules.emailReg){
+      isValid = rules.emailReg.test(value.trim()) && isValid;
+    };  
+    if(rules.urlReg){
+      isValid = rules.urlReg.test(value.trim()) && isValid;
+    };
+    if(!rules.required && value.trim() < 1){
+      isValid = true;
+    }; 
   };
+  return isValid;
+}
+
+const onChangeHandler = (e, elementIdentifier) => {
+  const updatedForm = {
+    ...formData
+  }
+  const updatedElement = {
+    ...updatedForm[elementIdentifier]
+  }
+  updatedElement.value = e.target.value;
+  updatedElement.valid = validityCheck(updatedElement.value, updatedElement.validation);
+  updatedElement.touched = true;
+  updatedForm[elementIdentifier] = updatedElement;
+  
+  let formIsValid = true;
+  for (let elemIdentifier in updatedForm){
+    if(updatedForm[elemIdentifier].touched || updatedForm[elemIdentifier].validation.required){
+      formIsValid = updatedForm[elemIdentifier].valid && formIsValid;
+    }   
+  }
+  
+  setFormData(updatedForm);
+  setFromIsInvalid(!formIsValid);
+}
+
   const onSubmitHandler = e => {
     e.preventDefault();
     console.log(formData);
-    updateLead(
-      id,
-      profile,
-      job_title,
-      salary,
-      source,
-      email,
-      website,
-      client_name,
-      phone_number,
-      call_time,
-      time_zone,
-      call_date,
-      history
-    );
+    // updateLead(
+    //   id,
+    //   profile,
+    //   job_title,
+    //   salary,
+    //   source,
+    //   email,
+    //   website,
+    //   client_name,
+    //   phone_number,
+    //   call_time,
+    //   time_zone,
+    //   call_date,
+    //   history
+    // );
   };
+  const formRender = () => {
+    const fromElementArray = [];
+    for (let key in formData){
+      fromElementArray.push({
+          id: key,
+          config: formData[key]
+      });
+    };
+    let form = (
+      <form onSubmit={onSubmitHandler} autoComplete="off">
+          {
+            fromElementArray.map( elem => (
+              elem.id === "interview_status" ? (
+                <FormControl className={classes.formControl} key={elem.id}>
+                  <InputLabel id={`${elem.id}-label`}>{elem.config.elementConfig.placeholder}</InputLabel>
+                    <Select
+                    labelId={`${elem.id}-label`}
+                    id={elem.id}>
+                    {elem.config.elementConfig.options.map(opt => (
+                        <MenuItem key={opt.value} value={opt.value}>{opt.displayValue}</MenuItem>
+                    ))} 
+                  </Select>
+                </FormControl>
+                ): (
+                  <div key={elem.id}>
+                  <TextField
+                    id={elem.id}
+                    label={elem.config.elementConfig.placeholder}
+                    type={elem.config.elementConfig.type}
+                    placeholder={elem.config.elementConfig.placeholder}
+                    className={classes.textField}
+                    value={elem.config.value}
+                    onChange={(event) => {onChangeHandler(event, elem.id)}}
+                  />
+                  {(elem.config.touched && elem.config.validation.required && elem.config.value.trim().length < 1 ) ? 
+                    <p className={classes.invalidElementError}>{elem.config.elementConfig.placeholder} is required </p> : null
+                  }
+                  {(elem.config.touched && elem.config.validation.urlReg && !elem.config.valid && elem.config.value.trim().length > 0) ? 
+                    <p className={classes.invalidElementError}>not a valid {elem.config.elementConfig.placeholder}</p> : null
+                  }
+                  {(elem.config.touched && elem.config.validation.emailReg && !elem.config.valid && elem.config.value.trim().length > 0) ? 
+                    <p className={classes.invalidElementError}>Please enter a valid Email</p> : null
+                  }
+                  </div>
+                )
+            ))
+          }
+          
+          <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              className={classes.button}
+              disabled={fromIsInvalid}
+            >
+              Update Lead
+            </Button>
+      </form>
+      );
+    return form;
+  }
+
   return (
     <React.Fragment>
       <main className={classes.layout}>
@@ -100,7 +335,7 @@ const editLead = ({ classes, children, history, location, updateLead }) => {
           <IconButton aria-label="edit">
             <ArrowBackIcon
               fontSize="large"
-              onClick={() => history.push("/leads_list/")}
+              onClick={() => history.goBack()}
             />
           </IconButton>
           <Avatar className={classes.avatar}>
@@ -110,125 +345,7 @@ const editLead = ({ classes, children, history, location, updateLead }) => {
           <Typography align="center" variant="headline">
             Edit Lead
           </Typography>
-          <form onSubmit={onSubmitHandler}>
-            <TextField
-              id="job_title"
-              label="Job Title"
-              margin="normal"
-              type="text"
-              className={classes.textField}
-              value={formData.job_title}
-              onChange={onChangeHandler}
-            />
-
-            <TextField
-              id="profile"
-              label="Profile"
-              margin="normal"
-              type="text"
-              className={classes.textField}
-              value={formData.profile}
-              onChange={onChangeHandler}
-            />
-            <TextField
-              id="salary"
-              label="Salary"
-              margin="normal"
-              type="text"
-              className={classes.textField}
-              value={formData.salary}
-              onChange={onChangeHandler}
-            />
-            <TextField
-              id="client_name"
-              label="Client Name"
-              margin="normal"
-              type="text"
-              placeholder="enter client name"
-              className={classes.textField}
-              value={formData.client_name}
-              onChange={onChangeHandler}
-            />
-            <TextField
-              id="source"
-              label="Source"
-              margin="normal"
-              type="text"
-              placeholder="enter source"
-              className={classes.textField}
-              value={formData.source}
-              onChange={onChangeHandler}
-            />
-            <TextField
-              id="email"
-              label="Email"
-              margin="normal"
-              type="text"
-              placeholder="enter @mail"
-              className={classes.textField}
-              value={formData.email}
-              onChange={onChangeHandler}
-            />
-            <TextField
-              id="website"
-              label="Website"
-              margin="normal"
-              type="text"
-              className={classes.textField}
-              value={formData.website}
-              placeholder="enter website"
-              onChange={onChangeHandler}
-            />
-
-            <TextField
-              id="phone_number"
-              label="Phone Number"
-              margin="normal"
-              type="text"
-              className={classes.textField}
-              value={formData.phone_number}
-              placeholder="enter phone number"
-              onChange={onChangeHandler}
-            />
-            <TextField
-              id="call_time"
-              label="Call Time"
-              margin="normal"
-              type="text"
-              className={classes.textField}
-              value={formData.call_time}
-              placeholder="enter call time"
-              onChange={onChangeHandler}
-            />
-
-            <TextField
-              id="time_zone"
-              label="Time Zone"
-              margin="normal"
-              type="text"
-              className={classes.textField}
-              value={formData.time_zone}
-              placeholder="enter time zone"
-              onChange={onChangeHandler}
-            />
-
-            <TextField
-              id="call_date"
-              margin="normal"
-              type="date"
-              className={classes.textField}
-              onChange={onChangeHandler}
-            />
-
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              className={classes.button}
-            >
-              Update Lead
-            </Button>
-          </form>
+          {formRender()}
         </Paper>
       </main>
     </React.Fragment>
@@ -237,7 +354,7 @@ const editLead = ({ classes, children, history, location, updateLead }) => {
 
 editLead.propTypes = {
   classes: PropTypes.object.isRequired,
-  updateJob: PropTypes.func.isRequired
+  updateLead: PropTypes.func.isRequired
 };
 
 export default compose(
