@@ -1,15 +1,16 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from 'react';
-import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
+import { connect } from "react-redux";
 
-import Table from "../table";
+import Table from "./../table";
 import { fetchJob } from "../../actions/job";
 
 const columns = [
     { id: "companyName", label: "Company Name", minWidth: 170 },
-    { id: "profile", label: "Profile", minWidth: 100, align: "center" },
-    { id: "editButton", label: "Action", minWidth: 100, align: "center", editPath:"/lead_edit" }
+    { id: "profile", label: "profile", minWidth: 100, align: "left" },
+    { id: "salesTestStatusList", label: "status", minWidth: 100, align: "center" },
+    { id: "editButton", label: "Action", minWidth: 100, align: "center", editPath:'/' }
 ];
   
   const useStyles = makeStyles(theme => ({
@@ -23,11 +24,6 @@ const columns = [
       width: "100%",
       marginBottom: theme.spacing(2)
     },
-    textField: {
-      marginTop: "12px",
-      marginRight: "22px",
-      width: "100%"
-    },
     jobHeader: {
       textAlign: "center",
       fontFamily: "initial",
@@ -39,6 +35,11 @@ const columns = [
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
+    },
+    textField: {
+      marginTop: "12px",
+      marginRight: "22px",
+      width: "100%"
     },
   }));
 
@@ -56,12 +57,13 @@ const managerJobLinks = ({fetchJob, jobs, history}) => {
         setFilteredJobs(jobs);
       }, [jobs.length]);
 
-    return(
+
+    return(       
       <Table 
         jobs={filteredJobs}
         columns={columns}
         classes={classes}
-        tableHeader={"Leads"}
+        tableHeader={"Sales test"}
         history={history}
       />
     )

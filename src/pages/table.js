@@ -169,6 +169,20 @@ const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
                                         </Select>
                                     </FormControl>   
                                   </TableCell>)
+                          case "salesTestStatusList":
+                            return(<TableCell key={column.id} align="center">
+                                    <FormControl className={classes.formControl}>
+                                        <InputLabel id="profile-label">status</InputLabel>
+                                        <Select
+                                          labelId="profile-label"
+                                          id="profile-select">
+                                          <MenuItem value={"done"}>done</MenuItem>
+                                          <MenuItem value={"passed"}>passed</MenuItem>
+                                          <MenuItem value={"failed"}>failed</MenuItem>
+                                          <MenuItem value={"rejected"}>rejected</MenuItem>
+                                        </Select>
+                                    </FormControl>   
+                                  </TableCell>)
                           case "voice":
                             return(<TableCell key={column.id} align="center">
                                     <FormControl className={classes.formControl}>
@@ -197,7 +211,7 @@ const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
                                         aria-label="edit"
                                         onClick={() =>
                                           history.push({
-                                            pathname: "/lead_edit",
+                                            pathname: column.editPath,
                                             state: { detail: row }
                                           })}>
                                         <EditIcon fontSize="large"/>

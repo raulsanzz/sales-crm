@@ -30,6 +30,7 @@ const mailFolderListItems = ({ user, classes }) => {
   const [userOpen, setuserOpen] = useState(false);
   const [leadsOpen, setleadsOpen] = useState(false);
   const [salesVoiceOpen, setsalesVoiceOpen] = useState(false);
+  const [salesTestOpen, setsalesTestOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
@@ -48,6 +49,10 @@ const mailFolderListItems = ({ user, classes }) => {
   };
   
   const salesVoiceHandleClick = () => {
+    setsalesVoiceOpen(!salesVoiceOpen);
+  };
+
+  const salesTestHandleClick = () => {
     setsalesVoiceOpen(!salesVoiceOpen);
   };
   if (user) {
@@ -249,7 +254,15 @@ const mailFolderListItems = ({ user, classes }) => {
           )}
         </List>
       </Collapse>
-      {/*  */}
+      {raceName === "sales_executive" || raceName === "admin" ? (
+        <ListItem button component={Link} to="/sales_test">
+          <ListItemIcon>
+            <DashboardIcon className={classes.root} />
+          </ListItemIcon>
+          <ListItemText primary="Sales Test" />
+        </ListItem>
+        ) : ("")
+      }
       {raceName === "admin" || raceName === "manager" ? (
         <ListItem button onClick={userHandleClick}>
           <ListItemIcon>
@@ -261,7 +274,6 @@ const mailFolderListItems = ({ user, classes }) => {
       ) : (
         ""
       )}
-
       <Collapse in={userOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {raceName === "admin" ? (

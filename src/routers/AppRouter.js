@@ -26,6 +26,7 @@ import ManagerJobLinks from "../pages/sales/managerJobLinks";
 import ManagerJobList from '../pages/sales/managerJobList';
 import ManagerLeads from '../pages/sales/managerLeads';
 import ScheduledLeads from '../pages/sales/leads/scheduledLeads';
+import SalesTest from '../pages/sales/test';
 import Voice from '../pages/sales/voice';
 const history = createBrowserHistory();
 
@@ -57,6 +58,7 @@ export default () => {
           <PrivateRoute path="/manager_leads" component={ManagerLeads} />
           <PrivateRoute path="/scheduled_leads" component={ScheduledLeads} />
           <PrivateRoute path="/voice" component={Voice} />
+          <PrivateRoute path="/sales_test" component={SalesTest} />
         </Switch>
       </Router>
     </Fragment>
