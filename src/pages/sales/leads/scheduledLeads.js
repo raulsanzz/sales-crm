@@ -12,7 +12,8 @@ const columns = [
     { id: "lead_status", label: "Lead Status", minWidth: 100, align: "center" },
     { id: "call_time", label: "Time", minWidth: 100, align: "center" },
     { id: "call_date", label: "Date", minWidth: 100, align: "center" },
-    { id: "voice", label: "Voice", minWidth: 100, align: "center" }
+    { id: "list", label: "Voice", minWidth: 100, align: "center", 
+      placeholder: "voice", listItems: ["person 1", "person 2", "person 3"]}
 ];
   
 const useStyles = makeStyles(theme => ({

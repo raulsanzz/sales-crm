@@ -28,6 +28,7 @@ import ManagerLeads from '../pages/sales/managerLeads';
 import ScheduledLeads from '../pages/sales/leads/scheduledLeads';
 import SalesTest from '../pages/sales/test';
 import Voice from '../pages/sales/voice';
+import EditSalesTest from '../pages/sales/editSalesTest';
 const history = createBrowserHistory();
 
 export default () => {
@@ -59,6 +60,7 @@ export default () => {
           <PrivateRoute path="/scheduled_leads" component={ScheduledLeads} />
           <PrivateRoute path="/voice" component={Voice} />
           <PrivateRoute path="/sales_test" component={SalesTest} />
+          <PrivateRoute path="/sales_test_edit" component={EditSalesTest} />
         </Switch>
       </Router>
     </Fragment>

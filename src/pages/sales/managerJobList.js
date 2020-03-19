@@ -8,8 +8,10 @@ import { fetchJob } from "../../actions/job";
 
 const columns = [
     { id: "companyName", label: "Company Name", minWidth: 170 },
-    { id: "profileList", label: "Profile", minWidth: 100, align: "center" },
-    { id: "statusList", label: "Status", minWidth: 100, align: "center" },
+    { id: "list", label: "Profile", minWidth: 100, align: "center", 
+      placeholder: "profile", listItems: ["Ali Muhammad", "Aamir khan", "Kevan Jay"]},
+    { id: "list", label: "Status", minWidth: 100, align: "center", 
+      placeholder: "status", listItems: ["job", "lead", "garbage", "recuriter"]},
     { id: "updateButton", label: "Action", minWidth: 100, align: "center" }
 ];
   

@@ -9,8 +9,9 @@ import { fetchJob } from "../../actions/job";
 const columns = [
     { id: "companyName", label: "Company Name", minWidth: 170 },
     { id: "profile", label: "profile", minWidth: 100, align: "left" },
-    { id: "salesTestStatusList", label: "status", minWidth: 100, align: "center" },
-    { id: "editButton", label: "Action", minWidth: 100, align: "center", editPath:'/' }
+    { id: "list", label: "Test Status", minWidth: 100, align: "center",
+      placeholder: "salesTestStatus", listItems: ["done", "passed", "failed", "rejected"]},
+    { id: "editButton", label: "Action", minWidth: 100, align: "center", editPath:'/sales_test_edit' }
 ];
   
   const useStyles = makeStyles(theme => ({

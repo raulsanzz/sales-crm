@@ -118,7 +118,6 @@ const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
                             return (<TableCell key={column.id} component="th" scope="row">
                                       {row.companyName}
                                     </TableCell>)
-                                    // console.log();
                           case "client_name":
                           case "profile":
                           case "status":
@@ -142,59 +141,19 @@ const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
                             return (<TableCell key={column.id} align="center">
                                       some Device
                                     </TableCell>)
-                          case "profileList":
-                            return(<TableCell key={column.id} align="center">
+                          case "list":
+                            return(<TableCell key={column.placeholder} align="center">
                                     <FormControl className={classes.formControl}>
-                                      <InputLabel id="profile-label">Profile</InputLabel>
-                                      <Select
-                                        labelId="profile-label"
-                                        id="profile-select">
-                                        <MenuItem value={"Ali Muhammad"}>Ali Muhammad</MenuItem>
-                                        <MenuItem value={"Aamir khan"}>Aamir khan</MenuItem>
-                                        <MenuItem value={"Kevan Jay"}>Kevan Jay</MenuItem>
-                                      </Select>
-                                    </FormControl>
-                                  </TableCell>)
-                          case "statusList":
-                            return(<TableCell key={column.id} align="center">
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel id="profile-label">status</InputLabel>
+                                        <InputLabel id={`${column.placeholder}-label`}>{column.label}</InputLabel>
                                         <Select
-                                          labelId="profile-label"
-                                          id="profile-select">
-                                          <MenuItem value={"job"}>job</MenuItem>
-                                          <MenuItem value={"lead"}>lead</MenuItem>
-                                          <MenuItem value={"garbage"}>garbage</MenuItem>
-                                          <MenuItem value={"recuriter"}>recuriter</MenuItem>
+                                          labelId={`${column.placeholder}-label`}
+                                          id={column.placeholder}>
+                                            { column.listItems.map(item => {
+                                                return <MenuItem key={item} value={item}>{item}</MenuItem>
+                                              })
+                                            }
                                         </Select>
                                     </FormControl>   
-                                  </TableCell>)
-                          case "salesTestStatusList":
-                            return(<TableCell key={column.id} align="center">
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel id="profile-label">status</InputLabel>
-                                        <Select
-                                          labelId="profile-label"
-                                          id="profile-select">
-                                          <MenuItem value={"done"}>done</MenuItem>
-                                          <MenuItem value={"passed"}>passed</MenuItem>
-                                          <MenuItem value={"failed"}>failed</MenuItem>
-                                          <MenuItem value={"rejected"}>rejected</MenuItem>
-                                        </Select>
-                                    </FormControl>   
-                                  </TableCell>)
-                          case "voice":
-                            return(<TableCell key={column.id} align="center">
-                                    <FormControl className={classes.formControl}>
-                                      <InputLabel id="profile-label">Voice</InputLabel>
-                                      <Select
-                                        labelId="profile-label"
-                                        id="profile-select">
-                                        <MenuItem value={"person 1"}>person 1</MenuItem>
-                                        <MenuItem value={"person 2"}>person 2</MenuItem>
-                                        <MenuItem value={"person 3"}>person 3</MenuItem>
-                                      </Select>
-                                    </FormControl>
                                   </TableCell>)
                           case "jobApplyButton":
                             return(<TableCell  key={column.id} align="center">
