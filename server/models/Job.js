@@ -3,12 +3,10 @@ module.exports = (sequelize, Sequelize) => {
   const Job = sequelize.define("job", {
     userId: {
       type: Sequelize.INTEGER,
-
       field: "registration_number"
     },
     assignTo: {
       type: Sequelize.INTEGER,
-
       field: "assign_to"
     },
     url: {

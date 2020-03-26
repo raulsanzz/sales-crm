@@ -18,7 +18,7 @@ import Button from '@material-ui/core/Button';
 
 // import { fetchJob } from "../../actions/job";
   
-const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
+const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler}) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [match, setMatch] = useState("Search");
@@ -26,7 +26,7 @@ const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
     const [filteredJobs, setFilteredJobs] = useState([]);
 
     useEffect(() => {
-        setFilteredJobs(jobs);
+        setFilteredJobs([...jobs]);
       }, [jobs.length]);
 
 
@@ -38,7 +38,18 @@ const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-
+    
+    const handleChange = (event, row, identifier) => {
+      let updatedJobs = [...filteredJobs];
+      const updatedJob = updatedJobs.filter(job => {
+        return job.id === row.id ? {...job} : null
+      })
+      updatedJob[0][identifier] = event.target.value
+      updatedJobs = updatedJobs.map(job => {
+        return job.id === row.id ? updatedJob[0] : job
+      })
+      setFilteredJobs(updatedJobs)
+    }
     const searchHandler = e => {
         let lists = filteredJobs;
         if (e.target.value) {
@@ -96,7 +107,7 @@ const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
             <TableRow>
               {columns.map(column => (
                 <TableCell
-                  key={column.id}
+                  key={column.id === "list" ? column.placeholder : column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
@@ -147,7 +158,9 @@ const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
                                         <InputLabel id={`${column.placeholder}-label`}>{column.label}</InputLabel>
                                         <Select
                                           labelId={`${column.placeholder}-label`}
-                                          id={column.placeholder}>
+                                          id={column.placeholder}
+                                          value={row[column.placeholder]}
+                                          onChange={(event) => {handleChange(event, row, column.placeholder)}}>
                                             { column.listItems.map(item => {
                                                 return <MenuItem key={item} value={item}>{item}</MenuItem>
                                               })
@@ -181,11 +194,7 @@ const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
                                     <Button 
                                       variant="contained" 
                                       color="primary"
-                                      onClick={() =>
-                                        history.push({
-                                          pathname: "/",
-                                          state: { detail: row }
-                                        })}>
+                                      onClick={() => {onUpdateHandler(row.id, { profile:row.profile, status: row.status})}}>
                                         Update
                                     </Button>
                                   </TableCell>
@@ -224,4 +233,4 @@ const managerJobLinks = ({ jobs, history, columns, classes, tableHeader}) => {
     )
 }
 
-export default  managerJobLinks
+export default  table

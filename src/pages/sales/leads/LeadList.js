@@ -62,23 +62,13 @@ function getSorting(order, orderBy) {
 }
 
 const headCells = [
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: true,
-    label: "Client Name"
-  },
-  {
-    id: "calories",
-    numeric: true,
-    disablePadding: false,
-    label: "Company Name"
-  },
-  { id: "carbs", numeric: true, disablePadding: false, label: "Job Title" },
-  { id: "carbs", numeric: true, disablePadding: false, label: "Assigned To" },
-  { id: "carbs", numeric: true, disablePadding: false, label: "Status" },
-  { id: "carbs", numeric: true, disablePadding: false, label: "Call" },
-  { id: "protein", numeric: true, disablePadding: false, label: "Action" }
+  { id: "client_name", numeric: false, disablePadding: true, label: "Client Name" },
+  { id: "companyName", numeric: true, disablePadding: false, label: "Company Name" },
+  { id: "job_title", numeric: true, disablePadding: false, label: "Job Title" },
+  { id: "assign_to", numeric: true, disablePadding: false, label: "Assigned To" },
+  { id: "status", numeric: true, disablePadding: false, label: "Status" },
+  { id: "call", numeric: true, disablePadding: false, label: "Call" },
+  { id: "editButton", numeric: true, disablePadding: false, label: "Action" }
 ];
 
 function EnhancedTableHead(props) {

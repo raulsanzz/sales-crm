@@ -35,11 +35,12 @@
     "sequelize": "^5.21.2"
   },
   "scripts": {
+    "start": "set PORT=3000 && node server/server.js",
     "dev-server": "react-scripts start",
+    "dev-start": "set PORT=3000 && nodemon server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start": "set PORT=3000 && node server/server.js",
     "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {

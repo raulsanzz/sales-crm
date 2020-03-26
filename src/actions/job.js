@@ -30,32 +30,14 @@ export const fetchJob = () => async dispatch => {
   }
 };
 
-export const addJob = (
-  company_name,
-  job_title,
-  url,
-  profile,
-  location,
-  salary,
-  email,
-  website
-) => async dispatch => {
+export const addJob = ( newJob ) => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
 
-  const body = JSON.stringify({
-    company_name,
-    job_title,
-    url,
-    profile,
-    location,
-    salary,
-    email,
-    website
-  });
+  const body = JSON.stringify({ newJob });
 
   try {
     const res = await axios.post ( BASE_URL + "/api/job", body, config);
@@ -64,7 +46,8 @@ export const addJob = (
       payload: res.data.job
     });
     return 1;
-  } catch (error) {
+  } 
+  catch (error) {
     const errors = error.response.data.errors;
     if (errors) {
       errors.forEach(error => {
@@ -74,6 +57,7 @@ export const addJob = (
     dispatch({
       type: JOB_ADD_FAIL
     });
+    return 0;
   }
 };
 
@@ -88,7 +72,7 @@ export const deleteJob = id => async dispatch => {
     id
   });
   try {
-    const res = await axios.post ( BASE_URL + "/api/job/delete", body, config);
+    await axios.post ( BASE_URL + "/api/job/delete", body, config);
 
     dispatch({
       type: JOB_DELETE_SUCCESS
@@ -125,7 +109,7 @@ export const updateJob = (
   });
 
   try {
-    const res = await axios.post ( BASE_URL + "/api/job/edit", body, config);
+    await axios.post ( BASE_URL + "/api/job/edit", body, config);
 
     dispatch({
       type: JOB_UPDATE_SUCCESS
@@ -185,7 +169,7 @@ export const updateLead = (
   });
 
   try {
-    const res = await axios.post ( BASE_URL + "/api/job/lead/edit", body, config);
+    await axios.post ( BASE_URL + "/api/job/lead/edit", body, config);
 
     dispatch({
       type: LEAD_UPDATE_SUCCESS
@@ -203,5 +187,32 @@ export const updateLead = (
     dispatch({
       type: LEAD_UPDATE_FAIL
     });
+  }
+};
+export const UpdateJobStatus = ( id, updatedData ) => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  const body = JSON.stringify({
+    updatedData
+  });
+  try {
+    await axios.put ( BASE_URL + "/api/job/updateStatus/" + id, body, config);
+    dispatch({ type: JOB_UPDATE_SUCCESS });
+    return 1;
+  } 
+
+  catch (error) {
+    const errors = error.response.data.errors;
+    if (errors) {
+      errors.forEach(error => {
+        dispatch(setAlert(error.msg)); });
+    }
+    dispatch({ type: JOB_UPDATE_FAIL });
+    return 0;
+
   }
 };

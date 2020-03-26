@@ -7,9 +7,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addJob } from "../../actions/job";
 import { withRouter } from "react-router-dom";
-import axios from "axios";
-
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+import { useAlert } from "react-alert";
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -88,6 +86,7 @@ const AddJob = ({ addJob, jobs}) => {
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const [exist, setExist] = useState("");
   const [compExist, setCompExist] = useState([]);
+  const alert = useAlert();
 
   useEffect( () => {
     initializeForm();
@@ -120,7 +119,7 @@ const AddJob = ({ addJob, jobs}) => {
         valid: false,
         touched: false
       },
-      company_name: {
+      companyName: {
         elementType: 'input',
         elementConfig:{
           type: 'text',
@@ -195,7 +194,6 @@ const AddJob = ({ addJob, jobs}) => {
     setFromIsInvalid(true);
   }
   const searchCompany = (companyName) => {
-    console.log(jobs);
     const exist = jobs.filter(item => {
       return item.companyName.toLowerCase() === companyName.toLowerCase();
     });
@@ -248,24 +246,28 @@ const AddJob = ({ addJob, jobs}) => {
       }   
     }
     
-    if(elementIdentifier === 'company_name'){
+    if(elementIdentifier === 'companyName'){
       searchCompany(e.target.value);
     }
     setFormData(updatedForm);
     setFromIsInvalid(!formIsValid);
   }
-  const orderHandler = (e) => {
+  const orderHandler = async(e) => {
     e.preventDefault(); 
-    addJob(
-      formData.company_name.value, 
-      formData.job_title.value, 
-      formData.url.value, 
-      null, //profile
-      formData.location.value,
-      null,//salary
-      formData.email.value,
-      formData.website.value 
-    );
+    const res = await addJob({
+      companyName: formData.companyName.value, 
+      job_title: formData.job_title.value, 
+      url: formData.url.value, 
+      location: formData.location.value,
+      email: formData.email.value,
+      website: formData.website.value 
+    });
+    if(res){
+      alert.success("Job Added successfully...!!");
+    }
+    else{
+      alert.success("Failed to add job...!!");
+    }
   }
 
   const formRender = () => {

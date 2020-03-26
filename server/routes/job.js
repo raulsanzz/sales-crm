@@ -2,8 +2,8 @@ const express = require("express");
 const Route = express.Router();
 const { check, validationResult } = require("express-validator");
 const auth = require("../middleware/auth");
-const sequelize = require("../database/db").Sequelize;
 const db = require("../database/db");
+const sequelize = db.Sequelize;
 const User = db.user;
 const Job = db.job;
 const Op = sequelize.Op;
@@ -46,55 +46,12 @@ Route.post("/", auth, async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    const { company_name, url, job_title, location, salary, email, website } = req.body;
-
-    const registration_number = req.user.user.id;
-
-    //get current user profile name
-    const user_profile = await User.findAll({
-      attributes: ["profile"],
-      where: {
-        registrationNumber: registration_number
-      }
-    }).map(el => el.get("profile"));
-    let profile = user_profile[0];
-    
-    // fetch company profile if already exist
-    const job_company = await Job.findAll({
-      where: { companyName: company_name }
-    }).map(el => el.get("profile"));
-
-    const job_profile = job_company.filter(prop => {
-      return prop.toLowerCase() === profile.toLowerCase();
-    });
-
-    // check if the user profile have alreday applied to this company
-    if (job_profile.length > 0) {
-      return res.status(400).json({
-        errors: [
-          {
-            msg:
-              company_name +
-              " " +
-              "have already applied by" +
-              " " +
-              job_profile[0]
-          }
-        ]
-      });
-    }
     try {
       let job = await Job.create({
-        userId: registration_number,
-        companyName: company_name,
-        job_title,
-        url,
-        profile,
-        salary,
-        location,
+        ...req.body.newJob,
+        userId: req.user.user.id,
         status: "job",
-        email,
-        website
+        profile:"Not Assigned"
       });
       if (job) {
         return res.json({ job });
@@ -343,7 +300,6 @@ Route.get("/count", auth, async (req, res) => {
 });
 // My Leads
 Route.get("/my_leads", auth, async (req, res) => {
-  const id = req.user.user.id;
   try {
     const result = await Job.findAll({
       where: {
@@ -760,5 +716,20 @@ Route.get("/user_daily_job_created", auth, async (req, res) => {
     return res.status(402).json({ msg: "Server Error" });
   }
 });
+//assign to user
+Route.put("/updateStatus/:id", auth, async (req, res) => {
+  try {
+    let result = await Job.update(
+      {
+        ...req.body.updatedData
+      },
+      { where: { id: req.params.id } }
+    );
 
+    res.json({ result });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(402).json({ msg: "Server Error" });
+  }
+});
 module.exports = Route;
