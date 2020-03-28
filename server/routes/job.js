@@ -6,6 +6,7 @@ const db = require("../database/db");
 const sequelize = db.Sequelize;
 const User = db.user;
 const Job = db.job;
+const Profiles = db.profiles;
 const Op = sequelize.Op;
 
 //check url
@@ -42,27 +43,47 @@ Route.get("/check_comp_name", async (req, res) => {
 
 // Create new job
 Route.post("/", auth, async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-    try {
-      let job = await Job.create({
-        ...req.body.newJob,
-        userId: req.user.user.id,
-        status: "job",
-        profile:"Not Assigned"
-      });
-      if (job) {
-        return res.json({ job });
-      }
-
-    } catch (error) {
-      console.log("error------------- ", error.message);
-      return res.status(402).json({ msg: "Server Error" });
-    }
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
   }
-);
+
+  try {
+    const job = await Job.create({
+      ...req.body.newJob,
+      userId: req.user.user.id,
+      status: "job",
+      profile:"Not Assigned"
+    });
+    if (job) {
+      const user = await User.findAll({
+        where: {
+          registrationNumber:  req.user.user.id
+        }
+      })
+      const profiles = await Profiles.findAll();
+      profiles.map( async (profile) => {
+        try {
+          await job.addAppliedWithProfiles(user[0], { through: { profile_id:profile.dataValues.id, applied: false } });
+        }
+        catch (error) {
+          console.log('=================error1===================');
+          console.log(error);
+          console.log('====================================');
+        }
+      })  
+      return res.json({ job });
+    }
+
+  } 
+  catch (error) {
+    console.log('=================error2===================');
+    console.log(error);
+    console.log('====================================');
+    // console.log("error------------- ", error.message);
+    return res.status(402).json({ msg: "Server Error" });
+  }
+});
 
 //Fetch all Job
 

@@ -1,9 +1,18 @@
 "use strict";
 module.exports = (sequelize, Sequelize) => {
-  const Job = sequelize.define("job", {
+  return sequelize.define("jobs", {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+      autoIncrement: true,
+    },
     userId: {
       type: Sequelize.INTEGER,
-      field: "registration_number"
+      references: {         
+        model: 'users',
+        key: 'registration_number'
+      }
     },
     assignTo: {
       type: Sequelize.INTEGER,
@@ -67,5 +76,4 @@ module.exports = (sequelize, Sequelize) => {
     createdAt: Sequelize.DATEONLY,
     updatedAt: Sequelize.DATEONLY
   });
-  return Job;
 };

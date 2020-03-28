@@ -1,12 +1,9 @@
 module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define("user", {
-    id: {
-      type: Sequelize.INTEGER,
-      unique: true
-    },
+  return sequelize.define("users", {
     registrationNumber: {
       type: Sequelize.INTEGER,
       primaryKey: true,
+      unique: true,
       field: "registration_number"
     },
     name: {
@@ -16,17 +13,16 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING
     },
     password: {
-      type: String
+      type: Sequelize.STRING
     },
     role: {
-      type: String
+      type: Sequelize.STRING
     },
     profile: {
-      type: String
+      type: Sequelize.STRING
     },
     //Timestamps
     createdAt: Sequelize.DATEONLY,
     updatedAt: Sequelize.DATEONLY
   });
-  return User;
 };
