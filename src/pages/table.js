@@ -18,7 +18,7 @@ import Button from '@material-ui/core/Button';
 
 // import { fetchJob } from "../../actions/job";
   
-const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler}) => {
+const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, onApplyHandler}) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [match, setMatch] = useState("Search");
@@ -72,34 +72,20 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler})
       };
 
     return(
-        <div className={classes.root}>
-        {
-          tableHeader !== "Job List" ? (
-          <TextField
-            id="search"
-            label={match}
-            margin="normal"
-            type="text"
-            className={classes.textField}
-            placeholder="Search by Company Name ...."
-            onChange={searchHandler}
-            />) : null
-        }
-        <Paper className={classes.paper}>
-        {
-          tableHeader === "Job Links" ? (
-              <FormControl className={classes.formControl}>
-                <InputLabel id="profile-label">Profile</InputLabel>
-                <Select
-                  labelId="profile-label"
-                  id="profile-select">
-                  <MenuItem value={"Ali Muhammad"}>Ali Muhammad</MenuItem>
-                  <MenuItem value={"Aamir khan"}>Aamir khan</MenuItem>
-                  <MenuItem value={"Kevan Jay"}>Kevan Jay</MenuItem>
-                </Select>
-            </FormControl>
-           ) : null  
-        } 
+      <div className={classes.root}>
+      {
+        tableHeader !== "Job List" ? (
+        <TextField
+          id="search"
+          label={match}
+          margin="normal"
+          type="text"
+          className={classes.textField}
+          placeholder="Search by Company Name ...."
+          onChange={searchHandler}
+          />) : null
+      }
+      <Paper className={classes.paper}> 
       <div className={classes.tableWrapper}>
         <h1 className={classes.jobHeader}>{tableHeader}</h1>
         <Table stickyHeader aria-label="sticky table">
@@ -127,7 +113,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler})
                         switch (column.id){
                           case "companyName":
                             return (<TableCell key={column.id} component="th" scope="row">
-                                      {row.companyName}
+                                    { tableHeader === "Job Links" ? row.job.companyName: row.companyName }
                                     </TableCell>)
                           case "client_name":
                           case "profile":
@@ -142,12 +128,12 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler})
                                     </TableCell>)
                           case "url":
                             return(<TableCell key={column.id} align="left">
-                                      {row.url}
-                                   </TableCell>)
+                                    { tableHeader === "Job Links" ? row.job.url: row.url } 
+                                  </TableCell>)
                           case "call_time":
                             return(<TableCell key={column.id} align="center">
                                       {row.call_time} ({row.time_zone})
-                                   </TableCell>)
+                                  </TableCell>)
                           case "device":
                             return (<TableCell key={column.id} align="center">
                                       some Device
@@ -170,10 +156,13 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler})
                                   </TableCell>)
                           case "jobApplyButton":
                             return(<TableCell  key={column.id} align="center">
-                                    <Button variant="contained" disabled>
+                                    {/* <Button variant="contained" disabled>
                                         Applied 
-                                    </Button>
-                                    <Button variant="contained" color="secondary">
+                                    </Button> */}
+                                    <Button 
+                                      variant="contained" 
+                                      color="secondary"
+                                      onClick={() => {onApplyHandler(row)}}>
                                         Apply
                                     </Button>    
                                   </TableCell>)

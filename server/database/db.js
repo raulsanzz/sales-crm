@@ -25,14 +25,12 @@ const sequelize = new Sequelize("sales-crm", "postgres", "Sql1server2!", {
 // });
 
 
-sequelize
-  .authenticate()
-  .then(() => {
+sequelize.authenticate().then(() => {
     console.log("Connection has been established successfully.");
   })
   .catch(err => {
     console.error("Unable to connect to the database:", err);
-  });
+});
 
 const db = {};
 db.Sequelize = Sequelize;
@@ -49,7 +47,6 @@ db.user.belongsToMany( db.job, {
     unique: false
   },
   foreignKey: 'user_id',
-  // as:'appliedJobs'
   constraints: false
 })
 
@@ -88,14 +85,14 @@ db.job.belongsTo(db.user, {
   onDelete: "CASCADE"
 });
 
-sequelize.sync({ force: true })
-  .then(() => {
-    console.log(`Database & tables created!`)
-    db.profiles.bulkCreate([
-      {name: 'Ali Muhammad'},
-      {name: 'Aamir khan'},
-      {name: 'Kevan Jay'},
-    ])
-})
+// sequelize.sync({ force: true })
+//   .then(() => {
+//     console.log(`Database & tables created!`)
+//     db.profiles.bulkCreate([
+//       {name: 'Ali Muhammad'},
+//       {name: 'Aamir khan'},
+//       {name: 'Kevan Jay'},
+//     ])
+// })
 
 module.exports = db;
