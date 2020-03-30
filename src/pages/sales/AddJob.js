@@ -93,87 +93,100 @@ const AddJob = ({ addJob, jobs}) => {
   }, [jobs.length]);
 
   const [formData, setFormData] = useState({
-      job_title: {
-        elementType: 'input',
-        elementConfig:{
-          type: 'text',
-          placeholder: 'Job Title'
-        },
-        value: '',
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false
+    companyName: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Company Name'
       },
-      location: {
-        elementType: 'input',
-        elementConfig:{
-          type: 'text',
-          placeholder: 'Location'
-        },
-        value: '',
-        validation: {
-          required: false
-        },
-        valid: false,
-        touched: false
+      value: '',
+      validation: {
+        required: true
       },
-      companyName: {
-        elementType: 'input',
-        elementConfig:{
-          type: 'text',
-          placeholder: 'Company Name'
-        },
-        value: '',
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false
-      },  
-      url: {
-        elementType: 'input',
-        elementConfig:{
-          type: 'text',
-          placeholder: 'Job Link URL'
-        },
-        value: '',
-        validation: {
-            required: true,
-            urlReg:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
-        },
-        valid: false,
-        touched: false
-      },  
-      email: {
-        elementType: 'input',
-        elementConfig:{
-          type: 'email',
-          placeholder: 'Company Email'
-        },
-        value: '',
-        validation: {
-            required: false,
-            emailReg: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-        },
-        valid: false,
-        touched: false
-      },  
-      website: {
-        elementType: 'input',
-        elementConfig:{
-          type: 'text',
-          placeholder: 'Company Website'
-        },
-        value: '',
-        validation: {
-            required: false,
-            urlReg:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
-        },
-        valid: false,
-        touched: false
+      valid: false,
+      touched: false
+    },  
+    job_title: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Job Title'
       },
+      value: '',
+      validation: {
+        required: true
+      },
+      valid: false,
+      touched: false
+    },    
+    location: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Location'
+      },
+      value: '',
+      validation: {
+        required: false
+      },
+      valid: false,
+      touched: false
+    },  
+    website: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Company Website'
+      },
+      value: '',
+      validation: {
+          required: false,
+          urlReg:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+      },
+      valid: false,
+      touched: false
+    },  
+    email: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'email',
+        placeholder: 'Company Email'
+      },
+      value: '',
+      validation: {
+          required: false,
+          emailReg: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+      },
+      valid: false,
+      touched: false
+    },  
+    number: {
+      elementType: 'text',
+      elementConfig:{
+        type: 'Number',
+        placeholder: 'Company Phone Number'
+      },
+      value: '',
+      validation: {
+          required: false,
+      },
+      valid: false,
+      touched: false
+    },  
+    url: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Job Link URL'
+      },
+      value: '',
+      validation: {
+          required: true,
+          urlReg:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+      },
+      valid: false,
+      touched: false
+    },
   });
   const classes = useStyles();
 
@@ -260,7 +273,8 @@ const AddJob = ({ addJob, jobs}) => {
       url: formData.url.value, 
       location: formData.location.value,
       email: formData.email.value,
-      website: formData.website.value 
+      website: formData.website.value,
+      phone_number: formData.number.value
     });
     if(res){
       alert.success("Job Added successfully...!!");
@@ -283,7 +297,9 @@ const AddJob = ({ addJob, jobs}) => {
           {
             fromElementArray.map( elem => (
               <div key={elem.id} className="form-group">
-                <label>{elem.config.elementConfig.placeholder}</label>
+                <label>
+                  {elem.config.elementConfig.placeholder}
+                  {elem.config.validation.required ? " (*)": null}</label>
                 <input
                   id={elem.id}
                   className="form-control"

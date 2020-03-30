@@ -66,7 +66,7 @@ db.appliedJobs.belongsTo (db.profiles , {foreignKey: 'profile_id'});
 
 // Here we can connect companies and products base on company'id
 db.user.hasMany(db.job, {
-  foreignKey: "userId"
+  foreignKey: "user_id"
 });
 db.user.hasMany(db.job, {
   foreignKey: "assignTo"
@@ -74,7 +74,7 @@ db.user.hasMany(db.job, {
 
 db.job.belongsTo(db.user, {
   as: "jobId",
-  foreignKey: "userId",
+  foreignKey: "user_id",
   targetKey: "registrationNumber",
   onDelete: "CASCADE"
 });

@@ -6,7 +6,6 @@ const db = require("../database/db");
 const sequelize = db.Sequelize;
 const User = db.user;
 const Job = db.job;
-const AppliedJobs = db.appliedJobs;
 const Profiles = db.profiles;
 const Op = sequelize.Op;
 
@@ -52,7 +51,7 @@ Route.post("/", auth, async (req, res) => {
   try {
     const job = await Job.create({
       ...req.body.newJob,
-      userId: req.user.user.id,
+      user_id: req.user.user.id,
       status: "job",
       profile:"Not Assigned"
     });
@@ -756,51 +755,8 @@ Route.put("/updateStatus/:id", auth, async (req, res) => {
   }
 });
 
-//get all applied jobs where applied=false
-Route.get("/appliedjobs",auth, async (req, res) => {
-  try {
-    const appliedJobs = await AppliedJobs.findAll({
-      where: {applied: false},
-      include: [
-        {
-          model: Job,
-          attributes: ["url", "companyName"]
-        }
-      ]
-  })
-  res.json({ appliedJobs }  );
-  } catch (error) {
-    console.log(error.message);
-    return res.status(402).json({ msg: "Server Error" });
-  }
-});
-
-//get all profiles
-Route.get("/profiles",auth, async (req, res) => {
-  try {
-    const profiles = await Profiles.findAll({
-      attributes: ["id", "name"]
-    });
-  res.json({ profiles }  );
-  } catch (error) {
-    console.log(error.message);
-    return res.status(402).json({ msg: "Server Error" });
-  }
-});
 
 
-//update applied jobs 
-Route.put("/appliedjobs",auth, async (req, res) => {
-  try {
-    const updatedJob = await AppliedJobs.update(
-      { applied: true},
-      { where: {...req.body.query}}
-  )
-  res.json( { updatedJob } );
-  } catch (error) {
-    console.log(error.message);
-    return res.status(402).json({ msg: "Server Error" });
-  }
-});
+
 
 module.exports = Route;

@@ -69,9 +69,9 @@ const managerJobLinks = () => {
   
   const fetchAppliedJobs = async () => {
     try {
-      const profiles = await axios.get ( BASE_URL + "/api/job/profiles");
+      const profiles = await axios.get ( BASE_URL + "/api/profile");
       setProfiles(profiles.data.profiles);
-      const jobs =  await axios.get ( BASE_URL + "/api/job/appliedjobs");
+      const jobs =  await axios.get ( BASE_URL + "/api/appliedjob");
       setJobs(jobs.data.appliedJobs);  
     } catch (error) {
       console.log(error);
@@ -100,7 +100,7 @@ const managerJobLinks = () => {
     const body = JSON.stringify({ query });
 
     try {
-      const res =  await axios.put ( BASE_URL + "/api/job/appliedjobs", body, config);
+      const res =  await axios.put ( BASE_URL + "/api/appliedjob", body, config);
       if(res.data.updatedJob.length === 1){
         let updatedJobs = jobs.filter(job => {
           if(job.job_id !== query.job_id || job.profile_id !== query.profile_id || job.user_id !== query.user_id){
