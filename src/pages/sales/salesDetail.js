@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -10,6 +10,7 @@ import Paper from "@material-ui/core/Paper";
 import axios from "axios";
 import Badge from "@material-ui/core/Badge";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -38,52 +39,75 @@ const useStyles = makeStyles(theme => ({
 
 export default function salesDetail() {
   const [data, SetData] = useState([]);
+  const [total, setTotal] = useState({
+    appliedJobs: 0,
+    fetchedJobs: 0
+  })
 
   useEffect(() => {
     axios.get ( BASE_URL + "/api/appliedJob/dailyreport").then(res => {
       SetData(res.data);
     });
   }, []);
-  
-  if (data.length > 0) {
-    var Total = data.reduce(
-      (prev, cur) => parseInt(prev) + parseInt(cur.count),
-      0
-    );
-  }
+
+  useEffect(() => {
+    if(data.length > 0){
+      let newTotal
+
+      if(data.length === 1){
+        newTotal = {
+          appliedJobs: data[0].appliedJobCount > 0 ? data[0].appliedJobCount : '0',
+          fetchedJobs: data[0].fetchedJobCount > 0 ? data[0].fetchedJobCount : '0'
+        }
+      }
+      else{
+        newTotal = data.reduce( (prev, cur) => {
+          return {
+            appliedJobs: parseInt(prev.appliedJobCount) + parseInt(cur.appliedJobCount),
+            fetchedJobs: parseInt(prev.fetchedJobCount) + parseInt(cur.fetchedJobCount)
+          } 
+        });
+      }
+      setTotal({...newTotal});
+    }
+  }, [data.length]);
 
   const classes = useStyles();
 
   return (
     <Paper className={classes.root}>
-      <h1 className={classes.center}>Daily Applied Job Details</h1>
-      <span className={classes.text}>Total Applied Job:</span>
-      <Badge badgeContent={Total} color="secondary"></Badge>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>User Name</TableCell>
-            <TableCell>Fetched Jobs</TableCell>
-            <TableCell>Applied Job</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map(row => (
-            <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
-                temp User
-              </TableCell>
-              <TableCell component="th" scope="row">
-                  temp Fetched jobs
-              </TableCell>
-              <TableCell component="th" scope="row">
-                temp Applied jobs
-                {/* <Badge badgeContent={row.count} color="primary"></Badge> */}
-              </TableCell>
+      { data.length !== 0 ?
+      (<Fragment>
+        <h1 className={classes.center}>Daily Applied Job Details</h1>
+        <span className={classes.text}>Total Applied Job:</span>
+        <Badge badgeContent={total.appliedJobs} color="secondary"></Badge>
+        <span className={classes.text}>Total Fetched Job:</span>
+        <Badge badgeContent={total.fetchedJobs} color="secondary"></Badge>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>User Name</TableCell>
+              <TableCell>Fetched Jobs</TableCell>
+              <TableCell>Applied Job</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {data.map(row => (
+              <TableRow key={row.id}>
+                <TableCell component="th" scope="row">
+                  {row.name}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {row.fetchedJobCount}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {row.appliedJobCount}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Fragment> ) : <p>No Reports</p>}
     </Paper>
   );
 }

@@ -17,6 +17,8 @@ app.use(cors());
 app.use("/api/user", require("./routes/user"));
 app.use("/api/job", require("./routes/job"));
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/appliedjob", require("./routes/appliedJobs"));
+app.use("/api/profile", require("./routes/profile"));
 
 app.get('/*', function(req, res) {
   res.sendFile(path.join(reactBuildPath, 'index.html'));

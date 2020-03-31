@@ -54,7 +54,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
         let lists = filteredJobs;
         if (e.target.value) {
           const newList = lists.filter(item => {
-            const list = item.companyName.toLowerCase();
+            const list  = tableHeader === "Job Links" ? item.job.companyName.toLowerCase(): item.companyName.toLowerCase();
             const filter = e.target.value.toLowerCase();
             return list.includes(filter);
           });
@@ -156,9 +156,6 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                   </TableCell>)
                           case "jobApplyButton":
                             return(<TableCell  key={column.id} align="center">
-                                    {/* <Button variant="contained" disabled>
-                                        Applied 
-                                    </Button> */}
                                     <Button 
                                       variant="contained" 
                                       color="secondary"
