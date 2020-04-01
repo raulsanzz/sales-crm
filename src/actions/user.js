@@ -45,15 +45,7 @@ export const deleteUser = id => async dispatch => {
   }
 };
 
-export const updateUser = (
-  registration_number,
-  name,
-  designation,
-  id,
-  role,
-  profile,
-  history
-) => async dispatch => {
+export const updateUser = ( registrationNumber, updatedData) => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -61,32 +53,27 @@ export const updateUser = (
   };
 
   const body = JSON.stringify({
-    registration_number,
-    name,
-    designation,
-    id,
-    role,
-    profile
+    updatedData
   });
 
   try {
-    const res = await axios.post ( BASE_URL + "/api/user/edit", body, config);
-
+    await axios.put ( BASE_URL + "/api/user/edit/" + registrationNumber, body, config);
     dispatch({
       type: USER_UPDATE_SUCCESS
     });
-    history.push("/user_list/");
-  } catch (error) {
+    return true;
+  } 
+  catch (error) {
     const errors = error.response.data.errors;
     if (errors) {
       errors.forEach(error => {
         dispatch(setAlert(error.msg));
       });
     }
-
     dispatch({
       type: USER_UPDATE_FAIL
     });
+    return false;
   }
 };
 

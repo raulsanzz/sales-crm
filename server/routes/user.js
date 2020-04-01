@@ -116,35 +116,15 @@ Route.delete("/:id", auth, async (req, res) => {
 });
 
 //@POST api/user @user Update
-Route.post(
-  "/edit",
-  auth,
-
-  async (req, res) => {
+Route.put( "/edit/:id", auth, async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-
-    let {
-      registration_number,
-      name,
-      designation,
-      id,
-      role,
-      profile
-    } = req.body;
-    console.log(role);
     try {
       let result = await User.update(
-        {
-          registrationNumber: registration_number,
-          name: name,
-          designation: designation,
-          role,
-          profile
-        },
-        { where: { id: id } }
+        { ...req.body.updatedData },
+        { where: { registrationNumber: req.params.id } }
       );
 
       res.json({ result });
@@ -152,8 +132,7 @@ Route.post(
       console.log(error.message);
       return res.status(402).json({ msg: "Server Error" });
     }
-  }
-);
+  });
 
 Route.post("/details", auth, async (req, res) => {
   const { startDate, endDate } = getPreviousWeekDate();

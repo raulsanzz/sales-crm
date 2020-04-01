@@ -19,14 +19,14 @@ import { useAlert } from "react-alert";
 
 const columns = [
   {
-    id: "Designation",
+    id: "registrationNumber",
     label: "Registration Number",
     minWidth: 100,
 
     format: value => value.toLocaleString()
   },
   {
-    id: "Designation",
+    id: "name",
     label: "Name",
     minWidth: 100,
     align: "right",
@@ -40,14 +40,14 @@ const columns = [
     format: value => value.toLocaleString()
   },
   {
-    id: "Designation",
+    id: "role",
     label: "Role",
     minWidth: 170,
     align: "right",
     format: value => value.toLocaleString()
   },
   {
-    id: "Designation",
+    id: "createdAt",
     label: "Created At",
     minWidth: 170,
     align: "right",
@@ -130,7 +130,7 @@ const userList = ({ fetchUser, users, deleteUser, history }) => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map(row => {
                 return (
-                  <TableRow hover key={row.id}>
+                  <TableRow hover key={row.registrationNumber}>
                     <TableCell component="th" scope="row">
                       {row.registrationNumber}
                     </TableCell>
@@ -139,23 +139,21 @@ const userList = ({ fetchUser, users, deleteUser, history }) => {
                     <TableCell align="right">{row.role}</TableCell>
                     <TableCell align="right">{row.createdAt}</TableCell>
                     <TableCell align="right">
-                      <IconButton aria-label="delete">
-                        <DeleteIcon
-                          fontSize="large"
-                          onClick={() => userDelete(row.registrationNumber)}
-                        />
+                      <IconButton 
+                        aria-label="delete"
+                        onClick={() => userDelete(row.registrationNumber)}>
+                        <DeleteIcon fontSize="large" />
                       </IconButton>
 
-                      <IconButton aria-label="edit">
-                        <EditIcon
-                          fontSize="large"
-                          onClick={() =>
-                            history.push({
-                              pathname: "/edit",
-                              state: { detail: row }
-                            })
-                          }
-                        />
+                      <IconButton 
+                        aria-label="edit"
+                        onClick={() =>
+                          history.push({
+                            pathname: "/edit",
+                            state: { detail: row }
+                          })
+                        }>
+                        <EditIcon fontSize="large" />
                       </IconButton>
                     </TableCell>
                   </TableRow>

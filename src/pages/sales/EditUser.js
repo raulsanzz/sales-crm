@@ -58,59 +58,42 @@ const styles = theme => ({
   }
 });
 
-const editUser = ({ classes, children, history, location, updateUser }) => {
+const editUser = ({ classes, history, location, updateUser }) => {
   const alert = useAlert();
   const [formData, setFormData] = useState(location.state.detail);
-  const [open, setOpen] = useState(false);
-  const { registrationNumber, name, designation, id } = formData;
-  const [role, setRole] = useState(formData.role);
-  const [profile, setProfile] = useState(formData.profile);
   const onChangeHandler = e => {
     setFormData({
       ...formData,
       [e.target.id]: e.target.value
     });
   };
-  const onSubmitHandler = e => {
+  const onSubmitHandler = async(e) => {
     e.preventDefault();
-
-    updateUser(
-      registrationNumber,
-      name,
-      designation,
-      id,
-      role,
-      profile,
-      history
-    );
-    alert.success("User Updated !");
+    const res = await updateUser( formData.registrationNumber,{ name: formData.name, role: formData.role });
+    if(res){
+      alert.success("User Updated...!");
+      history.push("/user_list/");
+    }
+    else{
+      alert.success("Failed to Update User..!!");
+    }
   };
 
   const roleHandler = e => {
-    console.log("roleHandler ::::::::::::: ", e.target.value);
-    setRole(e.target.value);
+    setFormData({
+      ...formData,
+      role: e.target.value
+    });
   };
 
-  const profileHandler = e => {
-    setProfile(e.target.value);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
   return (
     <React.Fragment>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          <IconButton aria-label="edit">
-            <ArrowBackIcon
-              fontSize="large"
-              onClick={() => history.push("/user_list/")}
-            />
+          <IconButton 
+            aria-label="edit"
+            onClick={() => history.push("/user_list/")}>
+            <ArrowBackIcon fontSize="large" />
           </IconButton>
           <Avatar className={classes.avatar}>
             <Edit />
@@ -152,13 +135,9 @@ const editUser = ({ classes, children, history, location, updateUser }) => {
 
             <InputLabel id="demo-controlled-open-select-label">Role</InputLabel>
             <Select
-              // open={open}
-              // onClose={handleClose}
-              // onOpen={handleOpen}
               onChange={roleHandler}
               className={classes.textField}
-              value={role}
-            >
+              value={formData.role}>
               <MenuItem value="None">
                 <em>None</em>
               </MenuItem>
@@ -167,31 +146,11 @@ const editUser = ({ classes, children, history, location, updateUser }) => {
               <MenuItem value="sales_executive">Sales Exective</MenuItem>
             </Select>
 
-            {/* <InputLabel id="demo-controlled-open-select-label">
-              Profile
-            </InputLabel>
-            <Select
-              // open={open}
-              // onClose={handleClose}
-              // onOpen={handleOpen}
-              onChange={profileHandler}
-              className={classes.textField}
-              value={profile}
-            >
-              <MenuItem value="None">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value="Ali Muhammad">Ali Muhammad</MenuItem>
-              <MenuItem value="Amir Khan">Amir Khan</MenuItem>
-              <MenuItem value="Kevan Jay">Kevn Jay</MenuItem>
-            </Select> */}
-
             <Button
               variant="contained"
               color="primary"
               type="submit"
-              className={classes.button}
-            >
+              className={classes.button}>
               Update User
             </Button>
           </form>
