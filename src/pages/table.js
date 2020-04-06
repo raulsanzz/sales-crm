@@ -95,8 +95,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                 <TableCell
                   key={column.id === "list" ? column.placeholder : column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
+                  style={{ minWidth: column.minWidth }}>
                   {column.label}
                 </TableCell>
               ))}
@@ -116,7 +115,6 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                     { tableHeader === "Job Links" ? row.job.companyName: row.companyName }
                                     </TableCell>)
                           case "client_name":
-                          case "profile":
                           case "status":
                           case "lead_status":
                           case "call_date":
@@ -125,6 +123,10 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                           case "createdAt":
                             return (<TableCell key={column.id} align="center">
                                       {row[column.id]}
+                                    </TableCell>)
+                          case "profile":
+                            return (<TableCell key={column.id} align="center">
+                                      {row.profile.name}
                                     </TableCell>)
                           case "url":
                             return(<TableCell key={column.id} align="left">
@@ -148,7 +150,11 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                           value={row[column.placeholder]}
                                           onChange={(event) => {handleChange(event, row, column.placeholder)}}>
                                             { column.listItems.map(item => {
-                                                return <MenuItem key={item} value={item}>{item}</MenuItem>
+                                                return (
+                                                column.placeholder === 'profile_id' ?
+                                                <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                                                :<MenuItem key={item} value={item}>{item}</MenuItem>
+                                                )
                                               })
                                             }
                                         </Select>
@@ -180,7 +186,8 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                     <Button 
                                       variant="contained" 
                                       color="primary"
-                                      onClick={() => {onUpdateHandler(row.id, { profile:row.profile, status: row.status})}}>
+                                      disabled={row.profile_id === null || row.status === "job"}
+                                      onClick={() => {onUpdateHandler(row.id, { profile_id:row.profile_id, status: row.status})}}>
                                         Update
                                     </Button>
                                   </TableCell>

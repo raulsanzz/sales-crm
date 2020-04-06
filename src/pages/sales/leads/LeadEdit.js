@@ -82,16 +82,29 @@ const editLead = ({ classes, children, history, location, updateLead }) => {
       },
       valid: false,
       touched: false
-    },
-    call_time: {
+    },  
+    location: {
       elementType: 'input',
       elementConfig:{
         type: 'text',
-        placeholder: 'Call Time'
+        placeholder: 'Client Location'
       },
-      value: location.state.detail.call_time,
+      value:  location.state.detail.location,
       validation: {
-        required: false
+        required: false,
+      },
+      valid: false,
+      touched: false
+    },
+    time_zone: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Client Time Zone'
+      },
+      value:  location.state.detail.time_zone,
+      validation: {
+          required: false,
       },
       valid: false,
       touched: false
@@ -108,7 +121,7 @@ const editLead = ({ classes, children, history, location, updateLead }) => {
       },
       valid: false,
       touched: false
-    },  
+    },
     call_date: {
       elementType: 'input',
       elementConfig:{
@@ -121,33 +134,21 @@ const editLead = ({ classes, children, history, location, updateLead }) => {
       },
       valid: false,
       touched: false
-    },  
-    time_zone: {
+    },
+    call_time: {
       elementType: 'input',
       elementConfig:{
         type: 'text',
-        placeholder: 'Client Time Zone'
+        placeholder: 'Call Time'
       },
-      value:  location.state.detail.time_zone,
+      value: location.state.detail.call_time,
       validation: {
-          required: false,
+        required: false
       },
       valid: false,
       touched: false
     },  
-    location: {
-      elementType: 'input',
-      elementConfig:{
-        type: 'text',
-        placeholder: 'Client Location'
-      },
-      value:  location.state.detail.location,
-      validation: {
-        required: false,
-      },
-      valid: false,
-      touched: false
-    },  
+      
     device: {
       elementType: 'input',
       elementConfig:{

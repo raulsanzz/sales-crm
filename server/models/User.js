@@ -18,9 +18,6 @@ module.exports = (sequelize, Sequelize) => {
     role: {
       type: Sequelize.STRING
     },
-    profile: {
-      type: Sequelize.STRING
-    },
     //Timestamps
     createdAt: Sequelize.DATEONLY,
     updatedAt: Sequelize.DATEONLY

@@ -48,12 +48,12 @@ const managerJobLinks = ({fetchJob, jobs, history}) => {
 
     useEffect(() => {
         fetchJob();
-        // let arr = jobs.filter(job => {
-        //   return(
-        //       job.status === 'job' ? job : null
-        //   )
-        // })
-        setFilteredJobs(jobs);
+        let arr = jobs.filter(job => {
+          return(
+              job.status === 'lead' ? job : null
+          )
+        })
+        setFilteredJobs(arr);
       }, [jobs.length]);
 
     return(

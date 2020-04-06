@@ -52,8 +52,7 @@ Route.post("/", auth, async (req, res) => {
     const job = await Job.create({
       ...req.body.newJob,
       user_id: req.user.user.id,
-      status: "job",
-      profile:"Not Assigned"
+      status: "job"
     });
     if (job) {
       const user = await User.findAll({
@@ -67,7 +66,7 @@ Route.post("/", auth, async (req, res) => {
           await job.addAppliedWithProfiles(user[0], { through: { profile_id:profile.dataValues.id, applied: false } });
         }
         catch (error) {
-          console.log('=================error1===================');
+          console.log('====================================');
           console.log(error);
           console.log('====================================');
         }
@@ -77,7 +76,7 @@ Route.post("/", auth, async (req, res) => {
 
   } 
   catch (error) {
-    console.log('=================error2===================');
+    console.log('====================================');
     console.log(error);
     console.log('====================================');
     // console.log("error------------- ", error.message);
@@ -727,6 +726,10 @@ Route.get("/user_daily_job_created", auth, async (req, res) => {
         {
           model: User,
           as: "jobId",
+          attributes: ["name"]
+        },
+        {
+          model: Profiles,
           attributes: ["name"]
         }
       ]

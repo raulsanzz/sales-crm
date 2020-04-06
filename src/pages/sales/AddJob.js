@@ -79,13 +79,19 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center",
     fontSize: "20px",
     color: "red"
+  },
+  ifCompExist:{
+    marginBottom: "5px",
+    fontSize: "15px",
+    display: "inline-block",
+    width: "50%"
   }
 }));
 
 const AddJob = ({ addJob, jobs}) => {
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const [exist, setExist] = useState("");
-  const [compExist, setCompExist] = useState([]);
+  const [compExist, setCompExist] = useState(null);
   const alert = useAlert();
 
   useEffect( () => {
@@ -210,12 +216,11 @@ const AddJob = ({ addJob, jobs}) => {
     const exist = jobs.filter(item => {
       return item.companyName.toLowerCase() === companyName.toLowerCase();
     });
-
     if (exist.length > 0) {
-      setCompExist(exist);
+      setCompExist(exist[0]);
       setExist(true);
     } else {
-      setCompExist([]);
+      setCompExist(null);
       setExist(false);
     }
   };
@@ -325,93 +330,51 @@ const AddJob = ({ addJob, jobs}) => {
     return form;
   }
     return (
-      <div>
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <HowToReg />
-        </Avatar>
-        <Typography
-          className={classes.typography}
-          align="center"
-          variant="headline"
-          >
-          Add new Job
-        </Typography>
-        {formRender()}
-      </div>
-      {compExist.length > 0 ? (
-        <div className={classes.compExist}>
-          <h1 className={classes.header}>Job Alredy Exist</h1>
-          <ul style={{ listStyleType: "none", textAlign: "left", margin: "0" }}>
-            {compExist.map((comp, index) => {
-              return (
-                <Fragment>
-                  <li
-                    style={{
-                      marginBottom: "5px",
-                      fontSize: "15px",
-                      display: "inline-block",
-                      width: "50%"
-                    }}
-                  >
-                    <b style={{ marginRight: "10px" }}>Company Name:</b>
-                    <span>{comp.companyName}</span>
-                  </li>
-                  <li
-                    style={{
-                      marginBottom: "5px",
-                      fontSize: "15px",
-                      display: "inline-block",
-                      width: "50%"
-                    }}
-                  >
-                    <b style={{ marginRight: "10px" }}>URL:</b>
-                    <span>{comp.url}</span>
-                  </li>
-                  <li
-                    style={{
-                      marginBottom: "5px",
-                      fontSize: "15px",
-                      display: "inline-block",
-                      width: "50%"
-                    }}
-                  >
-                    <b style={{ marginRight: "10px" }}>Job Title:</b>
-                    <span>{comp.job_title}</span>
-                  </li>
-                  <li
-                    style={{
-                      marginBottom: "5px",
-                      fontSize: "15px",
-                      display: "inline-block",
-                      width: "50%"
-                    }}
-                  >
-                    <b style={{ marginRight: "10px" }}>Profile:</b>{" "}
-                    <span>{comp.profile}</span>
-                  </li>
-                  <li
-                    style={{
-                      marginBottom: "5px",
-                      fontSize: "15px",
-                      display: "inline-block",
-                      width: "50%"
-                    }}
-                  >
-                    <b style={{ marginRight: "10px" }}> CreateAt:</b>
-                    <span>{comp.createdAt}</span>
-                  </li>
-                  <hr></hr>
-                </Fragment>
-              );
-            })}
-          </ul>
+      <Fragment>
+        {/* form to add job */}
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <HowToReg />
+          </Avatar>
+          <Typography
+            className={classes.typography}
+            align="center"
+            variant="headline"
+            >
+            Add new Job
+          </Typography>
+          {formRender()}
         </div>
-      ) : (
-        <div></div>
-      )}
-    </div>
-  );
+
+        {/* display card if company already exists */}
+        {compExist !== null ? (
+          <div className={classes.compExist}>
+            <h1 className={classes.header}>Job Alredy Exist</h1>
+            <ul style={{ listStyleType: "none", textAlign: "left", margin: "0" }}>
+              <li className={classes.ifCompExist}>
+                <b style={{ marginRight: "10px" }}>Company Name:</b>
+                <span>{compExist.companyName}</span>
+              </li>
+              <li className={classes.ifCompExist}>
+                <b style={{ marginRight: "10px" }}>URL:</b>
+                <span>{compExist.url}</span>
+              </li>
+              <li className={classes.ifCompExist}>
+                <b style={{ marginRight: "10px" }}>Job Title:</b>
+                <span>{compExist.job_title}</span>
+              </li>
+              <li className={classes.ifCompExist}>
+                <b style={{ marginRight: "10px" }}>Profile:</b>
+                <span>{ compExist.profile_id !== null ? compExist.profile.name : "None" }</span>
+              </li>
+              <li className={classes.ifCompExist}>
+                <b style={{ marginRight: "10px" }}> Created at:</b>
+                <span>{compExist.createdAt}</span>
+              </li>
+            </ul>
+          </div>) : null 
+        }
+    </Fragment>);
 };
 
 const mapStateToProps = state => ({

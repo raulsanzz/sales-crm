@@ -120,7 +120,7 @@ const editJob = ({ classes, children, history, location, updateJob }) => {
               margin="normal"
               type="text"
               className={classes.textField}
-              value={formData.profile}
+              value={formData.profile.name}
               onChange={onChangeHandler}
             />
             <TextField

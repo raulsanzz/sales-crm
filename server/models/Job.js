@@ -27,8 +27,12 @@ module.exports = (sequelize, Sequelize) => {
       unique: true,
       field: "company_name"
     },
-    profile: {
-      type: Sequelize.STRING
+    profile_id: {
+      type: Sequelize.INTEGER,
+      references: {         
+        model: 'profiles',
+        key: 'id'
+      }
     },
     job_title: {
       type: Sequelize.STRING

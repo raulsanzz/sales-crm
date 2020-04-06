@@ -15,10 +15,12 @@ const options = {
   timeout: 5000,
   position: positions.TOP_RIGHT
 };
+
 export default () => {
   React.useEffect(() => {
     store.dispatch(loadUser());
   }, []);
+
   return (
     <Provider template={AlertTemplate} {...options}>
       <AppRouter />
