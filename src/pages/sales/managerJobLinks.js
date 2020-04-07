@@ -135,7 +135,7 @@ const managerJobLinks = () => {
       </FormControl>
       {
         selectedProfile === null ? (
-        <p> please select a profile </p>):  
+        <p style={{color:'red'}}> Please select a profile first.</p>):  
         filteredJobs.length >= 1 ? (
           <Table 
             // history={history}

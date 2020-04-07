@@ -93,7 +93,7 @@ const mailFolderListItems = ({ user, classes }) => {
             ""
           )}
           
-          {raceName === "admin" ? (
+          {raceName === "sales_executive" || raceName === "admin" ? (
             <ListItem button component={Link} to="/manager_job_links">
               <ListItemIcon>
                 <LinkIcon className={classes.root} />
@@ -115,7 +115,7 @@ const mailFolderListItems = ({ user, classes }) => {
             ""
           )}
 
-          {raceName === "admin" ? (
+          {raceName === "sales_executive" || raceName === "admin" ? (
             <ListItem button component={Link} to="/sales_daily_details">
               <ListItemIcon>
                 <WorkIcon className={classes.root} />

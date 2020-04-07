@@ -56,6 +56,9 @@ const styles = theme => ({
     width: "100%",
     marginTop: "5%"
   },
+  textField:{
+    width: "100%",
+  },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
@@ -280,7 +283,7 @@ const onChangeHandler = (e, elementIdentifier) => {
           {
             fromElementArray.map( elem => (
               elem.id === "interview_status" ? (
-                <FormControl className={classes.formControl} key={elem.id}>
+                <FormControl className={classes.formControl, classes.textField} key={elem.id}>
                   <InputLabel id={`${elem.id}-label`}>{elem.config.elementConfig.placeholder}</InputLabel>
                     <Select
                     labelId={`${elem.id}-label`}
