@@ -16,7 +16,6 @@ const columns = [
   { id: "location", label: "Location", minWidth: 170, align: "center" },
   { id: "status", label: "Status", minWidth: 170, align: "center" },
   { id: "createdAt", label: "Applied Date", minWidth: 170, align: "center" }
-// format: value => value.toFixed(2)
 ];
 
 const useStyles = makeStyles({

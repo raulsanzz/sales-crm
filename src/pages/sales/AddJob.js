@@ -26,7 +26,6 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     border: "2px solid 6c697859",
     boxShadow: theme.shadows[5],
-
     width: "41%",
     float: "right",
     marginTop: "-481px"
