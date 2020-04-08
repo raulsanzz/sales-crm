@@ -109,46 +109,46 @@ const DashboardPage = ({ user }) => {
   return (
     <React.Fragment>
       {raceName === "manager" || raceName === "admin" ? (
-        <div class="row">
-          <div class="col-md-5 offset-md-1">
-            <div style={jumbo} class="jumbotron jumbotron-fluid">
-              <h1 style={h1} class="text-center">
+        <div className="row">
+          <div className="col-md-5 offset-md-1">
+            <div style={jumbo} className="jumbotron jumbotron-fluid">
+              <h1 style={h1} className="text-center">
                 Previous Week Report
               </h1>
-              <ul style={ul} class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+              <ul style={ul} className="list-group">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Applied Job
-                  <span class="badge badge-primary badge-pill">
+                  <span className="badge badge-primary badge-pill">
                     {job.length}
                   </span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Leads
-                  <span class="badge badge-primary badge-pill">
+                  <span className="badge badge-primary badge-pill">
                     {lead.length}
                   </span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Good Leads
-                  <span class="badge badge-primary badge-pill">
+                  <span className="badge badge-primary badge-pill">
                     {goodLead.length}
                   </span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Hot Leads
-                  <span class="badge badge-primary badge-pill">
+                  <span className="badge badge-primary badge-pill">
                     {hotLead.length}
                   </span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Closed Leads
-                  <span class="badge badge-primary badge-pill">
+                  <span className="badge badge-primary badge-pill">
                     {closedLead.length}
                   </span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Rejected Leads
-                  <span class="badge badge-primary badge-pill">
+                  <span className="badge badge-primary badge-pill">
                     {rejectlead.length}
                   </span>
                 </li>
@@ -156,45 +156,45 @@ const DashboardPage = ({ user }) => {
             </div>
           </div>
 
-          <div class="col-md-5">
-            <div style={jumbo} class="jumbotron jumbotron-fluid">
-              <h1 style={h1} class="text-center">
+          <div className="col-md-5">
+            <div style={jumbo} className="jumbotron jumbotron-fluid">
+              <h1 style={h1} className="text-center">
                 Previous Month Report
               </h1>
-              <ul style={ul} class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+              <ul style={ul} className="list-group">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Applied Job
-                  <span class="badge badge-primary badge-pill">
+                  <span className="badge badge-primary badge-pill">
                     {mJob.length}
                   </span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Leads
-                  <span class="badge badge-primary badge-pill">
+                  <span className="badge badge-primary badge-pill">
                     {mLead.length}
                   </span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Good Leads
-                  <span class="badge badge-primary badge-pill">
+                  <span className="badge badge-primary badge-pill">
                     {mGoodLead.length}
                   </span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Hot Leads
-                  <span class="badge badge-primary badge-pill">
+                  <span className="badge badge-primary badge-pill">
                     {mHotLead.length}
                   </span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Closed Leads
-                  <span class="badge badge-primary badge-pill">
+                  <span className="badge badge-primary badge-pill">
                     {mClosedLead.length}
                   </span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Rejected Leads
-                  <span class="badge badge-primary badge-pill">
+                  <span className="badge badge-primary badge-pill">
                     {mRejectlead.length}
                   </span>
                 </li>

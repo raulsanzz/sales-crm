@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Router, Switch } from "react-router-dom";
-import createBrowserHistory from "history/createBrowserHistory";
+import {createBrowserHistory} from "history";
 
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
@@ -24,6 +24,7 @@ import UserReport from "../pages/sales/user/UserReport";
 import UserDetails from "../pages/sales/user/UserDetails";
 import ManagerJobLinks from "../pages/sales/managerJobLinks";
 import ManagerJobList from '../pages/sales/managerJobList';
+import LeadStatus from '../pages/sales/leadStatus';
 import ManagerLeads from '../pages/sales/managerLeads';
 import ScheduledLeads from '../pages/sales/leads/scheduledLeads';
 import SalesTest from '../pages/sales/test';
@@ -61,6 +62,7 @@ export default () => {
           <PrivateRoute path="/voice" component={Voice} />
           <PrivateRoute path="/sales_test" component={SalesTest} />
           <PrivateRoute path="/sales_test_edit" component={EditSalesTest} />
+          <PrivateRoute path="/leads" component={LeadStatus} />
         </Switch>
       </Router>
     </Fragment>

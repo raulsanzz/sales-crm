@@ -175,7 +175,7 @@ const mailFolderListItems = ({ user, classes }) => {
           )}
 
           {raceName === "sales_manager" || raceName === "admin" ? (
-            <ListItem button component={Link} to="/sales_daily_details">
+            <ListItem button component={Link} to="/leads">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
               </ListItemIcon>

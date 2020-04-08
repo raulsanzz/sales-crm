@@ -54,6 +54,11 @@ const scheduledLeads = ({fetchJob, jobs}) => {
   useEffect(() => {
       fetchJob();
       let arr = jobs.filter(job => {
+        console.log('====================================');
+        console.log(job.call_date > new Date());
+        console.log(new Date(job.call_date));
+        console.log(job.call_date);
+        console.log('====================================');
         return(
             job.status !== 'job' ? job : null
         )

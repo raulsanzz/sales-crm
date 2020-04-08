@@ -1,4 +1,4 @@
-import React from "react";
+import React , { Fragment }from "react";
 import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import compose from "recompose/compose";
@@ -32,7 +32,6 @@ const styles = theme => ({
   },
   appFrame: {
     height: "100vh",
-    width: "100vw",
     zIndex: 1,
     overflow: "scroll",
     position: "relative",
@@ -94,7 +93,7 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
@@ -134,49 +133,41 @@ class NavMain extends React.Component {
 
   renderButtons = () => {
     const { auth, classes, user } = this.props;
-
-    if (user) {
-      for (var i = 0; i < user.length; i++) {
-        var name = user[i].name;
-        var profile = user[i].profile;
-      }
+    if (user &&user.length > 0) {
+      var name = user[0].name;      
     }
     if (auth) {
       return (
-        <React.Fragment>
-          <h4 className={classes.h4}>Profile name: {profile}</h4>
-
+        <Fragment>
+          <h5 className={classes.h4}>User Name: {name}</h5>
           <Button
             onClick={this.handleLogout}
             color="inherit"
             to="/"
             component={Link}
-            className={classes.rightMostButton}
-          >
+            className={classes.rightMostButton}>
             Log Out
           </Button>
-        </React.Fragment>
+        </Fragment>
       );
     } else {
       return (
-        <React.Fragment>
+        <Fragment>
           <Button
             color="inherit"
             to="/"
             component={Link}
-            className={classes.pushRight}
-          >
+            className={classes.pushRight}>
             Login
           </Button>
           <Button
             to="/signup"
             component={Link}
             color="inherit"
-            className={classes.rightMostButton}
-          >
+            className={classes.rightMostButton}>
             Sign Up
           </Button>
-        </React.Fragment>
+        </Fragment>
       );
     }
   };
@@ -202,13 +193,6 @@ class NavMain extends React.Component {
   render() {
     const { classes, theme, children, user, auth } = this.props;
     const { anchor, open } = this.state;
-    if (user) {
-      for (var i = 0; i < user.length; i++) {
-        var name = user[i].name;
-        var profile = user[i].profile;
-        var registrer = user[i].registrationNumber;
-      }
-    }
     var drawer = (
       <Drawer
         variant="persistent"
@@ -216,14 +200,11 @@ class NavMain extends React.Component {
         open={open}
         classes={{
           paper: classes.drawerPaper
-        }}
-      >
+        }}>
         <div className={classes.drawerHeader}>
-          <h4 className={classes.header}>{name}</h4>
           <IconButton
             className={classes.color}
-            onClick={this.handleDrawerClose}
-          >
+            onClick={this.handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (
@@ -254,8 +235,7 @@ class NavMain extends React.Component {
             className={classNames(classes.appBar, {
               [classes.appBarShift]: open,
               [classes[`appBarShift-${anchor}`]]: open
-            })}
-          >
+            })}>
             <Toolbar disableGutters={!open}>
               {auth ? (
                 <IconButton
@@ -265,24 +245,18 @@ class NavMain extends React.Component {
                   className={classNames(
                     classes.menuButton,
                     open && classes.hide
-                  )}
-                >
+                  )}>
                   <MenuIcon />
-                </IconButton>
-              ) : (
-                " "
-              )}
+                </IconButton>) : ''
+              }
               <Typography
                 component={Link}
                 className={classes.logoText}
                 to="/"
-                variant="title"
                 color="inherit"
-                noWrap
-              >
+                noWrap>
                 Cloud Tek
               </Typography>
-
               {this.renderButtons()}
             </Toolbar>
           </AppBar>
@@ -295,16 +269,14 @@ class NavMain extends React.Component {
                 [classes.contentShift]: open,
                 [classes[`contentShift-${anchor}`]]: open
               }
-            )}
-          >
+            )}>
             <div className={classes.drawerHeader} />
             {children}
           </main>
           {after}
         </div>
       </div>
-    );
-  }
+    )}; //end of return/ render
 }
 
 NavMain.propTypes = {
@@ -312,7 +284,6 @@ NavMain.propTypes = {
   theme: PropTypes.object.isRequired,
   auth: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired,
-  user: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
