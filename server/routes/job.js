@@ -13,8 +13,6 @@ const Op = sequelize.Op;
 Route.get("/check_url", async (req, res) => {
   const url = req.query.url;
 
-  if (url) {
-  }
   const exist = await Job.count({
     where: { url: url }
   });
@@ -85,44 +83,38 @@ Route.post("/", auth, async (req, res) => {
 });
 
 //Fetch all Job
-
 Route.get("/", auth, async (req, res) => {
   try {
     const result = await Job.findAll({
-      where: {
-        status: "job"
-      },
       include: [
         {
           model: User,
           as: "jobId",
           attributes: ["name"]
+        },
+        {
+          model: Profiles,
+          attributes: ["name"]
         }
       ]
     });
-    if (result) {
-      res.json({ result });
-    }
+    res.json({ result });
   } catch (error) {
     console.log(error.message);
     return res.status(402).json({ msg: "Server Error" });
   }
 });
 
-//Fetch all leads
-
-Route.get("/leads", auth, async (req, res) => {
+//Update job
+Route.put("/update/:id", auth, async (req, res) => {
   try {
-    const result = await Job.findAll({
-      where: {
-        status: {
-          [Op.notLike]: "job"
-        }
-      }
-    });
-    if (result) {
-      res.json({ result });
-    }
+    let result = await Job.update({
+        ...req.body.updatedData
+      },
+      { where: { id: req.params.id } }
+    );
+
+    res.json({ result });
   } catch (error) {
     console.log(error.message);
     return res.status(402).json({ msg: "Server Error" });
@@ -149,74 +141,25 @@ Route.post("/delete", auth, async (req, res) => {
   }
 });
 
-//Update Job
-Route.post(
-  "/edit",
-  [
-    auth,
-    [
-      check("company_name", "Company Name is required")
-        .not()
-        .isEmpty(),
-      check("url", "URL Name is required")
-        .not()
-        .isEmpty(),
-      check("profile", "Profile name is required")
-        .not()
-        .isEmpty()
-    ]
-  ],
 
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-    const { id, company_name, url, profile, job_title, salary } = req.body;
-
-    const company = await Job.count({
-      where: { companyName: company_name }
-    });
-
-    if (company) {
-      return res
-        .status(400)
-        .json({ errors: [{ msg: "Company Name Already Exist" }] });
-    }
-
-    const link = await Job.count({
-      where: { url: url }
-    });
-
-    if (link) {
-      return res.status(400).json({ errors: [{ msg: "Url Already Exist" }] });
-    }
-
-    const job = await Job.count({
-      where: { id: id }
-    });
-
-    if (job) {
-      try {
-        let result = await Job.update(
-          {
-            companyName: company_name,
-            url,
-            profile,
-            job_title,
-            salary
-          },
-          { where: { id: id } }
-        );
-
-        res.json({ result });
-      } catch (error) {
-        console.log(error.message);
-        return res.status(402).json({ msg: "Server Error" });
+//Fetch all leads
+Route.get("/leads", auth, async (req, res) => {
+  try {
+    const result = await Job.findAll({
+      where: {
+        status: {
+          [Op.notLike]: "job"
+        }
       }
+    });
+    if (result) {
+      res.json({ result });
     }
+  } catch (error) {
+    console.log(error.message);
+    return res.status(402).json({ msg: "Server Error" });
   }
-);
+});
 
 //changed status
 Route.post("/changed_staus", auth, async (req, res) => {
@@ -717,49 +660,5 @@ Route.get("/status_rejected_lead_monthly_count", auth, async (req, res) => {
     return res.status(402).json({ msg: "Server Error" });
   }
 });
-
-// user daily job created
-Route.get("/user_daily_job_created", auth, async (req, res) => {
-  try {
-    const result = await Job.findAll({
-      include: [
-        {
-          model: User,
-          as: "jobId",
-          attributes: ["name"]
-        },
-        {
-          model: Profiles,
-          attributes: ["name"]
-        }
-      ]
-    });
-    res.json({ result });
-  } catch (error) {
-    console.log(error.message);
-    return res.status(402).json({ msg: "Server Error" });
-  }
-});
-
-//update job status
-Route.put("/updateStatus/:id", auth, async (req, res) => {
-  try {
-    let result = await Job.update(
-      {
-        ...req.body.updatedData
-      },
-      { where: { id: req.params.id } }
-    );
-
-    res.json({ result });
-  } catch (error) {
-    console.log(error.message);
-    return res.status(402).json({ msg: "Server Error" });
-  }
-});
-
-
-
-
 
 module.exports = Route;

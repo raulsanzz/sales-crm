@@ -18,7 +18,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import { useAlert } from "react-alert";
 
-import { UpdateJobStatus } from "../../../actions/job";
+import { updateJob } from "../../../actions/job";
 
 const styles = theme => ({
   layout: {
@@ -71,7 +71,7 @@ const styles = theme => ({
   },
 });
 
-const editLead = ({ classes, history, location, UpdateJobStatus }) => {
+const editLead = ({ classes, history, location, updateJob }) => {
 
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const alert = useAlert();
@@ -306,7 +306,7 @@ const onChangeHandler = (e, elementIdentifier) => {
       interview_status: formData.interview_status.value,
       call_status: formData.call_status.value
     }
-    const res = await UpdateJobStatus(location.state.detail.id, updateData)
+    const res = await updateJob(location.state.detail.id, updateData)
     if(res){
       alert.success("Lead updated successfully...!!");
       history.goBack()
@@ -399,12 +399,7 @@ const onChangeHandler = (e, elementIdentifier) => {
   );
 };
 
-editLead.propTypes = {
-  classes: PropTypes.object.isRequired,
-  updateLead: PropTypes.func.isRequired
-};
-
 export default compose(
   withStyles(styles),
-  connect(null, { UpdateJobStatus })
+  connect(null, { updateJob })
 )(editLead);

@@ -6,7 +6,7 @@ import { useAlert } from "react-alert";
 import Table from "../table";
 import axios from "axios";
 
-import { fetchJob, UpdateJobStatus } from "../../actions/job";
+import { fetchJob, updateJob } from "../../actions/job";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -41,7 +41,7 @@ const useStyles = makeStyles( theme => ({
   },
 }));
 
-const managerJobLinks = ({fetchJob, jobs, history, UpdateJobStatus}) => {
+const managerJobLinks = ({fetchJob, jobs, history, updateJob}) => {
   const classes = useStyles();
   const alert = useAlert();
   const [jobUpdated, setJobUpdated] = useState(false);
@@ -75,7 +75,7 @@ const managerJobLinks = ({fetchJob, jobs, history, UpdateJobStatus}) => {
     }
   };
   const jobUpdateHandeler = async(id, updateData) => {
-    const res = await UpdateJobStatus(id, updateData)
+    const res = await updateJob(id, updateData)
     if(res){
       alert.success("Job updated successfully...!!");
       await fetchJob() 
@@ -108,4 +108,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default  connect(mapStateToProps, { UpdateJobStatus, fetchJob })(managerJobLinks);
+export default  connect(mapStateToProps, { updateJob, fetchJob })(managerJobLinks);

@@ -11,7 +11,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import IconButton from "@material-ui/core/IconButton";
 import { connect } from "react-redux";
-import { Redirect, withRouter } from "react-router-dom";
 import compose from "recompose/compose";
 import { updateJob } from "../../actions/job";
 
@@ -32,21 +31,20 @@ const styles = theme => ({
   },
   paper: {
     minHeight: "300px",
-    marginTop: theme.spacing.unit * 8,
-    marginBottom: theme.spacing.unit * 8,
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`
   },
   avatar: {
-    margin: `${theme.spacing.unit}px auto`,
+    margin: `${theme.spacing()}px auto`,
     backgroundColor: theme.palette.secondary.main
   },
   textField: {
-    marginTop: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
+    marginRight: theme.spacing(2),
     width: "100%"
   },
   button: {
@@ -67,7 +65,14 @@ const editJob = ({ classes, children, history, location, updateJob }) => {
   };
   const onSubmitHandler = e => {
     e.preventDefault();
-    updateJob(id, companyName, url, profile, job_title, salary, history);
+    const updatedData = {
+     companyName: companyName, 
+     url: url, 
+     profile: profile, 
+     job_title: job_title, 
+     salary: salary
+    }
+    updateJob(id, updatedData );
   };
   return (
     <React.Fragment>
@@ -120,7 +125,7 @@ const editJob = ({ classes, children, history, location, updateJob }) => {
               margin="normal"
               type="text"
               className={classes.textField}
-              value={formData.profile.name}
+              value={formData.profile_id ? formData.profile.name : null}
               onChange={onChangeHandler}
             />
             <TextField

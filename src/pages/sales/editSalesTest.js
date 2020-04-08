@@ -229,9 +229,5 @@ const onChangeHandler = (e, elementIdentifier) => {
   );
 };
 
-// editLead.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   updateLead: PropTypes.func.isRequired
-// };
 
 export default editSalesTest
