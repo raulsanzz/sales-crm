@@ -54,7 +54,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
       let lists = filteredJobs;
       if (e.target.value) {
         const newList = lists.filter(item => {
-          const list  = tableHeader === "Job Links" ? item.job.companyName.toLowerCase(): item.companyName.toLowerCase();
+          const list  = tableHeader === "Job Links" ? item.job.client.company_name.toLowerCase(): item.client.company_name.toLowerCase();
           const filter = e.target.value.toLowerCase();
           return list.includes(filter);
         });
@@ -112,18 +112,23 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                       switch (column.id){
                         case "companyName":
                           return (<TableCell key={column.id} component="th" scope="row">
-                                  { tableHeader === "Job Links" ? row.job.companyName: row.companyName }
+                                  { (tableHeader === "Job Links" || tableHeader === "Jobs List") ? 
+                                      row.job.client.company_name : row.client.company_name
+                                  }
                                   </TableCell>)
-                        case "client_name":
                         case "status":
                         case "lead_status":
                         case "call_date":
-                        case "location":
                         case "job_title":
                         case "createdAt":
                           return (<TableCell key={column.id} align="center">
                                     {row[column.id]}
                                   </TableCell>)
+                        case "client_name":
+                        case "location":
+                          return (<TableCell key={column.id} align="center">
+                                  {row.client[column.id]}
+                        </TableCell>)
                         case "profile":
                           return (<TableCell key={column.id} align="center">
                                     {row.profile_id ? row.profile.name : '-' }

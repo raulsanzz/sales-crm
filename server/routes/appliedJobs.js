@@ -2,22 +2,27 @@ const express = require("express");
 const Router = express.Router();
 const auth = require("../middleware/auth");
 const db = require("../database/db");
-const AppliedJobs = db.appliedJobs;
+const AppliedJob = db.appliedJob;
 const Job = db.job;
 const sequelize = db.Sequelize;
 const User = db.user;
+const Client = db.client;
 const Op = sequelize.Op;
 
 
 //get all applied jobs where applied=false
 Router.get( "/", auth, async (req, res) => {
     try {
-      const appliedJobs = await AppliedJobs.findAll({
+      const appliedJobs = await AppliedJob.findAll({
         where: {applied: false},
         include: [
           {
             model: Job,
-            attributes: ["url", "companyName"]
+            attributes: ["url"],
+            include: [{
+                model: Client,
+                attributes: ["company_name"]
+            }]
           }
         ]
     })
@@ -28,10 +33,32 @@ Router.get( "/", auth, async (req, res) => {
     }
 });
 
+//get all applied jobs where applied=false
+Router.get( "/manager", auth, async (req, res) => {
+    try {
+      const appliedJobs = await AppliedJob.findAll({
+        where: {applied: true, lead_status: null},
+        include: [
+          {
+            model: Job,
+            attributes: ["url"],
+            include: [{
+                model: Client,
+                attributes: ["company_name"]
+            }]
+          }
+        ]
+    })
+    res.json({ appliedJobs }  );
+    } catch (error) {
+      console.log(error.message);
+      return res.status(402).json({ msg: "Server Error" });
+    }
+});
 //get all user daily applied jobs count
 Router.get( "/dailyreport", async (req, res) => {
     try {
-    const appliedJobs = await AppliedJobs.findAll({
+    const appliedJobs = await AppliedJob.findAll({
         where: {applied: true, updatedAt: new Date()},
         attributes: ['user_id', [sequelize.fn('COUNT', sequelize.col('user_id')), 'appliedJobCount']],
         group: ['user_id'],
@@ -62,7 +89,7 @@ Router.get( "/dailyreport", async (req, res) => {
 //update applied jobs 
 Router.put("/", auth, async (req, res) => {
     try {
-      const updatedJob = await AppliedJobs.update(
+      const updatedJob = await AppliedJob.update(
         {
             user_id: req.user.user.id, 
             applied: true
@@ -84,7 +111,7 @@ const mappingHelper = async ( list1, list2, toBeAdded ) => {
         let temp = 0;
         let user;
         users = users.filter( obj => {
-            if(obj.dataValues.registrationNumber !== job.dataValues.user_id){ 
+            if(obj.dataValues.registration_number !== job.dataValues.user_id){ 
                 return obj;
             }
             else{
@@ -112,10 +139,10 @@ const mappingHelper = async ( list1, list2, toBeAdded ) => {
 const getUserNames = async(ids) => {
     try {
         const users = await User.findAll({ 
-            where: { registrationNumber : {
+            where: { registration_number : {
                 [Op.or]: [...ids]
               }},
-            attributes:['name', 'registrationNumber']
+            attributes:['name', 'registration_number']
         })
       return ( users);
       } catch (error) {

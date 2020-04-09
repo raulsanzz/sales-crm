@@ -56,7 +56,8 @@ const styles = theme => ({
 const editJob = ({ classes, children, history, location, updateJob }) => {
   const [formData, setFormData] = useState(location.state.detail);
 
-  const { id, companyName, url, profile, job_title, salary } = formData;
+  const { id, url, profile, job_title, salary } = formData;
+  const company_name = formData.client.company_name;
   const onChangeHandler = e => {
     setFormData({
       ...formData,
@@ -66,7 +67,7 @@ const editJob = ({ classes, children, history, location, updateJob }) => {
   const onSubmitHandler = e => {
     e.preventDefault();
     const updatedData = {
-     companyName: companyName, 
+     company_name: company_name, 
      url: url, 
      profile: profile, 
      job_title: job_title, 
@@ -93,12 +94,12 @@ const editJob = ({ classes, children, history, location, updateJob }) => {
           </Typography>
           <form onSubmit={onSubmitHandler}>
             <TextField
-              id="companyName"
+              id="company_name"
               label="Company Name"
               margin="normal"
               type="text"
               className={classes.textField}
-              value={formData.companyName}
+              value={formData.client.company_name}
               onChange={onChangeHandler}
             />
             <TextField

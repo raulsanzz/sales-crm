@@ -69,7 +69,7 @@ const editUser = ({ classes, history, location, updateUser }) => {
   };
   const onSubmitHandler = async(e) => {
     e.preventDefault();
-    const res = await updateUser( formData.registrationNumber,{ name: formData.name, role: formData.role });
+    const res = await updateUser( formData.registration_number,{ name: formData.name, role: formData.role });
     if(res){
       alert.success("User Updated...!");
       history.push("/user_list/");
@@ -105,12 +105,12 @@ const editUser = ({ classes, history, location, updateUser }) => {
           <form onSubmit={onSubmitHandler}>
             <TextField
               disabled
-              id="registrationNumber"
+              id="registration_number"
               label="Registration Number"
               margin="normal"
               type="text"
               className={classes.textField}
-              value={formData.registrationNumber}
+              value={formData.registration_number}
               onChange={onChangeHandler}
             />
             <TextField

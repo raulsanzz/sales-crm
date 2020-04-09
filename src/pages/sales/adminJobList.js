@@ -269,9 +269,6 @@ const adminjobList = ({ deleteJob, history, jobs, fetchJob }) => {
   const [filteredJobs, setFilteredJobs] = useState([]);
 
   useEffect(() => {
-    console.log('====================================');
-    console.log(jobs);
-    console.log('====================================');
     fetchJob();
     let arr = jobs.filter(job => {
       return(
@@ -482,9 +479,9 @@ const adminjobList = ({ deleteJob, history, jobs, fetchJob }) => {
                         scope="row"
                         padding="none"
                       >
-                        {row.jobId.name}
+                        {row.user.name}
                       </TableCell>
-                      <TableCell>{row.companyName}</TableCell>
+                      <TableCell>{row.client.company_name}</TableCell>
                       <TableCell>{row.url}</TableCell>
                       <TableCell>
                         <Select

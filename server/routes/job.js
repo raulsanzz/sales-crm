@@ -1,12 +1,13 @@
 const express = require("express");
 const Route = express.Router();
-const { check, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 const auth = require("../middleware/auth");
 const db = require("../database/db");
 const sequelize = db.Sequelize;
 const User = db.user;
 const Job = db.job;
-const Profiles = db.profiles;
+const Profile = db.profile;
+const Client = db.client;
 const Op = sequelize.Op;
 
 //check url
@@ -47,18 +48,22 @@ Route.post("/", auth, async (req, res) => {
   }
 
   try {
+    const client = await Client.create({
+      ...req.body.newClientData
+    })
     const job = await Job.create({
-      ...req.body.newJob,
+      ...req.body.newJobData,
       user_id: req.user.user.id,
+      client_id:client.dataValues.id,
       status: "job"
     });
     if (job) {
       const user = await User.findAll({
         where: {
-          registrationNumber:  req.user.user.id
+          registration_number:  req.user.user.id
         }
       })
-      const profiles = await Profiles.findAll();
+      const profiles = await Profile.findAll();
       profiles.map( async (profile) => {
         try {
           await job.addAppliedWithProfiles(user[0], { through: { profile_id:profile.dataValues.id, applied: false } });
@@ -89,12 +94,10 @@ Route.get("/", auth, async (req, res) => {
       include: [
         {
           model: User,
-          as: "jobId",
           attributes: ["name"]
         },
         {
-          model: Profiles,
-          attributes: ["name"]
+          model: Client
         }
       ]
     });

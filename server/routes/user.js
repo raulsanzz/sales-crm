@@ -38,7 +38,7 @@ Route.post(
     let { registration_number, name, designation, password } = req.body;
 
     const userExist = await User.count({
-      where: { registrationNumber: registration_number }
+      where: { registration_number: registration_number }
     });
 
     if (userExist) {
@@ -59,15 +59,15 @@ Route.post(
 
     try {
       let user = await User.create({
-        registrationNumber: registration_number,
+        registration_number: registration_number,
         name: name,
-        designation: designation,
-        password: password
+        password: password,
+        designation: designation
       });
 
       const payload = {
         user: {
-          id: user.registrationNumber
+          id: user.registration_number
         }
       };
 
@@ -103,7 +103,7 @@ Route.delete("/:id", auth, async (req, res) => {
   try {
     const result = await User.destroy({
       where: {
-        registrationNumber: id
+        registration_number: id
       }
     });
     if (result) {
@@ -124,7 +124,7 @@ Route.put( "/edit/:id", auth, async (req, res) => {
     try {
       let result = await User.update(
         { ...req.body.updatedData },
-        { where: { registrationNumber: req.params.id } }
+        { where: { registration_number: req.params.id } }
       );
 
       res.json({ result });

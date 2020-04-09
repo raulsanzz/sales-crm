@@ -78,7 +78,6 @@ export default function salesDetail() {
     <Paper className={classes.root}>
       { data.length !== 0 ?
       (<Fragment>
-        {console.log(typeof total.appliedJobs,typeof total.fetchedJobs)}
         <h1 className={classes.center}>Daily Applied Job Details</h1>
         <span className={classes.text}>Total Applied Job:</span>
         <Badge badgeContent={total.appliedJobs === 0 ? '0'  : total.appliedJobs} color="secondary"></Badge>

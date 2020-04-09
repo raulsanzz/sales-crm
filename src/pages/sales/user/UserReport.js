@@ -116,7 +116,7 @@ const userList = ({ fetchUser, users, history }) => {
                     }
                   >
                     <TableCell component="th" scope="row">
-                      {row.registrationNumber}
+                      {row.registration_number}
                     </TableCell>
                     <TableCell align="right">{row.name}</TableCell>
                     <TableCell align="right">{row.designation}</TableCell>

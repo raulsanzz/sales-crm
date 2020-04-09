@@ -19,7 +19,7 @@ import { useAlert } from "react-alert";
 
 const columns = [
   {
-    id: "registrationNumber",
+    id: "registration_number",
     label: "Registration Number",
     minWidth: 100,
 
@@ -130,9 +130,9 @@ const userList = ({ fetchUser, users, deleteUser, history }) => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map(row => {
                 return (
-                  <TableRow hover key={row.registrationNumber}>
+                  <TableRow hover key={row.registration_number}>
                     <TableCell component="th" scope="row">
-                      {row.registrationNumber}
+                      {row.registration_number}
                     </TableCell>
                     <TableCell align="right">{row.name}</TableCell>
                     <TableCell align="right">{row.designation}</TableCell>
@@ -141,7 +141,7 @@ const userList = ({ fetchUser, users, deleteUser, history }) => {
                     <TableCell align="right">
                       <IconButton 
                         aria-label="delete"
-                        onClick={() => userDelete(row.registrationNumber)}>
+                        onClick={() => userDelete(row.registration_number)}>
                         <DeleteIcon fontSize="large" />
                       </IconButton>
 

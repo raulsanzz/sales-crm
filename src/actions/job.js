@@ -15,14 +15,14 @@ import {
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 //Add a new job
-export const addJob = ( newJob ) => async dispatch => {
+export const addJob = ( newJobData, newClientData ) => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
 
-  const body = JSON.stringify({ newJob });
+  const body = JSON.stringify({ newJobData, newClientData });
 
   try {
     const res = await axios.post ( BASE_URL + "/api/job", body, config);

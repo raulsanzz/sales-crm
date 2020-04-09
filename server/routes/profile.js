@@ -2,13 +2,13 @@ const express = require("express");
 const Router = express.Router();
 const auth = require("../middleware/auth");
 const db = require("../database/db");
-const Profiles = db.profiles;
+const Profile = db.profile;
 
 
 //get all profiles
 Router.get( "/", auth, async (req, res) => {
     try {
-      const profiles = await Profiles.findAll({
+      const profiles = await Profile.findAll({
         attributes: ["id", "name"]
       });
     res.json({ profiles }  );

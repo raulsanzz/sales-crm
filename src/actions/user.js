@@ -45,7 +45,7 @@ export const deleteUser = id => async dispatch => {
   }
 };
 
-export const updateUser = ( registrationNumber, updatedData) => async dispatch => {
+export const updateUser = ( id, updatedData) => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -57,7 +57,7 @@ export const updateUser = ( registrationNumber, updatedData) => async dispatch =
   });
 
   try {
-    await axios.put ( BASE_URL + "/api/user/edit/" + registrationNumber, body, config);
+    await axios.put ( BASE_URL + "/api/user/edit/" + id, body, config);
     dispatch({
       type: USER_UPDATE_SUCCESS
     });

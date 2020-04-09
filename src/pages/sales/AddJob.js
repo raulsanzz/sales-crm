@@ -270,16 +270,20 @@ const AddJob = ({ addJob, jobs}) => {
     setFromIsInvalid(!formIsValid);
   }
   const orderHandler = async(e) => {
-    e.preventDefault(); 
-    const res = await addJob({
-      companyName: formData.companyName.value, 
+    e.preventDefault();
+    const jobData = {
       job_title: formData.job_title.value, 
-      url: formData.url.value, 
+      url: formData.url.value
+    } 
+    const clientData = {
+      company_name: formData.companyName.value, 
       location: formData.location.value,
-      email: formData.email.value,
       website: formData.website.value,
-      phone_number: formData.number.value
-    });
+      email: formData.email.value,
+      phone_number: formData.number.value,
+
+    }
+    const res = await addJob(jobData,clientData);
     if(res){
       alert.success("Job Added successfully...!!");
     }

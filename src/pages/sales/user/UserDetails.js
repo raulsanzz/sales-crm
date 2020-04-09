@@ -69,7 +69,7 @@ const userDetail = ({
 
   useEffect(() => {
     console.log("user Details");
-    userDetails(formData.registrationNumber, formData.role);
+    userDetails(formData.registration_number, formData.role);
   });
   return (
     <React.Fragment>

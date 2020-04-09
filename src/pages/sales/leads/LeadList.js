@@ -539,7 +539,7 @@ const adminjobList = ({ deleteJob, history, fetchUser, users }) => {
                           <MenuItem value=""></MenuItem>
                           {users.map(user => {
                               return (
-                                <MenuItem value={user.registrationNumber}>
+                                <MenuItem value={user.registration_number}>
                                   {user.name}
                                 </MenuItem>
                               );                          

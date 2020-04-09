@@ -56,7 +56,6 @@ const managerJobLinks = () => {
   const [selectedProfile, setSelectedProfile] = useState(null);
   const alert = useAlert();
 
-
   useEffect(() => {
     fetchAppliedJobs();
   }, []);

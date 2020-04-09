@@ -36,7 +36,7 @@ Route.post(
     let { registration_number, password } = req.body;
 
     const user = await User.findAll({
-      where: { registrationNumber: registration_number }
+      where: { registration_number: registration_number }
     }).map(el => el.get({ plain: true }));
     const len = user.length;
 
@@ -54,7 +54,7 @@ Route.post(
     try {
       const payload = {
         user: {
-          id: user[0].registrationNumber
+          id: user[0].registration_number
         }
       };
 
