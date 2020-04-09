@@ -38,15 +38,18 @@ db.sequelize = sequelize;
 
 db.user = require("../models/User")(sequelize, Sequelize);
 db.job = require("../models/Job")(sequelize, Sequelize);
-db.appliedJobs = require("../models/AppliedJobs")(sequelize, Sequelize);
-db.profiles = require("../models/Profile")(sequelize, Sequelize);
+db.appliedJob = require("../models/AppliedJob")(sequelize, Sequelize);
+db.profile = require("../models/Profile")(sequelize, Sequelize);
+db.lead = require("../models/Lead")(sequelize, Sequelize);
+db.client = require("../models/Client")(sequelize, Sequelize);
+db.call = require("../models/Call")(sequelize, Sequelize);
 
 // Associstions
 
 // User
 db.user.belongsToMany( db.job, { 
   through: {
-    model: db.appliedJobs,
+    model: db.appliedJob,
     unique: false
   },
   foreignKey: 'user_id',
@@ -58,14 +61,14 @@ db.user.hasMany(db.job, {
   foreignKey: "user_id"
 });
 
-db.user.hasMany(db.job, {
-  foreignKey: "assignTo"
+db.user.hasMany(db.lead, {
+  foreignKey: "assign_to"
 });
 
 // job
 db.job.belongsToMany( db.user, { 
   through: {
-    model: db.appliedJobs,
+    model: db.appliedJob,
     unique: false
   },
   foreignKey: 'job_id',
@@ -74,41 +77,84 @@ db.job.belongsToMany( db.user, {
   constraints: false
 })
 
+db.job.belongsToMany( db.profile, { 
+  through: {
+    model: db.lead,
+    unique: false
+  },
+  foreignKey: 'job_id',
+  otherKey: 'profile_id',
+  as:'jobLeads',
+  constraints: false
+})
+
 db.job.belongsTo(db.user, {
-  as: "jobId",
   foreignKey: "user_id",
-  targetKey: "registrationNumber",
+  targetKey: "registration_number",
   onDelete: "CASCADE"
 });
 
-db.job.belongsTo(db.user, {
-  as: "leadId",
-  foreignKey: "assignTo",
-  targetKey: "registrationNumber",
+db.job.belongsTo(db.client, {
+  foreignKey: "client_id",
+  targetKey: "id",
   onDelete: "CASCADE"
 });
 
-db.job.belongsTo(db.profiles, { foreignKey: "profile_id" });
+// db.job.belongsTo(db.profile, { foreignKey: "profile_id" });
 
-// profile
-db.profiles.hasMany(db.job, {
+// Profile
+db.profile.belongsToMany( db.job, { 
+  through: {
+    model: db.lead,
+    unique: false
+  },
+  foreignKey: 'profile_id',
+  otherKey: 'job_id',
+  constraints: false
+})
+
+db.profile.hasMany(db.appliedJob, {
   foreignKey: "profile_id"
 });
 
+// Lead
+db.lead.belongsTo(db.call, {
+  foreignKey: "call_id",
+  targetKey: "id",
+  onDelete: "CASCADE"
+});
 
-//applied Job 
-db.appliedJobs.belongsTo (db.user, {foreignKey: 'user_id'});
-db.appliedJobs.belongsTo (db.job, {foreignKey: 'job_id'});
-db.appliedJobs.belongsTo (db.profiles , {foreignKey: 'profile_id'});
+db.lead.belongsTo(db.user, {
+  foreignKey: "assign_to",
+  targetKey: "registration_number",
+  onDelete: "CASCADE"
+});
 
+db.lead.belongsTo (db.job, {foreignKey: 'job_id'});
+db.lead.belongsTo (db.profile , {foreignKey: 'profile_id'});
+
+// Applied Job 
+db.appliedJob.belongsTo (db.user, {foreignKey: 'user_id'});
+db.appliedJob.belongsTo (db.job, {foreignKey: 'job_id'});
+db.appliedJob.belongsTo (db.profile , {foreignKey: 'profile_id'});
+
+// Client
+db.client.hasOne(db.job, {
+  foreignKey: "client_id"
+})
+
+// Call
+db.call.hasOne(db.lead, {
+  foreignKey: "call_id"
+})
 
 // to refresh the database and drop the already created tables
-// and create the from the start
+// and create the from the start use options `{alter: true}`
 
-// sequelize.sync({ force: true })
+// sequelize.sync({force: true})
 //   .then(() => {
 //     console.log(`Database & tables created!`)
-//     db.profiles.bulkCreate([
+//     db.profile.bulkCreate([
 //       {name: 'Ali Muhammad'},
 //       {name: 'Aamir khan'},
 //       {name: 'Kevan Jay'},

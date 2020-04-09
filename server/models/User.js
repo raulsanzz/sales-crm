@@ -1,18 +1,17 @@
 module.exports = (sequelize, Sequelize) => {
   return sequelize.define("users", {
-    registrationNumber: {
+    registration_number: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      unique: true,
-      field: "registration_number"
+      unique: true
     },
     name: {
       type: Sequelize.STRING
     },
-    designation: {
+    password: {
       type: Sequelize.STRING
     },
-    password: {
+    designation: {
       type: Sequelize.STRING
     },
     role: {
