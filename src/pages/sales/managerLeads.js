@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 
 import Table from "../table";
-import { fetchJob } from "../../actions/job";
+import { fetchLeads } from "../../actions/lead";
 
 const columns = [
-    { id: "companyName", label: "Company Name", minWidth: 170 },
+    { id: "company_name", label: "Company Name", minWidth: 170 },
     { id: "profile", label: "Profile", minWidth: 100, align: "center" },
     { id: "editButton", label: "Action", minWidth: 100, align: "center", editPath:"/lead_edit" }
 ];
@@ -42,33 +42,34 @@ const columns = [
     },
   }));
 
-const managerJobLinks = ({fetchJob, jobs, history}) => {
+const managerJobLinks = ({fetchLeads, leads, history}) => {
     const classes = useStyles();
     const [filteredJobs, setFilteredJobs] = useState([]);
 
     useEffect(() => {
-        fetchJob();
-        let arr = jobs.filter(job => {
-          return(
-              job.status === 'lead' ? job : null
-          )
-        })
-        setFilteredJobs(arr);
-      }, [jobs.length]);
+      fetchLeads();
+      setFilteredJobs(leads);
+      console.log('====================================');
+      }, [leads.length]);
 
     return(
-      <Table 
-        jobs={filteredJobs}
-        columns={columns}
-        classes={classes}
-        tableHeader={"Leads"}
-        history={history}
-      />
+      <Fragment>
+        {
+          leads.length > 0 ?
+          (<Table 
+            jobs={filteredJobs}
+            columns={columns}
+            classes={classes}
+            tableHeader={"Leads"}
+            history={history}
+          />) : <p> Loading...!!!</p>
+        }
+      </Fragment>
     )
 }
 
 const mapStateToProps = state => ({
-    jobs: state.JobReducer.job
+    leads: state.LeadReducer.leads
   });
 
-export default  connect(mapStateToProps, { fetchJob })(managerJobLinks);
+export default  connect(mapStateToProps, { fetchLeads })(managerJobLinks);

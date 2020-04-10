@@ -7,13 +7,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { useAlert } from "react-alert";
+import { connect } from "react-redux";
 
+import { updateAppliedJob } from './../../actions/job'
 import Table from "./../table";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const columns = [
-    { id: "companyName", label: "Company Name", minWidth: 170 },
+    { id: "company_name", label: "Company Name", minWidth: 170 },
     { id: "url", label: "URL", minWidth: 100, align: "left" },
     { id: "jobApplyButton", label: "Action", minWidth: 100, align: "center" }
 ];
@@ -48,7 +50,7 @@ const columns = [
     },
   }));
 
-const managerJobLinks = () => {
+const managerJobLinks = ({ updateAppliedJob }) => {
   const classes = useStyles();
   const [jobs, setJobs] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
@@ -88,33 +90,24 @@ const managerJobLinks = () => {
   };
 
   const onApplyButtonHandler = async (job) => {
-    const config = {
-      headers: { "Content-Type": "application/json" }
-    };
     const query = {
       job_id: job.job_id,
       user_id: job.user_id,
       profile_id: job.profile_id
     };
-    const body = JSON.stringify({ query });
 
-    try {
-      const res =  await axios.put ( BASE_URL + "/api/appliedjob", body, config);
-      if(res.data.updatedJob.length === 1){
-        let updatedJobs = jobs.filter(job => {
-          if(job.job_id !== query.job_id || job.profile_id !== query.profile_id || job.user_id !== query.user_id){
-            return job;
-          }
-          else{
-            return null;
-          }
-        })
-        setJobs(updatedJobs);
-        alert.success("Applied successfully...!!");
-      }
-    } 
-    catch (error) {
-      console.log(error);
+    const res = await updateAppliedJob(query, {applied: true}, true);
+    if(res){
+      let updatedJobs = jobs.filter(job => {
+        if(job.job_id !== query.job_id || job.profile_id !== query.profile_id || job.user_id !== query.user_id){
+          return job;
+        }
+      })
+      setJobs(updatedJobs);
+      alert.success("Applied successfully...!!");
+    }
+    else{
+      alert.success("Applied Job Failed...!!");
     }
   };
 
@@ -149,4 +142,4 @@ const managerJobLinks = () => {
 
 };
 
-export default  managerJobLinks;
+export default  connect(null,{updateAppliedJob})(managerJobLinks);

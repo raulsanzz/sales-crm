@@ -54,7 +54,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
       let lists = filteredJobs;
       if (e.target.value) {
         const newList = lists.filter(item => {
-          const list  = tableHeader === "Job Links" ? item.job.client.company_name.toLowerCase(): item.client.company_name.toLowerCase();
+          const list  = tableHeader === "Job List" ? item.client.company_name.toLowerCase(): item.job.client.company_name.toLowerCase();
           const filter = e.target.value.toLowerCase();
           return list.includes(filter);
         });
@@ -70,7 +70,9 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
         setMatch("Search");
       }
     };
-
+  console.log('====================================');
+  console.log(jobs);
+  console.log('====================================');
   return(
     <div className={classes.root}>
     {
@@ -96,7 +98,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                 key={column.id === "list" ? column.placeholder : column.id}
                 align={column.align}
                 style={{ minWidth: column.minWidth }}>
-                {column.label}
+                {column.id === "list" ? column.placeholder : column.label}
               </TableCell>
             ))}
           </TableRow>
@@ -110,11 +112,9 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                   {
                     columns.map(column => {
                       switch (column.id){
-                        case "companyName":
+                        case "company_name":
                           return (<TableCell key={column.id} component="th" scope="row">
-                                  { (tableHeader === "Job Links" || tableHeader === "Jobs List") ? 
-                                      row.job.client.company_name : row.client.company_name
-                                  }
+                                  { (tableHeader === "Job List") ?  row.client.company_name: row.job.client.company_name }                                  
                                   </TableCell>)
                         case "status":
                         case "lead_status":
@@ -146,14 +146,14 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                     some Device
                                   </TableCell>)
                         case "list":
-                          return(<TableCell key={column.placeholder} align="center">
+                          return(<TableCell key={column.label} align="center">
                                   <FormControl className={classes.formControl}>
-                                      <InputLabel id={`${column.placeholder}-label`}>{column.label}</InputLabel>
+                                      <InputLabel id={`${column.label}-label`}>{column.placeholder}</InputLabel>
                                       <Select
-                                        labelId={`${column.placeholder}-label`}
-                                        id={column.placeholder}
-                                        value={row[column.placeholder]}
-                                        onChange={(event) => {handleChange(event, row, column.placeholder)}}>
+                                        labelId={`${column.label}-label`}
+                                        id={column.label}
+                                        value={row[column.label]}
+                                        onChange={(event) => {handleChange(event, row, column.label)}}>
                                           { column.listItems.map(item => {
                                               return (
                                               column.placeholder === 'profile_id' ?
@@ -192,7 +192,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                     variant="contained" 
                                     color="primary"
                                     disabled={row.profile_id === null || row.status === "job"}
-                                    onClick={() => {onUpdateHandler(row.id, { profile_id:row.profile_id, status: row.status})}}>
+                                    onClick={() => {onUpdateHandler(row)}}>
                                       Update
                                   </Button>
                                 </TableCell>

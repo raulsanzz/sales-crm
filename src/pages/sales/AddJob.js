@@ -98,7 +98,7 @@ const AddJob = ({ addJob, jobs}) => {
   }, [jobs.length]);
 
   const [formData, setFormData] = useState({
-    companyName: {
+    company_name: {
       elementType: 'input',
       elementConfig:{
         type: 'text',
@@ -211,9 +211,9 @@ const AddJob = ({ addJob, jobs}) => {
     setFormData(updatedForm);
     setFromIsInvalid(true);
   }
-  const searchCompany = (companyName) => {
+  const searchCompany = (company_name) => {
     const exist = jobs.filter(item => {
-      return item.companyName.toLowerCase() === companyName.toLowerCase();
+      return item.client.company_name.toLowerCase() === company_name.toLowerCase();
     });
     if (exist.length > 0) {
       setCompExist(exist[0]);
@@ -263,7 +263,7 @@ const AddJob = ({ addJob, jobs}) => {
       }   
     }
     
-    if(elementIdentifier === 'companyName'){
+    if(elementIdentifier === 'company_name'){
       searchCompany(e.target.value);
     }
     setFormData(updatedForm);
@@ -276,14 +276,14 @@ const AddJob = ({ addJob, jobs}) => {
       url: formData.url.value
     } 
     const clientData = {
-      company_name: formData.companyName.value, 
+      company_name: formData.company_name.value, 
       location: formData.location.value,
       website: formData.website.value,
       email: formData.email.value,
       phone_number: formData.number.value,
 
     }
-    const res = await addJob(jobData,clientData);
+    const res = await addJob(jobData, clientData);
     if(res){
       alert.success("Job Added successfully...!!");
     }
@@ -356,7 +356,7 @@ const AddJob = ({ addJob, jobs}) => {
             <ul style={{ listStyleType: "none", textAlign: "left", margin: "0" }}>
               <li className={classes.ifCompExist}>
                 <b style={{ marginRight: "10px" }}>Company Name:</b>
-                <span>{compExist.companyName}</span>
+                <span>{compExist.company_name}</span>
               </li>
               <li className={classes.ifCompExist}>
                 <b style={{ marginRight: "10px" }}>URL:</b>
@@ -365,10 +365,6 @@ const AddJob = ({ addJob, jobs}) => {
               <li className={classes.ifCompExist}>
                 <b style={{ marginRight: "10px" }}>Job Title:</b>
                 <span>{compExist.job_title}</span>
-              </li>
-              <li className={classes.ifCompExist}>
-                <b style={{ marginRight: "10px" }}>Profile:</b>
-                <span>{ compExist.profile_id !== null ? compExist.profile.name : "None" }</span>
               </li>
               <li className={classes.ifCompExist}>
                 <b style={{ marginRight: "10px" }}> Created at:</b>

@@ -8,8 +8,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { fetchJob, updateJob } from "../../actions/job";
-
+import { updateAppliedJob } from "../../actions/job";
+import { addLead } from "../../actions/lead";
 import Table from "../table";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -44,7 +44,7 @@ const useStyles = makeStyles( theme => ({
   },
 }));
 
-const managerJobLinks = ({fetchJob, history, updateJob}) => {
+const managerJobLinks = ({updateAppliedJob, addLead, history}) => {
   const classes = useStyles();
   const alert = useAlert();
   const [jobs, setJobs] = useState([]);
@@ -54,9 +54,9 @@ const managerJobLinks = ({fetchJob, history, updateJob}) => {
   const [selectedProfile, setSelectedProfile] = useState(null);
 
   const columns = [
-    { id: "companyName", label: "Company Name", minWidth: 170 },
-    { id: "list", label: "Status", minWidth: 100, align: "center", 
-      placeholder: "status", listItems: ["lead", "garbage", "recuriter", "in-house", "rejected by client"]},
+    { id: "company_name", label: "Company Name", minWidth: 170 },
+    { id: "list", label: "lead_status", minWidth: 100, align: "center", 
+      placeholder: "lead Status", listItems: ["lead", "garbage", "recuriter", "in-house", "rejected by client"]},
     { id: "updateButton", label: "Action", minWidth: 100, align: "center" }
   ];
   
@@ -82,18 +82,40 @@ const managerJobLinks = ({fetchJob, history, updateJob}) => {
       console.log(error);
     }
   };
-  const jobUpdateHandeler = async(id, updateData) => {
-    const res = await updateJob(id, updateData)
+  const jobUpdateHandeler = async(job) => {
+    const query = {
+      job_id: job.job_id,
+      user_id: job.user_id,
+      profile_id: job.profile_id
+    };
+    let res = await updateAppliedJob(query, { lead_status: job.lead_status }, false);
     if(res){
-      alert.success("Job updated successfully...!!");
-      await fetchJob() 
-      setJobUpdated(!jobUpdated);
-
+      let updatedJobs = jobs.filter(job => {
+        if(job.job_id !== query.job_id || job.profile_id !== query.profile_id || job.user_id !== query.user_id){
+          return job;
+        }
+      })
+      setJobs(updatedJobs);
+      if(job.lead_status === 'lead'){
+        const newLeadData = {
+          job_id: job.job_id,
+          profile_id: job.profile_id,
+          status: job.lead_status
+        }
+        res = await addLead(newLeadData);
+        if(res){
+          alert.success("Updated...!!");
+        }
+        else{
+          alert.success("Failed to Add Lead...!!");
+        }
+      }
     }
     else{
-      alert.success("Job update failed...!!");
+      alert.success("Failed to Update...!!");
     }
   }
+
   const handleProfileChange = (profile_id) => {
     setSelectedProfile(profile_id)
     let arr = jobs.filter(job => {
@@ -128,16 +150,11 @@ const managerJobLinks = ({fetchJob, history, updateJob}) => {
         classes={classes}
         tableHeader={"Jobs List"}
         history={history}
-        // onUpdateHandler={jobUpdateHandeler}
+        onUpdateHandler={jobUpdateHandeler}
         />
       ): <p> No More jobs </p>
     }
   </Fragment>)
 }
 
-const mapStateToProps = state => ({
-    jobs: state.JobReducer.job
-});
-
-
-export default  connect(mapStateToProps, { updateJob, fetchJob })(managerJobLinks);
+export default connect(null, {updateAppliedJob, addLead})(managerJobLinks);

@@ -5,12 +5,14 @@ import authReducer from "../reducers/auth";
 import userReducer from "../reducers/user";
 import alertReducer from "../reducers/alert";
 import JobReducer from "../reducers/job";
+import LeadReducer from "../reducers/lead";
 
 const rootReducer = combineReducers({
   authReducer,
   userReducer,
   alertReducer,
-  JobReducer
+  JobReducer,
+  LeadReducer
 });
 const middel = [thunk];
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

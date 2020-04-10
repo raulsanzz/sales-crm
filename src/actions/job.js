@@ -112,3 +112,22 @@ export const deleteJob = id => async dispatch => {
     });
   }
 };
+
+//delete a Job
+export const updateAppliedJob = (query, updatedData, shouldUpdateUser) => async (dispatch) => {
+   const config = {
+      headers: { "Content-Type": "application/json" }
+    };
+    const body = JSON.stringify({ query, updatedData, shouldUpdateUser});
+    try {
+      const res =  await axios.put ( BASE_URL + "/api/appliedjob", body, config);
+      if(res.data.updatedJob.length === 1){
+        return true;
+      }
+    } 
+    catch (error) {
+      console.log(error);
+      return false;
+    }
+};
+

@@ -51,7 +51,7 @@ Route.post("/", auth, async (req, res) => {
     const client = await Client.create({
       ...req.body.newClientData
     })
-    const job = await Job.create({
+    let job = await Job.create({
       ...req.body.newJobData,
       user_id: req.user.user.id,
       client_id:client.dataValues.id,
@@ -73,7 +73,8 @@ Route.post("/", auth, async (req, res) => {
           console.log(error);
           console.log('====================================');
         }
-      })  
+      })
+      job.dataValues.client = {...client.dataValues}  
       return res.json({ job });
     }
 
@@ -91,8 +92,7 @@ Route.post("/", auth, async (req, res) => {
 Route.get("/", auth, async (req, res) => {
   try {
     const result = await Job.findAll({
-      include: [
-        {
+      include: [{
           model: User,
           attributes: ["name"]
         },

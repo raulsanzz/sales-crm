@@ -10,7 +10,7 @@ import Table from './../table';
 import { fetchJob } from "../../actions/job";
 
 const columns = [
-  { id: "companyName", label: "Company Name", minWidth: 170 },
+  { id: "company_name", label: "Company Name", minWidth: 170 },
   { id: "job_title", label: "Job Title", minWidth: 100, align: "center" },
   { id: "url", label: "URL", minWidth: 100, align: "center" },
   { id: "location", label: "Location", minWidth: 170, align: "center" },

@@ -89,10 +89,11 @@ Router.get( "/dailyreport", async (req, res) => {
 //update applied jobs 
 Router.put("/", auth, async (req, res) => {
     try {
-      const updatedJob = await AppliedJob.update(
-        {
-            user_id: req.user.user.id, 
-            applied: true
+      if(req.body.shouldUpdateUser){ 
+        req.body.updatedData.user_id = req.user.user.id;
+      }
+      const updatedJob = await AppliedJob.update({
+            ...req.body.updatedData
         },
         { where: {...req.body.query}}
     )
@@ -107,7 +108,7 @@ const mappingHelper = async ( list1, list2, toBeAdded ) => {
     
     let users = list1.map((job)=> job.dataValues.user_id);
         users = await getUserNames(users);
-    return list1.map( (job, index) => {
+    return list1.map( (job) => {
         let temp = 0;
         let user;
         users = users.filter( obj => {

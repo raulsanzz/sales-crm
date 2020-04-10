@@ -104,17 +104,6 @@ const mailFolderListItems = ({ user, classes }) => {
             ""
           )}
 
-          {raceName === "admin" ? (
-            <ListItem button component={Link} to="/admin_job_list">
-              <ListItemIcon>
-                <SupervisorAccountIcon className={classes.root} />
-              </ListItemIcon>
-              <ListItemText primary="Sales Admin" />
-            </ListItem>
-          ) : (
-            ""
-          )}
-
           {raceName === "sales_executive" || raceName === "admin" ? (
             <ListItem button component={Link} to="/sales_daily_details">
               <ListItemIcon>
@@ -185,6 +174,16 @@ const mailFolderListItems = ({ user, classes }) => {
             ""
           )}
 
+          {raceName === "admin" ? (
+            <ListItem button component={Link} to="/admin_job_list">
+              <ListItemIcon>
+                <SupervisorAccountIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Sales Admin" />
+            </ListItem>
+          ) : (
+            ""
+          )}
         </List>
       </Collapse>
 
