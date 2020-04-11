@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import Edit from "@material-ui/icons/Edit";
@@ -18,7 +17,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import { useAlert } from "react-alert";
 
-import { updateJob } from "../../../actions/job";
+import { updateLead } from "../../../actions/lead";
 
 const styles = theme => ({
   layout: {
@@ -71,11 +70,10 @@ const styles = theme => ({
   },
 });
 
-const editLead = ({ classes, history, location, updateJob }) => {
+const editLead = ({ classes, history, location, updateLead }) => {
 
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const alert = useAlert();
-
   const [formData, setFormData] = useState({
     client_name: {
       elementType: 'input',
@@ -83,7 +81,7 @@ const editLead = ({ classes, history, location, updateJob }) => {
         type: 'text',
         placeholder: 'Client Name*'
       },
-      value: location.state.detail.client_name ? location.state.detail.client_name : '',
+      value: location.state.detail.job.client.client_name ? location.state.detail.job.client.client_name : '',
       validation: {
         required: true
       },
@@ -97,7 +95,7 @@ const editLead = ({ classes, history, location, updateJob }) => {
         type: 'text',
         placeholder: 'Client Location'
       },
-      value:  location.state.detail.location ? location.state.detail.location : '',
+      value:  location.state.detail.job.client.location ? location.state.detail.job.client.location : '',
       validation: {
         required: false,
       },
@@ -111,12 +109,12 @@ const editLead = ({ classes, history, location, updateJob }) => {
         type: 'text',
         placeholder: 'Client Time Zone*'
       },
-      value:  location.state.detail.time_zone ? location.state.detail.time_zone : '',
+      value: location.state.detail.call.time_zone ? location.state.detail.call.time_zone : '',
       validation: {
           required: true,
       },
-      valid: location.state.detail.time_zone ? true : false,
-      touched: location.state.detail.time_zone ? true : false,
+      valid: location.state.detail.call.time_zone ? true : false,
+      touched: location.state.detail.call.time_zone ? true : false,
       message:''
     },
     gmail_thread: {
@@ -140,12 +138,12 @@ const editLead = ({ classes, history, location, updateJob }) => {
         type: 'text',
         placeholder: 'Call Date*'
       },
-      value:  location.state.detail.call_date ? location.state.detail.call_date : '',
+      value:  location.state.detail.call.call_date ? location.state.detail.call.call_date : '',
       validation: {
           required: true,
       },
-      valid: location.state.detail.call_date ? true: false,
-      touched: location.state.detail.call_date ? true: false,
+      valid: location.state.detail.call.call_date ? true: false,
+      touched: location.state.detail.call.call_date ? true: false,
       message:''
     },
     call_time: {
@@ -154,12 +152,12 @@ const editLead = ({ classes, history, location, updateJob }) => {
         type: 'text',
         placeholder: 'Call Time*'
       },
-      value: location.state.detail.call_time ? location.state.detail.call_time : '',
+      value: location.state.detail.call.call_time ? location.state.detail.call.call_time : '',
       validation: {
         required: true
       },
-      valid: location.state.detail.call_time ? true :  false,
-      touched: location.state.detail.call_time ? true :  false,
+      valid: location.state.detail.call.call_time ? true :  false,
+      touched: location.state.detail.call.call_time ? true :  false,
       message:''
     },  
       
@@ -176,12 +174,12 @@ const editLead = ({ classes, history, location, updateJob }) => {
          ],
         placeholder: 'Device/App'
       },
-      value: location.state.detail.contact_via ? location.state.detail.contact_via : '',
+      value: location.state.detail.call.contact_via ? location.state.detail.call.contact_via : '',
       validation: {
         required: false,
       },
-      valid: location.state.detail.contact_via ? true : false,
-      touched: location.state.detail.contact_via ? true : false,
+      valid: location.state.detail.call.contact_via ? true : false,
+      touched: location.state.detail.call.contact_via ? true : false,
       message:''
     },  
     contact_via_detail: {
@@ -190,12 +188,12 @@ const editLead = ({ classes, history, location, updateJob }) => {
         type: 'text',
         placeholder: 'Phone Number / Link'
       },
-      value:  location.state.detail.contact_via_detail ? location.state.detail.contact_via_detail : '',
+      value:  location.state.detail.call.contact_via_detail ? location.state.detail.call.contact_via_detail : '',
       validation: {
         required: false,
       },
-      valid: location.state.detail.contact_via_detail ? true : false,
-      touched: location.state.detail.contact_via_detail ? true : false,
+      valid: location.state.detail.call.contact_via_detail ? true : false,
+      touched: location.state.detail.call.contact_via_detail ? true : false,
       message:''
     },  
     interview_status: {
@@ -225,12 +223,12 @@ const editLead = ({ classes, history, location, updateJob }) => {
          ],
         placeholder: 'Call Status*'
       },
-      value: location.state.detail.call_status ? location.state.detail.call_status : '',
+      value: location.state.detail.call.call_status ? location.state.detail.call.call_status : '',
       validation: {
         required: true,
       },
-      valid: location.state.detail.call_status ? true : false,
-      touched: location.state.detail.call_status ? true : false,
+      valid: location.state.detail.call.call_status ? true : false,
+      touched: location.state.detail.call.call_status ? true : false,
       message:''
     }
   });
@@ -294,19 +292,28 @@ const onChangeHandler = (e, elementIdentifier) => {
 
   const onSubmitHandler = async(e) => {
     e.preventDefault();
-    const updateData = {
-      client_name: formData.client_name.value,
-      location: formData.location.value,
-      time_zone: formData.time_zone.value,
+    const LeadData = {
       gmail_thread: formData.gmail_thread.value,
+      interview_status: formData.interview_status.value
+    }
+    const callData = {
+      time_zone: formData.time_zone.value,
       call_date: formData.call_date.value,
       call_time: formData.call_time.value,
       contact_via: formData.contact_via.value,
       contact_via_detail: formData.contact_via_detail.value,
-      interview_status: formData.interview_status.value,
       call_status: formData.call_status.value
     }
-    const res = await updateJob(location.state.detail.id, updateData)
+    const clientData = {
+      client_name: formData.client_name.value,
+      location: formData.location.value,
+    }
+    const query = {
+      lead_id: location.state.detail.id,
+      client_id: location.state.detail.job.client.id,
+      call_id: location.state.detail.call.id
+    }
+    const res = await updateLead(query, LeadData, callData, clientData);
     if(res){
       alert.success("Lead updated successfully...!!");
       history.goBack()
@@ -401,5 +408,5 @@ const onChangeHandler = (e, elementIdentifier) => {
 
 export default compose(
   withStyles(styles),
-  connect(null, { updateJob })
+  connect(null, { updateLead })
 )(editLead);

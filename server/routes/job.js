@@ -3,6 +3,7 @@ const Route = express.Router();
 const { validationResult } = require("express-validator");
 const auth = require("../middleware/auth");
 const db = require("../database/db");
+const { addClient } = require('./clients');
 const sequelize = db.Sequelize;
 const User = db.user;
 const Job = db.job;
@@ -48,9 +49,8 @@ Route.post("/", auth, async (req, res) => {
   }
 
   try {
-    const client = await Client.create({
-      ...req.body.newClientData
-    })
+    const client = await addClient(req.body.newClientData);
+    
     let job = await Job.create({
       ...req.body.newJobData,
       user_id: req.user.user.id,

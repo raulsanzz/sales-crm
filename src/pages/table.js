@@ -70,9 +70,6 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
         setMatch("Search");
       }
     };
-  console.log('====================================');
-  console.log(jobs);
-  console.log('====================================');
   return(
     <div className={classes.root}>
     {

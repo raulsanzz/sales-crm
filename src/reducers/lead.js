@@ -1,10 +1,10 @@
 import {
     LEAD_ADD_SUCCESS,
     LEAD_ADD_FAIL,
-    FETCH_LEAD_SUCCESS,
-    FETCH_LEAD_FAIL
-    // LEAD_UPDATE_FAIL,
-    // LEAD_UPDATE_SUCCESS
+    LEAD_FETCH_SUCCESS,
+    LEAD_FETCH_FAIL,
+    LEAD_UPDATE_SUCCESS,
+    LEAD_UPDATE_FAIL
 } from "../actions/types";
 
 const initialState = {
@@ -19,16 +19,25 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 leads: state.leads.concat(action.payload),
-                loading: false
+                loading: false,
+                error: null
             };
-        case FETCH_LEAD_SUCCESS:
+        case LEAD_FETCH_SUCCESS:
             return {
                 ...state,
                 leads: action.payload,
-                loading: false
+                loading: false,
+                error: null
             };
-        case FETCH_LEAD_FAIL:
+        case LEAD_UPDATE_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                error: null
+            };
         case LEAD_ADD_FAIL:
+        case LEAD_FETCH_FAIL:
+        case LEAD_UPDATE_FAIL:
             return {
                 ...state,
                 loading: false,
