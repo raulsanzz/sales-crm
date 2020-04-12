@@ -42,11 +42,17 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
   const handleChange = (event, row, identifier) => {
     let updatedJobs = [...filteredJobs];
     const updatedJob = updatedJobs.filter(job => {
-      return job.id === row.id ? {...job} : null
+      if(row.id){
+        return job.id === row.id ? {...job} : null}
+      else{
+      return job.job_id === row.job_id ? {...job} : null}
     })
     updatedJob[0][identifier] = event.target.value
     updatedJobs = updatedJobs.map(job => {
-      return job.id === row.id ? updatedJob[0] : job
+      if(row.id){
+        return job.id === row.id ? updatedJob[0] : job}
+      else{
+      return job.job_id === row.job_id ? updatedJob[0] : job}
     })
     setFilteredJobs(updatedJobs)
   }
@@ -104,8 +110,9 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
           {filteredJobs
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map(row => {
+              // {console.log(row)}
               return (
-                <TableRow key={row.id}>
+                <TableRow key={row.id ? row.id : row.job_id}>
                   {
                     columns.map(column => {
                       switch (column.id){
@@ -116,22 +123,25 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                         case "status":
                         case "lead_status":
                         case "call_date":
-                        case "job_title":
                         case "createdAt":
                           return (<TableCell key={column.id} align="center">
                                     {row[column.id]}
                                   </TableCell>)
+                        case "job_title":
+                          return (<TableCell key={column.id} align="center">
+                                  {(tableHeader === "Job List") ?  row[column.id]: row.job[column.id] }
+                        </TableCell>)
                         case "client_name":
                         case "location":
                           return (<TableCell key={column.id} align="center">
-                                  {row.client[column.id]}
+                                  {(tableHeader === "Job List") ?  row.client[column.id]: row.job.client[column.id] }
                         </TableCell>)
                         case "profile":
                           return (<TableCell key={column.id} align="center">
                                     {row.profile_id ? row.profile.name : '-' }
                                   </TableCell>)
                         case "url":
-                          return(<TableCell key={column.id} align="left">
+                          return(<TableCell key={column.id} align="center">
                                   { tableHeader === "Job Links" ? row.job.url: row.url } 
                                 </TableCell>)
                         case "call_time":

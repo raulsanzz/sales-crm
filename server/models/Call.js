@@ -13,9 +13,6 @@ module.exports = (sequelize, Sequelize) => {
     call_date: {
     type: Sequelize.DATEONLY
     },
-    time_zone: {
-      type: Sequelize.STRING
-    },
     contact_via: { // phone or an app like Zoom , GotoMeeting etc
       type: Sequelize.STRING
     },

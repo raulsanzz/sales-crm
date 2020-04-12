@@ -85,8 +85,8 @@ const editLead = ({ classes, history, location, updateLead }) => {
       validation: {
         required: true
       },
-      valid: location.state.detail.client_name ? true : false,
-      touched: location.state.detail.client_name ? true : false,
+      valid: location.state.detail.job.client.client_name ? true : false,
+      touched: location.state.detail.job.client.client_name ? true : false,
       message:''
     },  
     location: {
@@ -99,8 +99,8 @@ const editLead = ({ classes, history, location, updateLead }) => {
       validation: {
         required: false,
       },
-      valid: location.state.detail.location ? true : false,
-      touched: location.state.detail.location ? true : false,
+      valid: location.state.detail.job.client.location ? true : false,
+      touched: location.state.detail.job.client.location ? true : false,
       message:''
     },
     time_zone: {
@@ -109,12 +109,12 @@ const editLead = ({ classes, history, location, updateLead }) => {
         type: 'text',
         placeholder: 'Client Time Zone*'
       },
-      value: location.state.detail.call.time_zone ? location.state.detail.call.time_zone : '',
+      value: location.state.detail.job.client.time_zone ? location.state.detail.job.client.time_zone : '',
       validation: {
           required: true,
       },
-      valid: location.state.detail.call.time_zone ? true : false,
-      touched: location.state.detail.call.time_zone ? true : false,
+      valid: location.state.detail.job.client.time_zone ? true : false,
+      touched: location.state.detail.job.client.time_zone ? true : false,
       message:''
     },
     gmail_thread: {
@@ -235,6 +235,7 @@ const editLead = ({ classes, history, location, updateLead }) => {
     useEffect(() => {
       checkFormValidity(formData);
     },[])
+
 const validityCheck = (value, rules) => {
   let isValid = true;
   let message = '';
@@ -297,7 +298,6 @@ const onChangeHandler = (e, elementIdentifier) => {
       interview_status: formData.interview_status.value
     }
     const callData = {
-      time_zone: formData.time_zone.value,
       call_date: formData.call_date.value,
       call_time: formData.call_time.value,
       contact_via: formData.contact_via.value,
@@ -305,6 +305,7 @@ const onChangeHandler = (e, elementIdentifier) => {
       call_status: formData.call_status.value
     }
     const clientData = {
+      time_zone: formData.time_zone.value,
       client_name: formData.client_name.value,
       location: formData.location.value,
     }

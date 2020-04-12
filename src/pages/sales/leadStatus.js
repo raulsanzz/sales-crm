@@ -7,11 +7,11 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { connect } from "react-redux";
 
-import { fetchJob } from "../../actions/job";
+import { fetchLeads } from "../../actions/lead";
 import Table from "./../table";
 
 const columns = [
-  { id: "companyName", label: "Company Name", minWidth: 170},
+  { id: "company_name", label: "Company Name", minWidth: 170},
   { id: "client_name", label: "Client Name", minWidth: 170, align: "center" },
   { id: "profile", label: "Profile", minWidth: 170, align: "center" },
   { id: "job_title", label: "Job Title", minWidth: 170, align: "center" }
@@ -47,32 +47,34 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const leadStatus = ({fetchJob, jobs}) => {
+const leadStatus = ({fetchLeads, leads, LeadLoading}) => {
   const classes = useStyles();
-  const [filteredJobs, setFilteredJobs] = useState([]);
+  const [filteredLeads, setFilteredLeads] = useState([]);
   const [leadStatus, setLeadStatus] = useState(null);
 
   useEffect(() => {
-    console.log('====================================');
-    console.log();
-    console.log('====================================');
-    fetchJob();
-    setFilteredJobs(jobs);
+    fetchLeads();
+    setFilteredLeads(leads);
   }, []);
 
   const handleLeadStatusChange = (status) => {
     setLeadStatus(status);
-    let arr = jobs.filter(job => {
+    let arr = leads.filter(lead => {
       return(
-        job.status === status ? job : null
+        lead.status === status ? lead : null
       )
     })
-   setFilteredJobs(arr);
+    setFilteredLeads(arr);
   };
   
+  console.log('====================================');
+  console.log(leads);
+  console.log('====================================');
   return( 
     <Fragment>
-      <FormControl className={classes.formControl}>
+      {
+        LeadLoading ? <p> Loading...!!!</p> : 
+      (<div><FormControl className={classes.formControl}>
         <InputLabel id='lead-select-label'>Lead Status</InputLabel>
         <Select
           labelId='lead-select-label'
@@ -91,20 +93,23 @@ const leadStatus = ({fetchJob, jobs}) => {
       </FormControl>
       {leadStatus === null ? (
         <p style={{color:'red'}}> Please select a Lead Status first.</p>):  
-        filteredJobs.length >= 1 ? (
+        filteredLeads.length >= 1 ? (
           <Table 
             // history={history}
-            jobs={filteredJobs}
+            jobs={filteredLeads}
             columns={columns}
             classes={classes}
             tableHeader={"Leads"} />
         ): <p> No leads with the selected status </p>}
+        </div>)
+      }
     </Fragment>
   )//end of return
 };
 
 const mapStateToProps = state => ({
-    jobs: state.JobReducer.job
+  leads: state.LeadReducer.leads,
+  LeadLoading: state.LeadReducer.loading
 });
   
-export default connect(mapStateToProps, { fetchJob } )(leadStatus);
+export default connect(mapStateToProps, { fetchLeads } )(leadStatus);

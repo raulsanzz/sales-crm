@@ -1,7 +1,8 @@
 import {
+    LEAD_ACTION_START,
     LEAD_ADD_SUCCESS,
     LEAD_ADD_FAIL,
-    LEAD_FETCH_SUCCESS,
+    LEAD_FETCH_SUCCESS, 
     LEAD_FETCH_FAIL,
     LEAD_UPDATE_SUCCESS,
     LEAD_UPDATE_FAIL
@@ -15,6 +16,12 @@ loading: true
   
 export default function(state = initialState, action) {
     switch (action.type) {
+        
+        case LEAD_ACTION_START:
+            return {
+                ...state,
+                loading: true
+            };
         case LEAD_ADD_SUCCESS:
             return {
                 ...state,

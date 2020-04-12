@@ -2,6 +2,7 @@ import axios from "axios";
 import { setAlert } from "../actions/alert";
 
 import {
+  LEAD_ACTION_START,
   LEAD_ADD_SUCCESS,
   LEAD_ADD_FAIL,
   LEAD_FETCH_SUCCESS,
@@ -14,6 +15,9 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 //Add a new Lead
 export const addLead = ( newLeadData ) => async dispatch => {
+  dispatch({
+    type: LEAD_ACTION_START,
+  });
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -25,7 +29,7 @@ export const addLead = ( newLeadData ) => async dispatch => {
     const res = await axios.post ( BASE_URL + "/api/lead", body, config);
     dispatch({
       type: LEAD_ADD_SUCCESS,
-      payload: res.data.lead
+      payload: res.data.newLead
     });
     return true;
   } 
@@ -46,6 +50,9 @@ export const addLead = ( newLeadData ) => async dispatch => {
 
 //fetch all leads
 export const fetchLeads = () => async dispatch => {
+  dispatch({
+    type: LEAD_ACTION_START,
+  });
   try {
     const res = await axios.get ( BASE_URL + "/api/lead");
     dispatch({
@@ -62,6 +69,9 @@ export const fetchLeads = () => async dispatch => {
 
 //update lead
 export const updateLead = ( query, newLeadData, newCallData, newClientData ) => async dispatch => {
+  dispatch({
+    type: LEAD_ACTION_START,
+  });
   const config = {
     headers: {
       "Content-Type": "application/json"

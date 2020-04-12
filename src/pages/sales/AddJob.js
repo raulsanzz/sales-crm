@@ -356,7 +356,7 @@ const AddJob = ({ addJob, jobs}) => {
             <ul style={{ listStyleType: "none", textAlign: "left", margin: "0" }}>
               <li className={classes.ifCompExist}>
                 <b style={{ marginRight: "10px" }}>Company Name:</b>
-                <span>{compExist.company_name}</span>
+                <span>{compExist.client.company_name}</span>
               </li>
               <li className={classes.ifCompExist}>
                 <b style={{ marginRight: "10px" }}>URL:</b>

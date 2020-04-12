@@ -26,6 +26,9 @@ module.exports = (sequelize, Sequelize) => {
     phone_number: { // Company/Client number
       type: Sequelize.STRING
     },
+    time_zone: {
+      type: Sequelize.STRING
+    },
     // Timestamps
     createdAt: Sequelize.DATEONLY,
     updatedAt: Sequelize.DATEONLY

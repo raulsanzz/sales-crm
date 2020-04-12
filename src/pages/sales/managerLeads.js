@@ -42,7 +42,7 @@ const columns = [
     },
   }));
 
-const managerJobLinks = ({fetchLeads, leads, history}) => {
+const managerJobLinks = ({fetchLeads, leads, leadLoading, history}) => {
     const classes = useStyles();
     const [filteredJobs, setFilteredJobs] = useState([]);
 
@@ -55,7 +55,7 @@ const managerJobLinks = ({fetchLeads, leads, history}) => {
     return(
       <Fragment>
         {
-          leads.length > 0 ?
+          leadLoading ? <p> Loading...!!! </p> : leads.length > 0 ?
           (<Table 
             jobs={filteredJobs}
             columns={columns}
@@ -69,7 +69,8 @@ const managerJobLinks = ({fetchLeads, leads, history}) => {
 }
 
 const mapStateToProps = state => ({
-    leads: state.LeadReducer.leads
-  });
+  leads: state.LeadReducer.leads,
+  leadLoading: state.LeadReducer.loading
+});
 
 export default  connect(mapStateToProps, { fetchLeads })(managerJobLinks);

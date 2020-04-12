@@ -79,10 +79,10 @@ export default function salesDetail() {
       { data.length !== 0 ?
       (<Fragment>
         <h1 className={classes.center}>Daily Applied Job Details</h1>
-        <span className={classes.text}>Total Applied Job:</span>
-        <Badge badgeContent={total.appliedJobs === 0 ? '0'  : total.appliedJobs} color="secondary"></Badge>
         <span className={classes.text}>Total Fetched Job:</span>
         <Badge badgeContent={total.fetchedJobs === 0 ? '0' : total.fetchedJobs} color="secondary"></Badge>
+        <span className={classes.text}>Total Applied Job:</span>
+        <Badge badgeContent={total.appliedJobs === 0 ? '0'  : total.appliedJobs} color="secondary"></Badge>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
