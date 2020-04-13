@@ -9,14 +9,14 @@ import Select from '@material-ui/core/Select';
 import { useAlert } from "react-alert";
 import { connect } from "react-redux";
 
-import { updateAppliedJob } from './../../actions/job'
-import Table from "./../table";
+import { updateAppliedJob } from './../../../actions/job'
+import Table from "./../../table";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const columns = [
     { id: "company_name", label: "Company Name", minWidth: 170 },
-    { id: "url", label: "URL", minWidth: 100, align: "left" },
+    { id: "url", label: "URL", minWidth: 100, align: "center" },
     { id: "jobApplyButton", label: "Action", minWidth: 100, align: "center" }
 ];
   

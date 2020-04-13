@@ -7,6 +7,7 @@ const Job = db.job;
 const sequelize = db.Sequelize;
 const User = db.user;
 const Client = db.client;
+const Profile = db.profile;
 const Op = sequelize.Op;
 
 
@@ -33,7 +34,7 @@ Router.get( "/", auth, async (req, res) => {
     }
 });
 
-//get all applied jobs where applied=false
+//get all applied jobs where applied=true
 Router.get( "/manager", auth, async (req, res) => {
     try {
       const appliedJobs = await AppliedJob.findAll({
@@ -55,6 +56,36 @@ Router.get( "/manager", auth, async (req, res) => {
       return res.status(402).json({ msg: "Server Error" });
     }
 });
+
+//get all applied jobs where lead_status != lead
+Router.get( "/leads", auth, async (req, res) => {
+  try {
+    const appliedJobs = await AppliedJob.findAll({
+      where: { lead_status: {
+        [Op.not]: 'lead'
+      }},
+      include: [
+        {
+          model: Job,
+          attributes: ['job_title', 'url'],
+          include: [{
+              model: Client,
+              attributes: ['company_name']
+          }]
+        },
+        {
+          model: Profile,
+          attributes: ['name']
+        }
+      ]
+  })
+  res.json({ appliedJobs }  );
+  } catch (error) {
+    console.log(error.message);
+    return res.status(402).json({ msg: "Server Error" });
+  }
+});
+
 //get all user daily applied jobs count
 Router.get( "/dailyreport", async (req, res) => {
     try {

@@ -6,8 +6,8 @@ import AddJob from "./AddJob";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import Table from './../table';
-import { fetchJob } from "../../actions/job";
+import Table from './../../table';
+import { fetchJob } from "./../../../actions/job";
 
 const columns = [
   { id: "company_name", label: "Company Name", minWidth: 170 },

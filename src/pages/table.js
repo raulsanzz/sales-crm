@@ -142,7 +142,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                   </TableCell>)
                         case "url":
                           return(<TableCell key={column.id} align="center">
-                                  { tableHeader === "Job Links" ? row.job.url: row.url } 
+                                  { tableHeader === "Job List" ? row.url : row.job.url } 
                                 </TableCell>)
                         case "call_time":
                           return(<TableCell key={column.id} align="center">

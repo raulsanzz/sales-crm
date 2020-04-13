@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 
 import Table from "./../../table";
-import { fetchJob } from "../../../actions/job";
+import { fetchJob } from "./../../../actions/job";
 
 const columns = [
     { id: "companyName", label: "Company Name", minWidth: 170 },

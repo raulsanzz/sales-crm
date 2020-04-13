@@ -3,8 +3,8 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 
-import Table from "../table";
-import { fetchLeads } from "../../actions/lead";
+import Table from "../../table";
+import { fetchLeads } from "../../../actions/lead";
 
 const columns = [
     { id: "company_name", label: "Company Name", minWidth: 170 },

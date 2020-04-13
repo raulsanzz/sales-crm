@@ -8,9 +8,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { updateAppliedJob } from "../../actions/job";
-import { addLead } from "../../actions/lead";
-import Table from "../table";
+import { updateAppliedJob } from "./../../../actions/job";
+import { addLead } from "./../../../actions/lead";
+import Table from "./../../table";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   
@@ -48,7 +48,6 @@ const managerJobLinks = ({updateAppliedJob, addLead, history}) => {
   const classes = useStyles();
   const alert = useAlert();
   const [jobs, setJobs] = useState([]);
-  const [jobUpdated, setJobUpdated] = useState(false);
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [profiles, setProfiles] = useState([]);
   const [selectedProfile, setSelectedProfile] = useState(null);

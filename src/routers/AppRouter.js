@@ -8,11 +8,20 @@ import SignInPage from "../pages/SignInPage";
 import SignUpPage from "../pages/SignUpPage";
 import DashboardPage from "../pages/DashboardPage";
 import AddPostPage from "../pages/AddPostPage";
+// Sales Executive 
+import JobList from "../pages/sales/salesExecutive/JobList";
+import ManagerJobLinks from "../pages/sales/salesExecutive/managerJobLinks";
+import SalesDetails from "../pages/sales/salesExecutive/salesDetail";
+// Sales Manager
+import ManagerJobList from '../pages/sales/salesManager/managerJobList';
+import ManagerLeads from '../pages/sales/salesManager/managerLeads';
+import ScheduledLeads from '../pages/sales/salesManager/scheduledLeads';
+import LeadStatus from '../pages/sales/salesManager/leadStatus';
+import JobStatus from '../pages/sales/salesManager/jobStatus';
+// 
 import Alert from "../pages/Alert";
-import JobList from "../pages/sales/JobList";
 import AdminJobList from "../pages/sales/adminJobList";
 import EditJob from "../pages/sales/JobEdit";
-import SalesDetails from "../pages/sales/salesDetail";
 import UserList from "../pages/sales/UserList";
 import EditUser from "../pages/sales/EditUser";
 import LeadsList from "../pages/sales/leads/LeadList";
@@ -22,11 +31,6 @@ import MyLeads from "../pages/sales/leads/MyLead";
 import LeadSchedule from "../pages/sales/leads/LeadCallList";
 import UserReport from "../pages/sales/user/UserReport";
 import UserDetails from "../pages/sales/user/UserDetails";
-import ManagerJobLinks from "../pages/sales/managerJobLinks";
-import ManagerJobList from '../pages/sales/managerJobList';
-import LeadStatus from '../pages/sales/leadStatus';
-import ManagerLeads from '../pages/sales/managerLeads';
-import ScheduledLeads from '../pages/sales/leads/scheduledLeads';
 import SalesTest from '../pages/sales/test';
 import Voice from '../pages/sales/voice';
 import EditSalesTest from '../pages/sales/editSalesTest';
@@ -42,27 +46,31 @@ export default () => {
           <PublicRoute path="/signup" component={SignUpPage} />
           <PrivateRoute path="/dashboard" component={DashboardPage} />
           <PrivateRoute path="/addpost" component={AddPostPage} />
+          {/* Sales Executive */}
+          <PrivateRoute path="/job_list" component={JobList} />
+          <PrivateRoute path="/manager_job_links" component={ManagerJobLinks} />
+          <PrivateRoute path="/sales_daily_details" component={SalesDetails} />
+          {/* Sales Manager */}
+          <PrivateRoute path="/manager_job_list" component={ManagerJobList} />
+          <PrivateRoute path="/manager_leads" component={ManagerLeads} />
+          <PrivateRoute path="/scheduled_leads" component={ScheduledLeads} />
+          <PrivateRoute path="/leads" component={LeadStatus} />
+          <PrivateRoute path="/appliedJobs" component={JobStatus} />
+          {/* others */}
+          <PrivateRoute path="/lead_edit" component={EditLead} />
           <PrivateRoute path="/user_list" component={UserList} />
           <PrivateRoute path="/edit" component={EditUser} />
-          <PrivateRoute path="/job_list" component={JobList} />
           <PrivateRoute path="/admin_job_list" component={AdminJobList} />
           <PrivateRoute path="/job_edit" component={EditJob} />
-          <PrivateRoute path="/sales_daily_details" component={SalesDetails} />
           <PrivateRoute path="/leads_list" component={LeadsList} />
           <PrivateRoute path="/lead_details" component={LeadDetails} />
-          <PrivateRoute path="/lead_edit" component={EditLead} />
           <PrivateRoute path="/my_leads" component={MyLeads} />
           <PrivateRoute path="/lead_scedule" component={LeadSchedule} />
           <PrivateRoute path="/user_report" component={UserReport} />
           <PrivateRoute path="/user_details" component={UserDetails} />
-          <PrivateRoute path="/manager_job_list" component={ManagerJobList} />
-          <PrivateRoute path="/manager_job_links" component={ManagerJobLinks} />
-          <PrivateRoute path="/manager_leads" component={ManagerLeads} />
-          <PrivateRoute path="/scheduled_leads" component={ScheduledLeads} />
           <PrivateRoute path="/voice" component={Voice} />
           <PrivateRoute path="/sales_test" component={SalesTest} />
           <PrivateRoute path="/sales_test_edit" component={EditSalesTest} />
-          <PrivateRoute path="/leads" component={LeadStatus} />
         </Switch>
       </Router>
     </Fragment>
