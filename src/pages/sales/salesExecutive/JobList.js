@@ -1,34 +1,34 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/styles";
-import Paper from "@material-ui/core/Paper";
-import AddJob from "./AddJob";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import Paper from '@material-ui/core/Paper';
+import AddJob from './AddJob';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Table from './../../table';
-import { fetchJob } from "./../../../actions/job";
+import { fetchJob } from './../../../actions/job';
 
 const columns = [
-  { id: "company_name", label: "Company Name", minWidth: 170 },
-  { id: "job_title", label: "Job Title", minWidth: 100, align: "center" },
-  { id: "url", label: "URL", minWidth: 100, align: "center" },
-  { id: "location", label: "Location", minWidth: 170, align: "center" },
-  { id: "status", label: "Status", minWidth: 170, align: "center" },
-  { id: "createdAt", label: "Applied Date", minWidth: 170, align: "center" }
+  { id: 'company_name', label: 'Company Name', minWidth: 170 },
+  { id: 'job_title', label: 'Job Title', minWidth: 100, align: 'center' },
+  { id: 'url', label: 'URL', minWidth: 100, align: 'center' },
+  { id: 'location', label: 'Location', minWidth: 170, align: 'center' },
+  { id: 'status', label: 'Status', minWidth: 170, align: 'center' },
+  { id: 'createdAt', label: 'Applied Date', minWidth: 170, align: 'center' }
 ];
 
 const useStyles = makeStyles({
   root: {
-    width: "100%"
+    width: '100%'
   },
   tableWrapper: {
-    overflow: "auto"
+    overflow: 'auto'
   },
   jobHeader: {
-    textAlign: "center",
-    fontFamily: "initial",
-    color: "blue"
+    textAlign: 'center',
+    fontFamily: 'initial',
+    color: 'blue'
   }
 });
 
@@ -50,12 +50,12 @@ const jobList = ({ fetchJob, jobs }) => {
   return (
     <Paper className={classes.root}>
       <AddJob />
-      <div style={{margin:"20px"}}></div>
+      <div style={{margin:'20px'}}></div>
       <Table 
         jobs={filteredJobs}
         columns={columns}
         classes={classes}
-        tableHeader={"Job List"}
+        tableHeader={'Job List'}
         // history={history}
       />
     </Paper> 

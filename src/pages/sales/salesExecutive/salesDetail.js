@@ -1,33 +1,33 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, useState, Fragment } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import axios from "axios";
-import Badge from "@material-ui/core/Badge";
+import React, { useEffect, useState, Fragment } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import axios from 'axios';
+import Badge from '@material-ui/core/Badge';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "100%",
-    overflowX: "auto"
+    width: '100%',
+    overflowX: 'auto'
   },
   table: {
     minWidth: 650
   },
   center: {
-    textAlign: "center"
+    textAlign: 'center'
   },
   text: {
-    padding: "28px",
-    fontFamily: "initial",
-    fontSize: "18px",
-    fontWeight: "bold"
+    padding: '28px',
+    fontFamily: 'initial',
+    fontSize: '18px',
+    fontWeight: 'bold'
   },
   formControl: {
     margin: theme.spacing(1),
@@ -46,7 +46,7 @@ export default function salesDetail() {
   })
 
   useEffect(() => {
-    axios.get ( BASE_URL + "/api/appliedJob/dailyreport").then(res => {
+    axios.get ( BASE_URL + '/api/appliedJob/dailyreport').then(res => {
       SetData(res.data);
     });
   }, []);
@@ -81,10 +81,10 @@ export default function salesDetail() {
       (<Fragment>
         <h1 className={classes.center}>Daily Applied Job Details</h1>
         <span className={classes.text}>Total Fetched Job:</span>
-        <Badge badgeContent={total.fetchedJobs === 0 ? '0' : total.fetchedJobs} color="secondary"></Badge>
+        <Badge badgeContent={total.fetchedJobs === 0 ? '0' : total.fetchedJobs} color='secondary'></Badge>
         <span className={classes.text}>Total Applied Job:</span>
-        <Badge badgeContent={total.appliedJobs === 0 ? '0'  : total.appliedJobs} color="secondary"></Badge>
-        <Table className={classes.table} aria-label="simple table">
+        <Badge badgeContent={total.appliedJobs === 0 ? '0'  : total.appliedJobs} color='secondary'></Badge>
+        <Table className={classes.table} aria-label='simple table'>
           <TableHead>
             <TableRow>
               <TableCell>User Name</TableCell>
@@ -93,15 +93,15 @@ export default function salesDetail() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map(row => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
+            {data.map((row, index) => (
+              <TableRow key={index}>
+                <TableCell component='th' scope='row'>
                   {row.name}
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell component='th' scope='row'>
                   {row.fetchedJobCount}
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell component='th' scope='row'>
                   {row.appliedJobCount}
                 </TableCell>
               </TableRow>

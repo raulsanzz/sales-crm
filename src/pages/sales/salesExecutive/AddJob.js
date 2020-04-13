@@ -1,95 +1,96 @@
-import React, { useEffect, useState, Fragment } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import HowToReg from "@material-ui/icons/HowToReg";
-import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { addJob } from "../../../actions/job";
-import { withRouter } from "react-router-dom";
-import { useAlert } from "react-alert";
+import React, { useEffect, useState, Fragment } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import HowToReg from '@material-ui/icons/HowToReg';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { addJob } from '../../../actions/job';
+import { withRouter } from 'react-router-dom';
+import { useAlert } from 'react-alert';
 
 const useStyles = makeStyles(theme => ({
   modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid 6c697859",
+    border: '2px solid 6c697859',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    width: "58%"
+    width: '58%'
   },
   compExist: {
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid 6c697859",
+    border: '2px solid 6c697859',
     boxShadow: theme.shadows[5],
-    width: "41%",
-    float: "right",
-    marginTop: "-481px"
+    width: '41%',
+    float: 'right',
+    marginTop: '-481px'
   },
   button: {
-    position: "relative"
+    position: 'relative'
   },
   root: {
-    "& > *": {
+    '& > *': {
       margin: theme.spacing(1),
       width: 200
     }
   },
   h1: {
-    fontSize: "25px",
-    fontFamily: "auto"
+    fontSize: '25px',
+    fontFamily: 'auto'
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: "31"
+    marginLeft: theme.spacing(),
+    marginRight: theme.spacing(),
+    width: '31'
   },
   buttonform: {
-    marginTop: "5%",
-    width: "100%"
+    marginTop: '5%',
+    width: '100%'
   },
   avatar: {
     backgroundColor: theme.palette.secondary.main,
-    margin: " 0 auto"
+    margin: ' 0 auto'
   },
   typography: {
-    fontFamily: "initial",
-    fontSize: "25px",
-    position: "relative",
-    left: "260px"
+    fontFamily: 'initial',
+    fontSize: '25px',
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '0 auto' 
   },
   error1: {
-    position: "absolute",
-    right: "777px",
-    top: "226px",
-    color: "red"
+    position: 'absolute',
+    right: '777px',
+    top: '226px',
+    color: 'red'
   },
   invalidElementError: {
-    color: "red"
+    color: 'red'
   },
   profile: {
-    marginTop: "24px"
+    marginTop: '24px'
   },
   header: {
-    textAlign: "center",
-    fontSize: "20px",
-    color: "red"
+    textAlign: 'center',
+    fontSize: '20px',
+    color: 'red'
   },
   ifCompExist:{
-    marginBottom: "5px",
-    fontSize: "15px",
-    display: "inline-block",
-    width: "50%"
+    marginBottom: '5px',
+    fontSize: '15px',
+    display: 'inline-block',
+    width: '50%'
   }
 }));
 
 const AddJob = ({ addJob, jobs}) => {
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
-  const [exist, setExist] = useState("");
+  const [exist, setExist] = useState('');
   const [compExist, setCompExist] = useState(null);
   const alert = useAlert();
 
@@ -285,10 +286,10 @@ const AddJob = ({ addJob, jobs}) => {
     }
     const res = await addJob(jobData, clientData);
     if(res){
-      alert.success("Job Added successfully...!!");
+      alert.success('Job Added successfully...!!');
     }
     else{
-      alert.success("Failed to add job...!!");
+      alert.success('Failed to add job...!!');
     }
   }
 
@@ -301,16 +302,16 @@ const AddJob = ({ addJob, jobs}) => {
       });
     };
     let form = (
-      <form onSubmit={orderHandler} noValidate autoComplete="off">
+      <form onSubmit={orderHandler} noValidate autoComplete='off'>
           {
             fromElementArray.map( elem => (
-              <div key={elem.id} className="form-group">
+              <div key={elem.id} className='form-group'>
                 <label>
                   {elem.config.elementConfig.placeholder}
-                  {elem.config.validation.required ? " (*)": null}</label>
+                  {elem.config.validation.required ? ' (*)': null}</label>
                 <input
                   id={elem.id}
-                  className="form-control"
+                  className='form-control'
                   type={elem.config.elementConfig.type}
                   value={elem.config.value}
                   onChange={(event) => {onChangeHandler(event, elem.id)}}
@@ -327,7 +328,7 @@ const AddJob = ({ addJob, jobs}) => {
               </div>
             ))
           }
-          <button disabled={exist || fromIsInvalid} className="btn btn-primary">Add Job</button>
+          <button disabled={exist || fromIsInvalid} className='btn btn-primary'>Add Job</button>
       </form>
       );
     return form;
@@ -341,10 +342,8 @@ const AddJob = ({ addJob, jobs}) => {
           </Avatar>
           <Typography
             className={classes.typography}
-            align="center"
-            variant="headline"
-            >
-            Add new Job
+            align='center'>
+            Add New Job
           </Typography>
           {formRender()}
         </div>
@@ -353,21 +352,21 @@ const AddJob = ({ addJob, jobs}) => {
         {compExist !== null ? (
           <div className={classes.compExist}>
             <h1 className={classes.header}>Job Alredy Exist</h1>
-            <ul style={{ listStyleType: "none", textAlign: "left", margin: "0" }}>
+            <ul style={{ listStyleType: 'none', textAlign: 'left', margin: '0' }}>
               <li className={classes.ifCompExist}>
-                <b style={{ marginRight: "10px" }}>Company Name:</b>
+                <b style={{ marginRight: '10px' }}>Company Name:</b>
                 <span>{compExist.client.company_name}</span>
               </li>
               <li className={classes.ifCompExist}>
-                <b style={{ marginRight: "10px" }}>URL:</b>
+                <b style={{ marginRight: '10px' }}>URL:</b>
                 <span>{compExist.url}</span>
               </li>
               <li className={classes.ifCompExist}>
-                <b style={{ marginRight: "10px" }}>Job Title:</b>
+                <b style={{ marginRight: '10px' }}>Job Title:</b>
                 <span>{compExist.job_title}</span>
               </li>
               <li className={classes.ifCompExist}>
-                <b style={{ marginRight: "10px" }}> Created at:</b>
+                <b style={{ marginRight: '10px' }}> Created at:</b>
                 <span>{compExist.createdAt}</span>
               </li>
             </ul>

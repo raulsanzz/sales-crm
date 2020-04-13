@@ -1,39 +1,39 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, Fragment } from 'react';
-import { makeStyles } from "@material-ui/styles";
-import { connect } from "react-redux";
-import { useAlert } from "react-alert";
-import axios from "axios";
+import { makeStyles } from '@material-ui/styles';
+import { connect } from 'react-redux';
+import { useAlert } from 'react-alert';
+import axios from 'axios';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { updateAppliedJob } from "./../../../actions/job";
-import { addLead } from "./../../../actions/lead";
-import Table from "./../../table";
+import { updateAppliedJob } from './../../../actions/job';
+import { addLead } from './../../../actions/lead';
+import Table from './../../table';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   
 const useStyles = makeStyles( theme => ({
   root: {
-    width: "100%"
+    width: '100%'
   },
   tableWrapper: {
-    overflow: "auto"
+    overflow: 'auto'
   },
   paper: {
-    width: "100%",
+    width: '100%',
     marginBottom: theme.spacing(2)
   },
   textField: {
-    marginTop: "12px",
-    marginRight: "22px",
-    width: "100%"
+    marginTop: '12px',
+    marginRight: '22px',
+    width: '100%'
   },
   jobHeader: {
-    textAlign: "center",
-    fontFamily: "initial",
-    color: "blue"
+    textAlign: 'center',
+    fontFamily: 'initial',
+    color: 'blue'
   },  
   formControl: {
       margin: theme.spacing(1),
@@ -53,10 +53,10 @@ const managerJobLinks = ({updateAppliedJob, addLead, history}) => {
   const [selectedProfile, setSelectedProfile] = useState(null);
 
   const columns = [
-    { id: "company_name", label: "Company Name", minWidth: 170 },
-    { id: "list", label: "lead_status", minWidth: 100, align: "center", 
-      placeholder: "lead Status", listItems: ["lead", "garbage", "recuriter", "in-house", "rejected by client"]},
-    { id: "updateButton", label: "Action", minWidth: 100, align: "center" }
+    { id: 'company_name', label: 'Company Name', minWidth: 170 },
+    { id: 'list', label: 'lead_status', minWidth: 100, align: 'center', 
+      placeholder: 'lead Status', listItems: ['lead', 'garbage', 'recuriter', 'in-house', 'rejected by client']},
+    { id: 'updateButton', label: 'Action', minWidth: 100, align: 'center' }
   ];
   
 
@@ -73,9 +73,9 @@ const managerJobLinks = ({updateAppliedJob, addLead, history}) => {
   
   const fetchAppliedJobs = async () => {
     try {
-      const profiles = await axios.get ( BASE_URL + "/api/profile");
+      const profiles = await axios.get ( BASE_URL + '/api/profile');
       setProfiles(profiles.data.profiles);
-      const jobs =  await axios.get ( BASE_URL + "/api/appliedjob/manager");
+      const jobs =  await axios.get ( BASE_URL + '/api/appliedjob/manager');
       setJobs(jobs.data.appliedJobs); 
     } catch (error) {
       console.log(error);
@@ -103,15 +103,15 @@ const managerJobLinks = ({updateAppliedJob, addLead, history}) => {
         }
         res = await addLead(newLeadData);
         if(res){
-          alert.success("Updated...!!");
+          alert.success('Updated...!!');
         }
         else{
-          alert.success("Failed to Add Lead...!!");
+          alert.success('Failed to Add Lead...!!');
         }
       }
     }
     else{
-      alert.success("Failed to Update...!!");
+      alert.success('Failed to Update...!!');
     }
   }
 
@@ -147,7 +147,7 @@ const managerJobLinks = ({updateAppliedJob, addLead, history}) => {
         jobs={filteredJobs}
         columns={columns}
         classes={classes}
-        tableHeader={"Jobs List"}
+        tableHeader={'Jobs List'}
         history={history}
         onUpdateHandler={jobUpdateHandeler}
         />

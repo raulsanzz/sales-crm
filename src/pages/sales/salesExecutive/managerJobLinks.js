@@ -1,40 +1,40 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, Fragment } from 'react';
-import { makeStyles } from "@material-ui/styles";
-import axios from "axios";
+import { makeStyles } from '@material-ui/styles';
+import axios from 'axios';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { useAlert } from "react-alert";
-import { connect } from "react-redux";
+import { useAlert } from 'react-alert';
+import { connect } from 'react-redux';
 
 import { updateAppliedJob } from './../../../actions/job'
-import Table from "./../../table";
+import Table from './../../table';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const columns = [
-    { id: "company_name", label: "Company Name", minWidth: 170 },
-    { id: "url", label: "URL", minWidth: 100, align: "center" },
-    { id: "jobApplyButton", label: "Action", minWidth: 100, align: "center" }
+    { id: 'company_name', label: 'Company Name', minWidth: 170 },
+    { id: 'url', label: 'URL', minWidth: 100, align: 'center' },
+    { id: 'jobApplyButton', label: 'Action', minWidth: 100, align: 'center' }
 ];
   
   const useStyles = makeStyles(theme => ({
     root:{
-      width: "100%"
+      width: '100%'
     },
     tableWrapper: {
-      overflow: "auto"
+      overflow: 'auto'
     },
     paper: {
-      width: "100%",
+      width: '100%',
       marginBottom: theme.spacing(2)
     },
     jobHeader: {
-      textAlign: "center",
-      fontFamily: "initial",
-      color: "blue"
+      textAlign: 'center',
+      fontFamily: 'initial',
+      color: 'blue'
     },  
     formControl: {
         margin: theme.spacing(1),
@@ -44,9 +44,9 @@ const columns = [
         marginTop: theme.spacing(2),
     },
     textField: {
-      marginTop: "12px",
-      marginRight: "22px",
-      width: "100%"
+      marginTop: '12px',
+      marginRight: '22px',
+      width: '100%'
     },
   }));
 
@@ -70,9 +70,9 @@ const managerJobLinks = ({ updateAppliedJob }) => {
   
   const fetchAppliedJobs = async () => {
     try {
-      const profiles = await axios.get ( BASE_URL + "/api/profile");
+      const profiles = await axios.get ( BASE_URL + '/api/profile');
       setProfiles(profiles.data.profiles);
-      const jobs =  await axios.get ( BASE_URL + "/api/appliedjob");
+      const jobs =  await axios.get ( BASE_URL + '/api/appliedjob');
       setJobs(jobs.data.appliedJobs);  
     } catch (error) {
       console.log(error);
@@ -104,10 +104,10 @@ const managerJobLinks = ({ updateAppliedJob }) => {
         }
       })
       setJobs(updatedJobs);
-      alert.success("Applied successfully...!!");
+      alert.success('Applied successfully...!!');
     }
     else{
-      alert.success("Applied Job Failed...!!");
+      alert.success('Applied Job Failed...!!');
     }
   };
 
@@ -134,7 +134,7 @@ const managerJobLinks = ({ updateAppliedJob }) => {
             jobs={filteredJobs}
             columns={columns}
             classes={classes}
-            tableHeader={"Job Links"}
+            tableHeader={'Job Links'}
             onApplyHandler={onApplyButtonHandler}/>
         ): <p> No More jobs </p>
       }

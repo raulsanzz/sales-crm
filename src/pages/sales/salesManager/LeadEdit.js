@@ -1,65 +1,64 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from "react";
-import Paper from "@material-ui/core/Paper";
-import Avatar from "@material-ui/core/Avatar";
-import Edit from "@material-ui/icons/Edit";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import withStyles from "@material-ui/core/styles/withStyles";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import IconButton from "@material-ui/core/IconButton";
-import { connect } from "react-redux";
-import compose from "recompose/compose";
+import React, { useState, useEffect } from 'react';
+import Paper from '@material-ui/core/Paper';
+import Avatar from '@material-ui/core/Avatar';
+import Edit from '@material-ui/icons/Edit';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import withStyles from '@material-ui/core/styles/withStyles';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import IconButton from '@material-ui/core/IconButton';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import { useAlert } from "react-alert";
+import { useAlert } from 'react-alert';
 
-import { updateLead } from "../../../actions/lead";
+import { updateLead } from '../../../actions/lead';
 
 const styles = theme => ({
   layout: {
-    width: "100%",
-    display: "block",
-    margin: "0 auto",
-    [theme.breakpoints.up("sm")]: {
-      width: "80%"
+    width: '100%',
+    display: 'block',
+    margin: '0 auto',
+    [theme.breakpoints.up('sm')]: {
+      width: '80%'
     },
-    [theme.breakpoints.up("md")]: {
-      width: "65%"
+    [theme.breakpoints.up('md')]: {
+      width: '65%'
     },
-    [theme.breakpoints.up("lg")]: {
-      width: "45%"
+    [theme.breakpoints.up('lg')]: {
+      width: '45%'
     }
   },
   paper: {
-    minHeight: "300px",
-    marginTop: theme.spacing.unit * 8,
-    marginBottom: theme.spacing.unit * 8,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`
+    minHeight: '300px',
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`
   },
   avatar: {
-    margin: `${theme.spacing.unit}px auto`,
+    margin: `${theme.spacing()}px auto`,
     backgroundColor: theme.palette.secondary.main
   },
 
   invalidElementError: {
-    color: "red"
+    color: 'red'
   },
   button: {
-    width: "50%",
+    width: '50%',
     display: 'flex',
     justifyContent: 'center',
     margin: '10px auto'
   },
   textField:{
-    width: "100%",
+    width: '100%',
   },
   formControl: {
     margin: theme.spacing(1),
@@ -68,6 +67,13 @@ const styles = theme => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  typography: {
+    fontFamily: 'initial',
+    fontSize: '25px',
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '0 auto' 
+  }
 });
 
 const editLead = ({ classes, history, location, updateLead }) => {
@@ -316,11 +322,11 @@ const onChangeHandler = (e, elementIdentifier) => {
     }
     const res = await updateLead(query, LeadData, callData, clientData);
     if(res){
-      alert.success("Lead updated successfully...!!");
+      alert.success('Lead updated successfully...!!');
       history.goBack()
     }
     else{
-      alert.success("Lead update failed...!!");
+      alert.success('Lead update failed...!!');
     }
   };
   const formRender = () => {
@@ -332,9 +338,9 @@ const onChangeHandler = (e, elementIdentifier) => {
       });
     };
     let form = (
-      <form onSubmit={onSubmitHandler} autoComplete="off">
+      <form onSubmit={onSubmitHandler} autoComplete='off'>
         {fromElementArray.map( elem => (
-          elem.config.elementType === "select" ? (
+          elem.config.elementType === 'select' ? (
             <FormControl className={classes.formControl, classes.textField} key={elem.id}>
               <InputLabel id={`${elem.id}-label`}>{elem.config.elementConfig.placeholder}</InputLabel>
                 <Select
@@ -348,11 +354,12 @@ const onChangeHandler = (e, elementIdentifier) => {
                   ))} 
               </Select>
             </FormControl>
-            ): elem.config.elementType === "date" ? 
+            ): elem.config.elementType === 'date' ? 
             (<TextField
+              key={elem.id}
               id={elem.id}
               label={elem.config.elementConfig.placeholder}
-              type="date"
+              type='date'
               onChange={(event) => {onChangeHandler(event, elem.id)}}
               value={elem.config.value}
               className={classes.textField}
@@ -362,6 +369,7 @@ const onChangeHandler = (e, elementIdentifier) => {
             />
             ) : (
               <TextField
+                key={elem.id}
                 className={classes.textField}
                 error = {!elem.config.valid && elem.config.touched}
                 id={elem.id}
@@ -373,9 +381,9 @@ const onChangeHandler = (e, elementIdentifier) => {
               )
           ))}
           <Button
-            variant="contained"
-            color="primary"
-            type="submit"
+            variant='contained'
+            color='primary'
+            type='submit'
             className={classes.button}
             disabled={fromIsInvalid}>
             Update Lead
@@ -390,14 +398,15 @@ const onChangeHandler = (e, elementIdentifier) => {
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <IconButton 
-            aria-label="edit"
+            aria-label='edit'
             onClick={() => history.goBack()}>
-            <ArrowBackIcon fontSize="large" />
+            <ArrowBackIcon fontSize='large' />
           </IconButton>
           <Avatar className={classes.avatar}>
             <Edit />
           </Avatar>
-          <Typography align="center" variant="headline">
+          <Typography 
+            className={classes.typography} >
             Edit Lead
           </Typography>
           {formRender()}

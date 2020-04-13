@@ -18,6 +18,7 @@ import ManagerLeads from '../pages/sales/salesManager/managerLeads';
 import ScheduledLeads from '../pages/sales/salesManager/scheduledLeads';
 import LeadStatus from '../pages/sales/salesManager/leadStatus';
 import JobStatus from '../pages/sales/salesManager/jobStatus';
+import EditLead from "../pages/sales/salesManager/LeadEdit";
 // 
 import Alert from "../pages/Alert";
 import AdminJobList from "../pages/sales/adminJobList";
@@ -26,7 +27,6 @@ import UserList from "../pages/sales/UserList";
 import EditUser from "../pages/sales/EditUser";
 import LeadsList from "../pages/sales/leads/LeadList";
 import LeadDetails from "../pages/sales/leads/LeadDetails";
-import EditLead from "../pages/sales/leads/LeadEdit";
 import MyLeads from "../pages/sales/leads/MyLead";
 import LeadSchedule from "../pages/sales/leads/LeadCallList";
 import UserReport from "../pages/sales/user/UserReport";
@@ -56,8 +56,8 @@ export default () => {
           <PrivateRoute path="/scheduled_leads" component={ScheduledLeads} />
           <PrivateRoute path="/leads" component={LeadStatus} />
           <PrivateRoute path="/appliedJobs" component={JobStatus} />
-          {/* others */}
           <PrivateRoute path="/lead_edit" component={EditLead} />
+          {/* others */}
           <PrivateRoute path="/user_list" component={UserList} />
           <PrivateRoute path="/edit" component={EditUser} />
           <PrivateRoute path="/admin_job_list" component={AdminJobList} />
