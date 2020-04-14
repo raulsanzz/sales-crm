@@ -91,7 +91,7 @@ const jobStatus = () => {
           value= {jobStatus}
           onChange={(event) => {handleJobStatusChange(event.target.value)}}>
           <MenuItem value='garbage'>Garbage</MenuItem>
-          <MenuItem value='recruiter'>Recruiter</MenuItem>
+          <MenuItem value='recruiter'>recruiter</MenuItem>
           <MenuItem value='in-house'>In-house</MenuItem>
           <MenuItem value='rejected by client'>Rejected by client</MenuItem>
         </Select>

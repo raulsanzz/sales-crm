@@ -55,7 +55,7 @@ const managerJobLinks = ({updateAppliedJob, addLead, history}) => {
   const columns = [
     { id: 'company_name', label: 'Company Name', minWidth: 170 },
     { id: 'list', label: 'lead_status', minWidth: 100, align: 'center', 
-      placeholder: 'lead Status', listItems: ['lead', 'garbage', 'recuriter', 'in-house', 'rejected by client']},
+      placeholder: 'lead Status', listItems: ['lead', 'garbage', 'recruiter', 'in-house', 'rejected by client']},
     { id: 'updateButton', label: 'Action', minWidth: 100, align: 'center' }
   ];
   

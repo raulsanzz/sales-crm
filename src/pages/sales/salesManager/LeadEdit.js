@@ -132,7 +132,7 @@ const editLead = ({ classes, history, location, updateLead }) => {
       value: location.state.detail.gmail_thread ? location.state.detail.gmail_thread : '',
       validation: {
         required: true,
-        urlReg:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+        urlReg:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;%=.]+$/
       },
       valid: location.state.detail.gmail_thread ? true : false,
       touched: location.state.detail.gmail_thread ? true : false,
@@ -251,13 +251,7 @@ const validityCheck = (value, rules) => {
       if(!isValid){
         message = 'required';
       }
-    };
-    if(rules.emailReg){
-      isValid = rules.emailReg.test(value.trim()) && isValid;
-      if(!isValid && message === ''){
-       message = 'invalid Email';
-      }
-    };  
+    }; 
     if(rules.urlReg){
       isValid = rules.urlReg.test(value.trim()) && isValid;
       if(!isValid && message === ''){

@@ -146,8 +146,8 @@ const AddJob = ({ addJob, jobs}) => {
       },
       value: '',
       validation: {
-          required: false,
-          urlReg:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+        required: false,
+        urlReg:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;%=.]+$/
       },
       valid: false,
       touched: false
@@ -161,7 +161,7 @@ const AddJob = ({ addJob, jobs}) => {
       value: '',
       validation: {
           required: false,
-          emailReg: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+          emailReg: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
       },
       valid: false,
       touched: false
@@ -188,7 +188,7 @@ const AddJob = ({ addJob, jobs}) => {
       value: '',
       validation: {
           required: true,
-          urlReg:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+          urlReg:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;%=.]+$/
       },
       valid: false,
       touched: false
