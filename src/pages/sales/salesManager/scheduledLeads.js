@@ -1,19 +1,24 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { makeStyles } from '@material-ui/styles';
+// import axios from 'axios';
+import { fetchLeads, updateLead } from '../../../actions/lead';
 import { connect } from 'react-redux';
+import { useAlert } from 'react-alert';
 
 import Table from './../../table';
-import { fetchJob } from './../../../actions/job';
 
+// const BASE_URL = process.env.REACT_APP_BASE_URL;
 const columns = [
-    { id: 'companyName', label: 'Company Name', minWidth: 170 },
+    { id: 'company_name', label: 'Company Name', minWidth: 170 },
     { id: 'profile', label: 'Profile', minWidth: 100, align: 'center' },
-    { id: 'lead_status', label: 'Lead Status', minWidth: 100, align: 'center' },
     { id: 'call_time', label: 'Time', minWidth: 100, align: 'center' },
     { id: 'call_date', label: 'Date', minWidth: 100, align: 'center' },
-    { id: 'list', label: 'Voice', minWidth: 100, align: 'center', 
-      placeholder: 'voice', listItems: ['person 1', 'person 2', 'person 3']}
+    { id: 'list', label: 'Lead Status', minWidth: 100, align: 'center', 
+    placeholder: 'Status', for: 'status' , 
+    listItems: ['lead' ,'good', 'hot', 'closed', 'garbage', 'dead lead', 'Rejected by client']},
+    { id: 'input', label: 'Voice', for: 'voice', minWidth: 100, align: 'center'},
+    { id: 'updateButton', label: 'Action', minWidth: 100, align: 'center' }
 ];
   
 const useStyles = makeStyles(theme => ({
@@ -44,41 +49,63 @@ const useStyles = makeStyles(theme => ({
   selectEmpty: {
       marginTop: theme.spacing(2),
   },
+  form: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '20ch',
+    },
+  },
 }));
 
-const scheduledLeads = ({fetchJob, jobs}) => {
+const scheduledLeads = ({fetchLeads, updateLead, leads, leadLoading, history}) => {
   const classes = useStyles();
-
-  const [filteredJobs, setFilteredJobs] = useState([]);
+  const alert = useAlert();
+  const [filteredLeads, setFilteredLeads] = useState([]);
 
   useEffect(() => {
-      fetchJob();
-      let arr = jobs.filter(job => {
-        console.log('====================================');
-        console.log(job.call_date > new Date());
-        console.log(new Date(job.call_date));
-        console.log(job.call_date);
-        console.log('====================================');
+    fetchLeads()
+      let  arr = leads.filter(lead => {
         return(
-            job.status !== 'job' ? job : null
+            lead.call.call_date !== null ? lead : null
         )
       })
-      setFilteredJobs(arr);
-    }, [jobs.length]);
+      setFilteredLeads(arr);  
+    }, [leads.length]);
+
+    const leadUpdateHandeler = async(lead) => {
+      const data = {
+        voice: lead.voice,
+        status: lead.status
+      }
+      const res = await updateLead({lead_id:lead.id}, data);
+      if(res){
+        alert.success('Lead updated successfully...!!');
+      }
+      else{
+        alert.success('Lead update failed...!!');
+      }
+    }
 
   return(
-    <Table 
-      jobs={filteredJobs}
-      columns={columns}
-      classes={classes}
-      tableHeader={'Scheduled Leads'}
-      // history={history}
-    /> 
+    <Fragment>
+      {
+        leadLoading ? <p> Loading </p>: 
+        (<Table 
+          jobs={filteredLeads}
+          columns={columns}
+          classes={classes}
+          tableHeader={'Scheduled Leads'}
+          onUpdateHandler={leadUpdateHandeler}
+          // history={history}
+        /> )
+      }
+    </Fragment>
   )
 }
 
 const mapStateToProps = state => ({
-  jobs: state.JobReducer.job
+  leads: state.LeadReducer.leads,
+  leadLoading: state.LeadReducer.loading
 });
 
-export default  connect(mapStateToProps, { fetchJob })(scheduledLeads);
+export default  connect(mapStateToProps, { fetchLeads, updateLead })(scheduledLeads);

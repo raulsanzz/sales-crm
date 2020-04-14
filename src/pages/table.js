@@ -47,7 +47,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
       else{
       return job.job_id === row.job_id ? {...job} : null}
     })
-    updatedJob[0][identifier] = event.target.value
+    updatedJob[0][identifier] = event.target.value;
     updatedJobs = updatedJobs.map(job => {
       if(row.id){
         return job.id === row.id ? updatedJob[0] : job}
@@ -122,7 +122,6 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                   </TableCell>)
                         case "status":
                         case "lead_status":
-                        case "call_date":
                         case "createdAt":
                           return (<TableCell key={column.id} align="center">
                                     {row[column.id]}
@@ -144,9 +143,10 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                           return(<TableCell key={column.id} align="center">
                                   { tableHeader === "Job List" ? row.url : row.job.url } 
                                 </TableCell>)
+                        case "call_date":
                         case "call_time":
                           return(<TableCell key={column.id} align="center">
-                                    {row.call_time} ({row.time_zone})
+                                    {row.call[column.id]}
                                 </TableCell>)
                         case "device":
                           return (<TableCell key={column.id} align="center">
@@ -159,8 +159,8 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                       <Select
                                         labelId={`${column.label}-label`}
                                         id={column.label}
-                                        value={row[column.label]}
-                                        onChange={(event) => {handleChange(event, row, column.label)}}>
+                                        value={row[column.for]}
+                                        onChange={(event) => {handleChange(event, row, column.for)}}>
                                           { column.listItems.map(item => {
                                               return (
                                               column.placeholder === 'profile_id' ?
@@ -172,6 +172,18 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                       </Select>
                                   </FormControl>   
                                 </TableCell>)
+                        case "input":
+                          return (<TableCell key={column.id} align="center">
+                                    <form className={classes.form} noValidate autoComplete="off">
+                                      <TextField 
+                                      id={column.label} 
+                                      label={column.label} 
+                                      variant="outlined" 
+                                      value={row[column.for]}
+                                      onChange={(event) => {handleChange(event, row, column.for)}}
+                                      />
+                                    </form>
+                                  </TableCell>)
                         case "jobApplyButton":
                           return(<TableCell  key={column.id} align="center">
                                   <Button 

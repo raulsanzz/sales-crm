@@ -61,8 +61,12 @@ Router.get( "/", auth, async (req, res) => {
 // update Lead 
 Router.put("/", auth, async (req, res) => {
     try {
-        const client = await clients.updateClient(req.body.query.client_id, req.body.newClientData);       
-        const call = await calls.updateCall(req.body.query.call_id, req.body.newCallData);  
+        if(req.body.newClientData){
+            await clients.updateClient(req.body.query.client_id, req.body.newClientData);       
+        }
+        if(req.body.newCallData){
+            await calls.updateCall(req.body.query.call_id, req.body.newCallData);  
+        }
 
         const updatedLead = await Lead.update({
             ...req.body.newLeadData
@@ -77,3 +81,40 @@ Router.put("/", auth, async (req, res) => {
 });
 
 module.exports = Router;
+
+// get all Scheduled leads
+// Router.get( "/scheduled", async (req, res) => {
+//     try {
+//         const leads = await Lead.findAll({
+//             include: [
+//                 {   
+//                     model: Job,
+//                     attributes: ['client_id'],
+//                     include: [{
+//                         model: Client,
+//                         attributes: ['company_name']
+//                     }]
+//                 },
+//                 {   model: Profile,
+//                     attributes: ['name']
+
+//                 },
+//                 {   
+//                     model: Call,
+//                     where :{
+//                         call_date: {
+//                             [Op.gte]: new Date() 
+//                         }
+//                     },
+//                     attributes: ['call_date', 'call_time']
+//                 }
+//             ],
+//             order: [ [Call, 'call_date', 'ASC'] ]
+
+//     })
+//         return res.json({ leads }  );
+//     } catch (error) {
+//       console.log(error.message);
+//       return res.status(402).json({ msg: "Server Error" });
+//     }
+// });

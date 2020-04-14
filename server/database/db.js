@@ -149,16 +149,16 @@ db.call.hasOne(db.lead, {
 })
 
 // to refresh the database and drop the already created tables
-// and create the from the start use options `{alter: true}`
+// and create the from the start use options `{force: true}`
 
-// sequelize.sync({force: true})
+// sequelize.sync({alter: true})
 //   .then(() => {
 //     console.log(`Database & tables created!`)
-//     db.profile.bulkCreate([
-//       {name: 'Ali Muhammad'},
-//       {name: 'Aamir khan'},
-//       {name: 'Kevan Jay'},
-//     ])
+//     // db.profile.bulkCreate([
+//     //   {name: 'Ali Muhammad'},
+//     //   {name: 'Aamir khan'},
+//     //   {name: 'Kevan Jay'},
+//     // ])
 // })
 
 module.exports = db;

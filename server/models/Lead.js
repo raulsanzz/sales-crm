@@ -10,6 +10,9 @@ module.exports = (sequelize, Sequelize) => {
     gmail_thread: {
       type: Sequelize.STRING
     },
+    voice: {
+      type: Sequelize.STRING
+    },
     status: { // lead status
       type: Sequelize.STRING
     },
