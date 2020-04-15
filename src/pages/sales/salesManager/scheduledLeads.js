@@ -63,7 +63,7 @@ const scheduledLeads = ({fetchLeads, updateLead, leads, leadLoading, history}) =
   const [filteredLeads, setFilteredLeads] = useState([]);
 
   useEffect(() => {
-    fetchLeads()
+    fetchLeads();
       let  arr = leads.filter(lead => {
         return(
             lead.call.call_date !== null ? lead : null

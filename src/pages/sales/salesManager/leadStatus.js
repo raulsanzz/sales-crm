@@ -77,14 +77,13 @@ const leadStatus = ({fetchLeads, leads, LeadLoading}) => {
           id='lead-select'
           value= {leadStatus}
           onChange={(event) => {handleLeadStatusChange(event.target.value)}}>
-          <MenuItem value='Scheduled'>Scheduled</MenuItem>
-          <MenuItem value='Recruiter'>Recruiter</MenuItem>
-          <MenuItem value='Garbage'>Garbage</MenuItem>
-          <MenuItem value='In-house'>In-house</MenuItem>
+          <MenuItem value='lead'>Lead</MenuItem>
+          <MenuItem value='good'>Good</MenuItem>
+          <MenuItem value='hot'>Hot</MenuItem>
+          <MenuItem value='closed'>Closed</MenuItem>
+          <MenuItem value='garbage'>Garbage</MenuItem>
+          <MenuItem value='dead lead'>Dead Lead</MenuItem>
           <MenuItem value='Rejected by client'>Rejected by client</MenuItem>
-          <MenuItem value='Rescheduled leads'>Rescheduled leads</MenuItem>
-          <MenuItem value='Call Taken'>Call Taken</MenuItem>
-          <MenuItem value='Not Taken'>Not Taken</MenuItem>
         </Select>
       </FormControl>
       {leadStatus === null ? (

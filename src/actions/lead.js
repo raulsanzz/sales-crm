@@ -80,14 +80,17 @@ export const updateLead = ( query, newLeadData, newCallData, newClientData ) => 
   const body = JSON.stringify({ query, newLeadData, newCallData, newClientData });
 
   try {
-    const res = await axios.put ( BASE_URL + "/api/lead", body, config);
+    await axios.put ( BASE_URL + "/api/lead", body, config);
     dispatch({
       type: LEAD_UPDATE_SUCCESS,
-      payload: res.data.lead
+      payload: { lead_id: query.lead_id, newLeadData, newCallData, newClientData }
     });
     return true;
   } 
   catch (error) {
+    console.log('====================================');
+    console.log(error);
+    console.log('====================================');
     const errors = error.response.data.errors;
     if (errors) {
       errors.forEach(error => {
