@@ -143,15 +143,12 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                           return(<TableCell key={column.id} align="center">
                                   { tableHeader === "Job List" ? row.url : row.job.url } 
                                 </TableCell>)
+                        case "contact_via":
                         case "call_date":
                         case "call_time":
                           return(<TableCell key={column.id} align="center">
                                     {row.call[column.id]}
                                 </TableCell>)
-                        case "device":
-                          return (<TableCell key={column.id} align="center">
-                                    some Device
-                                  </TableCell>)
                         case "list":
                           return(<TableCell key={column.label} align="center">
                                   <FormControl className={classes.formControl}>

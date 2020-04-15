@@ -88,9 +88,6 @@ export const updateLead = ( query, newLeadData, newCallData, newClientData ) => 
     return true;
   } 
   catch (error) {
-    console.log('====================================');
-    console.log(error);
-    console.log('====================================');
     const errors = error.response.data.errors;
     if (errors) {
       errors.forEach(error => {

@@ -96,7 +96,7 @@ const managerJobLinks = ({ updateAppliedJob }) => {
       profile_id: job.profile_id
     };
 
-    const res = await updateAppliedJob(query, {applied: true}, true);
+    const res = await updateAppliedJob(query, {applied: true, applied_on: new Date()}, true);
     if(res){
       let updatedJobs = jobs.filter(job => {
         if(job.job_id !== query.job_id || job.profile_id !== query.profile_id || job.user_id !== query.user_id){

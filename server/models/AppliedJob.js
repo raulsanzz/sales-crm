@@ -31,6 +31,9 @@ module.exports = (sequelize, Sequelize) => {
     applied: {
       type: Sequelize.BOOLEAN
     },
+    applied_on: {
+      type: Sequelize.DATEONLY
+    },
     lead_status: {
       type: Sequelize.STRING
     },

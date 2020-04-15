@@ -87,10 +87,10 @@ Router.get( "/leads", auth, async (req, res) => {
 });
 
 //get all user daily applied jobs count
-Router.get( "/dailyreport", async (req, res) => {
+Router.get( "/dailyreport", auth, async (req, res) => {
     try {
     const appliedJobs = await AppliedJob.findAll({
-        where: {applied: true, updatedAt: new Date()},
+        where: {applied: true, applied_on: new Date()},
         attributes: ['user_id', [sequelize.fn('COUNT', sequelize.col('user_id')), 'appliedJobCount']],
         group: ['user_id'],
     })
@@ -101,7 +101,7 @@ Router.get( "/dailyreport", async (req, res) => {
     })
     let report;
     if(fetchedJobs.length === 0 && appliedJobs.length === 0){
-        res.json( [] );
+        return res.json( [] );
     }
     if(fetchedJobs.length > appliedJobs.length){
         report = await mappingHelper(fetchedJobs, appliedJobs, "appliedJobCount");
@@ -110,9 +110,12 @@ Router.get( "/dailyreport", async (req, res) => {
         report = await mappingHelper(appliedJobs, fetchedJobs, "fetchedJobCount");
     }
 
-    res.json( report );
+      return res.json( report );
     } catch (error) {
-      console.log(error.message);
+      console.log('====================================');
+      console.log(error);
+      console.log('====================================');
+      // console.log(error.message);
       return res.status(402).json({ msg: "Server Error" });
     }
 });
