@@ -16,9 +16,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 
-// import { fetchJob } from "../../actions/job";
   
-const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, onApplyHandler}) => {
+const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, onApplyHandler, rowClickListener}) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [match, setMatch] = useState("Search");
@@ -86,7 +85,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
         margin="normal"
         type="text"
         className={classes.textField}
-        placeholder="Search by Company Name ...."
+        placeholder="Search...."
         onChange={searchHandler}
         />) : null
     }
@@ -112,7 +111,14 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
             .map(row => {
               // {console.log(row)}
               return (
-                <TableRow key={row.id ? row.id : row.job_id}>
+              <TableRow 
+                key={row.id ? row.id : row.job_id}
+                onClick={rowClickListener ? (() =>
+                  history.push({
+                    pathname: "/agenda",
+                    state: { detail: row }
+                  })): null}
+                >
                   {
                     columns.map(column => {
                       switch (column.id){
@@ -121,36 +127,37 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                   { (tableHeader === "Job List") ?  row.client.company_name: row.job.client.company_name }                                  
                                   </TableCell>)
                         case "status":
+                        case "interview_status":
                         case "lead_status":
                         case "createdAt":
-                          return (<TableCell key={column.id} align="center">
+                          return (<TableCell key={column.id} align={column.align}>
                                     {row[column.id]}
                                   </TableCell>)
                         case "job_title":
-                          return (<TableCell key={column.id} align="center">
+                          return (<TableCell key={column.id} align={column.align}>
                                   {(tableHeader === "Job List") ?  row[column.id]: row.job[column.id] }
                         </TableCell>)
                         case "client_name":
                         case "location":
-                          return (<TableCell key={column.id} align="center">
+                          return (<TableCell key={column.id} align={column.align}>
                                   {(tableHeader === "Job List") ?  row.client[column.id]: row.job.client[column.id] }
                         </TableCell>)
                         case "profile":
-                          return (<TableCell key={column.id} align="center">
+                          return (<TableCell key={column.id} align={column.align}>
                                     {row.profile_id ? row.profile.name : '-' }
                                   </TableCell>)
                         case "url":
-                          return(<TableCell key={column.id} align="center">
+                          return(<TableCell key={column.id} align={column.align}>
                                   { tableHeader === "Job List" ? row.url : row.job.url } 
                                 </TableCell>)
                         case "contact_via":
                         case "call_date":
                         case "call_time":
-                          return(<TableCell key={column.id} align="center">
+                          return(<TableCell key={column.id} align={column.align}>
                                     {row.call[column.id]}
                                 </TableCell>)
                         case "list":
-                          return(<TableCell key={column.label} align="center">
+                          return(<TableCell key={column.label} align={column.align}>
                                   <FormControl className={classes.formControl}>
                                       <InputLabel id={`${column.label}-label`}>{column.placeholder}</InputLabel>
                                       <Select
@@ -170,7 +177,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                   </FormControl>   
                                 </TableCell>)
                         case "input":
-                          return (<TableCell key={column.id} align="center">
+                          return (<TableCell key={column.id} align={column.align}>
                                     <form className={classes.form} noValidate autoComplete="off">
                                       <TextField 
                                       id={column.label} 
@@ -182,7 +189,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                     </form>
                                   </TableCell>)
                         case "jobApplyButton":
-                          return(<TableCell  key={column.id} align="center">
+                          return(<TableCell  key={column.id} align={column.align}>
                                   <Button 
                                     variant="contained" 
                                     color="secondary"
@@ -191,7 +198,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                   </Button>    
                                 </TableCell>)
                         case "editButton":
-                          return (<TableCell key={column.id} align="center">
+                          return (<TableCell key={column.id} align={column.align}>
                                     <IconButton 
                                       aria-label="edit"
                                       onClick={() =>
@@ -203,7 +210,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                     </IconButton>
                                   </TableCell>)
                         case "updateButton" :
-                          return(<TableCell key={column.id} align="center">
+                          return(<TableCell key={column.id} align={column.align}>
                                   <Button 
                                     variant="contained" 
                                     color="primary"

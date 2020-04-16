@@ -100,7 +100,7 @@ export default function salesDetail({ history }) {
                 scope="row"
                 onClick={() =>
                   history.push({
-                    pathname: "/lead_details",
+                    pathname: "/agenda",
                     state: { detail: row }
                   })
                 }
@@ -112,7 +112,7 @@ export default function salesDetail({ history }) {
                 scope="row"
                 onClick={() =>
                   history.push({
-                    pathname: "/lead_details",
+                    pathname: "/agenda",
                     state: { detail: row }
                   })
                 }
@@ -124,7 +124,7 @@ export default function salesDetail({ history }) {
                 scope="row"
                 onClick={() =>
                   history.push({
-                    pathname: "/lead_details",
+                    pathname: "/agenda",
                     state: { detail: row }
                   })
                 }
@@ -136,7 +136,7 @@ export default function salesDetail({ history }) {
                 scope="row"
                 onClick={() =>
                   history.push({
-                    pathname: "/lead_details",
+                    pathname: "/agenda",
                     state: { detail: row }
                   })
                 }
@@ -148,7 +148,7 @@ export default function salesDetail({ history }) {
                 scope="row"
                 onClick={() =>
                   history.push({
-                    pathname: "/lead_details",
+                    pathname: "/agenda",
                     state: { detail: row }
                   })
                 }
@@ -160,7 +160,7 @@ export default function salesDetail({ history }) {
                 scope="row"
                 onClick={() =>
                   history.push({
-                    pathname: "/lead_details",
+                    pathname: "/agenda",
                     state: { detail: row }
                   })
                 }

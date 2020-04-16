@@ -242,26 +242,6 @@ const mailFolderListItems = ({ user, classes }) => {
           ) : (
             ""
           )}
-          {raceName === "sales_voice" || raceName === "admin" ? (
-            <ListItem button component={Link} to="/voice">
-              <ListItemIcon>
-                <ListIcon className={classes.root} />
-              </ListItemIcon>
-              <ListItemText primary="Not Taken" />
-            </ListItem>
-          ) : (
-            ""
-          )}
-          {raceName === "sales_voice" || raceName === "admin" ? (
-            <ListItem button component={Link} to="/voice">
-              <ListItemIcon>
-                <ListIcon className={classes.root} />
-              </ListItemIcon>
-              <ListItemText primary="ReSchedule" />
-            </ListItem>
-          ) : (
-            ""
-          )}
         </List>
       </Collapse>
       {raceName === "sales_executive" || raceName === "admin" ? (

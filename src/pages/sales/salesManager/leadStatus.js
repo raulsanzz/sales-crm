@@ -84,6 +84,7 @@ const leadStatus = ({fetchLeads, leads, LeadLoading}) => {
           <MenuItem value='garbage'>Garbage</MenuItem>
           <MenuItem value='dead lead'>Dead Lead</MenuItem>
           <MenuItem value='Rejected by client'>Rejected by client</MenuItem>
+          <MenuItem value='in-communication'>In-Communication</MenuItem>
         </Select>
       </FormControl>
       {leadStatus === null ? (

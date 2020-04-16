@@ -19,7 +19,7 @@ const ul = {
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const DashboardPage = ({ user }) => {
+const DashboardPage = ({ user, history }) => {
   //week state
   const [job, SetJob] = React.useState([]);
   const [lead, SetLead] = React.useState([]);
@@ -37,66 +37,71 @@ const DashboardPage = ({ user }) => {
   const [mRejectlead, SetMRejectLead] = React.useState([]);
 
   useEffect(() => {
-    // jobs count
-    axios.get ( BASE_URL + "/api/job/status_job_count").then(res => {
-      SetJob(res.data.result);
-    });
-    //leads count
-    axios.get ( BASE_URL + "/api/job/status_lead_count").then(res => {
-      SetLead(res.data.result);
-    });
-    // good leads count
-    axios.get ( BASE_URL + "/api/job/status_good_lead_count").then(res => {
-      SetGoodLead(res.data.result);
-    });
-    // hot leads count
-    axios.get ( BASE_URL + "/api/job/status_hot_lead_count").then(res => {
-      SetHotLead(res.data.result);
-    });
-    // closed lead count
-    axios.get ( BASE_URL + "/api/job/status_closed_lead_count").then(res => {
-      SetClosedLead(res.data.result);
-    });
-    //rejected lead count
-    axios.get ( BASE_URL + "/api/job/status_rejected_lead_count").then(res => {
-      SetRejectLead(res.data.result);
-    });
+    // history.push({
+    //   pathname: "/working"
+    // })
 
-    // Previous Monthly Job Report
-    axios.get ( BASE_URL + "/api/job/status_job_monthly_count").then(res => {
-      SetMJob(res.data.result);
-    });
+    
+    // // jobs count
+    // axios.get ( BASE_URL + "/api/job/status_job_count").then(res => {
+    //   SetJob(res.data.result);
+    // });
+    // //leads count
+    // axios.get ( BASE_URL + "/api/job/status_lead_count").then(res => {
+    //   SetLead(res.data.result);
+    // });
+    // // good leads count
+    // axios.get ( BASE_URL + "/api/job/status_good_lead_count").then(res => {
+    //   SetGoodLead(res.data.result);
+    // });
+    // // hot leads count
+    // axios.get ( BASE_URL + "/api/job/status_hot_lead_count").then(res => {
+    //   SetHotLead(res.data.result);
+    // });
+    // // closed lead count
+    // axios.get ( BASE_URL + "/api/job/status_closed_lead_count").then(res => {
+    //   SetClosedLead(res.data.result);
+    // });
+    // //rejected lead count
+    // axios.get ( BASE_URL + "/api/job/status_rejected_lead_count").then(res => {
+    //   SetRejectLead(res.data.result);
+    // });
 
-    // Previous Monthly Lead Report
-    axios.get ( BASE_URL + "/api/job/status_lead_monthly_count").then(res => {
-      SetMLead(res.data.result);
-    });
+    // // Previous Monthly Job Report
+    // axios.get ( BASE_URL + "/api/job/status_job_monthly_count").then(res => {
+    //   SetMJob(res.data.result);
+    // });
 
-    // Previous Monthly Good Lead Report
-    axios
-      .get ( BASE_URL + "/api/job/status_good_lead_monthly_count")
-      .then(res => {
-        SetMGoodLead(res.data.result);
-      });
+    // // Previous Monthly Lead Report
+    // axios.get ( BASE_URL + "/api/job/status_lead_monthly_count").then(res => {
+    //   SetMLead(res.data.result);
+    // });
 
-    // Previous Monthly Good Lead Report
-    axios.get ( BASE_URL + "/api/job/status_hot_lead_month_count").then(res => {
-      SetMHotLead(res.data.result);
-    });
+    // // Previous Monthly Good Lead Report
+    // axios
+    //   .get ( BASE_URL + "/api/job/status_good_lead_monthly_count")
+    //   .then(res => {
+    //     SetMGoodLead(res.data.result);
+    //   });
 
-    // Previous Monthly Good Lead Report
-    axios
-      .get ( BASE_URL + "/api/job/status_closed_lead_monthly_count")
-      .then(res => {
-        SetMClosedLead(res.data.result);
-      });
+    // // Previous Monthly Good Lead Report
+    // axios.get ( BASE_URL + "/api/job/status_hot_lead_month_count").then(res => {
+    //   SetMHotLead(res.data.result);
+    // });
 
-    // Previous Monthly Good Lead Report
-    axios
-      .get ( BASE_URL + "/api/job/status_rejected_lead_monthly_count")
-      .then(res => {
-        SetMRejectLead(res.data.result);
-      });
+    // // Previous Monthly Good Lead Report
+    // axios
+    //   .get ( BASE_URL + "/api/job/status_closed_lead_monthly_count")
+    //   .then(res => {
+    //     SetMClosedLead(res.data.result);
+    //   });
+
+    // // Previous Monthly Good Lead Report
+    // axios
+    //   .get ( BASE_URL + "/api/job/status_rejected_lead_monthly_count")
+    //   .then(res => {
+    //     SetMRejectLead(res.data.result);
+    //   });
   }, []);
 
   if (user) {

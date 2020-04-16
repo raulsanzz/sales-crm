@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment} from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 
-import Table from './../table';
-import { fetchLeads} from './../../actions/lead';
+import Table from '../../table';
+import { fetchLeads} from '../../../actions/lead';
 
 const columns = [
-    { id: 'company_name', label: 'Company Name', minWidth: 170 },
-    { id: 'client_name', label: 'Client Name', minWidth: 100, align: 'center' },
+  { id: 'client_name', label: 'Client Name', minWidth: 100, align: 'left' },
+    { id: 'profile', label: 'Profile', minWidth: 170, align: 'center'},
     { id: 'call_time', label: 'Call Time', minWidth: 100, align: 'center' },
     { id: 'call_date', label: 'Call Date', minWidth: 100, align: 'center' },
-    { id: 'contact_via', label: 'Device', minWidth: 100, align: 'center' }
+    { id: 'interview_status', label: 'Interview Status', minWidth: 100, align: 'center' }
 ];
   
   const useStyles = makeStyles(theme => ({
@@ -44,7 +44,7 @@ const columns = [
     },
   }));
 
-const managerJobLinks = ({fetchLeads, leads}) => {
+const voice = ({fetchLeads, leads, leadLoading, history}) => {
   const classes = useStyles();
   const [filteredLeads, setFilteredLeads] = useState([]);
 
@@ -59,14 +59,22 @@ const managerJobLinks = ({fetchLeads, leads}) => {
     }, [leads.length]);
 
 
-    return(       
-      <Table 
-        jobs={filteredLeads}
-        columns={columns}
-        classes={classes}
-        tableHeader={'Scheduled Calls'}
-        // history={history}
-      />
+    return(      
+      <Fragment>
+      {
+        leadLoading ? <p> Loading </p>: 
+        (
+          <Table 
+          jobs={filteredLeads}
+          columns={columns}
+          classes={classes}
+          tableHeader={'Scheduled Calls'}
+          rowClickListener={true}
+          history={history}
+        /> )
+      }
+    </Fragment> 
+      
     )
 }
 
@@ -76,4 +84,4 @@ const mapStateToProps = state => ({
   leadLoading: state.LeadReducer.loading
 });
 
-export default  connect(mapStateToProps, { fetchLeads })(managerJobLinks);
+export default  connect(mapStateToProps, { fetchLeads })(voice);

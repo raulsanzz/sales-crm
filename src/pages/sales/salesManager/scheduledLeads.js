@@ -16,7 +16,7 @@ const columns = [
     { id: 'call_date', label: 'Date', minWidth: 100, align: 'center' },
     { id: 'list', label: 'Lead Status', minWidth: 100, align: 'center', 
     placeholder: 'Status', for: 'status' , 
-    listItems: ['lead' ,'good', 'hot', 'closed', 'garbage', 'dead lead', 'Rejected by client']},
+    listItems: ['lead' ,'good', 'hot', 'closed', 'garbage', 'dead lead', 'Rejected by client', 'in-communication']},
     { id: 'input', label: 'Voice', for: 'voice', minWidth: 100, align: 'center'},
     { id: 'updateButton', label: 'Action', minWidth: 100, align: 'center' }
 ];

@@ -516,7 +516,7 @@ const adminjobList = ({ deleteJob, history, fetchUser, users }) => {
                         padding="none"
                         onClick={() =>
                           history.push({
-                            pathname: "/lead_details",
+                            pathname: "/agenda",
                             state: { detail: row }
                           })
                         }

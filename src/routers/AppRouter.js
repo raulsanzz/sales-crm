@@ -19,20 +19,22 @@ import ScheduledLeads from '../pages/sales/salesManager/scheduledLeads';
 import LeadStatus from '../pages/sales/salesManager/leadStatus';
 import JobStatus from '../pages/sales/salesManager/jobStatus';
 import EditLead from "../pages/sales/salesManager/LeadEdit";
+// Voice
+import Voice from '../pages/sales/voice/voice';
 // 
+import Agenda from "../pages/sales/agenda";
+// import UiAgenda from "../pages/sales/aged";
 import Alert from "../pages/Alert";
 import AdminJobList from "../pages/sales/adminJobList";
 import EditJob from "../pages/sales/JobEdit";
 import UserList from "../pages/sales/UserList";
 import EditUser from "../pages/sales/EditUser";
 import LeadsList from "../pages/sales/leads/LeadList";
-import LeadDetails from "../pages/sales/leads/LeadDetails";
 import MyLeads from "../pages/sales/leads/MyLead";
 import LeadSchedule from "../pages/sales/leads/LeadCallList";
 import UserReport from "../pages/sales/user/UserReport";
 import UserDetails from "../pages/sales/user/UserDetails";
 import SalesTest from '../pages/sales/test';
-import Voice from '../pages/sales/voice';
 import EditSalesTest from '../pages/sales/editSalesTest';
 const history = createBrowserHistory();
 
@@ -57,18 +59,20 @@ export default () => {
           <PrivateRoute path="/leads" component={LeadStatus} />
           <PrivateRoute path="/appliedJobs" component={JobStatus} />
           <PrivateRoute path="/lead_edit" component={EditLead} />
+          {/* Voice */}
+          <PrivateRoute path="/voice" component={Voice} />
           {/* others */}
+          <PrivateRoute path="/agenda" component={Agenda} />
+          {/* <PrivateRoute path="/working" component={UiAgenda} /> */}
           <PrivateRoute path="/user_list" component={UserList} />
           <PrivateRoute path="/edit" component={EditUser} />
           <PrivateRoute path="/admin_job_list" component={AdminJobList} />
           <PrivateRoute path="/job_edit" component={EditJob} />
           <PrivateRoute path="/leads_list" component={LeadsList} />
-          <PrivateRoute path="/lead_details" component={LeadDetails} />
           <PrivateRoute path="/my_leads" component={MyLeads} />
           <PrivateRoute path="/lead_scedule" component={LeadSchedule} />
           <PrivateRoute path="/user_report" component={UserReport} />
           <PrivateRoute path="/user_details" component={UserDetails} />
-          <PrivateRoute path="/voice" component={Voice} />
           <PrivateRoute path="/sales_test" component={SalesTest} />
           <PrivateRoute path="/sales_test_edit" component={EditSalesTest} />
         </Switch>
