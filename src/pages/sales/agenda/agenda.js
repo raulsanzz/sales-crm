@@ -7,17 +7,39 @@ import PersonIcon from '@material-ui/icons/Person';
 import InfoIcon from '@material-ui/icons/Info';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import { PDFExport } from '@progress/kendo-react-pdf';
-
+import AgendaForm from './agendaForm';
 const useStyles = makeStyles(theme => ({
     root: {
-      flexGrow: 1,
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-    },    
-
+        flexGrow: 1,
+        overflow: 'hidden',
+        padding: theme.spacing(0, 3),
+      },
+      paper: {
+        margin: `${theme.spacing(1)}px auto`,
+        padding: theme.spacing(2),
+        color: theme.palette.text.secondary,
+        textAlign: 'center',
+      },
+      avatar: {
+        margin: `${theme.spacing()}px auto`,
+        backgroundColor: theme.palette.secondary.main
+      },
+      button: {
+        width: '50%',
+        display: 'flex',
+        justifyContent: 'center',
+        margin: '10px auto'
+      },
+      textField:{
+        width: '100%',
+      },
+      typography: {
+        fontFamily: 'initial',
+        fontSize: '25px',
+        display: 'flex',
+        justifyContent: 'center',
+        margin: '0 auto' 
+      },
   }));
 
 const agenda = ({ history, location, pdfExportComponent }) => {
@@ -29,6 +51,9 @@ date = `(${date.getHours()}: ${date.getMinutes()}) ${date.getDate()}/${date.getM
   const exportPDFWithComponent = () => {
       pdfExportComponent.save();
   };
+  console.log('====================================');
+  console.log(lead);
+  console.log('====================================');
   return (
     <PDFExport
         ref={component => (pdfExportComponent = component)}
@@ -99,7 +124,12 @@ date = `(${date.getHours()}: ${date.getMinutes()}) ${date.getDate()}/${date.getM
                         </li>
                         <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                             Decive Info:
-                            <span>{lead.call.contact_via_detail}</span>
+                            {
+                                lead.call.contact_via === 'Phone' ? <span>{lead.call.contact_via_detail}</span> : (
+                                    <a href={lead.call.contact_via_detail}> {lead.call.contact_via} Link </a>         
+                                )
+                            }
+                            
                         </li>  
                     </ul>
                 </Paper>
@@ -121,17 +151,50 @@ date = `(${date.getHours()}: ${date.getMinutes()}) ${date.getDate()}/${date.getM
                             <span>{lead.voice}</span>
                         </li>
                         <li className={"list-group-item d-flex justify-content-between align-items-center"}>
-                            Location:
-                            <span>some Location</span>
+                            Interview Status:
+                            <span>{lead.interview_status}</span>
                         </li>
                         <li className={"list-group-item d-flex justify-content-between align-items-center"}>
-                            Email:
-                            <span>some Email</span>
+                            Call Stauts:
+                            <span>{lead.call.call_status}</span>
                         </li>  
                     </ul>
                 </Paper>
             </Grid>
-
+            <Grid  item xs={4}>
+            <Paper className={classes.paper}>
+                <ul className={"list-group"}>
+                    <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                        {
+                           lead.job.url ? (
+                            <a href={lead.job.url}> job Link Url </a>         
+                           ): <p> No Job Url Found</p>
+                        }
+                    </li>
+                    <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                        {  
+                           lead.gmail_thread ? (
+                        <a href={lead.gmail_thread}> Gmail Thread </a>                  
+                           ): <p> No Gmail Thread Found</p>
+                        }
+                    </li>
+                    <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                        {
+                            lead.job.client.website ? (
+                            <a href={lead.job.client.website}> Client Company Website </a>         
+                           ): <p> No Client Website Found</p>
+                        }
+                    </li>
+                </ul>
+            </Paper>
+            </Grid>
+            
+            {/* form */}
+            <Grid item xs={8}>
+                <Paper className={classes.paper}>
+                    <AgendaForm classes={classes}/>                
+                </Paper>
+            </Grid>
             {/* end of full page (grid)*/}
           </Grid>
     </PDFExport>
@@ -139,19 +202,3 @@ date = `(${date.getHours()}: ${date.getMinutes()}) ${date.getDate()}/${date.getM
 };
 
 export default agenda;
-
-
-
-{/* <div class="card-header" className={classes.cardHeader1}>
-            <TextField
-            id="outlined-full-width"
-            label="Notes"
-            style={{ margin: 8 }}
-            fullWidth
-            margin="normal"
-            multiline
-            InputLabelProps={{
-              shrink: true,
-            }}
-            variant="outlined" />
-          </div> */}

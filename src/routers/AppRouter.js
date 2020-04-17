@@ -22,7 +22,7 @@ import EditLead from "../pages/sales/salesManager/LeadEdit";
 // Voice
 import Voice from '../pages/sales/voice/voice';
 // 
-import Agenda from "../pages/sales/agenda";
+import Agenda from "../pages/sales/agenda/agenda";
 // import UiAgenda from "../pages/sales/aged";
 import Alert from "../pages/Alert";
 import AdminJobList from "../pages/sales/adminJobList";

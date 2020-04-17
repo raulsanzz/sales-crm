@@ -171,11 +171,11 @@ const editLead = ({ classes, history, location, updateLead }) => {
       elementType: 'select',
       elementConfig:{
           options: [
-          {value: 'Phone ', displayValue: 'Phone ' },
-          {value: 'Zoom ', displayValue: 'Zoom ' },
+          {value: 'Phone', displayValue: 'Phone' },
+          {value: 'Zoom', displayValue: 'Zoom' },
           {value: 'GotoMeeting', displayValue: 'GotoMeeting' },
           {value: 'Blue jeans', displayValue: 'Blue jeans' },
-          {value: 'Hangouts', displayValue: 'GotoMeeting' },
+          {value: 'Hangouts', displayValue: 'Hangouts' },
           {value: 'others', displayValue: 'others' },
          ],
         placeholder: 'Device/App'
