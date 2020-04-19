@@ -51,9 +51,6 @@ date = `(${date.getHours()}: ${date.getMinutes()}) ${date.getDate()}/${date.getM
   const exportPDFWithComponent = () => {
       pdfExportComponent.save();
   };
-  console.log('====================================');
-  console.log(lead);
-  console.log('====================================');
   return (
     <PDFExport
         ref={component => (pdfExportComponent = component)}
@@ -192,7 +189,7 @@ date = `(${date.getHours()}: ${date.getMinutes()}) ${date.getDate()}/${date.getM
             {/* form */}
             <Grid item xs={8}>
                 <Paper className={classes.paper}>
-                    <AgendaForm classes={classes}/>                
+                    <AgendaForm classes={classes} call_id={lead.call.id}/>                
                 </Paper>
             </Grid>
             {/* end of full page (grid)*/}

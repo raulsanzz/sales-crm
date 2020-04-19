@@ -1,18 +1,20 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { useAlert } from 'react-alert';
+import axios from "axios";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-// import { updateLead } from '../../../actions/lead';
-
-const agendaForm = ({ classes}) => {
-
-//   const [agenda, setAgenda] = useState({});
+const agendaForm = ({ classes, call_id}) => {
+  const [agenda, setAgenda] = useState({});
+  const [agendaExists, setAgendaExists] = useState(false);
   const [notes, setNotes] = useState('');
-  const [fromIsInvalid, setFromIsInvalid] = useState(true);
+  const [fromIsInvalid, setFromIsInvalid] = useState(false);
+  const [loading, setLoading] = useState(true);
   const alert = useAlert();
+
   const [formData, setFormData] = useState({
     remote: {
       elementType: 'input',
@@ -24,8 +26,8 @@ const agendaForm = ({ classes}) => {
       validation: {
         required: true
       },
-      valid: false,
-      touched: false,
+      valid: true,
+      touched: true,
       message:''
     },
     relocation: {
@@ -38,11 +40,11 @@ const agendaForm = ({ classes}) => {
         validation: {
           required: true
         },
-        valid: false,
-        touched: false,
+        valid: true ,
+        touched: true ,
         message:''
       },
-      w2_w9: {
+      contract: {
         elementType: 'input',
         elementConfig:{
           type: 'text',
@@ -52,8 +54,8 @@ const agendaForm = ({ classes}) => {
         validation: {
           required: true
         },
-        valid: false,
-        touched: false,
+        valid: true,
+        touched: true,
         message:''
       },
       work_type: {
@@ -66,11 +68,11 @@ const agendaForm = ({ classes}) => {
         validation: {
           required: true
         },
-        valid: false,
-        touched: false,
+        valid: true,
+        touched: true,
         message:''
       },
-      Compensation: {
+      compensation: {
         elementType: 'input',
         elementConfig:{
           type: 'text',
@@ -80,8 +82,8 @@ const agendaForm = ({ classes}) => {
         validation: {
           required: true
         },
-        valid: false,
-        touched: false,
+        valid: true,
+        touched: true,
         message:''
       },
       project_type: {
@@ -94,31 +96,28 @@ const agendaForm = ({ classes}) => {
         validation: {
           required: true
         },
-        valid: false,
-        touched: false,
+        valid: true,
+        touched: true,
         message:''
       },
-      test: {
+      test_taken: {
         elementType: 'input',
         elementConfig:{
           type: 'text',
           placeholder: 'Done Test or not?'
         },
-        // value: agenda.client_name ? agenda.client_name : '',
         value: '',
         validation: {
           required: true
         },
-        valid: false,
-        touched: false,
-        // valid: agenda.client_name ? true : false,
-        // touched: agenda.client_name ? true : false,
+        valid:true,
+        touched:true,
         message:''
       },
   });
     useEffect(() => {
-      checkFormValidity(formData);
-    },[])
+      getAgenda();
+    },[agenda.length])
 
 const validityCheck = (value, rules) => {
   let isValid = true;
@@ -137,15 +136,15 @@ const validityCheck = (value, rules) => {
   };
   return {isValid, message};
 }
-const checkFormValidity = (form) => {
-  let formIsValid = true;
-  for (let elemIdentifier in form){
-    if(form[elemIdentifier].touched || form[elemIdentifier].validation.required){
-      formIsValid = form[elemIdentifier].valid && formIsValid;
-    }   
-  }
-  setFromIsInvalid(!formIsValid);
-}
+// const checkFormValidity = (form) => {
+//   let formIsValid = true;
+//   for (let elemIdentifier in form){
+//     if(form[elemIdentifier].touched || form[elemIdentifier].validation.required){
+//       formIsValid = form[elemIdentifier].valid && formIsValid;
+//     }   
+//   }
+//   setFromIsInvalid(!formIsValid);
+// }
 const onChangeHandler = (e, elementIdentifier) => {
   const updatedForm = {
     ...formData
@@ -154,26 +153,140 @@ const onChangeHandler = (e, elementIdentifier) => {
     ...updatedForm[elementIdentifier]
   }
   updatedElement.value = e.target.value;
-  const res = validityCheck(updatedElement.value, updatedElement.validation);
-  updatedElement.valid = res.isValid;
-  updatedElement.message = res.message;
-  updatedElement.touched = true;
+  // const res = validityCheck(updatedElement.value, updatedElement.validation);
+  // updatedElement.valid = res.isValid;
+  // updatedElement.message = res.message;
+  // updatedElement.touched = true;
   updatedForm[elementIdentifier] = updatedElement;
   setFormData(updatedForm);
-  checkFormValidity(updatedForm);
+  // checkFormValidity(updatedForm);
+}
+
+const initilizeForm = (data) => {
+  let updatedForm = {
+    ...formData
+  }
+  updatedForm['remote'] = {
+    ...updatedForm['remote'],
+    value: data.remote
+  } 
+  updatedForm['relocation'] = {
+    ...updatedForm['relocation'],
+    value: data.relocation
+  }
+  updatedForm['contract'] = {
+    ...updatedForm['contract'],
+    value: data.contract
+  }
+  updatedForm['work_type'] = {
+    ...updatedForm['work_type'],
+    value: data.work_type
+  }
+  updatedForm['project_type'] = {
+    ...updatedForm['project_type'],
+    value: data.project_type
+  }
+  updatedForm['compensation'] = {
+    ...updatedForm['compensation'],
+    value: data.compensation
+  }
+  updatedForm['test_taken'] = {
+    ...updatedForm['test_taken'],
+    value: data.test_taken
+  }
+  setFormData(updatedForm);
+}
+
+const getAgenda = async() => {
+  setLoading(true);
+  try {
+    const res =  await axios.get ( BASE_URL + "/api/agenda/" + call_id);
+    if(res.data.agenda.length === 0){
+      setAgendaExists(false);
+      const temp = {
+        remote: '',
+        relocation: '',
+        contract: '',
+        work_type: '',
+        project_type: '',
+        compensation: '',
+        test_taken: '',
+      }
+      setAgenda(temp);
+    }
+    else{
+      initilizeForm(res.data.agenda[0])
+      setAgenda(res.data.agenda[0]);
+      setAgendaExists(true);
+    }
+  } catch (error) {
+    console.log('====================================');
+    console.log(error);
+    console.log('====================================');
+  }
+  setLoading(false);
+}
+
+const updateAgenda = async(agenda) => {
+  setLoading(true);
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" }
+    };
+    const body = JSON.stringify({ agenda });
+    const res =  await axios.put ( BASE_URL + "/api/agenda/" + call_id, body, config);
+      if(res.data.agenda.length === 1){
+        alert.success('Agenda updated successfully...!!');
+      }
+  } 
+  catch (error) {
+    alert.success('Agenda update failed...!!');
+    console.log('====================================');
+    console.log(error);
+    console.log('====================================');
+  }
+  setLoading(false);
+}
+const createAgenda = async(agenda) => {
+    setLoading(true);
+    try {
+    const config = {
+      headers: { "Content-Type": "application/json" }
+    };
+    const body = JSON.stringify({ agenda });
+    const res =  await axios.post ( BASE_URL + "/api/agenda", body, config);
+    alert.success('Agenda updated successfully...!!');
+      // if(res.data.agenda.length === 1){
+      // }
+  } catch (error) {
+      alert.success('Agenda update failed...!!');
+    console.log('====================================');
+    console.log(error);
+    console.log('====================================');
+  }
+  setLoading(false);
 }
 
   const onSubmitHandler = async(e) => {
     e.preventDefault();
-    
-    // const res = await updateLead(query, LeadData, callData, clientData);
-    // if(res){
-    //   alert.success('Lead updated successfully...!!');
-    // }
-    // else{
-    //   alert.success('Lead update failed...!!');
-    // }
+    let temp = {
+      remote: formData.remote.value,
+      relocation: formData.relocation.value,
+      contract: formData.contract.value,
+      work_type: formData.work_type.value,
+      project_type: formData.project_type.value,
+      compensation: formData.compensation.value,
+      test_taken: formData.test_taken.value,
+    }
+    if(agendaExists){
+      updateAgenda(temp)
+    }
+    else{
+      temp.call_id = call_id;
+      createAgenda(temp)
+    }
   };
+
   const formRender = () => {
     const fromElementArray = [];
     for (let key in formData){
@@ -208,19 +321,6 @@ const onChangeHandler = (e, elementIdentifier) => {
                 onChange={(event) => {setNotes(event.target.value)}}
                 />
             </div>
-            {/* <TextField
-            id="outlined-full-width"
-            label="Notes"
-            fullWidth
-            // margin="normal"
-            value={notes}
-            onChange={(event) => {setNotes(event.target.value)}}
-            multiline
-            variant="outlined" 
-            InputLabelProps={{
-              shrink: true,
-            }}/> */}
-
           <Button
             variant='contained'
             color='primary'
@@ -235,13 +335,17 @@ const onChangeHandler = (e, elementIdentifier) => {
   }
 
   return (
-    <div>
-        <Typography 
-        className={classes.typography} >
-        Edit Agenda
-        </Typography>
-        {formRender()}
-    </div>
+    <Fragment>
+      {loading ? <p> Loading...! </p> :
+        (<div>
+          <Typography 
+          className={classes.typography} >
+          Edit Agenda
+          </Typography>
+          {formRender()}
+        </div>)
+      }
+    </Fragment>
   );
 };
 

@@ -43,6 +43,7 @@ db.profile = require("../models/Profile")(sequelize, Sequelize);
 db.lead = require("../models/Lead")(sequelize, Sequelize);
 db.client = require("../models/Client")(sequelize, Sequelize);
 db.call = require("../models/Call")(sequelize, Sequelize);
+db.agenda = require("../models/Agenda")(sequelize, Sequelize);
 
 // Associstions
 
@@ -147,6 +148,17 @@ db.client.hasOne(db.job, {
 db.call.hasOne(db.lead, {
   foreignKey: "call_id"
 })
+
+db.call.hasOne(db.agenda, {
+  foreignKey: "call_id"
+})
+
+// Agenda
+db.agenda.belongsTo(db.call, {
+  foreignKey: "call_id",
+  targetKey: "id",
+  onDelete: "CASCADE"
+});
 
 // to refresh the database and drop the already created tables
 // and create the from the start use options `{force: true}`

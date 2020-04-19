@@ -11,7 +11,7 @@ Router.get( "/", auth, async (req, res) => {
       const profiles = await Profile.findAll({
         attributes: ["id", "name"]
       });
-    res.json({ profiles }  );
+     return res.json({ profiles }  );
     } catch (error) {
       console.log(error.message);
       return res.status(402).json({ msg: "Server Error" });

@@ -19,13 +19,15 @@ Router.post ('/', auth, async(req, res) => {
             ...req.body.newLeadData,
             call_id: call.dataValues.id
         })
-    res.json({ newLead }  );
+    return res.json({ newLead }  );
 
     }
     catch (error){
         console.log('====================================');
         console.log(error);
         console.log('====================================');
+      return res.status(402).json({ msg: "Server Error" });
+
     }
 })
 
@@ -73,7 +75,7 @@ Router.put("/", auth, async (req, res) => {
         },
         {   where: {id : req.body.query.lead_id}}
         )
-        res.json( { updatedLead } );
+        return res.json( { updatedLead } );
     } catch (error) {
       console.log(error.message);
       return res.status(402).json({ msg: "Server Error" });

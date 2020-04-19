@@ -113,7 +113,7 @@ export const deleteJob = id => async dispatch => {
   }
 };
 
-//delete a Job
+//update an applied Job
 export const updateAppliedJob = (query, updatedData, shouldUpdateUser) => async (dispatch) => {
    const config = {
       headers: { "Content-Type": "application/json" }

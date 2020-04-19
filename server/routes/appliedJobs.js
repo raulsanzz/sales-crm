@@ -27,7 +27,7 @@ Router.get( "/", auth, async (req, res) => {
           }
         ]
     })
-    res.json({ appliedJobs }  );
+    return res.json({ appliedJobs }  );
     } catch (error) {
       console.log(error.message);
       return res.status(402).json({ msg: "Server Error" });
@@ -50,7 +50,7 @@ Router.get( "/manager", auth, async (req, res) => {
           }
         ]
     })
-    res.json({ appliedJobs }  );
+    return res.json({ appliedJobs }  );
     } catch (error) {
       console.log(error.message);
       return res.status(402).json({ msg: "Server Error" });
@@ -79,7 +79,7 @@ Router.get( "/leads", auth, async (req, res) => {
         }
       ]
   })
-  res.json({ appliedJobs }  );
+  return res.json({ appliedJobs }  );
   } catch (error) {
     console.log(error.message);
     return res.status(402).json({ msg: "Server Error" });
@@ -131,7 +131,7 @@ Router.put("/", auth, async (req, res) => {
         },
         { where: {...req.body.query}}
     )
-    res.json( { updatedJob } );
+    return res.json( { updatedJob } );
     } catch (error) {
       console.log(error.message);
       return res.status(402).json({ msg: "Server Error" });

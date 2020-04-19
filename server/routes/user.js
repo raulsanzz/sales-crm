@@ -127,7 +127,7 @@ Route.put( "/edit/:id", auth, async (req, res) => {
         { where: { registration_number: req.params.id } }
       );
 
-      res.json({ result });
+     return res.json({ result });
     } catch (error) {
       console.log(error.message);
       return res.status(402).json({ msg: "Server Error" });
@@ -148,7 +148,7 @@ Route.post("/details", auth, async (req, res) => {
           }
         }
       });
-      res.json({ result });
+      return res.json({ result });
     } catch (error) {
       console.log(error.message);
       return res.status(402).json({ msg: "Server Error" });
@@ -166,7 +166,7 @@ Route.post("/details", auth, async (req, res) => {
           }
         }
       });
-      res.json({ result });
+      return res.json({ result });
     } catch (error) {
       console.log(error.message);
       return res.status(402).json({ msg: "Server Error" });
@@ -188,7 +188,7 @@ Route.post("/monthly_details", auth, async (req, res) => {
           }
         }
       });
-      res.json({ result });
+      return res.json({ result });
     } catch (error) {
       console.log(error.message);
       return res.status(402).json({ msg: "Server Error" });
@@ -206,7 +206,7 @@ Route.post("/monthly_details", auth, async (req, res) => {
           }
         }
       });
-      res.json({ result });
+      return res.json({ result });
     } catch (error) {
       console.log(error.message);
       return res.status(402).json({ msg: "Server Error" });
