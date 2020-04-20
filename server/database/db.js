@@ -44,6 +44,7 @@ db.lead = require("../models/Lead")(sequelize, Sequelize);
 db.client = require("../models/Client")(sequelize, Sequelize);
 db.call = require("../models/Call")(sequelize, Sequelize);
 db.agenda = require("../models/Agenda")(sequelize, Sequelize);
+db.note = require("../models/Note")(sequelize, Sequelize);
 
 // Associstions
 
@@ -157,6 +158,17 @@ db.call.hasOne(db.agenda, {
 db.agenda.belongsTo(db.call, {
   foreignKey: "call_id",
   targetKey: "id",
+  onDelete: "CASCADE"
+});
+
+db.agenda.hasMany(db.note, {
+  foreignKey: "agenda_id"
+});
+
+// note
+db.note.belongsTo(db.agenda, {
+  foreignKey: "agenda_id",
+  targetKey: "call_id",
   onDelete: "CASCADE"
 });
 

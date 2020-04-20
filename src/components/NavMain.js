@@ -21,7 +21,7 @@ import MailFolderListItemsfrom from "./NavSide";
 
 import { logout } from "../actions/auth";
 
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 const styles = theme => ({
   root: {

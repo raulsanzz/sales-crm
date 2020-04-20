@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { useAlert } from 'react-alert';
 import axios from "axios";
+import AgendaNotes from "./agendaNotes";
+
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const agendaForm = ({ classes, call_id}) => {
@@ -233,7 +235,14 @@ const updateAgenda = async(agenda) => {
     const config = {
       headers: { "Content-Type": "application/json" }
     };
-    const body = JSON.stringify({ agenda });
+    let note = null;
+    if(notes !== ''){
+      note = {
+        agenda_id: call_id,
+        note: notes
+      }
+    }
+    const body = JSON.stringify({ agenda, note });
     const res =  await axios.put ( BASE_URL + "/api/agenda/" + call_id, body, config);
       if(res.data.agenda.length === 1){
         alert.success('Agenda updated successfully...!!');
@@ -247,14 +256,22 @@ const updateAgenda = async(agenda) => {
   }
   setLoading(false);
 }
+
 const createAgenda = async(agenda) => {
     setLoading(true);
     try {
     const config = {
       headers: { "Content-Type": "application/json" }
     };
-    const body = JSON.stringify({ agenda });
-    const res =  await axios.post ( BASE_URL + "/api/agenda", body, config);
+    let note = null;
+    if(notes !== ''){
+      note = {
+        agenda_id: call_id,
+        note: notes
+      }
+    }
+    const body = JSON.stringify({ agenda, note });
+    await axios.post ( BASE_URL + "/api/agenda", body, config);
     alert.success('Agenda updated successfully...!!');
       // if(res.data.agenda.length === 1){
       // }
@@ -277,7 +294,7 @@ const createAgenda = async(agenda) => {
       project_type: formData.project_type.value,
       compensation: formData.compensation.value,
       test_taken: formData.test_taken.value,
-    }
+    }  
     if(agendaExists){
       updateAgenda(temp)
     }
@@ -343,8 +360,11 @@ const createAgenda = async(agenda) => {
           Edit Agenda
           </Typography>
           {formRender()}
+          <AgendaNotes
+          notes = {agenda.notes}/>
         </div>)
       }
+
     </Fragment>
   );
 };
