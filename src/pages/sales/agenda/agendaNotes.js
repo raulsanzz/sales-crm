@@ -19,12 +19,11 @@ const useStyles = makeStyles({
 
 const agendaNotes = ({ notes }) => {
     const classes = useStyles();
-
   return (
     <Fragment>
-        {notes.length > 0 ?
+        {notes ?
             (notes.map((note, index) => 
-                (<Card className={classes.root} key={index}>
+                (<Card className={classes.root} key={index} raised={true}>
                     <CardActionArea>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="h2" className={classes.note}>

@@ -9,12 +9,12 @@ const Note = db.note;
 //Add a new Agenda
 Router.post("/", auth, async(req, res) => {
     try {
-        if(req.body.note){
-            notes.addNote(req.body.note);
-        }
         const agenda = await Agenda.create({
             ...req.body.agenda
-        })    
+        })
+        if(req.body.note){
+            notes.addNote(req.body.note);
+        }    
         return res.json({ agenda }  );
     } catch (error) {
         console.log(error.message);
