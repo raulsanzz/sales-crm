@@ -21,6 +21,7 @@ import JobStatus from '../pages/sales/salesManager/jobStatus';
 import EditLead from "../pages/sales/salesManager/LeadEdit";
 // Voice
 import Voice from '../pages/sales/voice/voice';
+import VoiceStatus from '../pages/sales/voice/voiceStatus';
 // 
 import Agenda from "../pages/sales/agenda/agenda";
 // import UiAgenda from "../pages/sales/aged";
@@ -61,6 +62,7 @@ export default () => {
           <PrivateRoute path="/lead_edit" component={EditLead} />
           {/* Voice */}
           <PrivateRoute path="/voice" component={Voice} />
+          <PrivateRoute path="/voice_stauts" component={VoiceStatus} />
           {/* others */}
           <PrivateRoute path="/agenda" component={Agenda} />
           {/* <PrivateRoute path="/working" component={UiAgenda} /> */}

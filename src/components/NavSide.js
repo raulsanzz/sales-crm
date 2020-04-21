@@ -223,11 +223,11 @@ const mailFolderListItems = ({ user, classes }) => {
             ""
           )}
           {raceName === "sales_voice" || raceName === "admin" ? (
-            <ListItem button component={Link} to="/voice">
+            <ListItem button component={Link} to="/voice_stauts">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
               </ListItemIcon>
-              <ListItemText primary="Call Taken" />
+              <ListItemText primary="Calls Status" />
             </ListItem>
           ) : (
             ""

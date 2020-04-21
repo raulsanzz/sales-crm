@@ -9,12 +9,13 @@ import AgendaNotes from "./agendaNotes";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const agendaForm = ({ classes, call_id}) => {
+const agendaForm = ({ classes, call_id, callStatus}) => {
   const [agenda, setAgenda] = useState({});
   const [agendaExists, setAgendaExists] = useState(false);
   const [notes, setNotes] = useState('');
   const [fromIsInvalid, setFromIsInvalid] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [notesRequired, setNotesRequired] = useState(true);
   const alert = useAlert();
 
   const [formData, setFormData] = useState({
@@ -118,8 +119,14 @@ const agendaForm = ({ classes, call_id}) => {
       },
   });
     useEffect(() => {
-      getAgenda();
-    },[agenda.length])
+      if(callStatus === 'done'){
+        getAgenda();
+        setNotesRequired(false);
+      }
+      else{
+        setNotesRequired(true);
+      }
+    },[agenda.length, callStatus])
 
 const validityCheck = (value, rules) => {
   let isValid = true;
@@ -239,7 +246,8 @@ const updateAgenda = async(agenda) => {
     if(notes !== ''){
       note = {
         agenda_id: call_id,
-        note: notes
+        note: notes,
+        call_status:callStatus
       }
     }
     const body = JSON.stringify({ agenda, note });
@@ -267,7 +275,8 @@ const createAgenda = async(agenda) => {
     if(notes !== ''){
       note = {
         agenda_id: call_id,
-        note: notes
+        note: notes,
+        call_status:callStatus 
       }
     }
     const body = JSON.stringify({ agenda, note });
@@ -314,7 +323,9 @@ const createAgenda = async(agenda) => {
     };
     let form = (
       <form onSubmit={onSubmitHandler} autoComplete='off'>
-        {fromElementArray.map( elem => (
+        {
+          callStatus === 'done' ?
+        fromElementArray.map( elem => (
               <TextField
                 key={elem.id}
                 className={classes.textField}
@@ -325,13 +336,15 @@ const createAgenda = async(agenda) => {
                 value={elem.config.value}
                 onChange={(event) => {onChangeHandler(event, elem.id)}}
                 helperText={elem.config.message}/>            
-          ))}
+          )): null}
           <div style={{marginTop: '20px'}}>
             <TextField
+                error={notesRequired && notes === '' }
                 className={classes.textField}   
                 id="Notes"
                 label="Notes"
                 multiline
+                helperText={notesRequired ? 'Please Provide Some Notes*': ''}
                 rows={5}
                 variant="outlined"
                 value={notes}
@@ -343,7 +356,7 @@ const createAgenda = async(agenda) => {
             color='primary'
             type='submit'
             className={classes.button}
-            disabled={fromIsInvalid}>
+            disabled={fromIsInvalid || (notesRequired && notes === '' )}>
             Update Agenda
           </Button>
       </form>

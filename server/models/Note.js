@@ -10,6 +10,9 @@ module.exports = (sequelize, Sequelize) => {
     note: { //extra notes for the agenda of the call
         type: Sequelize.STRING
     },
+    call_status: { //status of every call `done, Not-done, rescheduled by client`
+        type: Sequelize.STRING
+    },
     agenda_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
