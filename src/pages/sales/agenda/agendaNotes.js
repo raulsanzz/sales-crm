@@ -5,6 +5,7 @@ import { Card } from '@material-ui/core';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import CardHeader from '@material-ui/core/CardHeader';
 
 const useStyles = makeStyles({
     root: {
@@ -14,6 +15,10 @@ const useStyles = makeStyles({
     note: {
         display:'flex',
         justifyContent: 'left'  
+    },
+    note1: {
+        display:'flex',
+        justifyContent: 'right'  
     }
   });
 
@@ -25,10 +30,10 @@ const agendaNotes = ({ notes }) => {
             (notes.map((note, index) => 
                 (<Card className={classes.root} key={index} raised={true}>
                     <CardActionArea>
+                        <CardHeader className={classes.note}
+                        title={` Voice: ${note.voice}`}
+                        subheader={note.createdAt}/>
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2" className={classes.note}>
-                                Notes for: {note.createdAt}
-                            </Typography>
                             <Typography variant="body2" color="textSecondary" component="p" className={classes.note}>
                                 {note.note} 
                             </Typography>

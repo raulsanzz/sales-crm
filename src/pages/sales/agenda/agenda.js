@@ -204,7 +204,6 @@ const agenda = ({ history, location, pdfExportComponent }) => {
                             <MenuItem value='done'>done</MenuItem>
                             <MenuItem value='not taken'>Not Taken</MenuItem>
                             <MenuItem value='rescheduled by client'>rescheduled by client</MenuItem>
-                            
                         </Select>
                         </FormControl>
                     </li>
@@ -246,15 +245,11 @@ const agenda = ({ history, location, pdfExportComponent }) => {
             {/* form */}
             <Grid item xs={8}>
                 <Paper className={classes.paper}>
-                    {
-                        callStatus !== '' ? 
-                        (
-                            <AgendaForm 
-                                classes={classes} 
-                                call_id={lead.call.id}
-                                callStatus={callStatus} />                
-                        ): <p>Please select a call Status</p>
-                    }
+                    <AgendaForm 
+                        classes={classes} 
+                        call_id={lead.call.id}
+                        callStatus={callStatus} 
+                        voice={lead.voice}/>
                 </Paper>
             </Grid>
             {/* end of full page (grid)*/}

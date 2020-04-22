@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, useRef } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -9,13 +9,14 @@ import AgendaNotes from "./agendaNotes";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const agendaForm = ({ classes, call_id, callStatus}) => {
+const agendaForm = ({ classes, call_id, callStatus, voice}) => {
   const [agenda, setAgenda] = useState({});
   const [agendaExists, setAgendaExists] = useState(false);
   const [notes, setNotes] = useState('');
   const [fromIsInvalid, setFromIsInvalid] = useState(false);
   const [loading, setLoading] = useState(false);
   const [notesRequired, setNotesRequired] = useState(true);
+  const didMountRef = useRef(false)
   const alert = useAlert();
 
   const [formData, setFormData] = useState({
@@ -120,11 +121,14 @@ const agendaForm = ({ classes, call_id, callStatus}) => {
   });
     useEffect(() => {
       if(callStatus === 'done'){
-        getAgenda();
         setNotesRequired(false);
       }
       else{
         setNotesRequired(true);
+      }      
+      if(didMountRef.current === false){ //only for component did mount
+        getAgenda();
+        didMountRef.current = true
       }
     },[agenda.length, callStatus])
 
@@ -236,20 +240,12 @@ const getAgenda = async() => {
   setLoading(false);
 }
 
-const updateAgenda = async(agenda) => {
+const updateAgenda = async(agenda, note) => {
   setLoading(true);
   try {
     const config = {
       headers: { "Content-Type": "application/json" }
     };
-    let note = null;
-    if(notes !== ''){
-      note = {
-        agenda_id: call_id,
-        note: notes,
-        call_status:callStatus
-      }
-    }
     const body = JSON.stringify({ agenda, note });
     const res =  await axios.put ( BASE_URL + "/api/agenda/" + call_id, body, config);
       if(res.data.agenda.length === 1){
@@ -265,25 +261,15 @@ const updateAgenda = async(agenda) => {
   setLoading(false);
 }
 
-const createAgenda = async(agenda) => {
+const createAgenda = async(agenda, note) => {
     setLoading(true);
     try {
     const config = {
       headers: { "Content-Type": "application/json" }
     };
-    let note = null;
-    if(notes !== ''){
-      note = {
-        agenda_id: call_id,
-        note: notes,
-        call_status:callStatus 
-      }
-    }
     const body = JSON.stringify({ agenda, note });
     await axios.post ( BASE_URL + "/api/agenda", body, config);
     alert.success('Agenda updated successfully...!!');
-      // if(res.data.agenda.length === 1){
-      // }
   } catch (error) {
       alert.success('Agenda update failed...!!');
     console.log('====================================');
@@ -295,6 +281,13 @@ const createAgenda = async(agenda) => {
 
   const onSubmitHandler = async(e) => {
     e.preventDefault();
+    
+    const note = {
+      agenda_id: call_id,
+      note: notes === '' ? 'No Notes': notes,
+      call_status: callStatus,
+      voice: voice 
+    }
     let temp = {
       remote: formData.remote.value,
       relocation: formData.relocation.value,
@@ -305,11 +298,11 @@ const createAgenda = async(agenda) => {
       test_taken: formData.test_taken.value,
     }  
     if(agendaExists){
-      updateAgenda(temp)
+      updateAgenda(temp, note)
     }
     else{
       temp.call_id = call_id;
-      createAgenda(temp)
+      createAgenda(temp, note)
     }
   };
 
@@ -322,43 +315,45 @@ const createAgenda = async(agenda) => {
       });
     };
     let form = (
-      <form onSubmit={onSubmitHandler} autoComplete='off'>
-        {
-          callStatus === 'done' ?
-        fromElementArray.map( elem => (
+      <form onSubmit={onSubmitHandler} autoComplete='off' style={{marginBottom: '10px'}}>
+        {fromElementArray.map( elem => (
               <TextField
                 key={elem.id}
                 className={classes.textField}
                 error = {!elem.config.valid && elem.config.touched}
+                disabled= {callStatus !== 'done'}
                 id={elem.id}
                 label={elem.config.elementConfig.placeholder}
                 type={elem.config.elementConfig.type}
                 value={elem.config.value}
                 onChange={(event) => {onChangeHandler(event, elem.id)}}
                 helperText={elem.config.message}/>            
-          )): null}
+          ))}
+          {
+            callStatus ? (
           <div style={{marginTop: '20px'}}>
             <TextField
-                error={notesRequired && notes === '' }
-                className={classes.textField}   
-                id="Notes"
-                label="Notes"
-                multiline
-                helperText={notesRequired ? 'Please Provide Some Notes*': ''}
-                rows={5}
-                variant="outlined"
-                value={notes}
-                onChange={(event) => {setNotes(event.target.value)}}
-                />
+              error={notesRequired && notes === '' }
+              className={classes.textField}   
+              id="Notes"
+              label="Notes"
+              multiline
+              helperText={notesRequired ? 'Please Provide Some Notes*': ''}
+              rows={5}
+              variant="outlined"
+              value={notes}
+              onChange={(event) => {setNotes(event.target.value)}}/>                
+            <Button
+              variant='contained'
+              color='primary'
+              type='submit'
+              className={classes.button}
+              disabled={fromIsInvalid || (notesRequired && notes === '' )}>
+              Update Agenda
+            </Button>
             </div>
-          <Button
-            variant='contained'
-            color='primary'
-            type='submit'
-            className={classes.button}
-            disabled={fromIsInvalid || (notesRequired && notes === '' )}>
-            Update Agenda
-          </Button>
+            ): null
+          }
       </form>
       );
     return form;

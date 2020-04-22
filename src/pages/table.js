@@ -148,7 +148,14 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                   </TableCell>)
                         case "url":
                           return(<TableCell key={column.id} align={column.align}>
-                                  { tableHeader === "Job List" ? row.url : row.job.url } 
+                                  { tableHeader === "Job List" ? (<a 
+                                    href={row.url}
+                                    target='_blank' 
+                                    rel="noopener noreferrer">  job link Url </a>  ) : 
+                                    (<a 
+                                      href={row.job.url}
+                                      target='_blank' 
+                                      rel="noopener noreferrer">  job link Url </a>  ) } 
                                 </TableCell>)
                         case "contact_via":
                         case "call_date":
