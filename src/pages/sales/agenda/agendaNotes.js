@@ -10,15 +10,12 @@ import CardHeader from '@material-ui/core/CardHeader';
 const useStyles = makeStyles({
     root: {
       width: '100%',
-      marginBottom: '10px'
+      marginBottom: '10px',
+      border: '1px solid rgba(0,0,0,0.125)'
     },
     note: {
         display:'flex',
         justifyContent: 'left'  
-    },
-    note1: {
-        display:'flex',
-        justifyContent: 'right'  
     }
   });
 
@@ -30,12 +27,12 @@ const agendaNotes = ({ notes }) => {
             (notes.map((note, index) => 
                 (<Card className={classes.root} key={index} raised={true}>
                     <CardActionArea>
-                        <CardHeader className={classes.note}
+                        <CardHeader
                         title={` Voice: ${note.voice}`}
                         subheader={note.createdAt}/>
                         <CardContent>
                             <Typography variant="body2" color="textSecondary" component="p" className={classes.note}>
-                                {note.note} 
+                               {`NOTES: ${note.note}`} 
                             </Typography>
                         </CardContent>
                     </CardActionArea>

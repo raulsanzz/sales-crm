@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, {Fragment, useState} from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -12,6 +12,9 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import AgendaForm from './agendaForm';
+import AgendaNotes from "./agendaNotes";
+import Typography from '@material-ui/core/Typography';
+
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
@@ -44,22 +47,29 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
         margin: '0 auto' 
       },
+      note: {
+        fontFamily: 'initial',
+        fontSize: '25px',
+        display:'flex',
+        justifyContent: 'left'  
+      }
   }));
 
 const agenda = ({ history, location, pdfExportComponent }) => {
     const classes = useStyles();   
     const [callStatus, setCallStatus] = useState('');
+    const [notes, setNotes] = useState([]);
+    const lead = location.state.detail;
 
     let date = new Date();
     date = `(${date.getHours()}: ${date.getMinutes()}) ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
-    const lead = location.state.detail;
     const exportPDFWithComponent = () => {
       pdfExportComponent.save();
     };
 
     const getClientInfo = () => {
         return(
-            <Grid item xs={4}>
+            <Grid item xs={6}>
                 <Paper className={classes.paper}>
                     <ul className={"list-group"}>
                         <li className={"list-group-item d-flex justify-content-between align-items-center"}>
@@ -88,48 +98,9 @@ const agenda = ({ history, location, pdfExportComponent }) => {
         )
     }
 
-    const getCallInfo = () => {
-        return(
-            <Grid item xs={4}>
-            <Paper className={classes.paper}>
-                <ul className={"list-group"}>
-                    <li className={"list-group-item d-flex justify-content-between align-items-center"}>
-                        <InfoIcon style={{ fontSize: 40, color:'black' }}></InfoIcon>
-                        <span>Job & call Information</span>
-                    </li>
-                    <li className={"list-group-item d-flex justify-content-between align-items-center"}>
-                        Job Title:
-                        <span>{lead.job.job_title}</span>
-                    </li>
-                    <li className={"list-group-item d-flex justify-content-between align-items-center"}>
-                        Call Time:
-                        <span>{lead.call.call_time}</span>
-                    </li>
-                    <li className={"list-group-item d-flex justify-content-between align-items-center"}>
-                        Device:
-                        <span>{lead.call.contact_via}</span>
-                    </li>
-                    <li className={"list-group-item d-flex justify-content-between align-items-center"}>
-                        Decive Info:
-                        {
-                            lead.call.contact_via === 'Phone' ? <span>{lead.call.contact_via_detail}</span> : (
-                                <a 
-                                href={lead.call.contact_via_detail}
-                                target='_blank' 
-                                rel="noopener noreferrer"> {lead.call.contact_via} Link </a>         
-                            )
-                        }
-                        
-                    </li>  
-                </ul>
-            </Paper>
-        </Grid>   
-        )
-    }
-
     const getYourInfo = () => {
         return(
-            <Grid item xs={4}>
+            <Grid item xs={6}>
             <Paper className={classes.paper}>
                 <ul className={"list-group"}>
                     <li className={"list-group-item d-flex justify-content-between align-items-center"}>
@@ -158,12 +129,41 @@ const agenda = ({ history, location, pdfExportComponent }) => {
         )
     }
 
-    const getLinks = () => {
+    const getCallInfo = () => {
         return(
             <Grid  item xs={4}>
             <Paper className={classes.paper}>
                 <ul className={"list-group"}>
+                <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                        <InfoIcon style={{ fontSize: 40, color:'black' }}></InfoIcon>
+                        <span>Job & call Information</span>
+                    </li>
                     <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                        Job Title:
+                        <span>{lead.job.job_title}</span>
+                    </li>
+                    <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                        Call Time:
+                        <span>{lead.call.call_time}</span>
+                    </li>
+                    <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                        Device:
+                        <span>{lead.call.contact_via}</span>
+                    </li>
+                    <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                        Decive Info:
+                        {
+                            lead.call.contact_via === 'Phone' ? <span>{lead.call.contact_via_detail}</span> : (
+                                <a 
+                                href={lead.call.contact_via_detail}
+                                target='_blank' 
+                                rel="noopener noreferrer"> {lead.call.contact_via} Link </a>         
+                            )
+                        }
+                        
+                    </li>  
+                    <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                        Job Link:
                         {
                            lead.job.url ? (
                             <a 
@@ -174,6 +174,7 @@ const agenda = ({ history, location, pdfExportComponent }) => {
                         }
                     </li>
                     <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                        Gmail Thread:
                         {  
                            lead.gmail_thread ? (
                             <a 
@@ -184,16 +185,18 @@ const agenda = ({ history, location, pdfExportComponent }) => {
                         }
                     </li>
                     <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                        Client Website:
                         {
                             lead.job.client.website ? (
                             <a 
                             href={lead.job.client.website}
                             target='_blank' 
                             rel="noopener noreferrer"> Client Company Website </a>         
-                           ): <p> No Client Website Found</p>
+                           ): <p> Not Found</p>
                         }
                     </li>
-                    <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                    {location.state.editable ?
+                    (<li className={"list-group-item d-flex justify-content-between align-items-center"}>
                         <FormControl className={classes.formControl, classes.textField}>
                             <InputLabel id={'call-status-label'}>Call Status</InputLabel>
                             <Select
@@ -204,15 +207,18 @@ const agenda = ({ history, location, pdfExportComponent }) => {
                             <MenuItem value='done'>done</MenuItem>
                             <MenuItem value='not taken'>Not Taken</MenuItem>
                             <MenuItem value='rescheduled by client'>rescheduled by client</MenuItem>
-                        </Select>
+                            </Select>
                         </FormControl>
-                    </li>
+                    </li>): null}
                 </ul>
             </Paper>
             </Grid>
         )
     }
 
+    const updateNotes = (notes) => {
+        setNotes(notes)
+    }
   return (
     <PDFExport
         ref={component => (pdfExportComponent = component)}
@@ -234,24 +240,32 @@ const agenda = ({ history, location, pdfExportComponent }) => {
                 </ul>
             </Paper>
             </Grid>
-            {/* client Information */}
             {getClientInfo()}
-            {/* job Info and Call Info */}
-            {getCallInfo()}
-            {/* Your Information */}
             {getYourInfo()}
-            {/* Important links */}
-            {getLinks()}
+            {getCallInfo()}
             {/* form */}
             <Grid item xs={8}>
-                <Paper className={classes.paper}>
+                <Paper className={classes.paper} style={{border:'1px solid rgba(0,0,0,0.125)'}}>
                     <AgendaForm 
                         classes={classes} 
                         call_id={lead.call.id}
                         callStatus={callStatus} 
-                        voice={lead.voice}/>
+                        voice={lead.voice}
+                        editable={location.state.editable}
+                        updateNotes={updateNotes}/>
                 </Paper>
             </Grid>
+            {notes.length > 0 ? (
+                <Grid item xs={12}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h4" color="textSecondary" component="h2" className={classes.note}>
+                            Previous Notes:
+                        </Typography>
+                        <AgendaNotes
+                        notes={notes}/>
+                    </Paper>
+                </Grid>
+                ): null}
             {/* end of full page (grid)*/}
           </Grid>
     </PDFExport>

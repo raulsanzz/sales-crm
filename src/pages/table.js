@@ -116,9 +116,9 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                 onClick={rowClickListener ? (() =>
                   history.push({
                     pathname: "/agenda",
-                    state: { detail: row }
-                  })): null}
-                >
+                    state: { detail: row,
+                      editable: tableHeader === 'Scheduled Calls' ? true : false }
+                  })): null}>
                   {
                     columns.map(column => {
                       switch (column.id){

@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const leadStatus = ({fetchLeads, leads, LeadLoading}) => {
+const leadStatus = ({fetchLeads, leads, LeadLoading, history}) => {
   const classes = useStyles();
   const [filteredLeads, setFilteredLeads] = useState([]);
   const [leadStatus, setLeadStatus] = useState(null);
@@ -95,7 +95,9 @@ const leadStatus = ({fetchLeads, leads, LeadLoading}) => {
             jobs={filteredLeads}
             columns={columns}
             classes={classes}
-            tableHeader={'Leads'} />
+            tableHeader={'Leads'}
+            history={history} 
+            rowClickListener={true}/>
         ): <p> No leads with the selected status </p>}
         </div>)
       }

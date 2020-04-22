@@ -5,11 +5,10 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { useAlert } from 'react-alert';
 import axios from "axios";
-import AgendaNotes from "./agendaNotes";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const agendaForm = ({ classes, call_id, callStatus, voice}) => {
+const agendaForm = ({ classes, call_id, callStatus, voice, editable, updateNotes}) => {
   const [agenda, setAgenda] = useState({});
   const [agendaExists, setAgendaExists] = useState(false);
   const [notes, setNotes] = useState('');
@@ -231,6 +230,7 @@ const getAgenda = async() => {
       initilizeForm(res.data.agenda[0])
       setAgenda(res.data.agenda[0]);
       setAgendaExists(true);
+      updateNotes(res.data.agenda[0].notes)
     }
   } catch (error) {
     console.log('====================================');
@@ -315,7 +315,7 @@ const createAgenda = async(agenda, note) => {
       });
     };
     let form = (
-      <form onSubmit={onSubmitHandler} autoComplete='off' style={{marginBottom: '10px'}}>
+      <form onSubmit={onSubmitHandler} autoComplete='off'>
         {fromElementArray.map( elem => (
               <TextField
                 key={elem.id}
@@ -361,16 +361,14 @@ const createAgenda = async(agenda, note) => {
 
   return (
     <Fragment>
-      {loading ? <p> Loading...! </p> :
+      {loading ? <p> Loading...! </p> : (agendaExists || editable) ?
         (<div>
           <Typography 
           className={classes.typography} >
           Edit Agenda
           </Typography>
           {formRender()}
-          <AgendaNotes
-          notes = {agenda.notes}/>
-        </div>)
+        </div>): <p>No call Has been taken yet</p>
       }
 
     </Fragment>
