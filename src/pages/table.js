@@ -163,6 +163,10 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                           return(<TableCell key={column.id} align={column.align}>
                                     {row.call[column.id]}
                                 </TableCell>)
+                        case "notes_date":
+                          return (<TableCell key={column.id} align={column.align}>
+                                    {row.callTakenOn}
+                                  </TableCell>)
                         case "list":
                           return(<TableCell key={column.label} align={column.align}>
                                   <FormControl className={classes.formControl}>
