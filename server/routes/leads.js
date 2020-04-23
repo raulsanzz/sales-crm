@@ -9,6 +9,8 @@ const Job = db.job;
 const sequelize = db.Sequelize;
 const Lead = db.lead;
 const Client = db.client;
+const Agenda = db.agenda;
+const Note = db.note;
 const Call = db.call;
 const Op = sequelize.Op;
 
@@ -85,38 +87,40 @@ Router.put("/", auth, async (req, res) => {
 module.exports = Router;
 
 // get all Scheduled leads
-// Router.get( "/scheduled", async (req, res) => {
-//     try {
-//         const leads = await Lead.findAll({
-//             include: [
-//                 {   
-//                     model: Job,
-//                     attributes: ['client_id'],
-//                     include: [{
-//                         model: Client,
-//                         attributes: ['company_name']
-//                     }]
-//                 },
-//                 {   model: Profile,
-//                     attributes: ['name']
+Router.get( "/callTaken", auth, async (req, res) => {
+    try {
+        const leads = await Lead.findAll({
+            include: [
+                {   
+                    model: Job,
+                    attributes: ['job_title', 'salary', 'url', 'source'],
+                    include: [{
+                        model: Client,
+                        attributes: { exclude: ['createdAt', 'updatedAt'] }
+                    }]
+                },
+                {  
+                    model: Profile,
+                    attributes: ['name']
+                },
+                {   
+                    model: Call,
+                    required: true,
+                    include: [{
+                        model: Agenda,
+                        required: true,
+                        include: [{
+                            model: Note,
+                        }]
+                    }],
+                }
+            ],
+          
 
-//                 },
-//                 {   
-//                     model: Call,
-//                     where :{
-//                         call_date: {
-//                             [Op.gte]: new Date() 
-//                         }
-//                     },
-//                     attributes: ['call_date', 'call_time']
-//                 }
-//             ],
-//             order: [ [Call, 'call_date', 'ASC'] ]
-
-//     })
-//         return res.json({ leads }  );
-//     } catch (error) {
-//       console.log(error.message);
-//       return res.status(402).json({ msg: "Server Error" });
-//     }
-// });
+    })
+        return res.json({ leads }  );
+    } catch (error) {
+      console.log(error.message);
+      return res.status(402).json({ msg: "Server Error" });
+    }
+});

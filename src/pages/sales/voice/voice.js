@@ -8,10 +8,10 @@ import { fetchLeads} from '../../../actions/lead';
 
 const columns = [
   { id: 'client_name', label: 'Client Name', minWidth: 100, align: 'left' },
-    { id: 'profile', label: 'Profile', minWidth: 170, align: 'center'},
-    { id: 'call_time', label: 'Call Time', minWidth: 100, align: 'center' },
-    { id: 'call_date', label: 'Call Date', minWidth: 100, align: 'center' },
-    { id: 'interview_status', label: 'Interview Status', minWidth: 100, align: 'center' }
+  { id: 'profile', label: 'Profile', minWidth: 170, align: 'center'},
+  { id: 'call_time', label: 'Call Time', minWidth: 100, align: 'center' },
+  { id: 'call_date', label: 'Call Date', minWidth: 100, align: 'center' },
+  { id: 'interview_status', label: 'Interview Status', minWidth: 100, align: 'center' }
 ];
   
   const useStyles = makeStyles(theme => ({
@@ -52,7 +52,7 @@ const voice = ({fetchLeads, leads, leadLoading, history}) => {
     fetchLeads();
       let  arr = leads.filter(lead => {
         return(
-            lead.call.call_date !== null ? lead : null
+            (lead.call.call_date !== null && lead.voice !== null) ? lead : null
         )
       })
       setFilteredLeads(arr);  
