@@ -22,8 +22,12 @@ import EditLead from "../pages/sales/salesManager/LeadEdit";
 // Voice
 import Voice from '../pages/sales/voice/voice';
 import VoiceStatus from '../pages/sales/voice/voiceStatus';
-// 
+// Agenda
 import Agenda from "../pages/sales/agenda/agenda";
+// Test
+import AddTest from "../pages/sales/test/addTest";
+import TestInPipeline from "../pages/sales/test/testInPipeline";
+
 // import UiAgenda from "../pages/sales/aged";
 import Alert from "../pages/Alert";
 import AdminJobList from "../pages/sales/adminJobList";
@@ -65,6 +69,9 @@ export default () => {
           <PrivateRoute path="/voice_stauts" component={VoiceStatus} />
           {/* others */}
           <PrivateRoute path="/agenda" component={Agenda} />
+          {/* Test */}
+          <PrivateRoute path="/add_test" component={AddTest} />
+          <PrivateRoute path="/pipeline_test" component={TestInPipeline} />
           {/* <PrivateRoute path="/working" component={UiAgenda} /> */}
           <PrivateRoute path="/user_list" component={UserList} />
           <PrivateRoute path="/edit" component={EditUser} />

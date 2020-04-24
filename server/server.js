@@ -20,6 +20,7 @@ app.use("/api/appliedjob", require("./routes/appliedJobs"));
 app.use("/api/profile", require("./routes/profile"));
 app.use("/api/lead", require("./routes/leads"));
 app.use("/api/agenda", require("./routes/agendas"));
+app.use("/api/test", require("./routes/tests"));
 
 app.get('/*', function(req, res) {
   res.sendFile(path.join(reactBuildPath, 'index.html'));
