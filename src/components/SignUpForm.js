@@ -8,7 +8,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import HowToReg from "@material-ui/icons/HowToReg";
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import compose from "recompose/compose";
@@ -16,48 +16,62 @@ import PropTypes from "prop-types";
 import FormControl from "@material-ui/core/FormControl";
 import { signUp } from "../actions/auth";
 
-
 const styles = (theme) => ({
-  root: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    width: "50%",
-    margin: "0 auto",
-    minHeight: "250px",
-  },
   layout: {
-    width: "auto",
-    display: "block", // Fix IE11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 400,
-      marginLeft: "auto",
-      marginRight: "auto",
+    width: "100%",
+    display: "block",
+    margin: "0 auto",
+    [theme.breakpoints.up("sm")]: {
+      width: "80%",
+    },
+    [theme.breakpoints.up("md")]: {
+      width: "65%",
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: "45%",
     },
   },
-  avatar: {
-    margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main,
-  },
   paper: {
-    marginTop: theme.spacing.unit * 8,
+    minHeight: "300px",
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${
-      theme.spacing.unit * 3
-    }px`,
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(
+      3
+    )}px`,
   },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: "100%",
+  avatar: {
+    margin: `${theme.spacing()}px auto`,
+    backgroundColor: theme.palette.secondary.main,
+  },
+
+  invalidElementError: {
+    color: "red",
   },
   button: {
-    marginTop: "5%",
+    width: "50%",
+    display: "flex",
+    justifyContent: "center",
+    margin: "10px auto",
+  },
+  textField: {
     width: "100%",
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  typography: {
+    fontFamily: "initial",
+    fontSize: "25px",
+    display: "flex",
+    justifyContent: "center",
+    margin: "0 auto",
   },
 });
 const orderHandler = (e) => {
@@ -67,7 +81,7 @@ const orderHandler = (e) => {
   const form_data = {
     employee_number: e.target.registration_number.value,
     name: e.target.name.value,
-    // select_designation : e.target.select_designation.value,
+    select_designation: e.target.select_designation.value,
     password: e.target.password.value,
   };
 };
@@ -79,11 +93,12 @@ const PaperSheet = ({ signUp, classes, history }) => {
       elementType: "input",
       elementConfig: {
         type: "text",
-        placeholder: "Employee Name",
+        placeholder: "Employee Number * ",
       },
       value: "",
       validation: {
         required: true,
+        onlynum: true,
       },
       valid: false,
       touched: false,
@@ -93,11 +108,12 @@ const PaperSheet = ({ signUp, classes, history }) => {
       elementType: "input",
       elementConfig: {
         type: "text",
-        placeholder: "Name",
+        placeholder: "Name *",
       },
       value: "",
       validation: {
         required: true,
+        onlyalphabet: true,
       },
       valid: false,
       touched: false,
@@ -114,11 +130,11 @@ const PaperSheet = ({ signUp, classes, history }) => {
           { value: "Technical Voice", displayValue: "Technical Voice" },
           { value: "Admin", displayValue: "Admin" },
         ],
-        placeholder: "Select Designation",
+        placeholder: "Select Designation *",
       },
       value: "",
       validation: {
-        required: false,
+        required: true,
       },
       valid: false,
       touched: false,
@@ -128,20 +144,36 @@ const PaperSheet = ({ signUp, classes, history }) => {
       elementType: "input",
       elementConfig: {
         type: "text",
-        placeholder: "Password",
+        placeholder: "Password *",
       },
       value: "",
       validation: {
+        minLength: 5,
         required: true,
       },
       valid: false,
       touched: false,
-      message: "Password is too short",
+      message: "",
+    },
+    reenter_password: {
+      elementType: "input",
+      elementConfig: {
+        type: "text",
+        placeholder: "Re-enter Password *",
+      },
+      value: "",
+      validation: {
+        required: true,
+        same_pass: true,
+      },
+      valid: false,
+      touched: false,
+      message: "",
     },
   });
   useEffect(() => {
     checkFormValidity(formData);
-  },[])
+  }, []);
   const checkFormValidity = (form) => {
     let formIsValid = true;
     for (let elemIdentifier in form) {
@@ -155,7 +187,6 @@ const PaperSheet = ({ signUp, classes, history }) => {
     setFromIsInvalid(!formIsValid);
   };
   const onChangeHandler = (e, elementIdentifier) => {
-    console.log("elementIdentifier");
     console.log(elementIdentifier);
     const updatedForm = {
       ...formData,
@@ -164,15 +195,13 @@ const PaperSheet = ({ signUp, classes, history }) => {
       ...updatedForm[elementIdentifier],
     };
     updatedElement.value = e.target.value;
-    console.log("JERERERER");
     console.log(updatedElement.value);
     const res = validityCheck(updatedElement.value, updatedElement.validation);
     updatedElement.valid = res.isValid;
     updatedElement.message = res.message;
     updatedElement.touched = true;
     updatedForm[elementIdentifier] = updatedElement;
-    console.log("updatedForm");
-    console.log(updatedForm)
+    console.log(updatedForm);
     setFormData(updatedForm);
     checkFormValidity(updatedForm);
   };
@@ -186,11 +215,44 @@ const PaperSheet = ({ signUp, classes, history }) => {
           message = "required";
         }
       }
+      if (rules.same_pass) {
+        isValid = value.trim() === formData.password.value && isValid;
+        if (!isValid && message === '') {
+          message = "Password must be same";
+        }
+      }
+      if (rules.onlyalphabet) {
+        const re = /^[a-zA-Z]+$/;
+        isValid = value.trim().match(re) && isValid;
+        if (!isValid && message === '') {
+          message = "Please enter only characters";
+        }
+      }
+      if (rules.onlynum) {
+        const re = /^[0-9\b]+$/;
+        if (!Number(value)) {
+          isValid = false;
+        }
+        console.log(isValid);
+        console.log(isValid);
+        if (!isValid && message === '') {
+          message = "Employee number must be integer";
+        }
+      }
+
+      if (rules.minLength) {
+        isValid = value.trim().length >= rules.minLength && isValid;
+        if (!isValid && message === '') {
+          message = "Password is too short";
+        }
+      }
+
       if (!rules.required && value.trim() < 1) {
         isValid = true;
         message = "";
       }
     }
+    console.log(message);
     return { isValid, message };
   };
 
@@ -218,7 +280,9 @@ const PaperSheet = ({ signUp, classes, history }) => {
                 labelId={`${elem.id}-label`}
                 id={elem.id}
                 value={elem.config.value}
-                onChange={(event) => {onChangeHandler(event, elem.id)}}
+                onChange={(event) => {
+                  onChangeHandler(event, elem.id);
+                }}
               >
                 {elem.config.elementConfig.options.map((opt) => (
                   <MenuItem key={opt.value} value={opt.value}>
@@ -228,22 +292,31 @@ const PaperSheet = ({ signUp, classes, history }) => {
               </Select>
             </FormControl>
           ) : (
-            <div key={elem.id} className="form-group">
-              <label>
-                {elem.config.elementConfig.placeholder}
-                {elem.config.validation.required ? " (*)" : null}
-              </label>
-              <input
-                id={elem.id}
-                className="form-control"
-                type={elem.config.elementConfig.type}
-                value={elem.config.value}
-                onChange={(event) => {onChangeHandler(event, elem.id)}}
-              />
-            </div>
+            <TextField
+              key={elem.id}
+              pattern="[a-zA-Z]"
+              className={classes.textField}
+              error={!elem.config.valid && elem.config.touched}
+              id={elem.id}
+              label={elem.config.elementConfig.placeholder}
+              type={elem.config.elementConfig.type}
+              value={elem.config.value}
+              onChange={(event) => {
+                onChangeHandler(event, elem.id);
+              }}
+              helperText={elem.config.message}
+            />
           )
         )}
-        <button  className="btn btn-primary">Submit</button>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          className={classes.button}
+          disabled={fromIsInvalid}
+        >
+          Submit
+        </Button>
       </form>
     );
     return form;
