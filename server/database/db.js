@@ -45,6 +45,7 @@ db.client = require("../models/Client")(sequelize, Sequelize);
 db.call = require("../models/Call")(sequelize, Sequelize);
 db.agenda = require("../models/Agenda")(sequelize, Sequelize);
 db.note = require("../models/Note")(sequelize, Sequelize);
+db.test = require("../models/Test")(sequelize, Sequelize);
 
 // Associstions
 
@@ -135,6 +136,9 @@ db.lead.belongsTo(db.user, {
 db.lead.belongsTo (db.job, {foreignKey: 'job_id'});
 db.lead.belongsTo (db.profile , {foreignKey: 'profile_id'});
 
+db.lead.hasOne(db.test, {
+  foreignKey: "lead_id"
+})
 // Applied Job 
 db.appliedJob.belongsTo (db.user, {foreignKey: 'user_id'});
 db.appliedJob.belongsTo (db.job, {foreignKey: 'job_id'});
@@ -170,6 +174,12 @@ db.note.belongsTo(db.agenda, {
   foreignKey: "agenda_id",
   targetKey: "call_id",
   onDelete: "CASCADE"
+});
+
+// test
+db.test.belongsTo(db.lead, {
+  foreignKey: "lead_id",
+  targetKey: "id"
 });
 
 // to refresh the database and drop the already created tables

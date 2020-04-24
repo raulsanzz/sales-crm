@@ -9,7 +9,8 @@ import { fetchLeads } from '../../../actions/lead';
 const columns = [
     { id: 'company_name', label: 'Company Name', minWidth: 170 },
     { id: 'profile', label: 'Profile', minWidth: 100, align: 'center' },
-    { id: 'editButton', label: 'Action', minWidth: 100, align: 'center', editPath:'/lead_edit' }
+    { id: 'editButton', label: 'Add Test Details', minWidth: 100, align: 'center', editPath:'/add_test' },
+    { id: 'editButton', label: 'Add Lead Details', minWidth: 100, align: 'center',  editPath:'/lead_edit' }
 ];
   
   const useStyles = makeStyles(theme => ({
