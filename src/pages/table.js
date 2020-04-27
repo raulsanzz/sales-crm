@@ -53,7 +53,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
       else{
       return job.job_id === row.job_id ? updatedJob[0] : job}
     })
-    setFilteredJobs(updatedJobs)
+    setFilteredJobs(updatedJobs);
   }
   const searchHandler = e => {
       let lists = filteredJobs;
@@ -157,6 +157,19 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                       target='_blank' 
                                       rel="noopener noreferrer">  job link Url </a>  ) } 
                                 </TableCell>)
+                        case "test_gmail_thread":
+                          return(<TableCell key={column.id} align={column.align}>
+                                    <a 
+                                    href={row.test.gmail_thread}
+                                    target='_blank' 
+                                    rel="noopener noreferrer"> Gmail Thread</a>
+                                </TableCell>)
+                        case "test_type":
+                        case "due_date":
+                        case "due_time":
+                          return(<TableCell key={column.id} align={column.align}>
+                                    {row.test[column.id]}
+                                </TableCell>)
                         case "contact_via":
                         case "call_date":
                         case "call_time":
@@ -183,6 +196,21 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                               :<MenuItem key={item} value={item}>{item}</MenuItem>
                                               )
                                             })
+                                          }
+                                      </Select>
+                                  </FormControl>   
+                                </TableCell>)
+                        case "test_status":
+                          return(<TableCell key={column.label} align={column.align}>
+                                  <FormControl className={classes.formControl}>
+                                      <InputLabel id={`${column.label}-label`}>{column.placeholder}</InputLabel>
+                                      <Select
+                                        labelId={`${column.label}-label`}
+                                        id={column.label}
+                                        defaultValue={row.test.status}
+                                        onChange={(event) => {onUpdateHandler(row.id, event.target.value)}}>
+                                          { column.listItems.map(item => 
+                                                <MenuItem key={item} value={item}>{item}</MenuItem>)
                                           }
                                       </Select>
                                   </FormControl>   
@@ -228,6 +256,21 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                     disabled={row.profile_id === null || row.status === "job"}
                                     onClick={() => {onUpdateHandler(row)}}>
                                       Update
+                                  </Button>
+                                </TableCell>
+                          )
+                          case "agendaButton" :
+                          return(<TableCell key={column.id} align={column.align}>
+                                  <Button 
+                                    variant="contained" 
+                                    color="primary"
+                                    disabled={row.profile_id === null || row.status === "job"}
+                                    onClick={() =>
+                                      history.push({
+                                        pathname: "/agenda",
+                                        state: { detail: row, editable: false }
+                                      })}>
+                                      Agenda
                                   </Button>
                                 </TableCell>
                           )

@@ -39,8 +39,6 @@ import MyLeads from "../pages/sales/leads/MyLead";
 import LeadSchedule from "../pages/sales/leads/LeadCallList";
 import UserReport from "../pages/sales/user/UserReport";
 import UserDetails from "../pages/sales/user/UserDetails";
-import SalesTest from '../pages/sales/test';
-import EditSalesTest from '../pages/sales/editSalesTest';
 const history = createBrowserHistory();
 
 export default () => {
@@ -82,8 +80,6 @@ export default () => {
           <PrivateRoute path="/lead_scedule" component={LeadSchedule} />
           <PrivateRoute path="/user_report" component={UserReport} />
           <PrivateRoute path="/user_details" component={UserDetails} />
-          <PrivateRoute path="/sales_test" component={SalesTest} />
-          <PrivateRoute path="/sales_test_edit" component={EditSalesTest} />
         </Switch>
       </Router>
     </Fragment>

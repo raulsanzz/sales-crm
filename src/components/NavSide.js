@@ -53,7 +53,7 @@ const mailFolderListItems = ({ user, classes }) => {
   };
 
   const salesTestHandleClick = () => {
-    setsalesVoiceOpen(!salesVoiceOpen);
+    setsalesTestOpen(!salesTestOpen);
   };
   if (user) {
     for (var i = 0; i < user.length; i++) {
@@ -235,15 +235,43 @@ const mailFolderListItems = ({ user, classes }) => {
          
         </List>
       </Collapse>
-      {raceName === "sales_executive" || raceName === "admin" ? (
-        <ListItem button component={Link} to="/sales_test">
+      {/*  */}
+      {raceName === "sales_voice" || raceName === "admin" ? (
+        <ListItem button onClick={salesTestHandleClick}>
           <ListItemIcon>
             <DashboardIcon className={classes.root} />
           </ListItemIcon>
           <ListItemText primary="Sales Test" />
+          {salesVoiceOpen ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        ) : ("")
-      }
+      ) : (
+        ""
+      )}
+      <Collapse in={salesTestOpen} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          {raceName === "sales_voice" || raceName === "admin" ? (
+            <ListItem button component={Link} to="/pipeline_test">
+              <ListItemIcon>
+                <ListIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Test In pipeline" />
+            </ListItem>
+          ) : (
+            ""
+          )}
+          {raceName === "sales_voice" || raceName === "admin" ? (
+            <ListItem button component={Link} to="/">
+              <ListItemIcon>
+                <ListIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Test Status" />
+            </ListItem>
+          ) : (
+            ""
+          )}    
+        </List>
+      </Collapse>
+      {/*  */}
       {raceName === "admin" || raceName === "manager" ? (
         <ListItem button onClick={userHandleClick}>
           <ListItemIcon>
