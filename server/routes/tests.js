@@ -20,17 +20,12 @@ Router.post("/", auth, async(req, res) => {
 })
 
 //get all tests
-Router.get( "/", auth, async (req, res) => {
+Router.put( "/:id", auth, async (req, res) => {
     try {
-      const test = await Test.findAll({
-        // where: {call_id: req.params.call_id},
-        // include:[
-        //     {
-        //         model: Note
-        //     }
-        // ],
-        // order: [ [Note, 'createdAt', 'DESC'] ]
-      });
+      const test = await Test.update({
+        ...req.body.test
+      },
+      {where: { lead_id: req.params.id}});
         return res.json({ test }  );
     } catch (error) {
       console.log(error.message);

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, {useState} from 'react';
+import React, {useState, Fragment} from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -128,7 +128,47 @@ const agenda = ({ history, location, pdfExportComponent }) => {
         </Grid>   
         )
     }
-
+    const getTestInfo = () => {
+        return(
+            <Fragment>
+            {lead.test !== null ? 
+            (<Grid item xs={12}>
+                <Paper className={classes.paper}>
+                    <ul className={"list-group"}>
+                        <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                            <InfoIcon style={{ fontSize: 40, color:'black' }}></InfoIcon>
+                            <span>Test Information</span>
+                        </li>
+                        <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                            Type of test:
+                            <span>{lead.test.test_type}</span>
+                        </li>
+                        <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                            Test Status:
+                            <span>{lead.test.status}</span>
+                        </li>
+                        <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                            Due Date:
+                            <span>{lead.test.due_date}</span>
+                        </li>
+                        <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                            Due Time:
+                            <span>{lead.test.due_time}</span>
+                        </li>
+                        <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                            Test Gmail Thread:
+                            <a 
+                            href={lead.test.gmail_thread}
+                            target='_blank' 
+                            rel="noopener noreferrer"> Gmail Thread </a>         
+                        </li>  
+                    </ul>
+                </Paper>
+            </Grid>) : null
+            }
+            </Fragment>
+        )
+    }
     const getCallInfo = () => {
         return(
             <Grid  item xs={4}>
@@ -255,6 +295,7 @@ const agenda = ({ history, location, pdfExportComponent }) => {
                         updateNotes={updateNotes}/>
                 </Paper>
             </Grid>
+            {getTestInfo()}
             {notes.length > 0 ? (
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>

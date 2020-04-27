@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -206,13 +206,9 @@ const onChangeHandler = (e, elementIdentifier) => {
     const body = JSON.stringify({ test });  
     try {
       const res = await axios.post ( BASE_URL + "/api/test", body, config);
-        console.log('====================================');
-        console.log(res);
-        console.log('====================================');
         alert.success('Test Added successfully...!!');
         history.goBack();
-    } catch (error) {
-      
+    } catch (error) { 
       alert.success('Failed to add Test...!!');
     }
   };
@@ -282,22 +278,28 @@ const onChangeHandler = (e, elementIdentifier) => {
   }
 
   return (
-    <React.Fragment>
+    <Fragment>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          <IconButton 
-            aria-label='Add'
-            onClick={() => history.goBack()}>
-            <ArrowBackIcon fontSize='large' />
-          </IconButton>
-          <Typography 
-            className={classes.typography} >
-            Add Test
-          </Typography>
-          {formRender()}
+          {
+            location.state.detail.test === null ? (
+              <Fragment>
+                <IconButton 
+                  aria-label='Add'
+                  onClick={() => history.goBack()}>
+                  <ArrowBackIcon fontSize='large' />
+                </IconButton>
+                <Typography 
+                  className={classes.typography} >
+                  Add Test
+                </Typography>
+                {formRender()}
+              </Fragment>
+            ): <h1> Test Already Exists</h1>
+          }
         </Paper>
       </main>
-    </React.Fragment>
+    </Fragment>
   );
 };
 

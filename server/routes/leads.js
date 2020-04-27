@@ -6,13 +6,12 @@ const calls = require('./calls');
 const db = require("../database/db");
 const Profile = db.profile;
 const Job = db.job;
-const sequelize = db.Sequelize;
 const Lead = db.lead;
 const Client = db.client;
 const Agenda = db.agenda;
 const Note = db.note;
 const Call = db.call;
-const Op = sequelize.Op;
+const Test = db.test;
 
 Router.post ('/', auth, async(req, res) => {
     try{
@@ -52,6 +51,9 @@ Router.get( "/", auth, async (req, res) => {
                 },
                 {   
                     model: Call
+                },
+                {   
+                    model: Test
                 }
         ]
     })
