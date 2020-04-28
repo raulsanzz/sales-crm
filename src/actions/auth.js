@@ -32,13 +32,7 @@ export const loadUser = () => async dispatch => {
   }
 };
 
-export const signUp = (
-  registration_number,
-  name,
-  designation,
-  password,
-  history
-) => async dispatch => {
+export const signUp = (newUser) => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -46,10 +40,7 @@ export const signUp = (
   };
 
   const body = JSON.stringify({
-    registration_number,
-    name,
-    designation,
-    password
+    newUser
   });
   try {
     const res = await axios.post ( BASE_URL + "/api/user", body, config);
@@ -60,7 +51,7 @@ export const signUp = (
     });
 
     dispatch(loadUser());
-    history.push("/dashboard");
+    return true
   } catch (error) {
     const errors = error.response.data.errors;
     const error1 = error.response.data.msg;
@@ -76,6 +67,7 @@ export const signUp = (
     dispatch({
       type: REGISTER_FAIL
     });
+    return false
   }
 };
 

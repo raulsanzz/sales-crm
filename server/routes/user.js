@@ -11,58 +11,27 @@ const User = db.user;
 const Job = db.job;
 const Op = sequelize.Op;
 //@POST api/user @user registration
-Route.post(
-  "/",
-
-  [
-    check("name", "Name is required")
-      .not()
-      .isEmpty(),
-    check("registration_number", "Registraion field is required only integer")
-      .not()
-      .isEmpty(),
-    check("designation", "Designation Field is required")
-      .not()
-      .isEmpty(),
-    check("password", "Password must be at least 5 chars long").isLength({
-      min: 5
-    })
-  ],
-
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-
-    let { registration_number, name, designation, password } = req.body;
-
+Route.post("/",async (req, res) => { 
+  console.log(req.body)
+    
     const userExist = await User.count({
-      where: { registration_number: registration_number }
+      where: { registration_number: req.body.newUser.registration_number }
     });
 
     if (userExist) {
       return res
         .status(402)
-        .json({ msg: "Registration number already used by another user" });
+        .json({ msg: "Employee number already used by another user" });
     }
 
     const salt = await bcrypt.genSalt(10);
-    password = await bcrypt.hash(password, salt);
-    //password = "12345"; //await bcrypt.hash(password, salt);
-
-    // if (password) {
-    //   return res.send(password);
-    // } else {
-    //   return res.send("null" + password);
-    // }
-
+    const password = await bcrypt.hash(req.body.newUser.password, salt);
+    console.log("req.body.newUser")
+    console.log(req.body.newUser)
     try {
       let user = await User.create({
-        registration_number: registration_number,
-        name: name,
-        password: password,
-        designation: designation
+        ...req.body.newUser,
+        password :password
       });
 
       const payload = {
