@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import Avatar from "@material-ui/core/Avatar";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -74,19 +75,10 @@ const styles = (theme) => ({
     margin: "0 auto",
   },
 });
-const orderHandler = (e) => {
-  e.preventDefault();
-  console.log(e.target.select_designation);
-  console.log("JERE iN EE");
-  const form_data = {
-    employee_number: e.target.registration_number.value,
-    name: e.target.name.value,
-    select_designation: e.target.select_designation.value,
-    password: e.target.password.value,
-  };
-};
 
-const PaperSheet = ({ signUp, classes, history }) => {
+const signupForm = ({ signUp, classes, history }) => {
+
+  
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const [formData, setFormData] = useState({
     registration_number: {
@@ -174,6 +166,24 @@ const PaperSheet = ({ signUp, classes, history }) => {
   useEffect(() => {
     checkFormValidity(formData);
   }, []);
+  const orderHandler = async (e) => {
+    e.preventDefault();
+    const newUser = {
+      registration_number: formData.registration_number.value,
+      name: formData.name.value,
+      designation: formData.select_designation.value,
+      password: formData.password.value,
+    };
+    const res = await signUp(newUser)
+  
+    if(res){
+      history.push("/dashboard");
+    }
+    else{
+        console.log("ERROR")
+    }
+  };
+  
   const checkFormValidity = (form) => {
     let formIsValid = true;
     for (let elemIdentifier in form) {
@@ -336,12 +346,8 @@ const PaperSheet = ({ signUp, classes, history }) => {
   );
 };
 
-PaperSheet.propTypes = {
-  classes: PropTypes.object.isRequired,
-  signUp: PropTypes.func.isRequired,
-};
 
 export default compose(
   withStyles(styles),
   connect(null, { signUp })
-)(withRouter(PaperSheet));
+)(withRouter(signupForm));
