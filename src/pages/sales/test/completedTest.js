@@ -59,7 +59,7 @@ const completedTest = ({fetchLeads, leads, history, leadLoading}) => {
         )
       })
       setFilteredLeads(arr);
-    }, [leads.length]);
+    }, [JSON.stringify(leads)]);
   
   const testStatusChangeHandler = async(lead_id, test_status) => {
     const config = {
@@ -72,6 +72,7 @@ const completedTest = ({fetchLeads, leads, history, leadLoading}) => {
     try {
       await axios.put( BASE_URL + "/api/test/" + lead_id, body, config);
       alert.success('Test status updated successfully...!!');
+      fetchLeads();
     } catch (error) {      
       alert.success('Failed to update test Status...!!');
     }
@@ -87,7 +88,7 @@ const completedTest = ({fetchLeads, leads, history, leadLoading}) => {
           tableHeader={"Sales test"}
           onUpdateHandler={testStatusChangeHandler}
           history={history}/>
-        ) : <p> No Tests have been completes yet </p>
+        ) : <p> No tests have been completed yet </p>
         }
     </Fragment> 
   )

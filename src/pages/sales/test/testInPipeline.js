@@ -3,7 +3,6 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { makeStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 
-
 import Table from "./../../table";
 import { fetchLeads } from "../../../actions/lead";
 
@@ -51,16 +50,13 @@ const testInPipeline = ({fetchLeads, leads, history, leadLoading}) => {
 
   useEffect(() => {
       fetchLeads();
-      console.log('====================================');
-      console.log('yo');
-      console.log('====================================');
       let arr = leads.filter( lead => {
         return(
             (lead.test !== null && (lead.test.status === null || lead.test.status === 'In progress' )) ? lead : null
         )
       })
       setFilteredLeads(arr);
-    }, [leads.length]);
+    }, [JSON.stringify(leads)]);
     
   return(     
     <Fragment>
@@ -70,7 +66,6 @@ const testInPipeline = ({fetchLeads, leads, history, leadLoading}) => {
           columns={columns}
           classes={classes}
           tableHeader={"Sales test"}
-          // onUpdateHandler={testStatusChangeHandler}
           history={history}/>
         )}
     </Fragment> 
