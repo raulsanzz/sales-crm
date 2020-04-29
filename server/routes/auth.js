@@ -16,24 +16,16 @@ Route.get("/", auth, async (req, res) => {
   }).map(el => el.get({ plain: true }));
   res.json(user);
 });
-Route.post(
-  "/",
-  [
-    check(
-      "registration_number",
-      "Registration number should be Numeric"
-    ).isNumeric(),
-    check("password", "Password is required")
-      .not()
-      .isEmpty()
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
+Route.post("/",async (req, res) => {
+    console.log("JERERERERERERERERE")
 
-    let { registration_number, password } = req.body;
+    // const errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //   return res.status(422).json({ errors: errors.array() });
+    // }
+
+    let { registration_number, password } = req.body.newUser;
+    console.log(registration_number.password);
 
     const user = await User.findAll({
       where: { registration_number: registration_number }
