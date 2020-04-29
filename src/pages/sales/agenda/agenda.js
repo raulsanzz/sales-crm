@@ -161,6 +161,11 @@ const agenda = ({ history, location, pdfExportComponent }) => {
                             href={lead.test.gmail_thread}
                             target='_blank' 
                             rel="noopener noreferrer"> Gmail Thread </a>         
+                        </li>
+                        
+                        <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                            Notes:
+                            <span>{lead.test.note}</span>
                         </li>  
                     </ul>
                 </Paper>

@@ -270,7 +270,7 @@ const mailFolderListItems = ({ user, classes }) => {
             ""
           )}    
           {raceName === "sales_voice" || raceName === "admin" ? (
-            <ListItem button component={Link} to="/">
+            <ListItem button component={Link} to="/test">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
               </ListItemIcon>
