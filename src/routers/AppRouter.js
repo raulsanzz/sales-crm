@@ -29,6 +29,7 @@ import AddTest from "../pages/sales/test/addTest";
 import EditTest from "../pages/sales/test/editTest";
 import TestInPipeline from "../pages/sales/test/testInPipeline";
 import CompletedTest from "../pages/sales/test/completedTest";
+import Tests from "../pages/sales/test/test";
 
 // import UiAgenda from "../pages/sales/aged";
 import Alert from "../pages/Alert";
@@ -41,7 +42,6 @@ import MyLeads from "../pages/sales/leads/MyLead";
 import LeadSchedule from "../pages/sales/leads/LeadCallList";
 import UserReport from "../pages/sales/user/UserReport";
 import UserDetails from "../pages/sales/user/UserDetails";
-import completedTest from "../pages/sales/test/completedTest";
 const history = createBrowserHistory();
 
 export default () => {
@@ -74,7 +74,8 @@ export default () => {
           <PrivateRoute path="/add_test" component={AddTest} />
           <PrivateRoute path="/edit_test" component={EditTest} />
           <PrivateRoute path="/pipeline_test" component={TestInPipeline} />
-          <PrivateRoute path="/complete_test" component={completedTest} />
+          <PrivateRoute path="/complete_test" component={CompletedTest} />
+          <PrivateRoute path="/test" component={Tests} />
           {/* <PrivateRoute path="/working" component={UiAgenda} /> */}
           <PrivateRoute path="/user_list" component={UserList} />
           <PrivateRoute path="/edit" component={EditUser} />

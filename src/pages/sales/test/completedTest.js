@@ -85,7 +85,7 @@ const completedTest = ({fetchLeads, leads, history, leadLoading}) => {
           jobs={filteredLeads}
           columns={columns}
           classes={classes}
-          tableHeader={"Sales test"}
+          tableHeader={"Completed Tests"}
           onUpdateHandler={testStatusChangeHandler}
           history={history}/>
         ) : <p> No tests have been completed yet </p>

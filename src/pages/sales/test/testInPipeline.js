@@ -60,14 +60,14 @@ const testInPipeline = ({fetchLeads, leads, history, leadLoading}) => {
     
   return(     
     <Fragment>
-      {leadLoading ? <p> Loading </p>: 
+      {leadLoading ? <p> Loading </p>: filteredLeads.length > 0 ?
       (<Table 
           jobs={filteredLeads}
           columns={columns}
           classes={classes}
           tableHeader={"Sales test"}
           history={history}/>
-        )}
+        ): <p> No test in Pipeline </p>}
     </Fragment> 
   )
 }
