@@ -26,7 +26,10 @@ import VoiceStatus from '../pages/sales/voice/voiceStatus';
 import Agenda from "../pages/sales/agenda/agenda";
 // Test
 import AddTest from "../pages/sales/test/addTest";
+import EditTest from "../pages/sales/test/editTest";
 import TestInPipeline from "../pages/sales/test/testInPipeline";
+import CompletedTest from "../pages/sales/test/completedTest";
+import Tests from "../pages/sales/test/test";
 
 // import UiAgenda from "../pages/sales/aged";
 import Alert from "../pages/Alert";
@@ -69,7 +72,10 @@ export default () => {
           <PrivateRoute path="/agenda" component={Agenda} />
           {/* Test */}
           <PrivateRoute path="/add_test" component={AddTest} />
+          <PrivateRoute path="/edit_test" component={EditTest} />
           <PrivateRoute path="/pipeline_test" component={TestInPipeline} />
+          <PrivateRoute path="/complete_test" component={CompletedTest} />
+          <PrivateRoute path="/test" component={Tests} />
           {/* <PrivateRoute path="/working" component={UiAgenda} /> */}
           <PrivateRoute path="/user_list" component={UserList} />
           <PrivateRoute path="/edit" component={EditUser} />

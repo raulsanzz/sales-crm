@@ -19,6 +19,9 @@ module.exports = (sequelize, Sequelize) => {
     due_time: {
         type: Sequelize.STRING
     },
+    note: {
+        type: Sequelize.STRING
+    },
     due_date: {
         type: Sequelize.DATEONLY
     },
