@@ -135,7 +135,7 @@ const signupForm = ({ signUp, classes, history }) => {
     password: {
       elementType: "input",
       elementConfig: {
-        type: "text",
+        type: "password",
         placeholder: "Password *",
       },
       value: "",
@@ -150,7 +150,7 @@ const signupForm = ({ signUp, classes, history }) => {
     reenter_password: {
       elementType: "input",
       elementConfig: {
-        type: "text",
+        type: "password",
         placeholder: "Re-enter Password *",
       },
       value: "",

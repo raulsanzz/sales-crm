@@ -72,9 +72,7 @@ export const signUp = (newUser) => async dispatch => {
 };
 
 export const logIn = (
-  registration_number,
-  password,
-  history
+newUser
 ) => async dispatch => {
   const config = {
     headers: {
@@ -83,8 +81,7 @@ export const logIn = (
   };
 
   const body = JSON.stringify({
-    registration_number,
-    password
+    newUser
   });
   
   console.log(BASE_URL);  
@@ -97,7 +94,7 @@ export const logIn = (
     });
     dispatch(loadUser());
 
-    history.push("/dashboard");
+    // history.push("/dashboard");
   } catch (error) {
     const errors = error.response.data.errors;
     const error1 = error.response.data.msg;
