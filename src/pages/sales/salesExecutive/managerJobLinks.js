@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useRef, useEffect, Fragment } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -52,6 +52,7 @@ const columns = [
 
 const managerJobLinks = ({ updateAppliedJob }) => {
   const classes = useStyles();
+  const didMountRef = useRef(false);
   const [jobs, setJobs] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [profiles, setProfiles] = useState([]);
@@ -59,7 +60,13 @@ const managerJobLinks = ({ updateAppliedJob }) => {
   const alert = useAlert();
 
   useEffect(() => {
-    fetchAppliedJobs();
+    if(didMountRef.current === false){ //only for component did mount
+      fetchProfiles();
+      fetchAppliedJobs();
+      didMountRef.current = true
+    }
+    const interval = setInterval(fetchAppliedJobs, 60000);//get all jobs from DB after every 1 mint 
+    return () => clearInterval(interval);// for ComponentWillUnMount
   }, []);
 
   useEffect(() => {
@@ -68,10 +75,16 @@ const managerJobLinks = ({ updateAppliedJob }) => {
     }
   }, [jobs.length]);
   
-  const fetchAppliedJobs = async () => {
+  const fetchProfiles = async () => {
     try {
       const profiles = await axios.get ( BASE_URL + '/api/profile');
       setProfiles(profiles.data.profiles);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchAppliedJobs = async () => {
+    try {
       const jobs =  await axios.get ( BASE_URL + '/api/appliedjob');
       setJobs(jobs.data.appliedJobs);  
     } catch (error) {

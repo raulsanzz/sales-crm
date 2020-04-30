@@ -55,7 +55,8 @@ Router.get( "/", auth, async (req, res) => {
                 {   
                     model: Test
                 }
-        ]
+            ],
+            order: [['createdAt', 'DESC']]
     })
         return res.json({ leads }  );
     } catch (error) {
@@ -115,6 +116,9 @@ Router.get( "/callTaken", auth, async (req, res) => {
                             model: Note,
                         }]
                     }],
+                },
+                {   
+                    model: Test
                 }
             ],
           

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { makeStyles } from '@material-ui/styles';
 // import axios from 'axios';
 import { fetchLeads, updateLead } from '../../../actions/lead';
@@ -60,17 +60,26 @@ const useStyles = makeStyles(theme => ({
 const scheduledLeads = ({fetchLeads, updateLead, leads, leadLoading, history}) => {
   const classes = useStyles();
   const alert = useAlert();
+  const didMountRef = useRef(false);
   const [filteredLeads, setFilteredLeads] = useState([]);
-
+  
   useEffect(() => {
-    fetchLeads();
+    if(didMountRef.current === false){ //only for component did mount
+      fetchLeads(true);
+      didMountRef.current = true;
+    }
+    const interval = setInterval(fetchLeads, 60000);//get all leads from DB after every 1 mint 
+    return () => clearInterval(interval);// for ComponentWillUnMount
+  }, []);
+  
+  useEffect(() => {
       let  arr = leads.filter(lead => {
         return(
             lead.call.call_date !== null ? lead : null
         )
       })
       setFilteredLeads(arr);  
-    }, [leads.length]);
+    }, [JSON.stringify(leads)]);
 
     const leadUpdateHandeler = async(lead) => {
       const data = {

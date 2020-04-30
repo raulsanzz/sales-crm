@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -49,17 +49,29 @@ const useStyles = makeStyles(theme => ({
 
 const jobStatus = () => {
   const classes = useStyles();
+  const didMountRef = useRef(false);
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [jobStatus, setJobStatus] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchAppliedJobs();
+    if(didMountRef.current === false){ //only for component did mount
+      fetchAppliedJobs(true);
+      didMountRef.current = true;
+    }
+    const interval = setInterval(fetchAppliedJobs, 60000);//get all leads from DB after every 1 mint 
+    return () => clearInterval(interval);// for ComponentWillUnMount
   }, []);
 
-  const fetchAppliedJobs = async () => {
+  useEffect(() => {
+    handleJobStatusChange(jobStatus)
+  }, [jobs.length]);
+
+  const fetchAppliedJobs = async (shouldUpdateLoading) => {
+    if(shouldUpdateLoading){
       setLoading(true);
+    }  
     try {
       const jobs =  await axios.get ( BASE_URL + '/api/appliedjob/leads');
       setJobs(jobs.data.appliedJobs);
@@ -73,9 +85,9 @@ const jobStatus = () => {
     setJobStatus(status);
     let arr = jobs.filter(job => {
       return(
-        job.lead_status === status ? job : null
-      )
-    })
+        job.lead_status === status ? (job) : null
+        )
+      })
     setFilteredJobs(arr);
   };
   

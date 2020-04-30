@@ -25,7 +25,8 @@ Router.get( "/", auth, async (req, res) => {
                 attributes: ["company_name"]
             }]
           }
-        ]
+        ],
+        order: [['createdAt', 'DESC']]
     })
     return res.json({ appliedJobs }  );
     } catch (error) {
@@ -48,7 +49,8 @@ Router.get( "/manager", auth, async (req, res) => {
                 attributes: ["company_name"]
             }]
           }
-        ]
+        ],
+        order: [['updatedAt', 'DESC']]
     })
     return res.json({ appliedJobs }  );
     } catch (error) {
@@ -77,7 +79,8 @@ Router.get( "/leads", auth, async (req, res) => {
           model: Profile,
           attributes: ['name']
         }
-      ]
+      ],
+      order: [['updatedAt', 'DESC']]
   })
   return res.json({ appliedJobs }  );
   } catch (error) {

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -49,13 +49,22 @@ const useStyles = makeStyles(theme => ({
 
 const leadStatus = ({fetchLeads, leads, LeadLoading, history}) => {
   const classes = useStyles();
+  const didMountRef = useRef(false)
   const [filteredLeads, setFilteredLeads] = useState([]);
   const [leadStatus, setLeadStatus] = useState(null);
 
   useEffect(() => {
-    fetchLeads();
-    setFilteredLeads(leads);
+    if(didMountRef.current === false){ //only for component did mount
+      fetchLeads(true);
+      didMountRef.current = true;
+    }
+    const interval = setInterval(fetchLeads, 60000);//get all leads from DB after every 1 mint 
+    return () => clearInterval(interval);// for ComponentWillUnMount
   }, []);
+
+  useEffect(() => {
+    handleLeadStatusChange(leadStatus);
+  }, [JSON.stringify(leads)]);
 
   const handleLeadStatusChange = (status) => {
     setLeadStatus(status);
