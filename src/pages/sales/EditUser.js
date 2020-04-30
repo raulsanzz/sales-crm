@@ -138,12 +138,11 @@ const editUser = ({ classes, history, location, updateUser }) => {
               onChange={roleHandler}
               className={classes.textField}
               value={formData.role}>
-              <MenuItem value="None">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value="admin">Admin</MenuItem>
-              <MenuItem value="manager">Manager</MenuItem>
-              <MenuItem value="sales_executive">Sales Exective</MenuItem>
+              <MenuItem value="Sales Voice">Sales Voice</MenuItem>
+              <MenuItem value="Sales Executive">Sales Executive</MenuItem>
+              <MenuItem value="Sales Manager">Sales Manager</MenuItem>
+              <MenuItem value="Asst. Sales Manager">Asst. Sales Manager</MenuItem>
+              <MenuItem value="Admin">Admin</MenuItem>
             </Select>
 
             <Button

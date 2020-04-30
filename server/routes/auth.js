@@ -17,7 +17,6 @@ Route.get("/", auth, async (req, res) => {
   res.json(user);
 });
 Route.post("/",async (req, res) => {
-    console.log("JERERERERERERERERE")
 
     // const errors = validationResult(req);
     // if (!errors.isEmpty()) {
@@ -25,8 +24,6 @@ Route.post("/",async (req, res) => {
     // }
 
     let { registration_number, password } = req.body.newUser;
-    console.log(registration_number.password);
-
     const user = await User.findAll({
       where: { registration_number: registration_number }
     }).map(el => el.get({ plain: true }));

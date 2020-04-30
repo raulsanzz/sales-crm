@@ -12,7 +12,6 @@ const Job = db.job;
 const Op = sequelize.Op;
 //@POST api/user @user registration
 Route.post("/",async (req, res) => { 
-  console.log(req.body)
     
     const userExist = await User.count({
       where: { registration_number: req.body.newUser.registration_number }

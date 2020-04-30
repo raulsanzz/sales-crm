@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState}from "react";
+import React, { useState } from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -11,7 +11,7 @@ import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
-import LinkIcon from '@material-ui/icons/Link';
+import LinkIcon from "@material-ui/icons/Link";
 import ListIcon from "@material-ui/icons/List";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import WorkIcon from "@material-ui/icons/Work";
@@ -19,10 +19,10 @@ import PersonIcon from "@material-ui/icons/Person";
 
 import { Link } from "react-router-dom";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
-    color: "white"
-  }
+    color: "white",
+  },
 });
 const mailFolderListItems = ({ user, classes }) => {
   const [open, setOpen] = useState(false);
@@ -39,7 +39,7 @@ const mailFolderListItems = ({ user, classes }) => {
   const ManagerHandleClick = () => {
     setManagerOpen(!managerOpen);
   };
-  
+
   const userHandleClick = () => {
     setuserOpen(!userOpen);
   };
@@ -47,7 +47,7 @@ const mailFolderListItems = ({ user, classes }) => {
   const leadsHandleClick = () => {
     setleadsOpen(!leadsOpen);
   };
-  
+
   const salesVoiceHandleClick = () => {
     setsalesVoiceOpen(!salesVoiceOpen);
   };
@@ -69,7 +69,7 @@ const mailFolderListItems = ({ user, classes }) => {
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
       </ListItem>
-      {raceName === "sales_executive" || raceName === "admin" ? (
+      {raceName === "Sales Executive" || raceName === "Admin" ? (
         <ListItem button onClick={handleClick}>
           <ListItemIcon>
             <WorkOutlineIcon className={classes.root} />
@@ -82,7 +82,7 @@ const mailFolderListItems = ({ user, classes }) => {
       )}
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {raceName === "sales_executive" || raceName === "admin" ? (
+          {raceName === "Sales Executive" || raceName === "Admin" ? (
             <ListItem button component={Link} to="/job_list">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -92,8 +92,8 @@ const mailFolderListItems = ({ user, classes }) => {
           ) : (
             ""
           )}
-          
-          {raceName === "sales_executive" || raceName === "admin" ? (
+
+          {raceName === "Sales Executive" || raceName === "Admin" ? (
             <ListItem button component={Link} to="/manager_job_links">
               <ListItemIcon>
                 <LinkIcon className={classes.root} />
@@ -104,7 +104,7 @@ const mailFolderListItems = ({ user, classes }) => {
             ""
           )}
 
-          {raceName === "sales_executive" || raceName === "admin" ? (
+          {raceName === "Sales Executive" || raceName === "Admin" ? (
             <ListItem button component={Link} to="/sales_daily_details">
               <ListItemIcon>
                 <WorkIcon className={classes.root} />
@@ -117,7 +117,7 @@ const mailFolderListItems = ({ user, classes }) => {
         </List>
       </Collapse>
 
-      {raceName === "sales_manager" || raceName === "admin" ? (
+      {raceName === "Sales Manager" || raceName === "Admin" ? (
         <ListItem button onClick={ManagerHandleClick}>
           <ListItemIcon>
             <WorkOutlineIcon className={classes.root} />
@@ -130,7 +130,7 @@ const mailFolderListItems = ({ user, classes }) => {
       )}
       <Collapse in={managerOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {raceName === "sales_manager" || raceName === "admin" ? (
+          {raceName === "Sales Manager" || raceName === "Admin" ? (
             <ListItem button component={Link} to="/manager_job_list">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -140,8 +140,8 @@ const mailFolderListItems = ({ user, classes }) => {
           ) : (
             ""
           )}
-          
-          {raceName === "sales_manager" || raceName === "admin" ? (
+
+          {raceName === "Sales Manager" || raceName === "Admin" ? (
             <ListItem button component={Link} to="/manager_leads">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -152,18 +152,18 @@ const mailFolderListItems = ({ user, classes }) => {
             ""
           )}
 
-          {raceName === "sales_manager" || raceName === "admin" ? (
+          {raceName === "Sales Manager" || raceName === "Admin" ? (
             <ListItem button component={Link} to="/scheduled_leads">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
-            </ListItemIcon>
+              </ListItemIcon>
               <ListItemText primary="Scheduled Leads" />
             </ListItem>
           ) : (
             ""
           )}
 
-          {raceName === "sales_manager" || raceName === "admin" ? (
+          {raceName === "Sales Manager" || raceName === "Admin" ? (
             <ListItem button component={Link} to="/leads">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -174,7 +174,7 @@ const mailFolderListItems = ({ user, classes }) => {
             ""
           )}
 
-          {raceName === "sales_manager" || raceName === "admin" ? (
+          {raceName === "Sales Manager" || raceName === "Admin" ? (
             <ListItem button component={Link} to="/appliedJobs">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -184,22 +184,11 @@ const mailFolderListItems = ({ user, classes }) => {
           ) : (
             ""
           )}
-
-          {raceName === "admin" ? (
-            <ListItem button component={Link} to="/admin_job_list">
-              <ListItemIcon>
-                <SupervisorAccountIcon className={classes.root} />
-              </ListItemIcon>
-              <ListItemText primary="Sales Admin" />
-            </ListItem>
-          ) : (
-            ""
-          )}
         </List>
       </Collapse>
 
       {/*  */}
-      {raceName === "sales_voice" || raceName === "admin" ? (
+      {raceName === "Sales Voice" || raceName === "Admin" ? (
         <ListItem button onClick={salesVoiceHandleClick}>
           <ListItemIcon>
             <WorkOutlineIcon className={classes.root} />
@@ -212,7 +201,7 @@ const mailFolderListItems = ({ user, classes }) => {
       )}
       <Collapse in={salesVoiceOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {raceName === "sales_voice" || raceName === "admin" ? (
+          {raceName === "Sales Voice" || raceName === "Admin" ? (
             <ListItem button component={Link} to="/voice">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -222,7 +211,7 @@ const mailFolderListItems = ({ user, classes }) => {
           ) : (
             ""
           )}
-          {raceName === "sales_voice" || raceName === "admin" ? (
+          {raceName === "Sales Voice" || raceName === "Admin" ? (
             <ListItem button component={Link} to="/voice_stauts">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -232,11 +221,10 @@ const mailFolderListItems = ({ user, classes }) => {
           ) : (
             ""
           )}
-         
         </List>
       </Collapse>
       {/*  */}
-      {raceName === "sales_voice" || raceName === "admin" ? (
+      {raceName === "Sales Voice" || raceName === "Admin" ? (
         <ListItem button onClick={salesTestHandleClick}>
           <ListItemIcon>
             <DashboardIcon className={classes.root} />
@@ -249,7 +237,7 @@ const mailFolderListItems = ({ user, classes }) => {
       )}
       <Collapse in={salesTestOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {raceName === "sales_voice" || raceName === "admin" ? (
+          {raceName === "Sales Voice" || raceName === "Admin" ? (
             <ListItem button component={Link} to="/pipeline_test">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -259,7 +247,7 @@ const mailFolderListItems = ({ user, classes }) => {
           ) : (
             ""
           )}
-          {raceName === "sales_voice" || raceName === "admin" ? (
+          {raceName === "Sales Voice" || raceName === "Admin" ? (
             <ListItem button component={Link} to="/complete_test">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -268,8 +256,8 @@ const mailFolderListItems = ({ user, classes }) => {
             </ListItem>
           ) : (
             ""
-          )}    
-          {raceName === "sales_voice" || raceName === "admin" ? (
+          )}
+          {raceName === "Sales Voice" || raceName === "Admin" ? (
             <ListItem button component={Link} to="/test">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -278,11 +266,11 @@ const mailFolderListItems = ({ user, classes }) => {
             </ListItem>
           ) : (
             ""
-          )}    
+          )}
         </List>
       </Collapse>
       {/*  */}
-      {raceName === "admin" || raceName === "manager" ? (
+      {raceName === "Admin" ? (
         <ListItem button onClick={userHandleClick}>
           <ListItemIcon>
             <PersonIcon className={classes.root} />
@@ -295,7 +283,7 @@ const mailFolderListItems = ({ user, classes }) => {
       )}
       <Collapse in={userOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {raceName === "admin" ? (
+          {raceName === "Admin" ? (
             <ListItem button component={Link} to="/user_list">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -306,7 +294,7 @@ const mailFolderListItems = ({ user, classes }) => {
             ""
           )}
 
-          {raceName === "manager" && name === "Muddasir Ahmed" ? (
+          {name === "Muddasir Ahmed" ? (
             <ListItem button component={Link} to="/user_report">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -318,7 +306,7 @@ const mailFolderListItems = ({ user, classes }) => {
           )}
         </List>
       </Collapse>
-      {raceName === "manager" || raceName === "admin" ? (
+      {raceName === "Admin" ? (
         <React.Fragment>
           <ListItem button onClick={leadsHandleClick}>
             <ListItemIcon>
@@ -329,7 +317,7 @@ const mailFolderListItems = ({ user, classes }) => {
           </ListItem>
           <Collapse in={leadsOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {raceName === "admin" ? (
+              {raceName === "Admin" ? (
                 <ListItem button component={Link} to="/leads_list">
                   <ListItemIcon>
                     <ListIcon className={classes.root} />
@@ -339,7 +327,7 @@ const mailFolderListItems = ({ user, classes }) => {
               ) : (
                 ""
               )}
-              {raceName === "admin" || raceName === "manager" ? (
+              {raceName === "Admin" ? (
                 <ListItem button component={Link} to="/my_leads">
                   <ListItemIcon>
                     <ListIcon className={classes.root} />
@@ -349,12 +337,24 @@ const mailFolderListItems = ({ user, classes }) => {
               ) : (
                 ""
               )}
-              {raceName === "admin" || raceName === "manager" ? (
+
+              {raceName === "Admin" ? (
                 <ListItem button component={Link} to="/lead_scedule">
                   <ListItemIcon>
                     <ListIcon className={classes.root} />
                   </ListItemIcon>
                   <ListItemText primary="Lead Scheduler" />
+                </ListItem>
+              ) : (
+                ""
+              )}
+
+              {raceName === "Admin" ? (
+                <ListItem button component={Link} to="/admin_job_list">
+                  <ListItemIcon>
+                    <SupervisorAccountIcon className={classes.root} />
+                  </ListItemIcon>
+                  <ListItemText primary="Sales Admin" />
                 </ListItem>
               ) : (
                 ""
