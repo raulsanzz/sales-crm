@@ -113,7 +113,7 @@ const DashboardPage = ({ user, history }) => {
 
   return (
     <React.Fragment>
-      {raceName === "manager" || raceName === "admin" ? (
+      {raceName === "Admin" ? (
         <div className="row">
           <div className="col-md-5 offset-md-1">
             <div style={jumbo} className="jumbotron jumbotron-fluid">
