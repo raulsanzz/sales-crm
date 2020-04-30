@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 
@@ -44,28 +44,30 @@ const columns = [
   }));
 
 const managerJobLinks = ({fetchLeads, leads, leadLoading, history}) => {
-    const classes = useStyles();
-    const [filteredJobs, setFilteredJobs] = useState([]);
+  const classes = useStyles();
+  const didMountRef = useRef(false);
+  useEffect(() => {
+    if(didMountRef.current === false){ //only for component did mount
+      fetchLeads(true);
+      didMountRef.current = true;
+    }
+    const interval = setInterval(fetchLeads, 60000);//get all leads from DB after every 1 mint 
+    return () => clearInterval(interval);// for ComponentWillUnMount
+  }, []);
 
-    useEffect(() => {
-      fetchLeads();
-      setFilteredJobs(leads);
-      }, [leads.length]);
-
-    return(
-      <Fragment>
-        {
-          leadLoading ? <p> Loading...!!! </p> : leads.length > 0 ?
-          (<Table 
-            jobs={filteredJobs}
-            columns={columns}
-            classes={classes}
-            tableHeader={'Leads'}
-            history={history}
-          />) : <p> Loading...!!!</p>
-        }
-      </Fragment>
-    )
+  return(
+    <Fragment>
+      {
+        leadLoading ? <p> Loading...!!! </p> : leads.length > 0 ?
+        (<Table 
+          jobs={leads}
+          columns={columns}
+          classes={classes}
+          tableHeader={'Leads'}
+          history={history}/>) : <p> Loading...!!!</p>
+      }
+    </Fragment>
+  )
 }
 
 const mapStateToProps = state => ({

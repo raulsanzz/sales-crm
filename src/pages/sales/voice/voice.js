@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, Fragment} from 'react';
+import React, { useState, useEffect, useRef, Fragment} from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 
@@ -46,17 +46,26 @@ const columns = [
 
 const voice = ({fetchLeads, leads, leadLoading, history}) => {
   const classes = useStyles();
+  const didMountRef = useRef(false);
   const [filteredLeads, setFilteredLeads] = useState([]);
+  
+  useEffect(() => {
+    if(didMountRef.current === false){ //only for component did mount
+      fetchLeads(true);
+      didMountRef.current = true;
+    }
+    const interval = setInterval(fetchLeads, 60000);//get all leads from DB after every 1 mint 
+    return () => clearInterval(interval);// for ComponentWillUnMount
+  }, []);
 
   useEffect(() => {
-    fetchLeads();
-      let  arr = leads.filter(lead => {
-        return(
-            (lead.call.call_date !== null && lead.voice !== null) ? lead : null
-        )
-      })
-      setFilteredLeads(arr);  
-    }, [leads.length]);
+    let  arr = leads.filter(lead => {
+      return(
+          (lead.call.call_date !== null && lead.voice !== null) ? lead : null
+      )
+    })
+    setFilteredLeads(arr);  
+  }, [JSON.stringify(leads)]);
 
 
     return(      

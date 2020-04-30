@@ -99,7 +99,8 @@ Route.get("/", auth, async (req, res) => {
         {
           model: Client
         }
-      ]
+      ],
+      order: [['createdAt', 'DESC']]
     });
     res.json({ result });
   } catch (error) {

@@ -49,10 +49,12 @@ export const addLead = ( newLeadData ) => async dispatch => {
 };
 
 //fetch all leads
-export const fetchLeads = () => async dispatch => {
-  dispatch({
-    type: LEAD_ACTION_START,
-  });
+export const fetchLeads = (shouldDispatchActionStarter) => async dispatch => {
+  if(shouldDispatchActionStarter){
+    dispatch({
+      type: LEAD_ACTION_START,
+    });
+  }
   try {
     const res = await axios.get ( BASE_URL + "/api/lead");
     dispatch({

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -49,17 +49,28 @@ const useStyles = makeStyles(theme => ({
 
 const voiceStatus = ({history}) => {
   const classes = useStyles();
+  const didMountRef = useRef(false);
   const [leads, setLeads] = useState([]);
   const [filteredLeads, setFilteredLeads] = useState([]);
   const [callStatus, setCallStatus] = useState(null);
   const [loading, setLoading] = useState(true);
-  
   useEffect(() => {
-      getData();
+    if(didMountRef.current === false){ //only for component did mount
+      getData(true);
+      didMountRef.current = true;
+    }
+    const interval = setInterval(getData, 60000);//get all leads from DB after every 1 mint 
+    return () => clearInterval(interval);// for ComponentWillUnMount
   }, []);
 
-  const getData = async() => {
-    setLoading(true);
+  useEffect(() => {
+    handleCallStatusChange(callStatus);
+  }, [JSON.stringify(leads)]);
+
+  const getData = async(shouldSetLoading) => {
+    if(shouldSetLoading){
+      setLoading(true);
+    }
       try {
       const res = await axios.get ( BASE_URL + "/api/lead/callTaken");
       setLeads(res.data.leads);

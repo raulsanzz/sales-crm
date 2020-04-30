@@ -95,9 +95,9 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
       <Table stickyHeader aria-label="sticky table">
         <TableHead>
           <TableRow>
-            {columns.map(column => (
+            {columns.map((column, index) => (
               <TableCell
-                key={column.id === "list" ? column.placeholder : column.id}
+                key={index}
                 align={column.align}
                 style={{ minWidth: column.minWidth }}>
                 {column.id === "list" ? column.placeholder : column.label}
@@ -108,11 +108,11 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
         <TableBody>
           {filteredJobs
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map(row => {
+            .map((row, index) => {
               // {console.log(row)}
               return (
               <TableRow 
-                key={row.id ? row.id : row.job_id}
+                key={index}
                 onClick={rowClickListener ? (() =>
                   history.push({
                     pathname: "/agenda",

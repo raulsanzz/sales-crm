@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
 import AddJob from './AddJob';
@@ -35,24 +35,22 @@ const useStyles = makeStyles({
 const jobList = ({ fetchJob, jobs }) => {
   
   const classes = useStyles();
-  const [filteredJobs, setFilteredJobs] = useState([]);
-
+  const didMountRef = useRef(false);
   useEffect(() => {
-    fetchJob();
-    let arr = jobs.filter(job => {
-      return(
-          job.status === 'job' ? job : null
-      )
-    })
-    setFilteredJobs(arr);
-  }, [jobs.length]);
+    if(didMountRef.current === false){ //only for component did mount
+      fetchJob();
+      didMountRef.current = true
+    }
+    const interval = setInterval(fetchJob, 60000);//get all jobs from DB after every 1 mint 
+    return () => clearInterval(interval);// for ComponentWillUnMount
+  }, []);
   
   return (
     <Paper className={classes.root}>
       <AddJob />
       <div style={{margin:'20px'}}></div>
       <Table 
-        jobs={filteredJobs}
+        jobs={jobs}
         columns={columns}
         classes={classes}
         tableHeader={'Job List'}
