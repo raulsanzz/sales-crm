@@ -18,48 +18,12 @@ import { deleteUser } from "../../actions/user";
 import { useAlert } from "react-alert";
 
 const columns = [
-  {
-    id: "registration_number",
-    label: "Registration Number",
-    minWidth: 100,
-
-    format: value => value.toLocaleString()
-  },
-  {
-    id: "name",
-    label: "Name",
-    minWidth: 100,
-    align: "right",
-    format: value => value.toLocaleString()
-  },
-  {
-    id: "Designation",
-    label: "Designation",
-    minWidth: 170,
-    align: "right",
-    format: value => value.toLocaleString()
-  },
-  {
-    id: "role",
-    label: "Role",
-    minWidth: 170,
-    align: "right",
-    format: value => value.toLocaleString()
-  },
-  {
-    id: "createdAt",
-    label: "Created At",
-    minWidth: 170,
-    align: "right",
-    format: value => value.toLocaleString()
-  },
-  {
-    id: "Action",
-    label: "Action",
-    minWidth: 170,
-    align: "right",
-    format: value => value.toLocaleString()
-  }
+  {id: "registration_number", label: "Employee Number", minWidth: 100 },
+  { id: "name", label: "Name", minWidth: 100, align: "center" },
+  { id: "Designation", label: "Designation", minWidth: 170, align: "center" },
+  { id: "role", label: "Role", minWidth: 170, align: "center" },
+  { id: "createdAt", label: "Created At", minWidth: 170, align: "center" },
+  { id: "Action", label: "Action", minWidth: 170, align: "center" }
 ];
 
 const useStyles = makeStyles({
@@ -81,16 +45,16 @@ const useStyles = makeStyles({
 });
 
 const userList = ({ fetchUser, users, deleteUser, history }) => {
+  const classes = useStyles();
   const alert = useAlert();
   const [count, setCount] = useState(0);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     fetchUser();
   }, [count]);
 
-  const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -109,7 +73,7 @@ const userList = ({ fetchUser, users, deleteUser, history }) => {
 
   return (
     <Paper className={classes.root}>
-      <h1 className={classes.jobHeader}>User List</h1>
+      <h1 className={classes.jobHeader}>Users List</h1>
       <div className={classes.tableWrapper}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -118,27 +82,23 @@ const userList = ({ fetchUser, users, deleteUser, history }) => {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
+                  style={{ minWidth: column.minWidth }}>
                   {column.label}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {users
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map(row => {
                 return (
                   <TableRow hover key={row.registration_number}>
-                    <TableCell component="th" scope="row">
-                      {row.registration_number}
-                    </TableCell>
-                    <TableCell align="right">{row.name}</TableCell>
-                    <TableCell align="right">{row.designation}</TableCell>
-                    <TableCell align="right">{row.role}</TableCell>
-                    <TableCell align="right">{row.createdAt}</TableCell>
-                    <TableCell align="right">
+                    <TableCell component="th" scope="row">{row.registration_number}</TableCell>
+                    <TableCell align="center">{row.name}</TableCell>
+                    <TableCell align="center">{row.designation}</TableCell>
+                    <TableCell align="center">{row.role}</TableCell>
+                    <TableCell align="center">{row.createdAt}</TableCell>
+                    <TableCell align="center">
                       <IconButton 
                         aria-label="delete"
                         onClick={() => userDelete(row.registration_number)}>
@@ -184,10 +144,11 @@ const userList = ({ fetchUser, users, deleteUser, history }) => {
 const mapStateToProps = state => ({
   users: state.userReducer.users
 });
+
 userList.propTypes = {
   fetchUser: PropTypes.func.isRequired,
   users: PropTypes.array.isRequired,
   deleteUser: PropTypes.func.isRequired
 };
-//
+
 export default connect(mapStateToProps, { fetchUser, deleteUser })(userList);

@@ -6,7 +6,7 @@ import { fetchLeads, updateLead } from '../../../actions/lead';
 import { connect } from 'react-redux';
 import { useAlert } from 'react-alert';
 
-import Table from './../../table';
+import Table from './../../UI/table';
 
 // const BASE_URL = process.env.REACT_APP_BASE_URL;
 const columns = [

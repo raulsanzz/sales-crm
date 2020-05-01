@@ -76,6 +76,37 @@ export const updateUser = ( id, updatedData) => async dispatch => {
     return false;
   }
 };
+export const updateUserPassword = ( id, updatedData) => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  const body = JSON.stringify({
+    updatedData
+  });
+
+  try {
+    await axios.put ( BASE_URL + "/api/user/edit/password/" + id, body, config);
+    dispatch({
+      type: USER_UPDATE_SUCCESS
+    });
+    return true;
+  } 
+  catch (error) {
+    const errors = error.response.data.errors;
+    if (errors) {
+      errors.forEach(error => {
+        dispatch(setAlert(error.msg));
+      });
+    }
+    dispatch({
+      type: USER_UPDATE_FAIL
+    });
+    return false;
+  }
+};
 
 export const userDetails = (registration_number, role) => async dispatch => {
   const config = {

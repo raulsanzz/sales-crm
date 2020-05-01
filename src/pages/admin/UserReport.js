@@ -10,7 +10,7 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchUser } from "../../../actions/user";
+import { fetchUser } from "../../actions/user";
 
 const columns = [
   {

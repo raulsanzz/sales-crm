@@ -2,12 +2,13 @@ import React, { Fragment } from "react";
 import { Router, Switch } from "react-router-dom";
 import {createBrowserHistory} from "history";
 
+import Alert from "../pages/Alert";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
-import SignInPage from "../pages/SignInPage";
-import SignUpPage from "../pages/SignUpPage";
-import DashboardPage from "../pages/DashboardPage";
-
+// User
+import SignIn from "../pages/user/SignIn";
+import SignUp from "../pages/user/SignUp";
+import Dashboard from "../pages/user/Dashboard";
 // Sales Executive 
 import JobList from "../pages/sales/salesExecutive/JobList";
 import ManagerJobLinks from "../pages/sales/salesExecutive/managerJobLinks";
@@ -30,13 +31,12 @@ import EditTest from "../pages/sales/test/editTest";
 import TestInPipeline from "../pages/sales/test/testInPipeline";
 import CompletedTest from "../pages/sales/test/completedTest";
 import Tests from "../pages/sales/test/test";
+// Admin
+import UserList from "../pages/admin/UserList";
+import EditUser from "../pages/admin/EditUser";
+import UserReport from "../pages/admin/UserReport";
+import UserDetails from "../pages/admin/UserDetails";
 
-//
-import Alert from "../pages/Alert";
-import UserList from "../pages/sales/UserList";
-import EditUser from "../pages/sales/EditUser";
-import UserReport from "../pages/sales/user/UserReport";
-import UserDetails from "../pages/sales/user/UserDetails";
 const history = createBrowserHistory();
 
 export default () => {
@@ -45,10 +45,10 @@ export default () => {
       <Alert />
       <Router history={history}>
         <Switch>
-          <PublicRoute exact path="/" component={SignInPage} />
-          <PublicRoute path="/signup" component={SignUpPage} />
-          <PrivateRoute path="/dashboard" component={DashboardPage} />
-
+          {/* User */}
+          <PublicRoute exact path="/" component={SignIn} />
+          <PublicRoute path="/signup" component={SignUp} />
+          <PrivateRoute path="/dashboard" component={Dashboard} />
           {/* Sales Executive */}
           <PrivateRoute path="/job_list" component={JobList} />
           <PrivateRoute path="/manager_job_links" component={ManagerJobLinks} />
@@ -63,21 +63,19 @@ export default () => {
           {/* Voice */}
           <PrivateRoute path="/voice" component={Voice} />
           <PrivateRoute path="/voice_stauts" component={VoiceStatus} />
-          {/* others */}
-          <PrivateRoute path="/agenda" component={Agenda} />
           {/* Test */}
           <PrivateRoute path="/add_test" component={AddTest} />
           <PrivateRoute path="/edit_test" component={EditTest} />
           <PrivateRoute path="/pipeline_test" component={TestInPipeline} />
           <PrivateRoute path="/complete_test" component={CompletedTest} />
           <PrivateRoute path="/test" component={Tests} />
+          {/* Admin */}
           <PrivateRoute path="/user_list" component={UserList} />
           <PrivateRoute path="/edit" component={EditUser} />
- 
-\
-
           <PrivateRoute path="/user_report" component={UserReport} />
           <PrivateRoute path="/user_details" component={UserDetails} />
+          {/* others */}
+          <PrivateRoute path="/agenda" component={Agenda} />
         </Switch>
       </Router>
     </Fragment>

@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import { useAlert } from 'react-alert';
 import axios from "axios";
-import Table from "./../../table";
+import Table from "./../../UI/table";
 import { fetchLeads } from "../../../actions/lead";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
