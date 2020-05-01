@@ -275,7 +275,7 @@ const mailFolderListItems = ({ user, classes }) => {
           <ListItemIcon>
             <PersonIcon className={classes.root} />
           </ListItemIcon>
-          <ListItemText primary="User" />
+          <ListItemText primary="Admin" />
           {userOpen ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
       ) : (
@@ -294,7 +294,7 @@ const mailFolderListItems = ({ user, classes }) => {
             ""
           )}
 
-          {name === "Muddasir Ahmed" ? (
+          {/* {name === "Muddasir Ahmed" ? (
             <ListItem button component={Link} to="/user_report">
               <ListItemIcon>
                 <ListIcon className={classes.root} />
@@ -303,68 +303,9 @@ const mailFolderListItems = ({ user, classes }) => {
             </ListItem>
           ) : (
             ""
-          )}
+          )} */}
         </List>
       </Collapse>
-      {raceName === "Admin" ? (
-        <React.Fragment>
-          <ListItem button onClick={leadsHandleClick}>
-            <ListItemIcon>
-              <WorkOutlineIcon className={classes.root} />
-            </ListItemIcon>
-            <ListItemText primary="Leads" />
-            {leadsOpen ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={leadsOpen} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {raceName === "Admin" ? (
-                <ListItem button component={Link} to="/leads_list">
-                  <ListItemIcon>
-                    <ListIcon className={classes.root} />
-                  </ListItemIcon>
-                  <ListItemText primary="Leads List" />
-                </ListItem>
-              ) : (
-                ""
-              )}
-              {raceName === "Admin" ? (
-                <ListItem button component={Link} to="/my_leads">
-                  <ListItemIcon>
-                    <ListIcon className={classes.root} />
-                  </ListItemIcon>
-                  <ListItemText primary="My Leads" />
-                </ListItem>
-              ) : (
-                ""
-              )}
-
-              {raceName === "Admin" ? (
-                <ListItem button component={Link} to="/lead_scedule">
-                  <ListItemIcon>
-                    <ListIcon className={classes.root} />
-                  </ListItemIcon>
-                  <ListItemText primary="Lead Scheduler" />
-                </ListItem>
-              ) : (
-                ""
-              )}
-
-              {raceName === "Admin" ? (
-                <ListItem button component={Link} to="/admin_job_list">
-                  <ListItemIcon>
-                    <SupervisorAccountIcon className={classes.root} />
-                  </ListItemIcon>
-                  <ListItemText primary="Sales Admin" />
-                </ListItem>
-              ) : (
-                ""
-              )}
-            </List>
-          </Collapse>
-        </React.Fragment>
-      ) : (
-        ""
-      )}
     </div>
   );
 };
