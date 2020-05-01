@@ -28,9 +28,6 @@ module.exports = (sequelize, Sequelize) => {
     compensation: { // Salary/compensation 
       type: Sequelize.STRING
     },
-    test_taken: { // test takes or not
-      type: Sequelize.STRING
-    },
     // Timestamps
     createdAt: Sequelize.DATEONLY,
     updatedAt: Sequelize.DATEONLY

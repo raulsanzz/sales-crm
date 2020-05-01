@@ -184,6 +184,10 @@ const agenda = ({ history, location, pdfExportComponent }) => {
                         <span>Job & call Information</span>
                     </li>
                     <li className={"list-group-item d-flex justify-content-between align-items-center"}>
+                        Lead Status:
+                        <span>{lead.status}</span>
+                    </li>
+                    <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                         Job Title:
                         <span>{lead.job.job_title}</span>
                     </li>

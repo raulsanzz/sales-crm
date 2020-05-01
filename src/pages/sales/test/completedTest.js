@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { makeStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import { useAlert } from 'react-alert';
@@ -49,10 +49,19 @@ const columns = [
 const completedTest = ({fetchLeads, leads, history, leadLoading}) => {
   const classes = useStyles();
   const alert = useAlert();
+  const didMountRef = useRef(false);
   const [filteredLeads, setFilteredLeads] = useState([]);
 
   useEffect(() => {
-      fetchLeads();
+    if(didMountRef.current === false){ //only for component did mount
+      fetchLeads(true);
+      didMountRef.current = true;
+    }
+    const interval = setInterval(fetchLeads, 60000);//get all leads from DB after every 1 mint 
+    return () => clearInterval(interval);// for ComponentWillUnMount
+  }, []);
+
+  useEffect(() => {
       let arr = leads.filter( lead => {
         return(
             (lead.test !== null && lead.test.status === 'Completed' ) ? lead : null

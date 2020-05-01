@@ -103,33 +103,19 @@ const agendaForm = ({ classes, call_id, callStatus, voice, editable, updateNotes
         touched: true,
         message:''
       },
-      test_taken: {
-        elementType: 'input',
-        elementConfig:{
-          type: 'text',
-          placeholder: 'Done Test or not?'
-        },
-        value: '',
-        validation: {
-          required: true
-        },
-        valid:true,
-        touched:true,
-        message:''
-      },
   });
-    useEffect(() => {
-      if(callStatus === 'done'){
-        setNotesRequired(false);
-      }
-      else{
-        setNotesRequired(true);
-      }      
-      if(didMountRef.current === false){ //only for component did mount
-        getAgenda();
-        didMountRef.current = true
-      }
-    },[agenda.length, callStatus])
+  useEffect(() => {
+    if(callStatus === 'done'){
+      setNotesRequired(false);
+    }
+    else{
+      setNotesRequired(true);
+    }      
+    if(didMountRef.current === false){ //only for component did mount
+      getAgenda();
+      didMountRef.current = true
+    }
+  },[agenda.length, callStatus])
 
 const validityCheck = (value, rules) => {
   let isValid = true;
@@ -202,10 +188,6 @@ const initilizeForm = (data) => {
     ...updatedForm['compensation'],
     value: data.compensation
   }
-  updatedForm['test_taken'] = {
-    ...updatedForm['test_taken'],
-    value: data.test_taken
-  }
   setFormData(updatedForm);
 }
 
@@ -222,7 +204,6 @@ const getAgenda = async() => {
         work_type: '',
         project_type: '',
         compensation: '',
-        test_taken: '',
       }
       setAgenda(temp);
     }
@@ -295,7 +276,6 @@ const createAgenda = async(agenda, note) => {
       work_type: formData.work_type.value,
       project_type: formData.project_type.value,
       compensation: formData.compensation.value,
-      test_taken: formData.test_taken.value,
     }  
     if(agendaExists){
       updateAgenda(temp, note)
