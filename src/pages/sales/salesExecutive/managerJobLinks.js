@@ -10,7 +10,7 @@ import { useAlert } from 'react-alert';
 import { connect } from 'react-redux';
 
 import { updateAppliedJob } from './../../../actions/job'
-import Table from './../../table';
+import Table from './../../UI/table';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 

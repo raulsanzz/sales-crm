@@ -6,7 +6,7 @@ import AddJob from './AddJob';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Table from './../../table';
+import Table from './../../UI/table';
 import { fetchJob } from './../../../actions/job';
 
 const columns = [

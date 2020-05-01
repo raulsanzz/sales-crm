@@ -10,7 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { updateAppliedJob } from './../../../actions/job';
 import { addLead } from './../../../actions/lead';
-import Table from './../../table';
+import Table from './../../UI/table';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   

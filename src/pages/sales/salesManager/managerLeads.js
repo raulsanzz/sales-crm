@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, useRef, Fragment } from 'react';
+import React, { useEffect, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 
-import Table from '../../table';
+import Table from '../../UI/table';
 import { fetchLeads } from '../../../actions/lead';
 
 const columns = [

@@ -13,9 +13,8 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import compose from "recompose/compose";
-import PropTypes from "prop-types";
 import FormControl from "@material-ui/core/FormControl";
-import { signUp } from "../actions/auth";
+import { signUp } from "../../actions/auth";
 
 const styles = (theme) => ({
   layout: {

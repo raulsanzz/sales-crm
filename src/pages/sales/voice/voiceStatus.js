@@ -5,7 +5,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Table from './../../table';
+import Table from './../../UI/table';
 import axios from "axios";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 

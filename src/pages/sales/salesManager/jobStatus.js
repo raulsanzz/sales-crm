@@ -7,7 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import axios from 'axios';
 
-import Table from './../../table';
+import Table from './../../UI/table';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const columns = [

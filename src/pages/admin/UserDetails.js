@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import IconButton from "@material-ui/core/IconButton";
-import { userDetails } from "../../../actions/user";
+import { userDetails } from "../../actions/user";
 import { connect } from "react-redux";
 import compose from "recompose/compose";
 

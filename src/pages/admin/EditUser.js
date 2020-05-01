@@ -1,24 +1,23 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useState, Fragment } from "react";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import Edit from "@material-ui/icons/Edit";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import withStyles from "@material-ui/core/styles/withStyles";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import IconButton from "@material-ui/core/IconButton";
-import { updateUser } from "../../actions/user";
 import { connect } from "react-redux";
-import compose from "recompose/compose";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useAlert } from "react-alert";
+import { makeStyles } from '@material-ui/styles';
+import FormControl from '@material-ui/core/FormControl';
+import { updateUser, updateUserPassword } from "../../actions/user";
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   layout: {
     width: "100%",
     display: "block",
@@ -34,42 +33,45 @@ const styles = theme => ({
     }
   },
   paper: {
-    minHeight: "300px",
-    marginTop: theme.spacing.unit * 8,
-    marginBottom: theme.spacing.unit * 8,
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`
   },
   avatar: {
-    margin: `${theme.spacing.unit}px auto`,
+    margin: `${theme.spacing()}px auto`,
     backgroundColor: theme.palette.secondary.main
   },
   textField: {
-    marginTop: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
     width: "100%"
   },
   button: {
-    width: "100%",
-    marginTop: "5%"
+    width: '50%',
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '10px auto'
   }
-});
+}));
 
-const editUser = ({ classes, history, location, updateUser }) => {
+const editUser = ({ history, location, updateUser, updateUserPassword }) => {
   const alert = useAlert();
+  const classes = useStyles();
+
   const [formData, setFormData] = useState(location.state.detail);
+  const [password, setPassword] = useState('');
+  
   const onChangeHandler = e => {
     setFormData({
       ...formData,
       [e.target.id]: e.target.value
     });
   };
+  
   const onSubmitHandler = async(e) => {
     e.preventDefault();
-    const res = await updateUser( formData.registration_number,{ name: formData.name, role: formData.role });
+    const res = await updateUser( formData.registration_number, { name: formData.name, role: formData.role });
     if(res){
       alert.success("User Updated...!");
       history.push("/user_list/");
@@ -79,6 +81,16 @@ const editUser = ({ classes, history, location, updateUser }) => {
     }
   };
 
+  const updatePassword = async(e) => {
+    e.preventDefault();
+    const res = await updateUserPassword( formData.registration_number, { password: password });
+    if(res){
+      alert.success("Password Updated...!");
+    }
+    else{
+      alert.success("Failed to UpdatePassword..!!");
+    }
+  };
   const roleHandler = e => {
     setFormData({
       ...formData,
@@ -87,8 +99,9 @@ const editUser = ({ classes, history, location, updateUser }) => {
   };
 
   return (
-    <React.Fragment>
+    <Fragment>
       <main className={classes.layout}>
+        {/* Update name and role */}
         <Paper className={classes.paper}>
           <IconButton 
             aria-label="edit"
@@ -99,20 +112,19 @@ const editUser = ({ classes, history, location, updateUser }) => {
             <Edit />
           </Avatar>
 
-          <Typography align="center" variant="headline">
+          <Typography align="center">
             Edit User
           </Typography>
-          <form onSubmit={onSubmitHandler}>
+          <form onSubmit={onSubmitHandler} style={{width:'100%'}}>
             <TextField
               disabled
               id="registration_number"
-              label="Registration Number"
+              label="Employee Number"
               margin="normal"
               type="text"
               className={classes.textField}
               value={formData.registration_number}
-              onChange={onChangeHandler}
-            />
+              onChange={onChangeHandler} />
             <TextField
               disabled
               id="designation"
@@ -121,8 +133,7 @@ const editUser = ({ classes, history, location, updateUser }) => {
               type="text"
               className={classes.textField}
               value={formData.designation}
-              onChange={onChangeHandler}
-            />
+              onChange={onChangeHandler} />
             <TextField
               id="name"
               label="Name"
@@ -130,21 +141,21 @@ const editUser = ({ classes, history, location, updateUser }) => {
               type="text"
               className={classes.textField}
               value={formData.name}
-              onChange={onChangeHandler}
-            />
-
-            <InputLabel id="demo-controlled-open-select-label">Role</InputLabel>
-            <Select
-              onChange={roleHandler}
-              className={classes.textField}
-              value={formData.role}>
-              <MenuItem value="Sales Voice">Sales Voice</MenuItem>
-              <MenuItem value="Sales Executive">Sales Executive</MenuItem>
-              <MenuItem value="Sales Manager">Sales Manager</MenuItem>
-              <MenuItem value="Asst. Sales Manager">Asst. Sales Manager</MenuItem>
-              <MenuItem value="Admin">Admin</MenuItem>
-            </Select>
-
+              onChange={onChangeHandler} />
+            <FormControl className={classes.textField}>
+              <InputLabel id="role-label">Role</InputLabel>
+              <Select
+                labelId={'role-label'}
+                id="role"
+                value={formData.role}
+                onChange={roleHandler}>
+                <MenuItem value="Sales Voice">Sales Voice</MenuItem>
+                <MenuItem value="Sales Executive">Sales Executive</MenuItem>
+                <MenuItem value="Sales Manager">Sales Manager</MenuItem>
+                <MenuItem value="Asst. Sales Manager">Asst. Sales Manager</MenuItem>
+                <MenuItem value="Admin">Admin</MenuItem>
+              </Select>
+            </FormControl>
             <Button
               variant="contained"
               color="primary"
@@ -154,17 +165,36 @@ const editUser = ({ classes, history, location, updateUser }) => {
             </Button>
           </form>
         </Paper>
+
+        {/* Update password */}
+        <Paper className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <Edit />
+          </Avatar>
+          <Typography align="center">
+            Update Password
+          </Typography>
+          <form onSubmit={updatePassword} style={{width:'100%'}}>
+            <TextField
+              id="password"
+              label="Password"
+              margin="normal"
+              type="text"
+              className={classes.textField}
+              value={password}
+              onChange={(event) => {setPassword(event.target.value)}} />
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              className={classes.button}>
+              Update Password
+            </Button>
+          </form>
+        </Paper>
       </main>
-    </React.Fragment>
+    </Fragment>
   );
 };
 
-editUser.propTypes = {
-  classes: PropTypes.object.isRequired,
-  updateUser: PropTypes.func.isRequired
-};
-
-export default compose(
-  withStyles(styles),
-  connect(null, { updateUser })
-)(editUser);
+export default connect(null, { updateUser, updateUserPassword })(editUser);

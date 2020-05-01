@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, Fragment} from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 
-import Table from '../../table';
+import Table from '../../UI/table';
 import { fetchLeads} from '../../../actions/lead';
 
 const columns = [

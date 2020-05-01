@@ -8,7 +8,7 @@ import Select from '@material-ui/core/Select';
 import { connect } from 'react-redux';
 
 import { fetchLeads } from '../../../actions/lead';
-import Table from './../../table';
+import Table from './../../UI/table';
 
 const columns = [
   { id: 'company_name', label: 'Company Name', minWidth: 170},

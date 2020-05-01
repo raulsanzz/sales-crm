@@ -102,6 +102,24 @@ Route.put( "/edit/:id", auth, async (req, res) => {
     }
   });
 
+//@POST api/user @user Update
+Route.put( "/edit/password/:id", auth, async (req, res) => {
+
+  const salt = await bcrypt.genSalt(10);
+  const password = await bcrypt.hash(req.body.updatedData.password, salt);
+  try {
+    let result = await User.update(
+      { password: password },
+      { where: { registration_number: req.params.id } }
+    );
+
+    return res.json({ result });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(402).json({ msg: "Server Error" });
+  }
+});
+
 Route.post("/details", auth, async (req, res) => {
   const { startDate, endDate } = getPreviousWeekDate();
   let { registration_number, role } = req.body;
