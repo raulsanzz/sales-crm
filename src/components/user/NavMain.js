@@ -19,7 +19,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import MailFolderListItemsfrom from "./NavSide";
 
-import { logout } from "../actions/auth";
+import { logout } from "../../store/actions/auth";
 
 const drawerWidth = 250;
 

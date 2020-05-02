@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import compose from "recompose/compose";
 import FormControl from "@material-ui/core/FormControl";
-import { signUp } from "../../actions/auth";
+import { signUp } from "../../store/actions/auth";
 
 const styles = (theme) => ({
   layout: {

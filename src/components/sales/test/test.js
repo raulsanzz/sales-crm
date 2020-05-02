@@ -7,14 +7,15 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { connect } from 'react-redux';
 
-import { fetchLeads } from '../../../actions/lead';
+import { fetchLeads } from '../../../store/actions/lead';
 import Table from './../../UI/table';
 
 const columns = [
   { id: 'company_name', label: 'Company Name', minWidth: 170},
-  { id: 'client_name', label: 'Client Name', minWidth: 170, align: 'center' },
   { id: 'profile', label: 'Profile', minWidth: 170, align: 'center' },
-  { id: 'job_title', label: 'Job Title', minWidth: 170, align: 'center' }
+  { id: "due_date", label: "Due Date", minWidth: 100, align: "center" },
+  { id: "due_time", label: "Due Time", minWidth: 100, align: "center" },
+  { id: "test_gmail_thread", label: "Gmail Thread", minWidth: 100, align: "center" }
 ];
   
 const useStyles = makeStyles(theme => ({
@@ -47,9 +48,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const leadStatus = ({fetchLeads, leads, LeadLoading, history}) => {
+const test = ({fetchLeads, leads, LeadLoading, history}) => {
   const classes = useStyles();
-  const didMountRef = useRef(false)
+  const didMountRef = useRef(false);
   const [filteredLeads, setFilteredLeads] = useState([]);
   const [leadStatus, setLeadStatus] = useState(null);
 
@@ -68,11 +69,11 @@ const leadStatus = ({fetchLeads, leads, LeadLoading, history}) => {
 
   const handleLeadStatusChange = (status) => {
     setLeadStatus(status);
-    let arr = leads.filter(lead => {
-      return(
-        lead.status === status ? lead : null
-      )
-    })
+    let arr = leads.filter( lead => {
+        return(
+            (lead.test !== null && lead.test.status === status ) ? lead : null
+        )
+      })
     setFilteredLeads(arr);
   };
   return( 
@@ -80,34 +81,29 @@ const leadStatus = ({fetchLeads, leads, LeadLoading, history}) => {
       {
         LeadLoading ? <p> Loading...!!!</p> : 
       (<div><FormControl className={classes.formControl}>
-        <InputLabel id='lead-select-label'>Lead Status</InputLabel>
+        <InputLabel id='test-status-select-label'>Test Status</InputLabel>
         <Select
-          labelId='lead-select-label'
-          id='lead-select'
+          labelId='test-status-select-label'
+          id='test-status-select'
           value= {leadStatus}
           onChange={(event) => {handleLeadStatusChange(event.target.value)}}>
-          <MenuItem value='lead'>Lead</MenuItem>
-          <MenuItem value='good'>Good</MenuItem>
-          <MenuItem value='hot'>Hot</MenuItem>
-          <MenuItem value='closed'>Closed</MenuItem>
-          <MenuItem value='garbage'>Garbage</MenuItem>
-          <MenuItem value='dead lead'>Dead Lead</MenuItem>
-          <MenuItem value='Rejected by client'>Rejected by client</MenuItem>
-          <MenuItem value='in-communication'>In-Communication</MenuItem>
+          <MenuItem value='Passed'>Passed</MenuItem>
+          <MenuItem value='Failed'>Failed</MenuItem>
+          <MenuItem value='No Response'>No Response</MenuItem>
+          <MenuItem value='Dropped'>Dropped</MenuItem>
         </Select>
       </FormControl>
       {leadStatus === null ? (
-        <p style={{color:'red'}}> Please select a Lead Status first.</p>):  
+        <p style={{color:'red'}}> Please select a Test Status first.</p>):  
         filteredLeads.length >= 1 ? (
           <Table 
-            // history={history}
             jobs={filteredLeads}
             columns={columns}
             classes={classes}
-            tableHeader={'Leads'}
+            tableHeader={'Tests'}
             history={history} 
             rowClickListener={true}/>
-        ): <p> No leads with the selected status </p>}
+        ): <p> No test with the selected status </p>}
         </div>)
       }
     </Fragment>
@@ -119,4 +115,4 @@ const mapStateToProps = state => ({
   LeadLoading: state.LeadReducer.loading
 });
   
-export default connect(mapStateToProps, { fetchLeads } )(leadStatus);
+export default connect(mapStateToProps, { fetchLeads } )(test);

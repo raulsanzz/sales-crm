@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 
 import Table from '../../UI/table';
-import { fetchLeads} from '../../../actions/lead';
+import { fetchLeads} from '../../../store/actions/lead';
 
 const columns = [
   { id: 'client_name', label: 'Client Name', minWidth: 100, align: 'left' },

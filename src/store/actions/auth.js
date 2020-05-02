@@ -9,7 +9,7 @@ import {
   AUTH_ERROR,
   LOGOUT
 } from "../actions/types";
-import setAuthToken from "../utills/setAuthToken";
+import setAuthToken from "../../utills/setAuthToken";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 

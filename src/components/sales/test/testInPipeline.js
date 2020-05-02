@@ -2,11 +2,9 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { makeStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
-import { useAlert } from 'react-alert';
-import axios from "axios";
+
 import Table from "./../../UI/table";
-import { fetchLeads } from "../../../actions/lead";
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+import { fetchLeads } from "../../../store/actions/lead";
 
 const columns = [
     { id: "company_name", label: "Company Name", minWidth: 170 },
@@ -14,8 +12,8 @@ const columns = [
     { id: "due_date", label: "Due Date", minWidth: 100, align: "center" },
     { id: "due_time", label: "Due Time", minWidth: 100, align: "center" },
     { id: "test_gmail_thread", label: "Gmail Thread", minWidth: 100, align: "center" },
-    { id: "test_status", label: "Test Status", minWidth: 100, align: "center",
-    placeholder: "Test Status", listItems: ["Passed", "Failed", "No Response"]},
+    { id: "agendaButton", label: "Agenda", minWidth: 100, align: "center" },
+    { id: 'editButton', label: 'Add Test Details', minWidth: 100, align: 'center', editPath:'/edit_test' },
 ];
   
   const useStyles = makeStyles(theme => ({
@@ -46,12 +44,10 @@ const columns = [
     },
   }));
 
-const completedTest = ({fetchLeads, leads, history, leadLoading}) => {
+const testInPipeline = ({fetchLeads, leads, history, leadLoading}) => {
   const classes = useStyles();
-  const alert = useAlert();
   const didMountRef = useRef(false);
   const [filteredLeads, setFilteredLeads] = useState([]);
-
   useEffect(() => {
     if(didMountRef.current === false){ //only for component did mount
       fetchLeads(true);
@@ -64,41 +60,22 @@ const completedTest = ({fetchLeads, leads, history, leadLoading}) => {
   useEffect(() => {
       let arr = leads.filter( lead => {
         return(
-            (lead.test !== null && lead.test.status === 'Completed' ) ? lead : null
+            (lead.test !== null && (lead.test.status === null || lead.test.status === 'In progress' )) ? lead : null
         )
       })
       setFilteredLeads(arr);
     }, [JSON.stringify(leads)]);
-  
-  const testStatusChangeHandler = async(lead_id, test_status) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-    const test = { status: test_status }
-    const body = JSON.stringify({test});  
-    try {
-      await axios.put( BASE_URL + "/api/test/" + lead_id, body, config);
-      alert.success('Test status updated successfully...!!');
-      fetchLeads();
-    } catch (error) {      
-      alert.success('Failed to update test Status...!!');
-    }
-  }
-
+    
   return(     
     <Fragment>
-        {leadLoading ? <p> Loading </p> : filteredLeads.length > 0 ?
-        (<Table 
+      {leadLoading ? <p> Loading </p>: filteredLeads.length > 0 ?
+      (<Table 
           jobs={filteredLeads}
           columns={columns}
           classes={classes}
-          tableHeader={"Completed Tests"}
-          onUpdateHandler={testStatusChangeHandler}
+          tableHeader={"Sales test"}
           history={history}/>
-        ) : <p> No tests have been completed yet </p>
-        }
+        ): <p> No test in Pipeline </p>}
     </Fragment> 
   )
 }
@@ -108,4 +85,4 @@ const mapStateToProps = state => ({
     leadLoading: state.LeadReducer.loading
 });
 
-export default  connect(mapStateToProps, { fetchLeads })(completedTest);
+export default  connect(mapStateToProps, { fetchLeads })(testInPipeline);

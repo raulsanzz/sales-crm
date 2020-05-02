@@ -17,7 +17,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import { useAlert } from 'react-alert';
 
-import { updateLead } from '../../../actions/lead';
+import { updateLead } from '../../../store/actions/lead';
 
 const styles = theme => ({
   layout: {

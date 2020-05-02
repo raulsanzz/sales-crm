@@ -5,9 +5,9 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addJob } from '../../../actions/job';
 import { withRouter } from 'react-router-dom';
 import { useAlert } from 'react-alert';
+import { addJob } from '../../../store/actions/job';
 
 const useStyles = makeStyles(theme => ({
   modal: {

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Table from './../../UI/table';
-import { fetchJob } from './../../../actions/job';
+import { fetchJob } from './../../../store/actions/job';
 
 const columns = [
   { id: 'company_name', label: 'Company Name', minWidth: 170 },

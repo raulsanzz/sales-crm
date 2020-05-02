@@ -9,7 +9,7 @@ import Select from '@material-ui/core/Select';
 import { useAlert } from 'react-alert';
 import { connect } from 'react-redux';
 
-import { updateAppliedJob } from './../../../actions/job'
+import { updateAppliedJob } from './../../../store/actions/job'
 import Table from './../../UI/table';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;

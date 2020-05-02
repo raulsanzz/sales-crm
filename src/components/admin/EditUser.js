@@ -15,7 +15,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { useAlert } from "react-alert";
 import { makeStyles } from '@material-ui/styles';
 import FormControl from '@material-ui/core/FormControl';
-import { updateUser, updateUserPassword } from "../../actions/user";
+import { updateUser, updateUserPassword } from "../../store/actions/user";
 
 const useStyles = makeStyles(theme => ({
   layout: {

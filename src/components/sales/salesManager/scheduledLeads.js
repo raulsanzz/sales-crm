@@ -1,14 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { makeStyles } from '@material-ui/styles';
-// import axios from 'axios';
-import { fetchLeads, updateLead } from '../../../actions/lead';
 import { connect } from 'react-redux';
 import { useAlert } from 'react-alert';
-
+import { fetchLeads, updateLead } from '../../../store/actions/lead';
 import Table from './../../UI/table';
 
-// const BASE_URL = process.env.REACT_APP_BASE_URL;
 const columns = [
     { id: 'company_name', label: 'Company Name', minWidth: 170 },
     { id: 'profile', label: 'Profile', minWidth: 100, align: 'center' },

@@ -10,7 +10,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import compose from "recompose/compose";
 import TextField from "@material-ui/core/TextField";
-import { logIn } from "../../actions/auth";
+import { logIn } from "../../store/actions/auth";
 
 const styles = theme => ({
   layout: {

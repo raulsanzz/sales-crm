@@ -3,7 +3,7 @@ import React from "react";
 import AppRouter from "./routers/AppRouter";
 import setAuthToken from "../src/utills/setAuthToken";
 import store from "./store/store";
-import { loadUser } from "./actions/auth";
+import { loadUser } from "./store/actions/auth";
 import { positions, Provider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 
