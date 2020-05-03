@@ -2,40 +2,40 @@ import React, { Fragment } from "react";
 import { Router, Switch } from "react-router-dom";
 import {createBrowserHistory} from "history";
 
-import Alert from "../pages/Alert";
+import Alert from "../components/Alert";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 // User
-import SignIn from "../pages/user/SignIn";
-import SignUp from "../pages/user/SignUp";
-import Dashboard from "../pages/user/Dashboard";
+import SignIn from "../components/user/SignIn";
+import SignUp from "../components/user/SignUp";
+import Dashboard from "../components/user/Dashboard";
 // Sales Executive 
-import JobList from "../pages/sales/salesExecutive/JobList";
-import ManagerJobLinks from "../pages/sales/salesExecutive/managerJobLinks";
-import SalesDetails from "../pages/sales/salesExecutive/salesDetail";
+import JobList from "../components/sales/salesExecutive/JobList";
+import ManagerJobLinks from "../components/sales/salesExecutive/managerJobLinks";
+import SalesDetails from "../components/sales/salesExecutive/salesDetail";
 // Sales Manager
-import ManagerJobList from '../pages/sales/salesManager/managerJobList';
-import ManagerLeads from '../pages/sales/salesManager/managerLeads';
-import ScheduledLeads from '../pages/sales/salesManager/scheduledLeads';
-import LeadStatus from '../pages/sales/salesManager/leadStatus';
-import JobStatus from '../pages/sales/salesManager/jobStatus';
-import EditLead from "../pages/sales/salesManager/LeadEdit";
+import ManagerJobList from '../components/sales/salesManager/managerJobList';
+import ManagerLeads from '../components/sales/salesManager/managerLeads';
+import ScheduledLeads from '../components/sales/salesManager/scheduledLeads';
+import LeadStatus from '../components/sales/salesManager/leadStatus';
+import JobStatus from '../components/sales/salesManager/jobStatus';
+import EditLead from "../components/sales/salesManager/LeadEdit";
 // Voice
-import Voice from '../pages/sales/voice/voice';
-import VoiceStatus from '../pages/sales/voice/voiceStatus';
+import Voice from '../components/sales/voice/voice';
+import VoiceStatus from '../components/sales/voice/voiceStatus';
 // Agenda
-import Agenda from "../pages/sales/agenda/agenda";
+import Agenda from "../components/sales/agenda/agenda";
 // Test
-import AddTest from "../pages/sales/test/addTest";
-import EditTest from "../pages/sales/test/editTest";
-import TestInPipeline from "../pages/sales/test/testInPipeline";
-import CompletedTest from "../pages/sales/test/completedTest";
-import Tests from "../pages/sales/test/test";
+import AddTest from "../components/sales/test/addTest";
+import EditTest from "../components/sales/test/editTest";
+import TestInPipeline from "../components/sales/test/testInPipeline";
+import CompletedTest from "../components/sales/test/completedTest";
+import Tests from "../components/sales/test/test";
 // Admin
-import UserList from "../pages/admin/UserList";
-import EditUser from "../pages/admin/EditUser";
-import UserReport from "../pages/admin/UserReport";
-import UserDetails from "../pages/admin/UserDetails";
+import UserList from "../components/admin/UserList";
+import EditUser from "../components/admin/EditUser";
+import UserReport from "../components/admin/UserReport";
+import UserDetails from "../components/admin/UserDetails";
 
 const history = createBrowserHistory();
 

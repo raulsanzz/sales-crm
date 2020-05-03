@@ -1,11 +1,11 @@
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk";
 
-import authReducer from "../reducers/auth";
-import userReducer from "../reducers/user";
-import alertReducer from "../reducers/alert";
-import JobReducer from "../reducers/job";
-import LeadReducer from "../reducers/lead";
+import authReducer from "./reducers/auth";
+import userReducer from "./reducers/user";
+import alertReducer from "./reducers/alert";
+import JobReducer from "./reducers/job";
+import LeadReducer from "./reducers/lead";
 
 const rootReducer = combineReducers({
   authReducer,
