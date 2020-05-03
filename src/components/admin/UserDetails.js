@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
-import Edit from "@material-ui/icons/Edit";
 import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/styles/withStyles";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import IconButton from "@material-ui/core/IconButton";
-import { userDetails } from "../../store/actions/user";
-import { connect } from "react-redux";
-import compose from "recompose/compose";
+import { makeStyles } from '@material-ui/core/styles';
+import Edit from "@material-ui/icons/Edit";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
-const styles = theme => ({
+import { userDetails } from "../../store/actions/user";
+
+const useStyles = makeStyles(theme => ({
   layout: {
     width: "100%",
     display: "block",
@@ -53,18 +53,10 @@ const styles = theme => ({
   list: {
     margin: "0px -139px"
   }
-});
+}));
 
-const userDetail = ({
-  classes,
-  children,
-  history,
-  location,
-  userDetails,
-  weeklyuserData,
-  monthlyuserData
-}) => {
-  //const alert = useAlert();
+const userDetail = ({ history, location, userDetails, weeklyuserData, monthlyuserData }) => {
+  const classes  = useStyles();
   const [formData, setFormData] = useState(location.state.detail);
 
   useEffect(() => {
@@ -147,7 +139,4 @@ const mapStateToProps = state => ({
   monthlyuserData: state.userReducer.monthlyuserData
 });
 
-export default compose(
-  withStyles(styles),
-  connect(mapStateToProps, { userDetails })
-)(userDetail);
+export default connect(mapStateToProps, { userDetails })(userDetail)

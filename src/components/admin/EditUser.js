@@ -1,20 +1,21 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, Fragment } from "react";
+import { useAlert } from "react-alert";
+import { connect } from "react-redux";
+import { makeStyles } from '@material-ui/styles';
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import Edit from "@material-ui/icons/Edit";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import IconButton from "@material-ui/core/IconButton";
-import { connect } from "react-redux";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import { useAlert } from "react-alert";
-import { makeStyles } from '@material-ui/styles';
 import FormControl from '@material-ui/core/FormControl';
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+
 import { updateUser, updateUserPassword } from "../../store/actions/user";
 
 const useStyles = makeStyles(theme => ({

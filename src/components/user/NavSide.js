@@ -1,30 +1,30 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import Collapse from "@material-ui/core/Collapse";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { withStyles } from "@material-ui/core/styles";
-import compose from "recompose/compose";
+import List from "@material-ui/core/List";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import Collapse from "@material-ui/core/Collapse";
-import List from "@material-ui/core/List";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
 import LinkIcon from "@material-ui/icons/Link";
 import ListIcon from "@material-ui/icons/List";
-import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import WorkIcon from "@material-ui/icons/Work";
 import PersonIcon from "@material-ui/icons/Person";
 
-import { Link } from "react-router-dom";
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     color: "white",
   },
-});
-const mailFolderListItems = ({ user, classes }) => {
+}));
+
+const mailFolderListItems = ({ user}) => {
+  const classes  = useStyles();
   const [open, setOpen] = useState(false);
   const [managerOpen, setManagerOpen] = useState(false);
   const [userOpen, setuserOpen] = useState(false);
@@ -310,6 +310,4 @@ const mailFolderListItems = ({ user, classes }) => {
   );
 };
 
-export default compose(withStyles(styles, { withTheme: true }))(
-  mailFolderListItems
-);
+export default mailFolderListItems;

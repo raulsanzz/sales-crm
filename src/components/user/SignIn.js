@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import LockIcon from "@material-ui/icons/LockOutlined";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/styles/withStyles";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import compose from "recompose/compose";
 import TextField from "@material-ui/core/TextField";
+import { makeStyles } from '@material-ui/core/styles';
+import LockIcon from "@material-ui/icons/LockOutlined";
+
 import { logIn } from "../../store/actions/auth";
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   layout: {
     width: "auto",
     display: "block", // Fix IE11 issue.
@@ -62,9 +61,10 @@ const styles = theme => ({
     justifyContent: "center",
     margin: "0 auto",
   },
-});
+}));
 
-const SignIn = ({ logIn, history, classes, auth }) => {
+const SignIn = ({ logIn, history, auth }) => {
+  const classes  = useStyles();
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const [formData, setFormData] = useState({
     registration_number: {
@@ -241,10 +241,9 @@ SignIn.propTypes = {
   logIn: PropTypes.func.isRequired,
   auth: PropTypes.bool.isRequired
 };
+
 const mapStateToProps = state => ({
   auth: state.authReducer.isAuth
 });
-export default compose(
-  withStyles(styles),
-  connect(mapStateToProps, { logIn })
-)(withRouter(SignIn));
+
+export default connect(mapStateToProps, { logIn })(SignIn);

@@ -1,19 +1,20 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, {useState, Fragment} from 'react';
+import { PDFExport } from '@progress/kendo-react-pdf';
 import { makeStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import PersonIcon from '@material-ui/icons/Person';
-import InfoIcon from '@material-ui/icons/Info';
-import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
-import { PDFExport } from '@progress/kendo-react-pdf';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import Typography from '@material-ui/core/Typography';
+import InfoIcon from '@material-ui/icons/Info';
+import PersonIcon from '@material-ui/icons/Person';
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
+
 import AgendaForm from './agendaForm';
 import AgendaNotes from "./agendaNotes";
-import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
     root: {

@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import { makeStyles } from "@material-ui/styles";
+import axios from "axios";
 import { connect } from "react-redux";
 import { useAlert } from 'react-alert';
-import axios from "axios";
+import { makeStyles } from "@material-ui/styles";
+
 import Table from "./../../UI/table";
 import { fetchLeads } from "../../../store/actions/lead";
 const BASE_URL = process.env.REACT_APP_BASE_URL;

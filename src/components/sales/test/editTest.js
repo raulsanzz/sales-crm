@@ -1,20 +1,20 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, Fragment } from "react";
+import axios from "axios";
+import { useAlert } from 'react-alert';
+import { makeStyles } from "@material-ui/styles";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
-import Edit from "@material-ui/icons/Edit";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import IconButton from "@material-ui/core/IconButton";
-import { makeStyles } from "@material-ui/styles";
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import axios from "axios";
-import { useAlert } from 'react-alert';
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import Edit from "@material-ui/icons/Edit";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 

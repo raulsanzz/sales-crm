@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { useAlert } from 'react-alert';
+
 import { fetchLeads, updateLead } from '../../../store/actions/lead';
 import Table from './../../UI/table';
 

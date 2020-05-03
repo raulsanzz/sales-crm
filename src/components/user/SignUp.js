@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
-import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -8,15 +9,13 @@ import Button from "@material-ui/core/Button";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
-import HowToReg from "@material-ui/icons/HowToReg";
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import compose from "recompose/compose";
 import FormControl from "@material-ui/core/FormControl";
+import { makeStyles } from '@material-ui/core/styles';
+import HowToReg from "@material-ui/icons/HowToReg";
+
 import { signUp } from "../../store/actions/auth";
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   layout: {
     width: "100%",
     display: "block",
@@ -73,11 +72,10 @@ const styles = (theme) => ({
     justifyContent: "center",
     margin: "0 auto",
   },
-});
+}));
 
-const signupForm = ({ signUp, classes, history }) => {
-
-  
+const signupForm = ({ signUp, history }) => {
+  const classes  = useStyles();
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const [formData, setFormData] = useState({
     registration_number: {
@@ -344,8 +342,4 @@ const signupForm = ({ signUp, classes, history }) => {
   );
 };
 
-
-export default compose(
-  withStyles(styles),
-  connect(null, { signUp })
-)(withRouter(signupForm));
+export default connect(null, { signUp })(signupForm);

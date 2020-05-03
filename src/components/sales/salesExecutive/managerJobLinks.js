@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useRef, useEffect, Fragment } from 'react';
-import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
+import { useAlert } from 'react-alert';
+import { connect } from 'react-redux';
+import { makeStyles } from '@material-ui/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { useAlert } from 'react-alert';
-import { connect } from 'react-redux';
 
 import { updateAppliedJob } from './../../../store/actions/job'
 import Table from './../../UI/table';

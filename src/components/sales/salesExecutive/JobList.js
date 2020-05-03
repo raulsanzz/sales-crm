@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useRef } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
-import AddJob from './AddJob';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
+import AddJob from './AddJob';
 import Table from './../../UI/table';
 import { fetchJob } from './../../../store/actions/job';
 

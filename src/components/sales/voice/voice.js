@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, useRef, Fragment} from 'react';
-import { makeStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
+import { makeStyles } from '@material-ui/styles';
 
 import Table from '../../UI/table';
 import { fetchLeads} from '../../../store/actions/lead';

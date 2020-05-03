@@ -1,25 +1,24 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { useAlert } from 'react-alert';
+import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
-import Edit from '@material-ui/icons/Edit';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import withStyles from '@material-ui/core/styles/withStyles';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
-import { connect } from 'react-redux';
-import compose from 'recompose/compose';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import { useAlert } from 'react-alert';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Edit from '@material-ui/icons/Edit';
 
 import { updateLead } from '../../../store/actions/lead';
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   layout: {
     width: '100%',
     display: 'block',
@@ -74,12 +73,12 @@ const styles = theme => ({
     justifyContent: 'center',
     margin: '0 auto' 
   }
-});
+}));
 
-const editLead = ({ classes, history, location, updateLead }) => {
-
-  const [fromIsInvalid, setFromIsInvalid] = useState(true);
+const editLead = ({ history, location, updateLead }) => {
+  const classes  = useStyles();
   const alert = useAlert();
+  const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const [formData, setFormData] = useState({
     client_name: {
       elementType: 'input',
@@ -410,7 +409,4 @@ const onChangeHandler = (e, elementIdentifier) => {
   );
 };
 
-export default compose(
-  withStyles(styles),
-  connect(null, { updateLead })
-)(editLead);
+export default connect(null, { updateLead })(editLead);

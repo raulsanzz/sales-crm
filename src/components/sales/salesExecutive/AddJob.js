@@ -1,12 +1,13 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import HowToReg from '@material-ui/icons/HowToReg';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { useAlert } from 'react-alert';
+import { makeStyles } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
+import HowToReg from '@material-ui/icons/HowToReg';
+
 import { addJob } from '../../../store/actions/job';
 
 const useStyles = makeStyles(theme => ({
