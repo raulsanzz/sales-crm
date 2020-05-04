@@ -154,7 +154,7 @@ const editLead = ({ history, location, updateLead }) => {
     call_time: {
       elementType: 'input',
       elementConfig:{
-        type: 'text',
+        type: 'time',
         placeholder: 'Call Time*'
       },
       value: location.state.detail.call.call_time ? location.state.detail.call.call_time : '',
