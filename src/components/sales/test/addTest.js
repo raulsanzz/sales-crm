@@ -124,7 +124,7 @@ const addTest = ({ history, location }) => {
     due_time: {
       elementType: 'input',
       elementConfig:{
-        type: 'text',
+        type: 'time',
         placeholder: 'Due Time*'
       },
       value: '',
