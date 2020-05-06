@@ -20,6 +20,7 @@ import ScheduledLeads from '../components/sales/salesManager/scheduledLeads';
 import LeadStatus from '../components/sales/salesManager/leadStatus';
 import JobStatus from '../components/sales/salesManager/jobStatus';
 import EditLead from "../components/sales/salesManager/LeadEdit";
+import AddLead from "../components/sales/salesManager/addLead";
 // Voice
 import Voice from '../components/sales/voice/voice';
 import VoiceStatus from '../components/sales/voice/voiceStatus';
@@ -60,6 +61,7 @@ export default () => {
           <PrivateRoute path="/leads" component={LeadStatus} />
           <PrivateRoute path="/appliedJobs" component={JobStatus} />
           <PrivateRoute path="/lead_edit" component={EditLead} />
+          <PrivateRoute path="/add_lead" component={AddLead} />
           {/* Voice */}
           <PrivateRoute path="/voice" component={Voice} />
           <PrivateRoute path="/voice_stauts" component={VoiceStatus} />

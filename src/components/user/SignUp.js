@@ -115,7 +115,6 @@ const signupForm = ({ signUp, history }) => {
           { value: "Sales Voice", displayValue: "Sales Voice" },
           { value: "Sales Executive", displayValue: "Sales Executive" },
           { value: "Sales Manager", displayValue: "Sales Manager" },
-          { value: "Asst. Sales Manager", displayValue: "Asst. Sales Manager" },
           { value: "Admin", displayValue: "Admin" },
         ],
         placeholder: "Select Designation *",

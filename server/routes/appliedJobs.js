@@ -1,5 +1,6 @@
 const express = require("express");
 const Router = express.Router();
+const clients = require('./clients');
 const auth = require("../middleware/auth");
 const db = require("../database/db");
 const AppliedJob = db.appliedJob;
@@ -43,7 +44,7 @@ Router.get( "/manager", auth, async (req, res) => {
         include: [
           {
             model: Job,
-            attributes: ["url"],
+            attributes: ["url", 'client_id'],
             include: [{
                 model: Client,
                 attributes: ["company_name"]
@@ -125,20 +126,26 @@ Router.get( "/dailyreport", auth, async (req, res) => {
 
 //update applied jobs 
 Router.put("/", auth, async (req, res) => {
-    try {
-      if(req.body.shouldUpdateUser){ 
-        req.body.updatedData.user_id = req.user.user.id;
-      }
-      const updatedJob = await AppliedJob.update({
-            ...req.body.updatedData
-        },
-        { where: {...req.body.query}}
-    )
-    return res.json( { updatedJob } );
-    } catch (error) {
-      console.log(error.message);
-      return res.status(402).json({ msg: "Server Error" });
+  try {
+    if(req.body.shouldUpdateUser){ 
+      req.body.updatedData.user_id = req.user.user.id;
     }
+    if(req.body.clientData){
+      await clients.updateClient(req.body.clientData.id, {client_name: req.body.clientData.client_name});   
+    }
+    const updatedJob = await AppliedJob.update({
+          ...req.body.updatedData
+      },
+      { where: {...req.body.query}}
+  )
+  console.log('====================================');
+  console.log(updatedJob);
+  console.log('====================================');
+  return res.json( { updatedJob } );
+  } catch (error) {
+    console.log(error.message);
+    return res.status(402).json({ msg: "Server Error" });
+  }
 });
 
 const mappingHelper = async ( list1, list2, toBeAdded ) => {
