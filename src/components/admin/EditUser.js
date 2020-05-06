@@ -153,7 +153,6 @@ const editUser = ({ history, location, updateUser, updateUserPassword }) => {
                 <MenuItem value="Sales Voice">Sales Voice</MenuItem>
                 <MenuItem value="Sales Executive">Sales Executive</MenuItem>
                 <MenuItem value="Sales Manager">Sales Manager</MenuItem>
-                <MenuItem value="Asst. Sales Manager">Asst. Sales Manager</MenuItem>
                 <MenuItem value="Admin">Admin</MenuItem>
               </Select>
             </FormControl>

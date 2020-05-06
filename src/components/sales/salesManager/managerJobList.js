@@ -56,9 +56,7 @@ const managerJobLinks = ({updateAppliedJob, addLead, history}) => {
 
   const columns = [
     { id: 'company_name', label: 'Company Name', minWidth: 170 },
-    { id: 'list', label: 'Lead Status', minWidth: 100, align: 'center', 
-      placeholder: 'lead Status', for: 'lead_status', listItems: ['lead', 'garbage', 'recruiter', 'in-house', 'rejected by client']},
-    { id: 'updateButton', label: 'Action', minWidth: 100, align: 'center' }
+    { id: 'editButton', label: 'Add Lead Details', minWidth: 100, align: 'center',  editPath:'/add_lead' }
   ];
   
 
@@ -96,39 +94,6 @@ const managerJobLinks = ({updateAppliedJob, addLead, history}) => {
       console.log(error);
     }
   };
-  const jobUpdateHandeler = async(job) => {
-    const query = {
-      job_id: job.job_id,
-      user_id: job.user_id,
-      profile_id: job.profile_id
-    };
-    let res = await updateAppliedJob(query, { lead_status: job.lead_status }, false);
-    if(res){
-      let updatedJobs = jobs.filter(job => {
-        if(job.job_id !== query.job_id || job.profile_id !== query.profile_id || job.user_id !== query.user_id){
-          return job;
-        }
-      })
-      setJobs(updatedJobs);
-      if(job.lead_status === 'lead'){
-        const newLeadData = {
-          job_id: job.job_id,
-          profile_id: job.profile_id,
-          status: job.lead_status
-        }
-        res = await addLead(newLeadData);
-        if(res){
-          alert.success('Updated...!!');
-        }
-        else{
-          alert.success('Failed to Add Lead...!!');
-        }
-      }
-    }
-    else{
-      alert.success('Failed to Update...!!');
-    }
-  }
 
   const handleProfileChange = (profile_id) => {
     setSelectedProfile(profile_id)
@@ -164,7 +129,6 @@ const managerJobLinks = ({updateAppliedJob, addLead, history}) => {
         classes={classes}
         tableHeader={'Jobs List'}
         history={history}
-        onUpdateHandler={jobUpdateHandeler}
         />
       ): <p> No More jobs </p>
     }

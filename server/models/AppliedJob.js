@@ -37,6 +37,9 @@ module.exports = (sequelize, Sequelize) => {
     lead_status: {
       type: Sequelize.STRING
     },
+    gmail_thread: {
+      type: Sequelize.STRING
+    },
     //Timestamps
     createdAt: Sequelize.DATEONLY,
     updatedAt: Sequelize.DATEONLY

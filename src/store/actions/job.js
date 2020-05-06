@@ -114,11 +114,11 @@ export const deleteJob = id => async dispatch => {
 };
 
 //update an applied Job
-export const updateAppliedJob = (query, updatedData, shouldUpdateUser) => async (dispatch) => {
+export const updateAppliedJob = (query, updatedData, shouldUpdateUser, clientData) => async (dispatch) => {
    const config = {
       headers: { "Content-Type": "application/json" }
     };
-    const body = JSON.stringify({ query, updatedData, shouldUpdateUser});
+    const body = JSON.stringify({ query, updatedData, shouldUpdateUser, clientData});
     try {
       const res =  await axios.put ( BASE_URL + "/api/appliedjob", body, config);
       if(res.data.updatedJob.length === 1){
