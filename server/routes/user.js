@@ -50,8 +50,24 @@ Route.post("/",async (req, res) => {
   }
 );
 
-//Fetch all data
+//Fetch all voices
+Route.get("/voice", async(req, res) => {
+try {
+  const users = await User.findAll({
+    where: { role : {
+      [Op.in]: ["Sales Manager","Sales Voice"]
+    }},
+    attributes:['name']
+  });
+  return res.json({users})
+}
+catch (error) {
+  console.log(error.message);
+  return res.status(402).json({ msg: "Server Error" });
+}
 
+  
+})
 Route.get("/", auth, async (req, res) => {
   try {
     const result = await User.findAll();

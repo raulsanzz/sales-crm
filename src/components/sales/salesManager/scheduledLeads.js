@@ -3,21 +3,12 @@ import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { useAlert } from 'react-alert';
-
+import axios from "axios";
 import { fetchLeads, updateLead } from '../../../store/actions/lead';
 import Table from './../../UI/table';
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const columns = [
-    { id: 'company_name', label: 'Company Name', minWidth: 170 },
-    { id: 'profile', label: 'Profile', minWidth: 100, align: 'center' },
-    { id: 'call_time', label: 'Time', minWidth: 100, align: 'center' },
-    { id: 'call_date', label: 'Date', minWidth: 100, align: 'center' },
-    { id: 'list', label: 'Lead Status', minWidth: 100, align: 'center', 
-    placeholder: 'Status', for: 'status' , 
-    listItems: ['lead' ,'good', 'hot', 'closed', 'garbage', 'dead lead', 'Rejected by client', 'in-communication']},
-    { id: 'input', label: 'Voice', for: 'voice', minWidth: 100, align: 'center'},
-    { id: 'updateButton', label: 'Action', minWidth: 100, align: 'center' }
-];
+
   
 const useStyles = makeStyles(theme => ({
   root:{
@@ -56,13 +47,47 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const scheduledLeads = ({fetchLeads, updateLead, leads, leadLoading, history}) => {
+ 
   const classes = useStyles();
   const alert = useAlert();
   const didMountRef = useRef(false);
   const [filteredLeads, setFilteredLeads] = useState([]);
+  const [voices, setVoices] = useState([]);
   
+  const fetchVoices = async() => {
+    console.log("1231232138");
+    try {
+      const res = await axios.get ( BASE_URL + "/api/user/voice");
+      console.log("*****************************8")
+      let names = [];
+      names = res.data.users.map(user => (user.name));
+      console.log(names)
+      setVoices(names);
+    } catch (error) {
+     console.log(error);
+    }
+  };
+
+  const columns = [
+    { id: 'company_name', label: 'Company Name', minWidth: 170 },
+    { id: 'profile', label: 'Profile', minWidth: 100, align: 'center' },
+    { id: 'call_time', label: 'Time', minWidth: 100, align: 'center' },
+    { id: 'call_date', label: 'Date', minWidth: 100, align: 'center' },
+    { id: 'list', label: 'Lead Status', minWidth: 100, align: 'center', 
+    placeholder: 'Status', for: 'status' , 
+    listItems: ['lead' ,'good', 'hot', 'closed', 'garbage', 'dead lead', 'Rejected by client', 'in-communication']},
+    
+    { id: 'list', label: 'Voice', minWidth: 100, align: 'center', 
+    placeholder: 'Voice', for: 'voice' , 
+    listItems: voices},
+    { id: 'updateButton', label: 'Action', minWidth: 100, align: 'center' }
+];
+
+
   useEffect(() => {
+
     if(didMountRef.current === false){ //only for component did mount
+      fetchVoices();
       fetchLeads(true);
       didMountRef.current = true;
     }
@@ -78,6 +103,7 @@ const scheduledLeads = ({fetchLeads, updateLead, leads, leadLoading, history}) =
       })
       setFilteredLeads(arr);  
     }, [JSON.stringify(leads)]);
+
 
     const leadUpdateHandeler = async(lead) => {
       const data = {
