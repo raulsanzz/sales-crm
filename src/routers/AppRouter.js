@@ -10,7 +10,7 @@ import SignIn from "../components/user/SignIn";
 import SignUp from "../components/user/SignUp";
 import Dashboard from "../components/user/Dashboard";
 // Sales Executive 
-import JobList from "../components/sales/salesExecutive/JobList";
+import AddJob from "../components/sales/salesExecutive/AddJob";
 import ManagerJobLinks from "../components/sales/salesExecutive/managerJobLinks";
 import SalesDetails from "../components/sales/salesExecutive/salesDetail";
 // Sales Manager
@@ -51,7 +51,7 @@ export default () => {
           <PublicRoute path="/signup" component={SignUp} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
           {/* Sales Executive */}
-          <PrivateRoute path="/job_list" component={JobList} />
+          <PrivateRoute path="/add_job" component={AddJob} />
           <PrivateRoute path="/manager_job_links" component={ManagerJobLinks} />
           <PrivateRoute path="/sales_daily_details" component={SalesDetails} />
           {/* Sales Manager */}
