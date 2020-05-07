@@ -157,6 +157,13 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                       target='_blank' 
                                       rel="noopener noreferrer">  job link Url </a>  ) } 
                                 </TableCell>)
+                        case "gmail_thread":
+                          return(<TableCell key={column.id} align={column.align}>
+                                  <a 
+                                    href={row.gmail_thread}
+                                    target='_blank' 
+                                    rel="noopener noreferrer">  Gmail Thread</a>  
+                                </TableCell>)
                         case "test_gmail_thread":
                           return(<TableCell key={column.id} align={column.align}>
                                     <a 

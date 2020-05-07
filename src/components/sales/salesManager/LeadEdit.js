@@ -93,7 +93,22 @@ const editLead = ({ history, location, updateLead }) => {
       valid: location.state.detail.job.client.client_name ? true : false,
       touched: location.state.detail.job.client.client_name ? true : false,
       message:''
-    },  
+    },    
+    website: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Company Website'
+      },
+      value:  location.state.detail.job.client.website ? location.state.detail.job.client.website : '',
+      validation: {
+        required: false,
+        urlReg:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;%=.]+$/
+      },
+      valid: location.state.detail.job.client.website ? true : false,
+      touched: location.state.detail.job.client.website ? true : false,
+      message:''
+    },
     location: {
       elementType: 'input',
       elementConfig:{
@@ -307,6 +322,7 @@ const onChangeHandler = (e, elementIdentifier) => {
       time_zone: formData.time_zone.value,
       client_name: formData.client_name.value,
       location: formData.location.value,
+      website: formData.website.value,
     }
     const query = {
       lead_id: location.state.detail.id,

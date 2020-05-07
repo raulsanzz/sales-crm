@@ -93,7 +93,7 @@ const AddJob = ({ fetchJob, addJob, jobs}) => {
       elementType: 'input',
       elementConfig:{
         type: 'text',
-        placeholder: 'Company Name'
+        placeholder: 'Company Name*'
       },
       value: '',
       validation: {
@@ -107,7 +107,7 @@ const AddJob = ({ fetchJob, addJob, jobs}) => {
       elementType: 'input',
       elementConfig:{
         type: 'text',
-        placeholder: 'Job Title'
+        placeholder: 'Job Title*'
       },
       value: '',
       validation: {
@@ -175,7 +175,7 @@ const AddJob = ({ fetchJob, addJob, jobs}) => {
       message:''
     },  
     url: {
-      elementType: 'input',
+      elementType: 'input*',
       elementConfig:{
         type: 'text',
         placeholder: 'Job Link URL'
