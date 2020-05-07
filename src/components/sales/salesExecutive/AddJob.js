@@ -4,54 +4,40 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 import HowToReg from '@material-ui/icons/HowToReg';
 
-import { addJob } from '../../../store/actions/job';
+import { fetchJob, addJob } from '../../../store/actions/job';
 
 const useStyles = makeStyles(theme => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid 6c697859',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    width: '58%'
-  },
-  compExist: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid 6c697859',
-    boxShadow: theme.shadows[5],
-    width: '41%',
-    float: 'right',
-    marginTop: '-481px'
-  },
-  button: {
-    position: 'relative'
-  },
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: 200
+  layout: {
+    width: '100%',
+    display: 'block',
+    margin: '0 auto',
+    [theme.breakpoints.up('sm')]: {
+      width: '80%'
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '65%'
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: '45%'
     }
   },
-  h1: {
-    fontSize: '25px',
-    fontFamily: 'auto'
+  paper: {
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`
   },
-  textField: {
-    marginLeft: theme.spacing(),
-    marginRight: theme.spacing(),
-    width: '31'
-  },
-  buttonform: {
-    marginTop: '5%',
-    width: '100%'
+  textField:{
+    width: '100%',
   },
   avatar: {
     backgroundColor: theme.palette.secondary.main,
@@ -64,38 +50,41 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     margin: '0 auto' 
   },
-  error1: {
-    position: 'absolute',
-    right: '777px',
-    top: '226px',
-    color: 'red'
-  },
-  invalidElementError: {
-    color: 'red'
-  },
-  profile: {
-    marginTop: '24px'
+  button: {
+    width: '50%',
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '10px auto'
   },
   header: {
     textAlign: 'center',
     fontSize: '20px',
     color: 'red'
+  }, 
+  compExist: {
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    marginBottom: theme.spacing(8),
+    width: '20%',
+    position: 'absolute',
+    right: '10px',
+    top: '40%'
   },
   ifCompExist:{
     marginBottom: '5px',
     fontSize: '15px',
     display: 'inline-block',
-    width: '50%'
+    width: '100%'
   }
 }));
 
-const AddJob = ({ addJob, jobs}) => {
-  const [fromIsInvalid, setFromIsInvalid] = useState(true);
-  const [exist, setExist] = useState('');
-  const [compExist, setCompExist] = useState(null);
+const AddJob = ({ fetchJob, addJob, jobs}) => {
   const alert = useAlert();
+  const [fromIsInvalid, setFromIsInvalid] = useState(true);
+  const [compExist, setCompExist] = useState(null);
 
   useEffect( () => {
+    fetchJob();
     initializeForm();
   }, [jobs.length]);
 
@@ -111,7 +100,8 @@ const AddJob = ({ addJob, jobs}) => {
         required: true
       },
       valid: false,
-      touched: false
+      touched: false,
+      message:''
     },  
     job_title: {
       elementType: 'input',
@@ -137,7 +127,8 @@ const AddJob = ({ addJob, jobs}) => {
         required: false
       },
       valid: false,
-      touched: false
+      touched: false,
+      message:''
     },  
     website: {
       elementType: 'input',
@@ -151,7 +142,8 @@ const AddJob = ({ addJob, jobs}) => {
         urlReg:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;%=.]+$/
       },
       valid: false,
-      touched: false
+      touched: false,
+      message:''
     },  
     email: {
       elementType: 'input',
@@ -165,7 +157,8 @@ const AddJob = ({ addJob, jobs}) => {
           emailReg: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
       },
       valid: false,
-      touched: false
+      touched: false,
+      message:''
     },  
     number: {
       elementType: 'text',
@@ -178,7 +171,8 @@ const AddJob = ({ addJob, jobs}) => {
           required: false,
       },
       valid: false,
-      touched: false
+      touched: false,
+      message:''
     },  
     url: {
       elementType: 'input',
@@ -192,7 +186,8 @@ const AddJob = ({ addJob, jobs}) => {
           urlReg:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;%=.]+$/
       },
       valid: false,
-      touched: false
+      touched: false,
+      message:''
     },
   });
   const classes = useStyles();
@@ -219,33 +214,54 @@ const AddJob = ({ addJob, jobs}) => {
     });
     if (exist.length > 0) {
       setCompExist(exist[0]);
-      setExist(true);
+      return true;
     } else {
       setCompExist(null);
-      setExist(false);
+      return false;
     }
   };
   
   
   const validityCheck = (value, rules) => {
     let isValid = true;
+    let message = '';
     if(rules){
       if(rules.required){
-          isValid = value.trim() !== '' && isValid;
+        isValid = value.trim() !== '' && isValid;
+        if(!isValid){
+          message = 'Required';
+        }
       };
       if(rules.emailReg){
         isValid = rules.emailReg.test(value.trim()) && isValid;
+        if(!isValid && message === ''){
+          message = 'Invalid Email';
+        }
       };  
       if(rules.urlReg){
         isValid = rules.urlReg.test(value.trim()) && isValid;
+        if(!isValid && message === ''){
+          message = 'Invalid url';
+        }
       };
       if(!rules.required && value.trim() < 1){
         isValid = true;
+        message = '';
       }; 
     };
-    return isValid;
+    return  {isValid, message};
   }
-  
+     
+  const checkFormValidity = (form) => {
+    let formIsValid = true;
+    for (let elemIdentifier in form){
+      if(form[elemIdentifier].touched || form[elemIdentifier].validation.required){
+        formIsValid = form[elemIdentifier].valid && formIsValid;
+      }   
+    }
+    setFromIsInvalid(!formIsValid);
+  }
+
   const onChangeHandler = (e, elementIdentifier) => {
     const updatedForm = {
       ...formData
@@ -254,23 +270,22 @@ const AddJob = ({ addJob, jobs}) => {
       ...updatedForm[elementIdentifier]
     }
     updatedElement.value = e.target.value;
-    updatedElement.valid = validityCheck(updatedElement.value, updatedElement.validation);
+    const res = validityCheck(updatedElement.value, updatedElement.validation);
+    updatedElement.valid = res.isValid;
+    updatedElement.message = res.message;
     updatedElement.touched = true;
     updatedForm[elementIdentifier] = updatedElement;
-    
-    let formIsValid = true;
-    for (let elemIdentifier in updatedForm){
-      if(updatedForm[elemIdentifier].touched || updatedForm[elemIdentifier].validation.required){
-        formIsValid = updatedForm[elemIdentifier].valid && formIsValid;
-      }   
-    }
-    
     if(elementIdentifier === 'company_name'){
-      searchCompany(e.target.value);
+      const exist =  searchCompany(e.target.value);
+      if(exist){
+        updatedElement.valid = false;
+        updatedElement.message = 'Already Exists';
+      }
     }
+    checkFormValidity(updatedForm);
     setFormData(updatedForm);
-    setFromIsInvalid(!formIsValid);
   }
+
   const orderHandler = async(e) => {
     e.preventDefault();
     const jobData = {
@@ -306,38 +321,35 @@ const AddJob = ({ addJob, jobs}) => {
       <form onSubmit={orderHandler} noValidate autoComplete='off'>
           {
             fromElementArray.map( elem => (
-              <div key={elem.id} className='form-group'>
-                <label>
-                  {elem.config.elementConfig.placeholder}
-                  {elem.config.validation.required ? ' (*)': null}</label>
-                <input
-                  id={elem.id}
-                  className='form-control'
-                  type={elem.config.elementConfig.type}
-                  value={elem.config.value}
-                  onChange={(event) => {onChangeHandler(event, elem.id)}}
-                  />
-                  {(elem.config.touched && elem.config.validation.required && elem.config.value.trim().length < 1 ) ? 
-                    <p className={classes.invalidElementError}>{elem.config.elementConfig.placeholder} is required </p> : null
-                  }
-                  {(elem.config.touched && elem.config.validation.urlReg && !elem.config.valid && elem.config.value.trim().length > 0) ? 
-                    <p className={classes.invalidElementError}>not a valid {elem.config.elementConfig.placeholder}</p> : null
-                  }
-                  {(elem.config.touched && elem.config.validation.emailReg && !elem.config.valid && elem.config.value.trim().length > 0) ? 
-                    <p className={classes.invalidElementError}>Please enter a valid Email</p> : null
-                  }
-              </div>
+              <TextField
+                key={elem.id}
+                className={classes.textField}
+                error = {!elem.config.valid && elem.config.touched}
+                id={elem.id}
+                label={elem.config.elementConfig.placeholder}
+                type={elem.config.elementConfig.type}
+                value={elem.config.value}
+                onChange={(event) => {onChangeHandler(event, elem.id)}}
+                helperText={elem.config.message}/>  
             ))
           }
-          <button disabled={exist || fromIsInvalid} className='btn btn-primary'>Add Job</button>
+          <Button 
+            variant='contained'
+            color='primary'
+            type='submit'
+            className={classes.button}
+            disabled={fromIsInvalid}>
+            Add Job
+          </Button>
       </form>
       );
     return form;
   }
     return (
       <Fragment>
+        <main className={classes.layout}>
         {/* form to add job */}
-        <div className={classes.paper}>
+        <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
             <HowToReg />
           </Avatar>
@@ -347,32 +359,39 @@ const AddJob = ({ addJob, jobs}) => {
             Add New Job
           </Typography>
           {formRender()}
-        </div>
-
-        {/* display card if company already exists */}
-        {compExist !== null ? (
+        </Paper>
+         {/* display card if company already exists */}
+         {compExist !== null ? (
           <div className={classes.compExist}>
             <h1 className={classes.header}>Job Alredy Exist</h1>
             <ul style={{ listStyleType: 'none', textAlign: 'left', margin: '0' }}>
               <li className={classes.ifCompExist}>
-                <b style={{ marginRight: '10px' }}>Company Name:</b>
+                <b style={{ marginRight: '8px' }}>Company Name:</b>
                 <span>{compExist.client.company_name}</span>
               </li>
               <li className={classes.ifCompExist}>
-                <b style={{ marginRight: '10px' }}>URL:</b>
-                <span>{compExist.url}</span>
+                <b style={{ marginRight: '8px' }}>URL:</b>
+                <span>
+                  <a 
+                    href={compExist.url} 
+                    target='_blank' 
+                    rel="noopener noreferrer">  
+                    job link Url 
+                  </a>
+                </span>
               </li>
               <li className={classes.ifCompExist}>
-                <b style={{ marginRight: '10px' }}>Job Title:</b>
+                <b style={{ marginRight: '8px' }}>Job Title:</b>
                 <span>{compExist.job_title}</span>
               </li>
               <li className={classes.ifCompExist}>
-                <b style={{ marginRight: '10px' }}> Created at:</b>
+                <b style={{ marginRight: '8px' }}> Created at:</b>
                 <span>{compExist.createdAt}</span>
               </li>
             </ul>
           </div>) : null 
         }
+      </main>
     </Fragment>);
 };
 
@@ -384,4 +403,4 @@ AddJob.propTypes = {
   addJob: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps, { addJob })(withRouter(AddJob));
+export default connect(mapStateToProps, { addJob, fetchJob })(withRouter(AddJob));

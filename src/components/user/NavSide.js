@@ -95,7 +95,7 @@ const mailFolderListItems = ({ user}) => {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {raceName === "Sales Executive" || raceName === "Admin" ? (
-            <ListItem button component={Link} to="/job_list">
+            <ListItem button component={Link} to="/add_job">
               <ListItemIcon>
                 <AddCircleOutlineIcon className={classes.root} />
               </ListItemIcon>
