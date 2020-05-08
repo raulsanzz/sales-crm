@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
+import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -17,8 +18,8 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import MailFolderListItemsfrom from "./NavSide";
 
+import NavSide from "./NavSide";
 import { logout } from "../../store/actions/auth";
 
 const drawerWidth = 250;
@@ -27,42 +28,32 @@ const styles = theme => ({
   root: {
     flexGrow: 1
   },
-  header: {
-    fontSize: "12px"
-  },
   appFrame: {
-    height: "100vh",
+    minHeight: "100vh",
+    height: "100%",
     zIndex: 1,
-    overflow: "scroll",
     position: "relative",
     display: "flex",
     width: "100%"
   },
   appBar: {
-    position: "absolute",
-    width: "100vw",
+    zIndex: theme.zIndex.drawer + 1,
     backgroundColor: "#1c304e",
-    transition: theme.transitions.create(["margin", "width"], {
+    transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
+      duration: theme.transitions.duration.leavingScreen,
     })
   },
   appBarShift: {
+    marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
-  "appBarShift-left": {
-    marginLeft: drawerWidth
-  },
-  "appBarShift-right": {
-    marginRight: drawerWidth
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   menuButton: {
-    marginLeft: 12,
-    marginRight: 20
+    marginRight: 36
   },
   logoText: {
     textDecoration: "none",
@@ -74,48 +65,48 @@ const styles = theme => ({
   hide: {
     display: "none"
   },
-  drawerPaper: {
-    position: "relative",
+  drawer: {
+    backgroundColor: "#1c304e",
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+  },
+  drawerOpen: {
     width: drawerWidth,
     backgroundColor: "#1c304e",
-    color: "white"
+    color:'white',
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
-  drawerHeader: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    padding: "0 8px",
-    ...theme.mixins.toolbar
+  drawerClose: {
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    backgroundColor: "#1c304e",
+    color:'white',
+    overflowX: 'hidden',
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(9) + 1,
+    },
   },
-  pushRight: {
-    marginLeft: "auto"
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
   },
   content: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
   },
-  "content-left": {
-    marginLeft: -drawerWidth
-  },
-  "content-right": {
-    marginRight: -drawerWidth
-  },
-  contentShift: {
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
-  "contentShift-left": {
-    marginLeft: 0
-  },
-  "contentShift-right": {
-    marginRight: 0
+  pushRight: {
+    marginLeft: "auto"
   },
   color: {
     color: "white"
@@ -133,7 +124,7 @@ class NavMain extends React.Component {
 
   renderButtons = () => {
     const { auth, classes, user } = this.props;
-    if (user &&user.length > 0) {
+    if (user && user.length > 0) {
       var name = user[0].name;      
     }
     if (auth) {
@@ -192,62 +183,55 @@ class NavMain extends React.Component {
 
   render() {
     const { classes, theme, children, user, auth } = this.props;
-    const { anchor, open } = this.state;
+    const { open } = this.state;
     var drawer = (
       <Drawer
-        variant="persistent"
-        anchor={anchor}
-        open={open}
+        variant="permanent"
+        className={classNames(classes.drawer, {
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
+        })}
         classes={{
-          paper: classes.drawerPaper
+          paper: classNames({
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open,
+          }),
         }}>
-        <div className={classes.drawerHeader}>
-          <IconButton
-            className={classes.color}
-            onClick={this.handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
+        <div className={classes.toolbar}>
+          <IconButton onClick={this.handleDrawerClose}>
+            {theme.direction === 'rtl' ? <ChevronRightIcon className={classes.color} /> 
+            : <ChevronLeftIcon className={classes.color} />}
           </IconButton>
         </div>
         <Divider />
         <List>
-          <MailFolderListItemsfrom user={user} />
+          <NavSide user={user} />
         </List>
       </Drawer>
     );
 
-    let before = null;
-    let after = null;
-
-    if (anchor === "left") {
-      before = drawer;
-    } else {
-      after = drawer;
-    }
-
     return (
       <div className={classes.root}>
+        <CssBaseline />
         <div className={classes.appFrame}>
           <AppBar
+            position="fixed"
             className={classNames(classes.appBar, {
-              [classes.appBarShift]: open,
-              [classes[`appBarShift-${anchor}`]]: open
+              [classes.appBarShift]: open
             })}>
-            <Toolbar disableGutters={!open}>
+            <Toolbar>
               {auth ? (
                 <IconButton
                   color="inherit"
                   aria-label="Open drawer"
                   onClick={this.handleDrawerOpen}
+                  edge="start"
                   className={classNames(
-                    classes.menuButton,
-                    open && classes.hide
-                  )}>
+                    classes.menuButton,{
+                      [classes.hide]: open
+                    })}>
                   <MenuIcon />
-                </IconButton>) : ''
+                </IconButton>) : null
               }
               <Typography
                 component={Link}
@@ -260,20 +244,11 @@ class NavMain extends React.Component {
               {this.renderButtons()}
             </Toolbar>
           </AppBar>
-          {before}
-          <main
-            className={classNames(
-              classes.content,
-              classes[`content-${anchor}`],
-              {
-                [classes.contentShift]: open,
-                [classes[`contentShift-${anchor}`]]: open
-              }
-            )}>
-            <div className={classes.drawerHeader} />
+          {auth ? drawer : null}
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
             {children}
-          </main>
-          {after}
+        </main>
         </div>
       </div>
     )}; //end of return/ render
