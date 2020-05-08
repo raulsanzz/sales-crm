@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import { makeStyles } from '@material-ui/core/styles';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { makeStyles } from '@material-ui/core/styles';
 import LockIcon from "@material-ui/icons/LockOutlined";
 
 import { logIn } from "../../store/actions/auth";
@@ -63,7 +62,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignIn = ({ logIn, history, auth }) => {
+const SignIn = ({ logIn}) => {
   const classes  = useStyles();
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const [formData, setFormData] = useState({
@@ -71,7 +70,7 @@ const SignIn = ({ logIn, history, auth }) => {
       elementType: "input",
       elementConfig: {
         type: "number",
-        placeholder: "Employee Number  ",
+        placeholder: "Employee Number*",
       },
       value: "",
       validation: {
@@ -86,7 +85,7 @@ const SignIn = ({ logIn, history, auth }) => {
       elementType: "input",
       elementConfig: {
         type: "password",
-        placeholder: "Password ",
+        placeholder: "Password*",
       },
       value: "",
       validation: {
@@ -95,56 +94,51 @@ const SignIn = ({ logIn, history, auth }) => {
       valid: false,
       touched: false,
       message: "",
-    }  });  useEffect(() => {
-      checkFormValidity(formData);
-    }, []);  
+    }  
+  });  
+    
+  useEffect(() => {
+    checkFormValidity(formData);
+  }, []);  
     
   const formRender = () => {
-      const fromElementArray = [];
-      for (let key in formData) {
-        fromElementArray.push({
-          id: key,
-          config: formData[key],
-        });
-      }
-      let form = (
-        <form onSubmit={submitHandler}>
-          {fromElementArray.map((elem) =>
-              <TextField
-                key={elem.id}
-                className={classes.textField}
-                error={!elem.config.valid && elem.config.touched}
-                id={elem.id}
-                label={elem.config.elementConfig.placeholder}
-                type={elem.config.elementConfig.type}
-                value={elem.config.value}
-                onChange={(event) => {
-                  onChangeHandler(event, elem.id);
-                }}
-                helperText={elem.config.message}
-              />
-            )
-          }
-          <Button
-                     variant="contained"
-                     color="primary"
-                     type="submit"
-                     className={classes.button}
-            disabled={fromIsInvalid}
-          >
-            Submit
-          </Button>
-        </form>
-      );
-      return form;
-    };
-  // if (auth) {
-  //    return <Redirect to="/dashboard" />;
-  // }
-  // const [formData, setFormData] = useState({
-  //   registration_number: null,
-  //   password: null
-  // });  
+    const fromElementArray = [];
+    for (let key in formData) {
+      fromElementArray.push({
+        id: key,
+        config: formData[key],
+      });
+    }
+    let form = (
+      <form onSubmit={submitHandler}>
+        {fromElementArray.map((elem) =>
+          <TextField
+            key={elem.id}
+            className={classes.textField}
+            error={!elem.config.valid && elem.config.touched}
+            id={elem.id}
+            label={elem.config.elementConfig.placeholder}
+            type={elem.config.elementConfig.type}
+            value={elem.config.value}
+            onChange={(event) => {
+              onChangeHandler(event, elem.id);
+            }}
+            helperText={elem.config.message}
+          />
+        )}
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          className={classes.button}
+          disabled={fromIsInvalid}>
+          Submit
+        </Button>
+      </form>
+    );
+    return form;
+  };
+
   const validityCheck = (value, rules) => {
     let isValid = true;
     let message = "";
@@ -155,13 +149,10 @@ const SignIn = ({ logIn, history, auth }) => {
           message = "required";
         }
       }
-
       if (rules.onlynum) {
-        const re = /^[0-9\b]+$/;
         if (!Number(value)) {
           isValid = false
         }
-
         if (!isValid && message === '') {
           message = "Employee number must be integer";
         }
@@ -172,22 +163,19 @@ const SignIn = ({ logIn, history, auth }) => {
         message = "";
       }
     }
-    console.log(message);
     return { isValid, message };
   };
+
   const checkFormValidity = (form) => {
     let formIsValid = true;
     for (let elemIdentifier in form) {
-      if (
-        form[elemIdentifier].touched ||
-        form[elemIdentifier].validation.required
-      ) {
+      if (form[elemIdentifier].touched || form[elemIdentifier].validation.required) {
         formIsValid = form[elemIdentifier].valid && formIsValid;
       }
     }
     setFromIsInvalid(!formIsValid);
   };
-  // const { registration_number, password } = formData;
+
   const onChangeHandler = (e, elementIdentifier) => {
     const updatedForm = {
       ...formData,
@@ -204,12 +192,6 @@ const SignIn = ({ logIn, history, auth }) => {
     setFormData(updatedForm);
     checkFormValidity(updatedForm);
   };
-  // const onChangesHandler = e => {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.id]: e.target.value
-  //   });
-  // };
 
   const submitHandler = async e => {
     e.preventDefault();
@@ -221,7 +203,7 @@ const SignIn = ({ logIn, history, auth }) => {
   };
 
   return (
-    <React.Fragment>
+    <Fragment>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -229,17 +211,10 @@ const SignIn = ({ logIn, history, auth }) => {
           </Avatar>
           <Typography>Sign in</Typography>
           {formRender()}
-  
         </Paper>
       </main>
-    </React.Fragment>
+    </Fragment>
   );
-};
-
-SignIn.propTypes = {
-  classes: PropTypes.object.isRequired,
-  logIn: PropTypes.func.isRequired,
-  auth: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({

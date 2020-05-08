@@ -17,7 +17,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import MailFolderListItemsfrom from "./NavSide";
+import NavSide from "./NavSide";
 
 import { logout } from "../../store/actions/auth";
 
@@ -31,9 +31,9 @@ const styles = theme => ({
     fontSize: "12px"
   },
   appFrame: {
-    height: "100vh",
+    minHeight: "100vh",
+    height: "100%",
     zIndex: 1,
-    overflow: "scroll",
     position: "relative",
     display: "flex",
     width: "100%"
@@ -214,7 +214,7 @@ class NavMain extends React.Component {
         </div>
         <Divider />
         <List>
-          <MailFolderListItemsfrom user={user} />
+          <NavSide user={user} />
         </List>
       </Drawer>
     );
