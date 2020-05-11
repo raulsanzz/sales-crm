@@ -235,6 +235,12 @@ const NavSide = ({ user}) => {
               </ListItemIcon>
               <ListItemText primary="User List" />
             </ListItem>
+             <ListItem button component={Link} to="/executive_report">
+              <ListItemIcon>
+                <ListIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Executive Report" />
+            </ListItem>
            {/* {name === "Muddasir Ahmed" ? (
             <ListItem button component={Link} to="/user_report">
               <ListItemIcon>

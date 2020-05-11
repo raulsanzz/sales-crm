@@ -38,20 +38,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function salesDetail() {
-  const [data, SetData] = useState([]);
+export default function salesDetail({data}) {
   const [total, setTotal] = useState({
     appliedJobs: 0,
     fetchedJobs: 0
   })
 
   useEffect(() => {
-    axios.get ( BASE_URL + '/api/appliedJob/dailyreport').then(res => {
-      SetData(res.data);
-    });
-  }, []);
-
-  useEffect(() => {
+    console.log("WOKRINGINGIGN")
     if(data.length > 0){
       let newTotal
 
@@ -63,6 +57,9 @@ export default function salesDetail() {
       }
       else{
         newTotal = data.reduce( (prev, cur) => {
+          console.log("prev",prev)
+          console.log("Cuuuuuuuuuur",cur)
+
           return {
             appliedJobs: parseInt(prev.appliedJobCount) + parseInt(cur.appliedJobCount),
             fetchedJobs: parseInt(prev.fetchedJobCount) + parseInt(cur.fetchedJobCount)

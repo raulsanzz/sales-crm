@@ -9,10 +9,10 @@ import PublicRoute from "./PublicRoute";
 import SignIn from "../components/user/SignIn";
 import SignUp from "../components/user/SignUp";
 import Dashboard from "../components/user/Dashboard";
+import SalesDetails from "../components/UI/salesDetail";
 // Sales Executive 
 import AddJob from "../components/sales/salesExecutive/AddJob";
 import ManagerJobLinks from "../components/sales/salesExecutive/managerJobLinks";
-import SalesDetails from "../components/sales/salesExecutive/salesDetail";
 // Sales Manager
 import ManagerJobList from '../components/sales/salesManager/managerJobList';
 import ManagerLeads from '../components/sales/salesManager/managerLeads';
@@ -37,6 +37,7 @@ import UserList from "../components/admin/UserList";
 import EditUser from "../components/admin/EditUser";
 import UserReport from "../components/admin/UserReport";
 import UserDetails from "../components/admin/UserDetails";
+import SalesExecutive from "../components/admin/SalesExecutive";
 
 const history = createBrowserHistory();
 
@@ -76,6 +77,7 @@ export default () => {
           <PrivateRoute path="/edit" component={EditUser} />
           <PrivateRoute path="/user_report" component={UserReport} />
           <PrivateRoute path="/user_details" component={UserDetails} />
+          <PrivateRoute path="/executive_report" component={SalesExecutive} />
           {/* others */}
           <PrivateRoute path="/agenda" component={Agenda} />
         </Switch>
