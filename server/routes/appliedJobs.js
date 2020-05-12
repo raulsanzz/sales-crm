@@ -138,6 +138,33 @@ Router.put( "/report", auth, async (req, res) => {
       return res.status(402).json({ msg: "Server Error" });
     }
 });
+//get all job reports with respect to status
+Router.put( "/jobReport", auth, async (req, res) => {
+  try {
+  const jobReport = await AppliedJob.findAll({
+      where: {
+        applied: true, 
+        createdAt: {
+            [Op.and]: {
+              [Op.gte]: req.body.startDate,
+              [Op.lte]: req.body.endDate
+         } 
+        }
+      },
+      attributes: ['lead_status', [sequelize.fn('COUNT', sequelize.col('lead_status')), 'total']],
+      group: ['lead_status'],
+  })
+
+
+    return res.json({jobReport});
+  } catch (error) {
+    console.log('====================================');
+    console.log(error);
+    console.log('====================================');
+    // console.log(error.message);
+    return res.status(402).json({ msg: "Server Error" });
+  }
+});
 
 //update applied jobs 
 Router.put("/", auth, async (req, res) => {

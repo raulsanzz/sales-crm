@@ -12,6 +12,9 @@ const Agenda = db.agenda;
 const Note = db.note;
 const Call = db.call;
 const Test = db.test;
+const sequelize = db.Sequelize;
+const Op = sequelize.Op;
+
 
 Router.post ('/', auth, async(req, res) => {
     try{
@@ -87,7 +90,6 @@ Router.put("/", auth, async (req, res) => {
     }
 });
 
-module.exports = Router;
 
 // get all Scheduled leads
 Router.get( "/callTaken", auth, async (req, res) => {
@@ -121,12 +123,41 @@ Router.get( "/callTaken", auth, async (req, res) => {
                     model: Test
                 }
             ],
-          
-
-    })
+            
+            
+        })
         return res.json({ leads }  );
     } catch (error) {
       console.log(error.message);
       return res.status(402).json({ msg: "Server Error" });
     }
 });
+
+//get all job status of leads with respect to status
+Router.put( "/leadReport", auth, async (req, res) => {
+    try {
+        const leadReport = await Lead.findAll({
+            where: {
+                createdAt: {
+                    [Op.and]: {
+                        [Op.gte]: req.body.startDate,
+                        [Op.lte]: req.body.endDate
+                    } 
+                }
+            },
+        attributes: ['status', [sequelize.fn('COUNT', sequelize.col('status')), 'total']],
+        group: ['status'],
+    })
+    
+    
+    return res.json({leadReport});
+} catch (error) {
+    console.log('====================================');
+    console.log(error);
+    console.log('====================================');
+    // console.log(error.message);
+    return res.status(402).json({ msg: "Server Error" });
+}
+});
+
+module.exports = Router;
