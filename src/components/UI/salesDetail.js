@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState, Fragment } from 'react';
-import axios from 'axios';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,38 +8,10 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    overflowX: 'auto'
-  },
-  table: {
-    minWidth: 650
-  },
-  center: {
-    textAlign: 'center'
-  },
-  text: {
-    padding: '28px',
-    fontFamily: 'initial',
-    fontSize: '18px',
-    fontWeight: 'bold'
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
-
-export default function salesDetail({data}) {
+export default function salesDetail({classes, tableHeader, data}) {
   const [total, setTotal] = useState({
-    appliedJobs: 0,
-    fetchedJobs: 0
+    appliedJobCount: 0,
+    fetchedJobCount: 0
   })
 
   useEffect(() => {
@@ -51,18 +21,15 @@ export default function salesDetail({data}) {
 
       if(data.length === 1){
         newTotal = {
-          appliedJobs: data[0].appliedJobCount > 0 ? data[0].appliedJobCount : '0',
-          fetchedJobs: data[0].fetchedJobCount > 0 ? data[0].fetchedJobCount : '0'
+          appliedJobCount: data[0].appliedJobCount > 0 ? data[0].appliedJobCount : '0',
+          fetchedJobCount: data[0].fetchedJobCount > 0 ? data[0].fetchedJobCount : '0'
         }
       }
       else{
         newTotal = data.reduce( (prev, cur) => {
-          console.log("prev",prev)
-          console.log("Cuuuuuuuuuur",cur)
-
           return {
-            appliedJobs: parseInt(prev.appliedJobCount) + parseInt(cur.appliedJobCount),
-            fetchedJobs: parseInt(prev.fetchedJobCount) + parseInt(cur.fetchedJobCount)
+            appliedJobCount:  Number(prev.appliedJobCount) + Number(cur.appliedJobCount),
+            fetchedJobCount: Number(prev.fetchedJobCount) + Number(cur.fetchedJobCount)
           } 
         });
       }
@@ -70,17 +37,15 @@ export default function salesDetail({data}) {
     }
   }, [data.length]);
 
-  const classes = useStyles();
-
   return (
     <Paper className={classes.root}>
       { data.length !== 0 ?
       (<Fragment>
-        <h1 className={classes.center}>Daily Applied Job Details</h1>
+        <h1 className={classes.center}>{tableHeader}</h1>
         <span className={classes.text}>Total Fetched Job:</span>
-        <Badge badgeContent={total.fetchedJobs === 0 ? '0' : total.fetchedJobs} color='secondary'></Badge>
+        <Badge badgeContent={total.fetchedJobCount === 0 ? '0' : total.fetchedJobCount} color='secondary'></Badge>
         <span className={classes.text}>Total Applied Job:</span>
-        <Badge badgeContent={total.appliedJobs === 0 ? '0'  : total.appliedJobs} color='secondary'></Badge>
+        <Badge badgeContent={total.appliedJobCount === 0 ? '0'  : total.appliedJobCount} color='secondary'></Badge>
         <Table className={classes.table} aria-label='simple table'>
           <TableHead>
             <TableRow>

@@ -37,7 +37,12 @@ import UserList from "../components/admin/UserList";
 import EditUser from "../components/admin/EditUser";
 import UserReport from "../components/admin/UserReport";
 import UserDetails from "../components/admin/UserDetails";
-import SalesExecutive from "../components/admin/SalesExecutive";
+// Admin - Reports
+import SalesExecutiveReports from "../components/admin/Reports/SalesExecutive";
+import AppliedJobsReports from "../components/admin/Reports/appliedJob";
+import LeadReports from "../components/admin/Reports/lead";
+import TestReports from "../components/admin/Reports/test";
+import VoiceReports from "../components/admin/Reports/voice";
 
 const history = createBrowserHistory();
 
@@ -77,7 +82,11 @@ export default () => {
           <PrivateRoute path="/edit" component={EditUser} />
           <PrivateRoute path="/user_report" component={UserReport} />
           <PrivateRoute path="/user_details" component={UserDetails} />
-          <PrivateRoute path="/executive_report" component={SalesExecutive} />
+          <PrivateRoute path="/executive_report" component={SalesExecutiveReports} />
+          <PrivateRoute path="/job_report" component={AppliedJobsReports} />
+          <PrivateRoute path="/lead_report" component={LeadReports} />
+          <PrivateRoute path="/test_report" component={TestReports} />
+          <PrivateRoute path="/voice_report" component={VoiceReports} />
           {/* others */}
           <PrivateRoute path="/agenda" component={Agenda} />
         </Switch>
