@@ -13,6 +13,7 @@ import SalesDetails from "../components/UI/salesDetail";
 // Sales Executive 
 import AddJob from "../components/sales/salesExecutive/AddJob";
 import ManagerJobLinks from "../components/sales/salesExecutive/managerJobLinks";
+import DailyJobReport from "../components/sales/salesExecutive/dailyJobReport";
 // Sales Manager
 import ManagerJobList from '../components/sales/salesManager/managerJobList';
 import ManagerLeads from '../components/sales/salesManager/managerLeads';
@@ -59,7 +60,7 @@ export default () => {
           {/* Sales Executive */}
           <PrivateRoute path="/add_job" component={AddJob} />
           <PrivateRoute path="/manager_job_links" component={ManagerJobLinks} />
-          <PrivateRoute path="/sales_daily_details" component={SalesDetails} />
+          <PrivateRoute path="/daily_job_report" component={DailyJobReport} />
           {/* Sales Manager */}
           <PrivateRoute path="/manager_job_list" component={ManagerJobList} />
           <PrivateRoute path="/manager_leads" component={ManagerLeads} />

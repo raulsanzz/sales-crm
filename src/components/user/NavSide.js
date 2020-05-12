@@ -91,7 +91,7 @@ const NavSide = ({ user}) => {
               </ListItemIcon>
               <ListItemText primary="Job Links" />
             </ListItem>
-            <ListItem button component={Link} to="/sales_daily_details">
+            <ListItem button component={Link} to="/daily_job_report">
               <ListItemIcon>
                 <PollOutlinedIcon className={classes.root} />
               </ListItemIcon>
