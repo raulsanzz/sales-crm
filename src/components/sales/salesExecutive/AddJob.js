@@ -175,10 +175,10 @@ const AddJob = ({ fetchJob, addJob, jobs}) => {
       message:''
     },  
     url: {
-      elementType: 'input*',
+      elementType: 'input',
       elementConfig:{
         type: 'text',
-        placeholder: 'Job Link URL'
+        placeholder: 'Job Link URL*'
       },
       value: '',
       validation: {

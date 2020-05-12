@@ -91,7 +91,7 @@ const NavSide = ({ user}) => {
               </ListItemIcon>
               <ListItemText primary="Job Links" />
             </ListItem>
-            <ListItem button component={Link} to="/sales_daily_details">
+            <ListItem button component={Link} to="/daily_job_report">
               <ListItemIcon>
                 <PollOutlinedIcon className={classes.root} />
               </ListItemIcon>
@@ -234,6 +234,36 @@ const NavSide = ({ user}) => {
                 <ListIcon className={classes.root} />
               </ListItemIcon>
               <ListItemText primary="User List" />
+            </ListItem>
+             <ListItem button component={Link} to="/executive_report">
+              <ListItemIcon>
+                <PollOutlinedIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Executive Report" />
+            </ListItem>
+             <ListItem button component={Link} to="/job_report">
+              <ListItemIcon>
+                <PollOutlinedIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Job Report" />
+            </ListItem>
+             <ListItem button component={Link} to="/lead_report">
+              <ListItemIcon>
+                <PollOutlinedIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Lead Report" />
+            </ListItem>
+             <ListItem button component={Link} to="/test_report">
+              <ListItemIcon>
+                <PollOutlinedIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Test Report" />
+            </ListItem>
+             <ListItem button component={Link} to="/voice_report">
+              <ListItemIcon>
+                <PollOutlinedIcon className={classes.root} />
+              </ListItemIcon>
+              <ListItemText primary="Voice Report" />
             </ListItem>
            {/* {name === "Muddasir Ahmed" ? (
             <ListItem button component={Link} to="/user_report">
