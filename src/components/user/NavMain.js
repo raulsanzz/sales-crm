@@ -186,6 +186,8 @@ class NavMain extends React.Component {
     const { open } = this.state;
     var drawer = (
       <Drawer
+      onMouseEnter={this.handleDrawerOpen}
+      onMouseLeave={this.handleDrawerClose}
         variant="permanent"
         className={classNames(classes.drawer, {
           [classes.drawerOpen]: open,
@@ -220,19 +222,6 @@ class NavMain extends React.Component {
               [classes.appBarShift]: open
             })}>
             <Toolbar>
-              {auth ? (
-                <IconButton
-                  color="inherit"
-                  aria-label="Open drawer"
-                  onClick={this.handleDrawerOpen}
-                  edge="start"
-                  className={classNames(
-                    classes.menuButton,{
-                      [classes.hide]: open
-                    })}>
-                  <MenuIcon />
-                </IconButton>) : null
-              }
               <Typography
                 component={Link}
                 className={classes.logoText}
