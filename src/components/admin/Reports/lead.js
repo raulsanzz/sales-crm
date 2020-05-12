@@ -1,6 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, Fragment } from "react";
 import axios from "axios";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 import { makeStyles } from "@material-ui/styles";
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -52,7 +57,31 @@ const leads = () => {
   const [tableHeader, setTableHeader] = useState('');
   const [loading, setLoading] = useState(false);
   const classes = useStyles();
-  
+
+  const displayTable = async () => {
+    return(
+      <Table className={classes.table} aria-label='simple table'>
+        <TableHead>
+          <TableRow>
+            <TableCell>User Name</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {report.map((row, index) => (
+            <TableRow key={index}>
+              <TableCell component='th' scope='row'>
+                {row.name}
+              </TableCell>
+              <TableCell component='th' scope='row'>
+                {row.fetchedJobCount}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    )
+  }
+
   const handleDate = async (startDate, endDate) => {
     setLoading(true);
     startDate = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`;
@@ -74,9 +103,8 @@ const leads = () => {
         <DateRange 
           handleClick={handleDate} 
           classes={classes} />
-        {tableHeader !== '' ? loading === false ? report.length > 0 ? ( 
-          <p> display the list component here</p> )
-          : 
+        {tableHeader !== '' ? loading === false ? report.length > 0 ? 
+          ({displayTable}) : 
           (<Paper className={classes.paper}> 
             <Typography className={classes.typography}>No Reports for the selected dates.</Typography> 
           </Paper>) : 

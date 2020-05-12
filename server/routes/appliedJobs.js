@@ -93,18 +93,28 @@ Router.get( "/leads", auth, async (req, res) => {
 //get all user daily applied jobs count
 Router.put( "/report", auth, async (req, res) => {
     try {
-      console.log(req.body)
     const appliedJobs = await AppliedJob.findAll({
-        where: {applied: true, applied_on: {
-          [Op.between]: [req.body.startDate, req.body.endDate] 
-        }},
+        where: {
+          applied: true, 
+          applied_on: {
+              [Op.and]: {
+                [Op.gte]: req.body.startDate,
+                [Op.lte]: req.body.endDate
+           } 
+          }
+        },
         attributes: ['user_id', [sequelize.fn('COUNT', sequelize.col('user_id')), 'appliedJobCount']],
         group: ['user_id'],
     })
     const fetchedJobs = await Job.findAll({
-        where: {createdAt:  {
-          [Op.between]: [req.body.startDate, req.body.endDate] 
-        }},
+        where: {
+          createdAt:   {
+            [Op.and]: {
+              [Op.gte]: req.body.startDate,
+              [Op.lte]: req.body.endDate
+            }
+          }
+        },
         attributes: ['user_id', [sequelize.fn('COUNT', sequelize.col('user_id')), 'fetchedJobCount']],
         group: ['user_id'],
     })

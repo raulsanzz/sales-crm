@@ -67,7 +67,7 @@ const salesExecutive = () => {
         "Content-Type": "application/json",
       },
     };
-    const body = JSON.stringify({ date, date });
+    const body = JSON.stringify({ startDate: date, endDate: date });
     const res = await axios.put(BASE_URL + "/api/appliedJob/report", body, config);
     setReport(res.data);
     setLoading(false);
@@ -75,22 +75,18 @@ const salesExecutive = () => {
   return (
     <Fragment>
       <main className={classes.root}>
-        {tableHeader !== '' ? loading === false ? report.length > 0 ? ( 
+        {loading === false ? report.length > 0 ? ( 
           <SalesDetails 
             classes={classes}
             data = {report} 
             tableHeader = {tableHeader}/>
           ) : 
           (<Paper className={classes.paper}> 
-            <Typography className={classes.typography}>No Reports for the selected dates.</Typography> 
+            <Typography className={classes.typography}>No Reports for the Today.</Typography> 
           </Paper>) : 
           (<Paper className={classes.paper}> 
             <Typography className={classes.typography}>Loading.</Typography> 
-          </Paper>) : 
-          (
-           <Paper className={classes.paper}> 
-            <Typography className={classes.typography}> Select the date and press the show report button to display reports.</Typography>
-          </Paper> )}
+          </Paper>)}
       </main>
     </Fragment>
   );
