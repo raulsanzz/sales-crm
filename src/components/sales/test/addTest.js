@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import 'date-fns';
 import React, { useState, useEffect, Fragment } from 'react';
 import { useAlert } from 'react-alert';
 import axios from "axios";
+import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
@@ -13,6 +15,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -113,7 +116,7 @@ const addTest = ({ history, location }) => {
         type: 'text',
         placeholder: 'Due Date*'
       },
-      value:  '',
+      value:  new Date(),
       validation: {
           required: true,
       },
@@ -145,7 +148,7 @@ const validityCheck = (value, rules) => {
   let message = '';
   if(rules){
     if(rules.required){
-        isValid = value.trim() !== '' && isValid;
+        isValid = String(value.trim()) !== '' && isValid;
       if(!isValid){
         message = 'required';
       }
@@ -179,7 +182,12 @@ const onChangeHandler = (e, elementIdentifier) => {
   const updatedElement = {
     ...updatedForm[elementIdentifier]
   }
-  updatedElement.value = e.target.value;
+  if(elementIdentifier === 'due_date'){
+    updatedElement.value =  e;
+  }
+  else{
+    updatedElement.value = e.target.value;
+  }
   const res = validityCheck(updatedElement.value, updatedElement.validation);
   updatedElement.valid = res.isValid;
   updatedElement.message = res.message;
@@ -191,10 +199,13 @@ const onChangeHandler = (e, elementIdentifier) => {
 
   const onSubmitHandler = async(e) => {
     e.preventDefault();
+    const date =  formData.call_date.value.getFullYear() + '-' +
+                  Number(formData.call_date.value.getMonth()+ 1) + '-' +
+                  formData.call_date.value.getDate();
     const test = {
       test_type: formData.test_type.value,
       due_time: formData.due_time.value,
-      due_date: formData.due_date.value,
+      due_date: date,
       lead_id: location.state.detail.id,
       gmail_thread: formData.gmail_thread.value,
     }
@@ -239,18 +250,21 @@ const onChangeHandler = (e, elementIdentifier) => {
               </Select>
             </FormControl>
             ): elem.config.elementType === 'date' ? 
-            (<TextField
-              key={elem.id}
-              id={elem.id}
-              label={elem.config.elementConfig.placeholder}
-              type='date'
-              onChange={(event) => {onChangeHandler(event, elem.id)}}
-              value={elem.config.value}
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            (<MuiPickersUtilsProvider utils={DateFnsUtils} key={elem.id}>
+              <KeyboardDatePicker
+                id={elem.id}
+                label={elem.config.elementConfig.placeholder}
+                variant="inline"
+                format="yyyy/MM/dd"
+                className={classes.textField}
+                value={elem.config.value}
+                minDate={new Date()}
+                onChange={(event) => {onChangeHandler(event, elem.id)}}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+             </MuiPickersUtilsProvider>
             ) : (
               <TextField
                 key={elem.id}
