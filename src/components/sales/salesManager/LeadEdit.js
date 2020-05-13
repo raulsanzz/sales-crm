@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import 'date-fns';
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useAlert } from 'react-alert';
+import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
@@ -15,6 +17,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Edit from '@material-ui/icons/Edit';
+import { KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
 
 import { updateLead } from '../../../store/actions/lead';
 
@@ -158,16 +161,16 @@ const editLead = ({ history, location, updateLead }) => {
         type: 'text',
         placeholder: 'Call Date*'
       },
-      value:  location.state.detail.call.call_date ? location.state.detail.call.call_date : '',
+      value:  location.state.detail.call.call_date ? new Date(location.state.detail.call.call_date) : new Date(),
       validation: {
           required: true,
       },
-      valid: location.state.detail.call.call_date ? true: false,
+      valid:  new Date(location.state.detail.call.call_date) > new Date() ? true : false,
       touched: location.state.detail.call.call_date ? true: false,
       message:''
     },
     call_time: {
-      elementType: 'input',
+      elementType: 'time',
       elementConfig:{
         type: 'time',
         placeholder: 'Call Time*'
@@ -261,7 +264,7 @@ const validityCheck = (value, rules) => {
   let message = '';
   if(rules){
     if(rules.required){
-        isValid = value.trim() !== '' && isValid;
+      isValid = String(value).trim() !== '' && isValid;
       if(!isValid){
         message = 'required';
       }
@@ -295,7 +298,12 @@ const onChangeHandler = (e, elementIdentifier) => {
   const updatedElement = {
     ...updatedForm[elementIdentifier]
   }
-  updatedElement.value = e.target.value;
+  if(elementIdentifier === 'call_date'){
+    updatedElement.value =  e;
+  }
+  else{
+    updatedElement.value = e.target.value;
+  }
   const res = validityCheck(updatedElement.value, updatedElement.validation);
   updatedElement.valid = res.isValid;
   updatedElement.message = res.message;
@@ -307,12 +315,15 @@ const onChangeHandler = (e, elementIdentifier) => {
 
   const onSubmitHandler = async(e) => {
     e.preventDefault();
+    const date =  formData.call_date.value.getFullYear() + '-' +
+                  Number(formData.call_date.value.getMonth()+ 1) + '-' +
+                  formData.call_date.value.getDate();
     const LeadData = {
       gmail_thread: formData.gmail_thread.value,
       interview_status: formData.interview_status.value
     }
     const callData = {
-      call_date: formData.call_date.value,
+      call_date: date,
       call_time: formData.call_time.value,
       contact_via: formData.contact_via.value,
       contact_via_detail: formData.contact_via_detail.value,
@@ -363,20 +374,22 @@ const onChangeHandler = (e, elementIdentifier) => {
                   ))} 
               </Select>
             </FormControl>
-            ): elem.config.elementType === 'date' ? 
-            (<TextField
-              key={elem.id}
-              id={elem.id}
-              label={elem.config.elementConfig.placeholder}
-              type='date'
-              onChange={(event) => {onChangeHandler(event, elem.id)}}
-              value={elem.config.value}
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            ) : (
+            ) : elem.config.elementType === 'date' ? (
+            <MuiPickersUtilsProvider utils={DateFnsUtils} key={elem.id}>
+              <KeyboardDatePicker
+                id={elem.id}
+                label={elem.config.elementConfig.placeholder}
+                variant="inline"
+                format="yyyy/MM/dd"
+                className={classes.textField}
+                value={elem.config.value}
+                minDate={new Date()}
+                onChange={(event) => {onChangeHandler(event, elem.id)}}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+             </MuiPickersUtilsProvider> ) : (
               <TextField
                 key={elem.id}
                 className={classes.textField}

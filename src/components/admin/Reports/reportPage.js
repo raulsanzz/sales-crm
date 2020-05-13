@@ -60,11 +60,11 @@ const reportTable = ({report, tableHeader, loading, displayTable, dateRangeHandl
   };
   return (
     <PDFExport
-        ref={component => (pdfExportComponent = component)}
-        paperSize="auto"
-        margin={40}
-        fileName={`${pageHeader}`}
-        author="cloudTek Inc." >
+      ref={component => (pdfExportComponent = component)}
+      paperSize="auto"
+      margin={40}
+      fileName={`${pageHeader}`}
+      author="cloudTek Inc." >
     <Fragment>
       <main className={classes.root}>
       <Paper className={classes.paper} >

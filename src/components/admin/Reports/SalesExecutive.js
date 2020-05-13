@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, Fragment } from "react";
 import axios from "axios";
-import { useAlert } from "react-alert";
+import { PDFExport } from '@progress/kendo-react-pdf';
 import { makeStyles } from "@material-ui/styles";
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 
 import SalesDetails from "../../UI/salesDetail";
 import DateRange from "../../UI/DateRange";
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     textAlign: 'center',
     marginBottom: '20px',
+    border:'1px solid rgba(0,0,0,0.125)',
   },
   textField: {
     width: '100%',
@@ -45,16 +47,27 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '25px',
     display: 'flex',
     justifyContent: 'center',
-    margin: '0 auto' 
+    margin: '10px auto',
+    position: 'relative'
+  },
+  pdfButton:{
+    position: 'absolute',
+    right: '10px',
+    fontSize: 40,
+    color:'black',
   }
 }));
 
-const salesExecutive = () => {
+const salesExecutive = ({pdfExportComponent}) => {
   const [report, setReport] = useState([]);
   const [tableHeader, setTableHeader] = useState('');
   const [loading, setLoading] = useState(false);
   const classes = useStyles();
   
+  const exportPDFWithComponent = () => {
+    pdfExportComponent.save();
+  };
+
   const handleDate = async (startDate, endDate) => {
     setLoading(true);
     startDate = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`;
@@ -71,11 +84,18 @@ const salesExecutive = () => {
     setLoading(false);
   };
   return (
+    <PDFExport
+    ref={component => (pdfExportComponent = component)}
+    paperSize="auto"
+    margin={40}
+    fileName={'Sales Executive Report'}
+    author="cloudTek Inc." >
     <Fragment>
       <main className={classes.root}>
         <Paper className={classes.paper}>
           <Typography className={classes.typography}>
-            Sales Ececutive Report
+            Sales Executive Report
+            <PictureAsPdfIcon className={classes.pdfButton} onClick={exportPDFWithComponent}></PictureAsPdfIcon>
           </Typography>
         </Paper>
         <DateRange handleClick={handleDate} classes={classes} />
@@ -95,6 +115,7 @@ const salesExecutive = () => {
           </Paper> )}
       </main>
     </Fragment>
+    </PDFExport>
   );
 };
 
