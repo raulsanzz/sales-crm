@@ -5,14 +5,13 @@ const port = process.env.PORT || 5000;
 const cors = require("cors");
 require("dotenv").config();
 
-// const reactBuildPath = path.join(__dirname, "../build");
+const reactBuildPath = path.join(__dirname, "../build");
 
-// app.use(express.static(reactBuildPath));
+app.use(express.static(reactBuildPath));
 app.use(express.json({ extended: false }));
 app.use(cors());
 
-// var ip = require("ip");
-
+//Routes
 app.use("/api/user", require("./routes/user"));
 app.use("/api/job", require("./routes/job"));
 app.use("/api/auth", require("./routes/auth"));
@@ -23,14 +22,10 @@ app.use("/api/agenda", require("./routes/agendas"));
 app.use("/api/test", require("./routes/tests"));
 app.use("/api/note", require("./routes/notes"));
 
-// app.get('/*', function(req, res) {
-//   res.sendFile(path.join(reactBuildPath, 'index.html'));
-// });
-
-// app.listen(port, ip.address(), () => {
-//   console.log("Server is up");
-//   console.log(ip.address());
-// });
+//for React routing
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(reactBuildPath, 'index.html'));
+});
 
 // test comment
 app.listen(port, () => {

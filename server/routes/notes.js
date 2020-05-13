@@ -45,6 +45,6 @@ Router.put( "/voiceReport", auth, async (req, res) => {
       return res.status(402).json({ msg: "Server Error" });
     }
   });
-
-module.exports = Router,{addNote}
+  
+module.exports = Router;
 
