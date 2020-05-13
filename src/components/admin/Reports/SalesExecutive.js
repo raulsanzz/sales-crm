@@ -53,7 +53,6 @@ const salesExecutive = () => {
   const [report, setReport] = useState([]);
   const [tableHeader, setTableHeader] = useState('');
   const [loading, setLoading] = useState(false);
-  const alert = useAlert();
   const classes = useStyles();
   
   const handleDate = async (startDate, endDate) => {
@@ -74,22 +73,23 @@ const salesExecutive = () => {
   return (
     <Fragment>
       <main className={classes.root}>
-        <DateRange 
-          handleClick={handleDate} 
-          classes={classes} />
+        <Paper className={classes.paper}>
+          <Typography className={classes.typography}>
+            Sales Ececutive Report
+          </Typography>
+        </Paper>
+        <DateRange handleClick={handleDate} classes={classes} />
         {tableHeader !== '' ? loading === false ? report.length > 0 ? ( 
           <SalesDetails 
             classes={classes}
             data = {report} 
-            tableHeader = {tableHeader}/>
-          ) : 
-          (<Paper className={classes.paper}> 
+            tableHeader = {tableHeader}/> ) : (
+          <Paper className={classes.paper}> 
             <Typography className={classes.typography}>No Reports for the selected dates.</Typography> 
-          </Paper>) : 
-          (<Paper className={classes.paper}> 
+          </Paper> ) : (
+          <Paper className={classes.paper}> 
             <Typography className={classes.typography}>Loading.</Typography> 
-          </Paper>) : 
-          (
+          </Paper> ) : (
            <Paper className={classes.paper}> 
             <Typography className={classes.typography}> Select the date and press the show report button to display reports.</Typography>
           </Paper> )}
