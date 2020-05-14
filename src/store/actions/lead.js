@@ -70,10 +70,12 @@ export const fetchLeads = (shouldDispatchActionStarter) => async dispatch => {
 };
 
 //update lead
-export const updateLead = ( query, newLeadData, newCallData, newClientData ) => async dispatch => {
-  dispatch({
-    type: LEAD_ACTION_START,
-  });
+export const updateLead = ( query, newLeadData, newCallData, newClientData, shouldDispatchActionStarter ) => async dispatch => {
+  if(shouldDispatchActionStarter !== false){
+    dispatch({
+      type: LEAD_ACTION_START,
+    });
+  }
   const config = {
     headers: {
       "Content-Type": "application/json"

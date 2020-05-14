@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { useAlert } from 'react-alert';
 import { makeStyles } from '@material-ui/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -9,13 +10,16 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 import Table from '../../UI/table';
-import { fetchLeads } from '../../../store/actions/lead';
+import { fetchLeads, updateLead } from '../../../store/actions/lead';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const columns = [
     { id: 'company_name', label: 'Company Name', minWidth: 170 },
     { id: 'client_name', label: 'Client Name', minWidth: 170 },
-    { id: 'gmail_thread', label: 'Gmail Thread', minWidth: 170 },
+    { id: 'gmail_thread', label: 'Gmail Thread', minWidth: 170 }, 
+    { id: 'onChangeList', label: 'Lead Status', minWidth: 100, align: 'center', 
+      placeholder: 'Status', for: 'status' , 
+      listItems: ['lead' ,'good', 'hot', 'closed', 'garbage', 'dead lead', 'Rejected by client', 'in-communication']},
     { id: 'editButton', label: 'Add Test Details', minWidth: 100, align: 'center', editPath:'/add_test' },
     { id: 'editButton', label: 'Add Lead Details', minWidth: 100, align: 'center',  editPath:'/lead_edit' }
 ];
@@ -50,11 +54,12 @@ const columns = [
     },
   }));
 
-const managerJobLinks = ({fetchLeads, leads, leadLoading, history}) => {
+const managerJobLinks = ({fetchLeads, updateLead, leads, leadLoading, history}) => {
+  const alert = useAlert();
   const classes = useStyles();
   const didMountRef = useRef(false);
-  const [filteredLeads, setFilteredLeads] = useState([]);
   const [profiles, setProfiles] = useState([]);
+  const [filteredLeads, setFilteredLeads] = useState([]);
   const [selectedProfile, setSelectedProfile] = useState(null);
 
   useEffect(() => {
@@ -92,6 +97,19 @@ const managerJobLinks = ({fetchLeads, leads, leadLoading, history}) => {
       console.log(error);
     }
   };
+
+  const leadStatusChangeHandler = async(lead_id, lead_status) => {
+    const data = {
+      status: lead_status
+    }
+    const res = await updateLead({lead_id:lead_id}, data, null, null, false);
+    if(res){
+      alert.success('Lead updated successfully...!!');
+    }
+    else{
+      alert.success('Lead update failed...!!');
+    }
+  }
   return(
     <Fragment>
       <FormControl className={classes.formControl}>
@@ -115,6 +133,7 @@ const managerJobLinks = ({fetchLeads, leads, leadLoading, history}) => {
           columns={columns}
           classes={classes}
           tableHeader={'Leads'}
+          onUpdateHandler={leadStatusChangeHandler}
           history={history}/>) : <p>  No More Leads...!!!</p>
       }
     </Fragment>
@@ -126,4 +145,4 @@ const mapStateToProps = state => ({
   leadLoading: state.LeadReducer.loading
 });
 
-export default  connect(mapStateToProps, { fetchLeads })(managerJobLinks);
+export default  connect(mapStateToProps, { fetchLeads, updateLead })(managerJobLinks);

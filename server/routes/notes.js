@@ -6,19 +6,6 @@ const Note = db.note;
 const sequelize = db.Sequelize;
 const Op = sequelize.Op;
 
-//Add a new note for an Agenda
-const addNote = async(newNote) => {
-    try {
-        const note = await Note.create({
-            ...newNote
-        })       
-        return note;
-    } catch (error) {
-        console.log(error.message);
-        throw new Error ({ msg: "Server Error" });
-    }
-}
-
 //Get all notes with respect to names
 Router.put( "/voiceReport", auth, async (req, res) => {
     try {
