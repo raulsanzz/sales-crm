@@ -18,8 +18,8 @@ const columns = [
     { id: 'client_name', label: 'Client Name', minWidth: 170 },
     { id: 'gmail_thread', label: 'Gmail Thread', minWidth: 170 }, 
     { id: 'onChangeList', label: 'Lead Status', minWidth: 100, align: 'center', 
-    placeholder: 'Status', for: 'status' , 
-    listItems: ['lead' ,'good', 'hot', 'closed', 'garbage', 'dead lead', 'Rejected by client', 'in-communication']},
+      placeholder: 'Status', for: 'status' , 
+      listItems: ['lead' ,'good', 'hot', 'closed', 'garbage', 'dead lead', 'Rejected by client', 'in-communication']},
     { id: 'editButton', label: 'Add Test Details', minWidth: 100, align: 'center', editPath:'/add_test' },
     { id: 'editButton', label: 'Add Lead Details', minWidth: 100, align: 'center',  editPath:'/lead_edit' }
 ];
@@ -102,7 +102,7 @@ const managerJobLinks = ({fetchLeads, updateLead, leads, leadLoading, history}) 
     const data = {
       status: lead_status
     }
-    const res = await updateLead({lead_id:lead_id}, data);
+    const res = await updateLead({lead_id:lead_id}, data, null, null, false);
     if(res){
       alert.success('Lead updated successfully...!!');
     }

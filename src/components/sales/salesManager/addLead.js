@@ -118,7 +118,7 @@ const addTest = ({ history, location, updateAppliedJob, addLead }) => {
             {value: 'in-house', displayValue: 'in-house' },
             {value: 'rejected by client', displayValue: 'rejected by client' }
            ],
-          placeholder: 'Lead Status'
+          placeholder: 'Job Status*'
         },
         value: '',
         validation: {

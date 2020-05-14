@@ -1,14 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import { makeStyles } from '@material-ui/styles';
+import axios from "axios";
 import { connect } from 'react-redux';
 import { useAlert } from 'react-alert';
-import axios from "axios";
+import { makeStyles } from '@material-ui/styles';
+
 import { fetchLeads, updateLead } from '../../../store/actions/lead';
 import Table from './../../UI/table';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-
-
   
 const useStyles = makeStyles(theme => ({
   root:{
@@ -72,15 +71,12 @@ const scheduledLeads = ({fetchLeads, updateLead, leads, leadLoading, history}) =
     { id: 'call_time', label: 'Time', minWidth: 100, align: 'center' },
     { id: 'call_date', label: 'Date', minWidth: 100, align: 'center' },
     { id: 'status', label: 'Lead Status', minWidth: 100, align: 'center' },
-    { id: 'list', label: 'Voice', minWidth: 100, align: 'center', 
-    placeholder: 'Voice', for: 'voice' , 
-    listItems: voices},
-    { id: 'updateButton', label: 'Action', minWidth: 100, align: 'center' }
-];
+    { id: 'onChangeList', label: 'Voice', minWidth: 100, align: 'center', 
+      placeholder: 'Voice', for: 'voice' , listItems: voices}
+  ];
 
 
   useEffect(() => {
-
     if(didMountRef.current === false){ //only for component did mount
       fetchVoices();
       fetchLeads(true);
@@ -91,27 +87,26 @@ const scheduledLeads = ({fetchLeads, updateLead, leads, leadLoading, history}) =
   }, []);
   
   useEffect(() => {
-      let  arr = leads.filter(lead => {
-        return(
-            lead.call.call_date !== null ? lead : null
-        )
-      })
-      setFilteredLeads(arr);  
-    }, [JSON.stringify(leads)]);
+    let  arr = leads.filter(lead => {
+      return(
+          lead.call.call_date !== null ? lead : null
+      )
+    })
+    setFilteredLeads(arr);  
+  }, [JSON.stringify(leads)]);
 
-
-    const leadUpdateHandeler = async(lead) => {
-      const data = {
-        voice: lead.voice
-      }
-      const res = await updateLead({lead_id:lead.id}, data);
-      if(res){
-        alert.success('Lead updated successfully...!!');
-      }
-      else{
-        alert.success('Lead update failed...!!');
-      }
+  const leadUpdateHandeler = async(lead_id, lead_voice) => {
+    const data = {
+      voice: lead_voice
     }
+    const res = await updateLead({lead_id:lead_id}, data, null, null, false);
+    if(res){
+      alert.success('Lead updated successfully...!!');
+    }
+    else{
+      alert.success('Lead update failed...!!');
+    }
+  }
 
   return(
     <Fragment>
