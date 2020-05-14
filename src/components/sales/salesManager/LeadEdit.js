@@ -79,8 +79,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const editLead = ({ history, location, updateLead }) => {
-  const classes  = useStyles();
   const alert = useAlert();
+  const classes  = useStyles();
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const [formData, setFormData] = useState({
     client_name: {

@@ -148,7 +148,7 @@ const validityCheck = (value, rules) => {
   let message = '';
   if(rules){
     if(rules.required){
-        isValid = String(value.trim()) !== '' && isValid;
+        isValid = String(value).trim() !== '' && isValid;
       if(!isValid){
         message = 'required';
       }
@@ -199,9 +199,9 @@ const onChangeHandler = (e, elementIdentifier) => {
 
   const onSubmitHandler = async(e) => {
     e.preventDefault();
-    const date =  formData.call_date.value.getFullYear() + '-' +
-                  Number(formData.call_date.value.getMonth()+ 1) + '-' +
-                  formData.call_date.value.getDate();
+    const date =  formData.due_date.value.getFullYear() + '-' +
+                  Number(formData.due_date.value.getMonth()+ 1) + '-' +
+                  formData.due_date.value.getDate();
     const test = {
       test_type: formData.test_type.value,
       due_time: formData.due_time.value,

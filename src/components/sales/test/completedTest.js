@@ -15,8 +15,8 @@ const columns = [
     { id: "due_date", label: "Due Date", minWidth: 100, align: "center" },
     { id: "due_time", label: "Due Time", minWidth: 100, align: "center" },
     { id: "test_gmail_thread", label: "Gmail Thread", minWidth: 100, align: "center" },
-    { id: "test_status", label: "Test Status", minWidth: 100, align: "center",
-    placeholder: "Test Status", listItems: ["Passed", "Failed", "No Response"]},
+    { id: "onChangeList", label: "Test Status", minWidth: 100, align: "center",
+    placeholder: "Test Status", for: 'status' , listItems: [ "Passed", "Failed", "No Response"]},
 ];
   
   const useStyles = makeStyles(theme => ({
@@ -48,8 +48,8 @@ const columns = [
   }));
 
 const completedTest = ({fetchLeads, leads, history, leadLoading}) => {
-  const classes = useStyles();
   const alert = useAlert();
+  const classes = useStyles();
   const didMountRef = useRef(false);
   const [filteredLeads, setFilteredLeads] = useState([]);
 

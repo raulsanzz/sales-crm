@@ -48,17 +48,15 @@ const useStyles = makeStyles(theme => ({
 
 const scheduledLeads = ({fetchLeads, updateLead, leads, leadLoading, history}) => {
  
-  const classes = useStyles();
   const alert = useAlert();
+  const classes = useStyles();
   const didMountRef = useRef(false);
-  const [filteredLeads, setFilteredLeads] = useState([]);
   const [voices, setVoices] = useState([]);
+  const [filteredLeads, setFilteredLeads] = useState([]);
   
   const fetchVoices = async() => {
-    console.log("1231232138");
     try {
       const res = await axios.get ( BASE_URL + "/api/user/voice");
-      console.log("*****************************8")
       let names = [];
       names = res.data.users.map(user => (user.name));
       console.log(names)
@@ -73,10 +71,7 @@ const scheduledLeads = ({fetchLeads, updateLead, leads, leadLoading, history}) =
     { id: 'profile', label: 'Profile', minWidth: 100, align: 'center' },
     { id: 'call_time', label: 'Time', minWidth: 100, align: 'center' },
     { id: 'call_date', label: 'Date', minWidth: 100, align: 'center' },
-    { id: 'list', label: 'Lead Status', minWidth: 100, align: 'center', 
-    placeholder: 'Status', for: 'status' , 
-    listItems: ['lead' ,'good', 'hot', 'closed', 'garbage', 'dead lead', 'Rejected by client', 'in-communication']},
-    
+    { id: 'status', label: 'Lead Status', minWidth: 100, align: 'center' },
     { id: 'list', label: 'Voice', minWidth: 100, align: 'center', 
     placeholder: 'Voice', for: 'voice' , 
     listItems: voices},
@@ -107,8 +102,7 @@ const scheduledLeads = ({fetchLeads, updateLead, leads, leadLoading, history}) =
 
     const leadUpdateHandeler = async(lead) => {
       const data = {
-        voice: lead.voice,
-        status: lead.status
+        voice: lead.voice
       }
       const res = await updateLead({lead_id:lead.id}, data);
       if(res){

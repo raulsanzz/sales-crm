@@ -21,7 +21,6 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [match, setMatch] = useState("Search");
-
   const [filteredJobs, setFilteredJobs] = useState([]);
 
   useEffect(() => {
@@ -55,11 +54,12 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
     })
     setFilteredJobs(updatedJobs);
   }
+
   const searchHandler = e => {
       let lists = filteredJobs;
       if (e.target.value) {
         const newList = lists.filter(item => {
-          const list  = tableHeader === "Job List" ? item.client.company_name.toLowerCase(): item.job.client.company_name.toLowerCase();
+          const list  = item.job.client.company_name.toLowerCase();
           const filter = e.target.value.toLowerCase();
           return list.includes(filter);
         });
@@ -77,18 +77,13 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
     };
   return(
     <div className={classes.root}>
-    {
-      tableHeader !== "Job List" ? (
       <TextField
         id="search"
         label={match}
         margin="normal"
         type="text"
         className={classes.textField}
-        placeholder="Search...."
-        onChange={searchHandler}
-        />) : null
-    }
+        onChange={searchHandler} />
     <Paper className={classes.paper}> 
     <div className={classes.tableWrapper}>
       <h1 className={classes.jobHeader}>{tableHeader}</h1>
@@ -124,8 +119,9 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                       switch (column.id){
                         case "company_name":
                           return (<TableCell key={column.id} component="th" scope="row">
-                                  { (tableHeader === "Job List") ?  row.client.company_name: row.job.client.company_name }                                  
+                                  {row.job.client.company_name}                                  
                                   </TableCell>)
+                        //lead cases
                         case "status":
                         case "interview_status":
                         case "lead_status":
@@ -133,14 +129,16 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                           return (<TableCell key={column.id} align={column.align}>
                                     {row[column.id]}
                                   </TableCell>)
+                        //job cases
                         case "job_title":
                           return (<TableCell key={column.id} align={column.align}>
-                                  {(tableHeader === "Job List") ?  row[column.id]: row.job[column.id] }
+                                  {row.job[column.id] }
                         </TableCell>)
+                        //client cases
                         case "client_name":
                         case "location":
                           return (<TableCell key={column.id} align={column.align}>
-                                  {(tableHeader === "Job List") ?  row.client[column.id]: row.job.client[column.id] }
+                                  {row.job.client[column.id] }
                         </TableCell>)
                         case "profile":
                           return (<TableCell key={column.id} align={column.align}>
@@ -148,14 +146,10 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                   </TableCell>)
                         case "url":
                           return(<TableCell key={column.id} align={column.align}>
-                                  { tableHeader === "Job List" ? (<a 
-                                    href={row.url}
+                                  <a 
+                                    href={row.job.url}
                                     target='_blank' 
-                                    rel="noopener noreferrer">  job link Url </a>  ) : 
-                                    (<a 
-                                      href={row.job.url}
-                                      target='_blank' 
-                                      rel="noopener noreferrer">  job link Url </a>  ) } 
+                                    rel="noopener noreferrer">  job link Url </a>  )
                                 </TableCell>)
                         case "gmail_thread":
                           return(<TableCell key={column.id} align={column.align}>
@@ -207,14 +201,14 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                       </Select>
                                   </FormControl>   
                                 </TableCell>)
-                        case "test_status":
+                        case "onChangeList":
                           return(<TableCell key={column.label} align={column.align}>
                                   <FormControl className={classes.formControl}>
                                       <InputLabel id={`${column.label}-label`}>{column.placeholder}</InputLabel>
                                       <Select
                                         labelId={`${column.label}-label`}
                                         id={column.label}
-                                        defaultValue={row.test.status}
+                                        defaultValue={ column.label === 'Test Status' ? row.test[column.for]: row[column.for]}
                                         onChange={(event) => {onUpdateHandler(row.id, event.target.value)}}>
                                           { column.listItems.map(item => 
                                                 <MenuItem key={item} value={item}>{item}</MenuItem>)
@@ -264,8 +258,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                     onClick={() => {onUpdateHandler(row)}}>
                                       Update
                                   </Button>
-                                </TableCell>
-                          )
+                                </TableCell>)
                           case "agendaButton" :
                           return(<TableCell key={column.id} align={column.align}>
                                   <Button 

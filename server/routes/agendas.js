@@ -1,7 +1,6 @@
 const express = require("express");
 const Router = express.Router();
 const auth = require("../middleware/auth");
-const notes = require('./notes');
 const db = require("../database/db");
 const Agenda = db.agenda;
 const Note = db.note;
@@ -13,7 +12,7 @@ Router.post("/", auth, async(req, res) => {
             ...req.body.agenda
         })
         if(req.body.note){
-            notes.addNote(req.body.note);
+           addNote(req.body.note);
         }    
         return res.json({ agenda }  );
     } catch (error) {
@@ -45,7 +44,7 @@ Router.get( "/:call_id", auth, async (req, res) => {
 Router.put("/:call_id", auth, async(req, res) => {
     try {
         if(req.body.note){
-            notes.addNote(req.body.note);
+            addNote(req.body.note);
         }
         const agenda = await Agenda.update({
             ...req.body.agenda
@@ -58,5 +57,18 @@ Router.put("/:call_id", auth, async(req, res) => {
         return res.status(402).json({ msg: "Server Error" });
     }
 })
+
+//Add a new note for an Agenda
+const addNote = async(newNote) => {
+    try {
+        const note = await Note.create({
+            ...newNote
+        })       
+        return note;
+    } catch (error) {
+        console.log(error.message);
+        throw new Error ({ msg: "Server Error" });
+    }
+}
 
 module.exports = Router;
