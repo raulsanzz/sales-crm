@@ -20,22 +20,7 @@ const ul = {
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const DashboardPage = ({ user, history }) => {
-  //week state
-  const [job, SetJob] = React.useState([]);
-  const [lead, SetLead] = React.useState([]);
-  const [goodLead, SetGoodLead] = React.useState([]);
-  const [hotLead, SetHotLead] = React.useState([]);
-  const [closedLead, SetClosedLead] = React.useState([]);
-  const [rejectlead, SetRejectLead] = React.useState([]);
-
-  //month state
-  const [mJob, SetMJob] = React.useState([]);
-  const [mLead, SetMLead] = React.useState([]);
-  const [mGoodLead, SetMGoodLead] = React.useState([]);
-  const [mHotLead, SetMHotLead] = React.useState([]);
-  const [mClosedLead, SetMClosedLead] = React.useState([]);
-  const [mRejectlead, SetMRejectLead] = React.useState([]);
-
+  
   useEffect(() => {
     // history.push({
     //   pathname: "/working"
@@ -124,37 +109,37 @@ const DashboardPage = ({ user, history }) => {
                 <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Applied Job
                   <span className="badge badge-primary badge-pill">
-                    {job.length}
+                    
                   </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Leads
                   <span className="badge badge-primary badge-pill">
-                    {lead.length}
+                    
                   </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Good Leads
                   <span className="badge badge-primary badge-pill">
-                    {goodLead.length}
+                    
                   </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Hot Leads
                   <span className="badge badge-primary badge-pill">
-                    {hotLead.length}
+                    
                   </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Closed Leads
                   <span className="badge badge-primary badge-pill">
-                    {closedLead.length}
+                    
                   </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Rejected Leads
                   <span className="badge badge-primary badge-pill">
-                    {rejectlead.length}
+                   
                   </span>
                 </li>
               </ul>
@@ -170,37 +155,37 @@ const DashboardPage = ({ user, history }) => {
                 <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Applied Job
                   <span className="badge badge-primary badge-pill">
-                    {mJob.length}
+                    
                   </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Leads
                   <span className="badge badge-primary badge-pill">
-                    {mLead.length}
+                    
                   </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Good Leads
                   <span className="badge badge-primary badge-pill">
-                    {mGoodLead.length}
+                    
                   </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Hot Leads
                   <span className="badge badge-primary badge-pill">
-                    {mHotLead.length}
+                    
                   </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Closed Leads
                   <span className="badge badge-primary badge-pill">
-                    {mClosedLead.length}
+                    
                   </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
                   Total Rejected Leads
                   <span className="badge badge-primary badge-pill">
-                    {mRejectlead.length}
+                    
                   </span>
                 </li>
               </ul>

@@ -9,7 +9,6 @@ import PublicRoute from "./PublicRoute";
 import SignIn from "../components/user/SignIn";
 import SignUp from "../components/user/SignUp";
 import Dashboard from "../components/user/Dashboard";
-import SalesDetails from "../components/UI/salesDetail";
 // Sales Executive 
 import AddJob from "../components/sales/salesExecutive/AddJob";
 import ManagerJobLinks from "../components/sales/salesExecutive/managerJobLinks";
@@ -36,8 +35,6 @@ import Tests from "../components/sales/test/test";
 // Admin
 import UserList from "../components/admin/UserList";
 import EditUser from "../components/admin/EditUser";
-import UserReport from "../components/admin/UserReport";
-import UserDetails from "../components/admin/UserDetails";
 // Admin - Reports
 import SalesExecutiveReports from "../components/admin/Reports/SalesExecutive";
 import AppliedJobsReports from "../components/admin/Reports/appliedJob";
@@ -81,8 +78,6 @@ export default () => {
           {/* Admin */}
           <PrivateRoute path="/user_list" component={UserList} />
           <PrivateRoute path="/edit" component={EditUser} />
-          <PrivateRoute path="/user_report" component={UserReport} />
-          <PrivateRoute path="/user_details" component={UserDetails} />
           <PrivateRoute path="/executive_report" component={SalesExecutiveReports} />
           <PrivateRoute path="/job_report" component={AppliedJobsReports} />
           <PrivateRoute path="/lead_report" component={LeadReports} />
