@@ -189,7 +189,7 @@ const NavSide = ({ user}) => {
             <SettingsEthernetOutlinedIcon className={classes.root} />
           </ListItemIcon>
           <ListItemText primary="Sales Test" />
-          {salesVoiceOpen ? <ExpandLess /> : <ExpandMore />}
+          {salesTestOpen ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         <Collapse in={salesTestOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
@@ -265,16 +265,6 @@ const NavSide = ({ user}) => {
               </ListItemIcon>
               <ListItemText primary="Voice Report" />
             </ListItem>
-           {/* {name === "Muddasir Ahmed" ? (
-            <ListItem button component={Link} to="/user_report">
-              <ListItemIcon>
-                <ListIcon className={classes.root} />
-              </ListItemIcon>
-              <ListItemText primary="User Report" />
-            </ListItem>
-          ) : (
-            ""
-          )}  */}
           </List>
         </Collapse>
       </Fragment>

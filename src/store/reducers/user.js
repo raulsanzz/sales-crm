@@ -4,17 +4,11 @@ import {
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
   USER_UPDATE_FAIL,
-  USER_UPDATE_SUCCESS,
-  USER_MONTHLY_DETAILS_SUCCESS,
-  USER_MONTHLY_DETAILS_FAIL,
-  USER_WEEKLY_DETAILS_SUCCESS,
-  USER_WEEKLY_DETAILS_FAIL
+  USER_UPDATE_SUCCESS
 } from "../actions/types";
 
 const initialState = {
   users: [],
-  monthlyuserData: [],
-  weeklyuserData: [],
   error: {},
   loading: true
 };
@@ -29,24 +23,8 @@ export default function(state = initialState, action) {
         loading: false,
         error: null
       };
-    case USER_WEEKLY_DETAILS_SUCCESS:
-      return {
-        ...state,
-        weeklyuserData: payload,
-        loading: false,
-        error: null
-      };
-    case USER_MONTHLY_DETAILS_SUCCESS:
-      return {
-        ...state,
-        monthlyuserData: payload,
-        loading: false,
-        error: null
-      };
     case USER_UPDATE_FAIL:
     case USER_DELETE_FAIL:
-    case USER_MONTHLY_DETAILS_FAIL:
-    case USER_WEEKLY_DETAILS_FAIL:
     case FETCH_USER_FAIL:
       return {
         ...state,
@@ -54,7 +32,6 @@ export default function(state = initialState, action) {
         loading: true
       };
     case USER_UPDATE_SUCCESS:
-
     case USER_DELETE_SUCCESS:
       return {
         ...state,
