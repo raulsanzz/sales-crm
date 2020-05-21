@@ -9,7 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import HowToReg from '@material-ui/icons/HowToReg';
-
+import Meassage from './../../UI/message';
 import { fetchJob, addJob } from '../../../store/actions/job';
 
 const useStyles = makeStyles(theme => ({
@@ -348,17 +348,19 @@ const AddJob = ({ fetchJob, addJob, jobs, jobLoading}) => {
       <Fragment>
         <main className={classes.layout}>
         {/* form to add job */}
-        <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <HowToReg />
-          </Avatar>
-          <Typography
-            className={classes.typography}
-            align='center'>
-            Add New Job
-          </Typography>
-          {formRender()}
-        </Paper>
+        {jobLoading === true ? <Meassage meassage={'loading'} /> :(
+          <Paper className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <HowToReg />
+            </Avatar>
+            <Typography
+              className={classes.typography}
+              align='center'>
+              Add New Job
+            </Typography>
+            {formRender()}
+          </Paper>)
+        }
          {/* display card if company already exists */}
          {compExist !== null ? (
           <div className={classes.compExist}>
@@ -396,7 +398,7 @@ const AddJob = ({ fetchJob, addJob, jobs, jobLoading}) => {
 
 const mapStateToProps = state => ({
   jobs: state.JobReducer.job,
-  jobLoading: state.JobReducer.job
+  jobLoading: state.JobReducer.loading
 });
 
 export default connect(mapStateToProps, { addJob, fetchJob })(withRouter(AddJob));

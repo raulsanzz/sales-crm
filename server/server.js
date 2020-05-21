@@ -5,9 +5,9 @@ const port = process.env.PORT || 5000;
 const cors = require("cors");
 require("dotenv").config();
 
-// const reactBuildPath = path.join(__dirname, "../build");
+const reactBuildPath = path.join(__dirname, "../build");
 
-// app.use(express.static(reactBuildPath));
+app.use(express.static(reactBuildPath));
 app.use(express.json({ extended: false }));
 app.use(cors());
 
@@ -23,9 +23,9 @@ app.use("/api/test", require("./routes/tests"));
 app.use("/api/note", require("./routes/notes"));
 
 //for React routing
-// app.get('/*', function(req, res) {
-//   res.sendFile(path.join(reactBuildPath, 'index.html'));
-// });
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(reactBuildPath, 'index.html'));
+});
 
 // test comment
 app.listen(port, () => {
