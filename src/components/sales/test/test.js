@@ -2,12 +2,10 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 
 import { fetchLeads } from '../../../store/actions/lead';
+import TopOptionsSelector from '../../UI/topOptionsSelector';
+import Meassage from './../../UI/message';
 import Table from './../../UI/table';
 
 const columns = [
@@ -48,7 +46,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const test = ({fetchLeads, leads, LeadLoading, history}) => {
+const test = ({fetchLeads, leads, leadLoading, testStatuses, history}) => {
   const classes = useStyles();
   const didMountRef = useRef(false);
   const [filteredLeads, setFilteredLeads] = useState([]);
@@ -78,41 +76,33 @@ const test = ({fetchLeads, leads, LeadLoading, history}) => {
   };
   return( 
     <Fragment>
-      {
-        LeadLoading ? <p> Loading...!!!</p> : 
-      (<div><FormControl className={classes.formControl}>
-        <InputLabel id='test-status-select-label'>Test Status</InputLabel>
-        <Select
-          labelId='test-status-select-label'
-          id='test-status-select'
-          value= {leadStatus}
-          onChange={(event) => {handleLeadStatusChange(event.target.value)}}>
-          <MenuItem value='Passed'>Passed</MenuItem>
-          <MenuItem value='Failed'>Failed</MenuItem>
-          <MenuItem value='No Response'>No Response</MenuItem>
-          <MenuItem value='Dropped'>Dropped</MenuItem>
-        </Select>
-      </FormControl>
-      {leadStatus === null ? (
-        <p style={{color:'red'}}> Please select a Test Status first.</p>):  
-        filteredLeads.length >= 1 ? (
-          <Table 
+       {leadLoading === true ? <Meassage meassage={'loading'} /> : (
+        <div>
+          <TopOptionsSelector 
+            selectChangeHandler={handleLeadStatusChange}
+            options={testStatuses}
+            config={'Test Status'}
+            meassage={ leadStatus === null ? 'Please select a test Status first' : null}
+          />
+          {leadStatus !== null ? filteredLeads.length >= 1 ? (
+            <Table 
             jobs={filteredLeads}
             columns={columns}
             classes={classes}
             tableHeader={'Tests'}
             history={history} 
-            rowClickListener={true}/>
-        ): <p> No test with the selected status </p>}
-        </div>)
-      }
+            rowClickListener={true} />
+          ): <Meassage meassage={'No test with the selected status'} /> : null }
+        </div>
+      )}
     </Fragment>
   )//end of return
 };
 
 const mapStateToProps = state => ({
   leads: state.LeadReducer.leads,
-  LeadLoading: state.LeadReducer.loading
+  leadLoading: state.LeadReducer.loading,
+  testStatuses: state.SelectOptions.testStatus
 });
   
 export default connect(mapStateToProps, { fetchLeads } )(test);

@@ -149,7 +149,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                   <a 
                                     href={row.job.url}
                                     target='_blank' 
-                                    rel="noopener noreferrer">  job link Url </a>  )
+                                    rel="noopener noreferrer">  job link Url </a>
                                 </TableCell>)
                         case "gmail_thread":
                           return(<TableCell key={column.id} align={column.align}>

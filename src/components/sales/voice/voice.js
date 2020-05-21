@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 
 import Table from '../../UI/table';
+import Meassage from './../../UI/message';
 import { fetchLeads} from '../../../store/actions/lead';
 
 const columns = [
@@ -70,19 +71,16 @@ const voice = ({fetchLeads, leads, leadLoading, history}) => {
 
     return(      
       <Fragment>
-      {
-        leadLoading ? <p> Loading </p>: 
-        (
+        {leadLoading ? <Meassage meassage={'loading'} />: (
           <Table 
           jobs={filteredLeads}
           columns={columns}
           classes={classes}
           tableHeader={'Scheduled Calls'}
           rowClickListener={true}
-          history={history}
-        /> )
-      }
-    </Fragment> 
+          history={history} />)
+        }
+      </Fragment> 
       
     )
 }

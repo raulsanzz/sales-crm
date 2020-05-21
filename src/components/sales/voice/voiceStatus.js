@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import axios from "axios";
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 
+import TopOptionsSelector from '../../UI/topOptionsSelector';
+import Meassage from './../../UI/message';
 import Table from './../../UI/table';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -48,13 +47,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const voiceStatus = ({history}) => {
+const voiceStatus = ({history, callStatuses}) => {
   const classes = useStyles();
   const didMountRef = useRef(false);
   const [leads, setLeads] = useState([]);
-  const [filteredLeads, setFilteredLeads] = useState([]);
-  const [callStatus, setCallStatus] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [callStatus, setCallStatus] = useState(null);
+  const [filteredLeads, setFilteredLeads] = useState([]);
+
   useEffect(() => {
     if(didMountRef.current === false){ //only for component did mount
       getData(true);
@@ -99,36 +99,32 @@ const voiceStatus = ({history}) => {
   };
   return( 
     <Fragment>
-      {
-        loading ? <p> Loading...!!!</p> : 
-      (<div><FormControl className={classes.formControl}>
-        <InputLabel id='lead-select-label'>call Status</InputLabel>
-        <Select
-          labelId='lead-select-label'
-          id='lead-select'
-          value= {callStatus}
-          onChange={(event) => {handleCallStatusChange(event.target.value)}}>
-          <MenuItem value='done'>Done</MenuItem>
-          <MenuItem value='not taken'>Not Taken</MenuItem>
-          <MenuItem value='rescheduled by client'>Rescheduled by client</MenuItem>
-        </Select>
-      </FormControl>
-      {callStatus === null ? (
-        <p style={{color:'red'}}> Please select a call Status first.</p>):  
-        filteredLeads.length >= 1 ? (
-          <Table 
-          jobs={filteredLeads}
-          columns={columns}
-          history={history} 
-          classes={classes}
-          tableHeader={'Voice'}
-          rowClickListener={true}
-        /> 
-          ): <p> No leads with the selected status </p>}
-        </div>)
-      }
+      {loading === true ? <Meassage meassage={'loading'} /> : (
+        <div>
+          <TopOptionsSelector 
+            selectChangeHandler={handleCallStatusChange}
+            options={callStatuses}
+            config={'Call Status'}
+            meassage={ callStatus === null ? 'Please select a call status first' : null}
+          />
+          {callStatus !== null ? filteredLeads.length >= 1 ? (
+            <Table 
+            jobs={filteredLeads}
+            columns={columns}
+            history={history} 
+            classes={classes}
+            tableHeader={'Voice'}
+            rowClickListener={true}
+          /> 
+          ): <Meassage meassage={'No Job with the selected status'} /> : null }
+        </div>
+      )}
     </Fragment>
   )//end of return
 }
 
-export default voiceStatus;
+const mapStateToProps = state => ({
+  callStatuses: state.SelectOptions.callStatus
+});
+
+export default   connect(mapStateToProps)(voiceStatus);

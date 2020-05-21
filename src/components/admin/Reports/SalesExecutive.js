@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 
+import Meassage from '../../UI/message';
 import SalesDetails from "../../UI/salesDetail";
 import DateRange from "../../UI/DateRange";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -104,15 +105,10 @@ const salesExecutive = ({pdfExportComponent}) => {
             classes={classes}
             data = {report} 
             tableHeader = {tableHeader}/> ) : (
-          <Paper className={classes.paper}> 
-            <Typography className={classes.typography}>No Reports for the selected dates.</Typography> 
-          </Paper> ) : (
-          <Paper className={classes.paper}> 
-            <Typography className={classes.typography}>Loading.</Typography> 
-          </Paper> ) : (
-           <Paper className={classes.paper}> 
-            <Typography className={classes.typography}> Select the date and press the show report button to display reports.</Typography>
-          </Paper> )}
+          <Meassage meassage={'No reports for the selected dates'} /> ) : (
+          <Meassage meassage={'loading'} /> ) : (
+          <Meassage meassage={'Select the date and press the show report button to display reports'} />)
+        }
       </main>
     </Fragment>
     </PDFExport>

@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import { connect } from 'react-redux';
+import { makeStyles } from '@material-ui/styles';
 
+import TopOptionsSelector from '../../UI/topOptionsSelector';
+import Meassage from './../../UI/message';
 import Table from './../../UI/table';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -47,13 +46,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const jobStatus = () => {
+const jobStatus = ({jobStatuses}) => {
   const classes = useStyles();
   const didMountRef = useRef(false);
-  const [filteredJobs, setFilteredJobs] = useState([]);
   const [jobs, setJobs] = useState([]);
-  const [jobStatus, setJobStatus] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [jobStatus, setJobStatus] = useState(null);
+  const [filteredJobs, setFilteredJobs] = useState([]);
 
   useEffect(() => {
     if(didMountRef.current === false){ //only for component did mount
@@ -93,35 +92,30 @@ const jobStatus = () => {
   
   return( 
     <Fragment>
-      {
-        loading ? <p> Loading...!!!</p> : 
-      (<div><FormControl className={classes.formControl}>
-        <InputLabel id='job-select-label'>Job Status</InputLabel>
-        <Select
-          labelId='job-select-label'
-          id='job-select'
-          value= {jobStatus}
-          onChange={(event) => {handleJobStatusChange(event.target.value)}}>
-          <MenuItem value='garbage'>Garbage</MenuItem>
-          <MenuItem value='recruiter'>recruiter</MenuItem>
-          <MenuItem value='in-house'>In-house</MenuItem>
-          <MenuItem value='rejected by client'>Rejected by client</MenuItem>
-        </Select>
-      </FormControl>
-      {jobStatus === null ? (
-        <p style={{color:'red'}}> Please select a job Status first.</p>):  
-        filteredJobs.length >= 1 ? (
-          <Table 
+      {loading === true ? <Meassage meassage={'loading'} /> : (
+        <div>
+          <TopOptionsSelector 
+            selectChangeHandler={handleJobStatusChange}
+            options={jobStatuses}
+            config={'Job Status'}
+            meassage={ jobStatus === null ? 'Please select a Job status first' : null}
+          />
+          {jobStatus !== null ? filteredJobs.length >= 1 ? (
+            <Table 
             // history={history}
-            jobs={filteredJobs}
-            columns={columns}
-            classes={classes}
-            tableHeader={'Jobs'} />
-        ): <p> No Job with the selected status </p>}
-        </div>)
-      }
+              jobs={filteredJobs}
+              columns={columns}
+              classes={classes}
+              tableHeader={'Jobs'} />
+          ): <Meassage meassage={'No Job with the selected status'} /> : null }
+        </div>
+      )}
     </Fragment>
   )//end of return
 };
 
-export default jobStatus;
+const mapStateToProps = state => ({
+  jobStatuses: state.SelectOptions.jobStatus
+});
+
+export default connect(mapStateToProps)(jobStatus);

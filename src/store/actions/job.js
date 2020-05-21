@@ -6,6 +6,7 @@ import {
   JOB_ADD_FAIL,
   FETCH_JOB_DATA_SUCCESS,
   FETCH_JOB_DATA_FAIL,
+  JOB_ACTION_START
 } from "../actions/types";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -44,6 +45,9 @@ export const addJob = ( newJobData, newClientData ) => async dispatch => {
 
 //fetch all jobs
 export const fetchJob = () => async dispatch => {
+  dispatch({
+    type: JOB_ACTION_START
+  });
   try {
     const res = await axios.get ( BASE_URL + "/api/job");
     dispatch({

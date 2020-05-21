@@ -6,7 +6,9 @@ import { useAlert } from 'react-alert';
 import { makeStyles } from "@material-ui/styles";
 
 import Table from "./../../UI/table";
+import Meassage from './../../UI/message';
 import { fetchLeads } from "../../../store/actions/lead";
+
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const columns = [
@@ -90,15 +92,15 @@ const completedTest = ({fetchLeads, leads, history, leadLoading}) => {
 
   return(     
     <Fragment>
-        {leadLoading ? <p> Loading </p> : filteredLeads.length > 0 ?
-        (<Table 
-          jobs={filteredLeads}
-          columns={columns}
-          classes={classes}
-          tableHeader={"Completed Tests"}
-          onUpdateHandler={testStatusChangeHandler}
-          history={history}/>
-        ) : <p> No tests have been completed yet </p>
+        {leadLoading ? <Meassage meassage={'loading'} /> : filteredLeads.length > 0 ?
+          (<Table 
+            jobs={filteredLeads}
+            columns={columns}
+            classes={classes}
+            tableHeader={"Completed Tests"}
+            onUpdateHandler={testStatusChangeHandler}
+            history={history}/>
+          ) : <Meassage meassage={'No tests have been completed yet'} />
         }
     </Fragment> 
   )

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 
 import Table from "./../../UI/table";
+import Meassage from './../../UI/message';
 import { fetchLeads } from "../../../store/actions/lead";
 
 const columns = [
@@ -68,14 +69,14 @@ const testInPipeline = ({fetchLeads, leads, history, leadLoading}) => {
     
   return(     
     <Fragment>
-      {leadLoading ? <p> Loading </p>: filteredLeads.length > 0 ?
+      {leadLoading ? <Meassage meassage={'loading'} /> : filteredLeads.length > 0 ?
       (<Table 
           jobs={filteredLeads}
           columns={columns}
           classes={classes}
           tableHeader={"Sales test"}
           history={history}/>
-        ): <p> No test in Pipeline </p>}
+        ): <Meassage meassage={'No test in Pipeline'} />}
     </Fragment> 
   )
 }

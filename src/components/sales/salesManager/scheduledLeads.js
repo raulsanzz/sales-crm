@@ -6,6 +6,7 @@ import { useAlert } from 'react-alert';
 import { makeStyles } from '@material-ui/styles';
 
 import { fetchLeads, updateLead } from '../../../store/actions/lead';
+import Meassage from './../../UI/message';
 import Table from './../../UI/table';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
   
@@ -110,9 +111,8 @@ const scheduledLeads = ({fetchLeads, updateLead, leads, leadLoading, history}) =
 
   return(
     <Fragment>
-      {
-        leadLoading ? <p> Loading </p>: 
-        (<Table 
+      {leadLoading ? <Meassage meassage={'loading'} /> : (
+        <Table 
           jobs={filteredLeads}
           columns={columns}
           classes={classes}
