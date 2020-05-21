@@ -1,17 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useRef, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { useAlert } from 'react-alert';
 import { makeStyles } from '@material-ui/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 
+import ProfileSelector from './../../UI/profileSelector';
+import Meassage from './../../UI/message';
 import Table from '../../UI/table';
 import { fetchLeads, updateLead } from '../../../store/actions/lead';
-const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const columns = [
     { id: 'company_name', label: 'Company Name', minWidth: 170 },
@@ -58,20 +54,17 @@ const managerJobLinks = ({fetchLeads, updateLead, leads, leadLoading, history}) 
   const alert = useAlert();
   const classes = useStyles();
   const didMountRef = useRef(false);
-  const [profiles, setProfiles] = useState([]);
   const [filteredLeads, setFilteredLeads] = useState([]);
   const [selectedProfile, setSelectedProfile] = useState(null);
 
   useEffect(() => {
     if(didMountRef.current === false){ //only for component did mount
       fetchLeads(true);
-      fetchProfiles();
       didMountRef.current = true;
     }
     const interval = setInterval(fetchLeads, 60000);//get all leads from DB after every 1 mint 
     return () => clearInterval(interval);// for ComponentWillUnMount
   }, []);
-
 
   useEffect(() => {
     if(selectedProfile){
@@ -89,14 +82,6 @@ const managerJobLinks = ({fetchLeads, updateLead, leads, leadLoading, history}) 
    setFilteredLeads(arr);
   };
 
-  const fetchProfiles = async () => {
-    try {
-      const profiles = await axios.get ( BASE_URL + '/api/profile');
-      setProfiles(profiles.data.profiles);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const leadStatusChangeHandler = async(lead_id, lead_status) => {
     const data = {
@@ -112,30 +97,23 @@ const managerJobLinks = ({fetchLeads, updateLead, leads, leadLoading, history}) 
   }
   return(
     <Fragment>
-      <FormControl className={classes.formControl}>
-        <InputLabel id='profile-select-label'>Profile</InputLabel>
-        <Select
-          labelId='profile-select-label'
-          id='profile-select'
-          onChange={(event) => {handleProfileChange(event.target.value)}}>
-            { profiles.map(item => {
-                return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-              })
-            }
-        </Select>
-      </FormControl>
-      {
-        leadLoading ? <p> Loading...!!! </p> : selectedProfile === null ? (
-          <p style={{color:'red'}}> Please select a profile first.</p>):  
-          filteredLeads.length >= 1 ? 
-        (<Table 
-          jobs={filteredLeads}
-          columns={columns}
-          classes={classes}
-          tableHeader={'Leads'}
-          onUpdateHandler={leadStatusChangeHandler}
-          history={history}/>) : <p>  No More Leads...!!!</p>
-      }
+  {leadLoading === true ? <Meassage meassage={'loading'} /> : (
+        <div>
+          <ProfileSelector 
+            profileChangeHandler={handleProfileChange}
+            meassage={ selectedProfile === null ? 'Please select a profile first' : null}
+          />
+          {selectedProfile !== null ? filteredLeads.length >= 1 ? (
+            <Table 
+            jobs={filteredLeads}
+            columns={columns}
+            classes={classes}
+            tableHeader={'Leads'}
+            onUpdateHandler={leadStatusChangeHandler}
+            history={history}/>
+          ): <Meassage meassage={'No more leads for the selected profile'} /> : null }
+      </div>
+      )}
     </Fragment>
   )
 }

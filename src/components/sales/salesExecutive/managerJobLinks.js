@@ -4,12 +4,10 @@ import axios from 'axios';
 import { useAlert } from 'react-alert';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 
-import { updateAppliedJob } from './../../../store/actions/job'
+import { updateAppliedJob } from './../../../store/actions/job';
+import ProfileSelector from './../../UI/profileSelector';
+import Meassage from './../../UI/message';
 import Table from './../../UI/table';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -51,17 +49,16 @@ const columns = [
   }));
 
 const managerJobLinks = ({ updateAppliedJob }) => {
+  const alert = useAlert();
   const classes = useStyles();
   const didMountRef = useRef(false);
   const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [filteredJobs, setFilteredJobs] = useState([]);
-  const [profiles, setProfiles] = useState([]);
   const [selectedProfile, setSelectedProfile] = useState(null);
-  const alert = useAlert();
 
   useEffect(() => {
     if(didMountRef.current === false){ //only for component did mount
-      fetchProfiles();
       fetchAppliedJobs();
       didMountRef.current = true
     }
@@ -75,14 +72,6 @@ const managerJobLinks = ({ updateAppliedJob }) => {
     }
   }, [jobs.length]);
   
-  const fetchProfiles = async () => {
-    try {
-      const profiles = await axios.get ( BASE_URL + '/api/profile');
-      setProfiles(profiles.data.profiles);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const fetchAppliedJobs = async () => {
     try {
       const jobs =  await axios.get ( BASE_URL + '/api/appliedjob');
@@ -90,6 +79,7 @@ const managerJobLinks = ({ updateAppliedJob }) => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
   
   const handleProfileChange = (profile_id) => {
@@ -126,31 +116,23 @@ const managerJobLinks = ({ updateAppliedJob }) => {
 
   return( 
     <Fragment>
-      <FormControl className={classes.formControl}>
-        <InputLabel id='profile-select-label'>Profile</InputLabel>
-        <Select
-          labelId='profile-select-label'
-          id='profile-select'
-          onChange={(event) => {handleProfileChange(event.target.value)}}>
-            { profiles.map(item => {
-                return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-              })
-            }
-        </Select>
-      </FormControl>
-      {
-        selectedProfile === null ? (
-        <p style={{color:'red'}}> Please select a profile first.</p>):  
-        filteredJobs.length >= 1 ? (
-          <Table 
-            // history={history}
-            jobs={filteredJobs}
-            columns={columns}
-            classes={classes}
-            tableHeader={'Job Links'}
-            onApplyHandler={onApplyButtonHandler}/>
-        ): <p> No More jobs </p>
-      }
+      {loading === true ? <Meassage meassage={'loading'} /> :(
+          <div>
+            <ProfileSelector 
+              profileChangeHandler={handleProfileChange}
+              meassage={ selectedProfile === null ? 'Please select a profile first' : null}
+            />
+            {selectedProfile !== null ? filteredJobs.length >= 1 ?(
+              <Table 
+                // history={history}
+                jobs={filteredJobs}
+                columns={columns}
+                classes={classes}
+                tableHeader={'Job Links'}
+                onApplyHandler={onApplyButtonHandler}/>
+            ): <Meassage meassage={'No more jobs for the selected profile'} /> : null}
+          </div>
+      )}
     </Fragment>)
 
 };
