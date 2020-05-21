@@ -5,6 +5,8 @@ import { makeStyles } from "@material-ui/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
+
+import Meassage from '../../UI/message';
 import DateRange from "../../UI/DateRange";
 
 const useStyles = makeStyles((theme) => ({
@@ -73,22 +75,13 @@ const reportTable = ({report, tableHeader, loading, displayTable, dateRangeHandl
           <PictureAsPdfIcon className={classes.pdfButton} onClick={exportPDFWithComponent}></PictureAsPdfIcon>
           </Typography>
         </Paper>
-        <DateRange handleClick={dateRangeHandler} classes={classes} />
-        <Paper className={classes.paper}>
-          {tableHeader !== "" ? loading === false ? 
-           report.length > 0 ? displayTable() : (
-            <Typography className={classes.typography}>
-              No Reports for the selected dates.
-            </Typography>) : (
-            <Typography className={classes.typography}>
-              Loading.
-            </Typography>) : (
-            <Typography className={classes.typography}>
-              Select the date and press the show report button to display
-              reports.
-            </Typography>)
-          }
-        </Paper>
+        <DateRange handleClick={dateRangeHandler} classes={classes} />    
+        {tableHeader !== "" ? loading === false ? report.length > 0 ? ( 
+          <Paper className={classes.paper}> { displayTable() } </Paper> ): (
+          <Meassage meassage={'No reports for the selected dates'} /> ) : (
+          <Meassage meassage={'loading'} /> ) : (
+          <Meassage meassage={'Select the date and press the show report button to display reports.'} /> )
+        }      
       </main>
     </Fragment>
     </PDFExport>

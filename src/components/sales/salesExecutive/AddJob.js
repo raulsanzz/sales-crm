@@ -77,7 +77,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const AddJob = ({ fetchJob, addJob, jobs}) => {
+const AddJob = ({ fetchJob, addJob, jobs, jobLoading}) => {
   const alert = useAlert();
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const [compExist, setCompExist] = useState(null);
@@ -395,7 +395,8 @@ const AddJob = ({ fetchJob, addJob, jobs}) => {
 };
 
 const mapStateToProps = state => ({
-  jobs: state.JobReducer.job
+  jobs: state.JobReducer.job,
+  jobLoading: state.JobReducer.job
 });
 
 export default connect(mapStateToProps, { addJob, fetchJob })(withRouter(AddJob));

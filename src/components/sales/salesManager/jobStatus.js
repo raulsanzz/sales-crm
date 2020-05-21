@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const jobStatus = ({JobStatuses}) => {
+const jobStatus = ({jobStatuses}) => {
   const classes = useStyles();
   const didMountRef = useRef(false);
   const [jobs, setJobs] = useState([]);
@@ -96,7 +96,7 @@ const jobStatus = ({JobStatuses}) => {
         <div>
           <TopOptionsSelector 
             selectChangeHandler={handleJobStatusChange}
-            options={JobStatuses}
+            options={jobStatuses}
             config={'Job Status'}
             meassage={ jobStatus === null ? 'Please select a Job status first' : null}
           />
@@ -115,7 +115,7 @@ const jobStatus = ({JobStatuses}) => {
 };
 
 const mapStateToProps = state => ({
-  JobStatuses: state.SelectOptions.jobStatus
+  jobStatuses: state.SelectOptions.jobStatus
 });
 
 export default connect(mapStateToProps)(jobStatus);

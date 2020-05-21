@@ -20,6 +20,12 @@ const initialState = {
     'done',
     'not taken',
     'rescheduled by client'
+  ],
+  testStatus: [
+    'Passed',
+    'Failed',
+    'No Response',
+    'Dropped'
   ]
 };
 

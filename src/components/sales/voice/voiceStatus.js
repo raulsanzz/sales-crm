@@ -105,7 +105,7 @@ const voiceStatus = ({history, callStatuses}) => {
             selectChangeHandler={handleCallStatusChange}
             options={callStatuses}
             config={'Call Status'}
-            meassage={ callStatus === null ? 'Please select a Job status first' : null}
+            meassage={ callStatus === null ? 'Please select a call status first' : null}
           />
           {callStatus !== null ? filteredLeads.length >= 1 ? (
             <Table 

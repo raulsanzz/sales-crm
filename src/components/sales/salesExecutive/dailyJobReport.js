@@ -2,9 +2,8 @@
 import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/styles";
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 
+import Meassage from './../../UI/message';
 import SalesDetails from "../../UI/salesDetail";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -37,13 +36,6 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'initial',
     fontSize: '18px',
     fontWeight: 'bold'
-  },
-  typography: {
-    fontFamily: 'initial',
-    fontSize: '25px',
-    display: 'flex',
-    justifyContent: 'center',
-    margin: '0 auto' 
   }
 }));
 
@@ -72,6 +64,7 @@ const salesExecutive = () => {
     setReport(res.data);
     setLoading(false);
   };
+
   return (
     <Fragment>
       <main className={classes.root}>
@@ -79,14 +72,10 @@ const salesExecutive = () => {
           <SalesDetails 
             classes={classes}
             data = {report} 
-            tableHeader = {tableHeader}/>
-          ) : 
-          (<Paper className={classes.paper}> 
-            <Typography className={classes.typography}>No Reports for the Today.</Typography> 
-          </Paper>) : 
-          (<Paper className={classes.paper}> 
-            <Typography className={classes.typography}>Loading.</Typography> 
-          </Paper>)}
+            tableHeader = {tableHeader} />) : (
+          <Meassage meassage={'No reports for the today'} /> ) : (
+          <Meassage meassage={'loading'} />)
+        }
       </main>
     </Fragment>
   );

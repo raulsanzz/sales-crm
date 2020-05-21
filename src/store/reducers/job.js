@@ -3,23 +3,27 @@ import {
   JOB_ADD_FAIL,
   FETCH_JOB_DATA_SUCCESS,
   FETCH_JOB_DATA_FAIL,
+  JOB_ACTION_START,
 } from "../actions/types";
 
 const initialState = {
   job: [],
   error: {},
-  newjob: [],
   loading: true
 };
 
 export default function(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
+    case JOB_ACTION_START:
+      return {
+        ...state,
+        loading: true
+      };
     case JOB_ADD_SUCCESS:
       return {
         ...state,
         job: state.job.concat(action.payload),
-        newjob: null,
         loading: false
       };
     case FETCH_JOB_DATA_SUCCESS:

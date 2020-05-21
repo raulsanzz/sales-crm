@@ -9,6 +9,7 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
 
 //Job
+export const JOB_ACTION_START = "JOB_FETCH_START";
 export const JOB_ADD_SUCCESS = "JOB_ADD_SUCCESS";
 export const JOB_ADD_FAIL = "JOB_ADD_FAIL";
 export const FETCH_JOB_DATA_SUCCESS = "FETCH_JOB_DATA_SUCCESS";
