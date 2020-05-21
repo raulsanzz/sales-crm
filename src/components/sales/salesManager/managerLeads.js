@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { useAlert } from 'react-alert';
 import { makeStyles } from '@material-ui/styles';
 
-import ProfileSelector from './../../UI/profileSelector';
+import { fetchLeads, updateLead } from '../../../store/actions/lead';
+import { fetchProfiles } from './../../../store/actions/profile';
+import TopOptionsSelector from '../../UI/topOptionsSelector';
 import Meassage from './../../UI/message';
 import Table from '../../UI/table';
-import { fetchLeads, updateLead } from '../../../store/actions/lead';
 
 const columns = [
     { id: 'company_name', label: 'Company Name', minWidth: 170 },
@@ -50,7 +51,7 @@ const columns = [
     },
   }));
 
-const managerJobLinks = ({fetchLeads, updateLead, leads, leadLoading, history}) => {
+const managerJobLinks = ({fetchProfiles, fetchLeads, updateLead, leads, profiles, leadLoading, history}) => {
   const alert = useAlert();
   const classes = useStyles();
   const didMountRef = useRef(false);
@@ -59,6 +60,7 @@ const managerJobLinks = ({fetchLeads, updateLead, leads, leadLoading, history}) 
 
   useEffect(() => {
     if(didMountRef.current === false){ //only for component did mount
+      fetchProfiles();
       fetchLeads(true);
       didMountRef.current = true;
     }
@@ -99,8 +101,10 @@ const managerJobLinks = ({fetchLeads, updateLead, leads, leadLoading, history}) 
     <Fragment>
   {leadLoading === true ? <Meassage meassage={'loading'} /> : (
         <div>
-          <ProfileSelector 
-            profileChangeHandler={handleProfileChange}
+          <TopOptionsSelector 
+            selectChangeHandler={handleProfileChange}
+            options={profiles}
+            config={'Profile'}
             meassage={ selectedProfile === null ? 'Please select a profile first' : null}
           />
           {selectedProfile !== null ? filteredLeads.length >= 1 ? (
@@ -120,7 +124,8 @@ const managerJobLinks = ({fetchLeads, updateLead, leads, leadLoading, history}) 
 
 const mapStateToProps = state => ({
   leads: state.LeadReducer.leads,
-  leadLoading: state.LeadReducer.loading
+  leadLoading: state.LeadReducer.loading,
+  profiles: state.ProfileReducer.profiles
 });
 
-export default  connect(mapStateToProps, { fetchLeads, updateLead })(managerJobLinks);
+export default  connect(mapStateToProps, { fetchLeads, updateLead, fetchProfiles })(managerJobLinks);

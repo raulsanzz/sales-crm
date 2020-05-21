@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 
-import ProfileSelector from './../../UI/profileSelector';
+import { fetchProfiles } from './../../../store/actions/profile';
+import TopOptionsSelector from './../../UI/topOptionsSelector';
 import Meassage from './../../UI/message';
 import Table from './../../UI/table';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -38,7 +40,7 @@ const useStyles = makeStyles( theme => ({
   },
 }));
 
-const managerJobLinks = ({ history}) => {
+const managerJobList = ({ history, profiles, fetchProfiles}) => {
   const classes = useStyles();
   const didMountRef = useRef(false);
   const [jobs, setJobs] = useState([]);
@@ -53,6 +55,7 @@ const managerJobLinks = ({ history}) => {
 
   useEffect(() => {
     if(didMountRef.current === false){ //only for component did mount
+      fetchProfiles();
       fetchAppliedJobs();
       didMountRef.current = true
     }
@@ -91,8 +94,10 @@ const managerJobLinks = ({ history}) => {
     <Fragment>
       {loading === true ? <Meassage meassage={'loading'} /> : (
         <div>
-          <ProfileSelector 
-            profileChangeHandler={handleProfileChange}
+          <TopOptionsSelector 
+            selectChangeHandler={handleProfileChange}
+            options={profiles}
+            config={'Profile'}
             meassage={ selectedProfile === null ? 'Please select a profile first' : null}
           />
           {selectedProfile !== null ? filteredJobs.length >= 1 ? (
@@ -109,4 +114,9 @@ const managerJobLinks = ({ history}) => {
   </Fragment>)
 }
 
-export default managerJobLinks;
+
+const mapStateToProps = state => ({
+  profiles: state.ProfileReducer.profiles
+});
+
+export default connect(mapStateToProps, {fetchProfiles})(managerJobList);

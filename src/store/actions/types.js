@@ -7,6 +7,7 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
+
 //Job
 export const JOB_ADD_SUCCESS = "JOB_ADD_SUCCESS";
 export const JOB_ADD_FAIL = "JOB_ADD_FAIL";
@@ -29,3 +30,7 @@ export const LEAD_FETCH_SUCCESS = "LEAD_FETCH_SUCCESS";
 export const LEAD_FETCH_FAIL = "LEAD_FETCH_FAIL";
 export const LEAD_UPDATE_SUCCESS = "LEAD_UPDATE_SUCCESS";
 export const LEAD_UPDATE_FAIL = "LEAD_UPDATE_FAIL";
+
+// Profile
+export const FETCH_PROFILES_SUCCESS = "FETCH_PROFILES_SUCCESS";
+export const FETCH_PROFILES_FAIL = "FETCH_PROFILES_FAIL";

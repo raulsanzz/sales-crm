@@ -2,12 +2,10 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 
 import { fetchLeads } from '../../../store/actions/lead';
+import TopOptionsSelector from '../../UI/topOptionsSelector';
+import Meassage from './../../UI/message';
 import Table from './../../UI/table';
 
 const columns = [
@@ -47,11 +45,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const leadStatus = ({fetchLeads, leads, LeadLoading, history}) => {
+const leadStatus = ({fetchLeads, leads, leadLoading, leadStatuses, history}) => {
   const classes = useStyles();
   const didMountRef = useRef(false)
-  const [filteredLeads, setFilteredLeads] = useState([]);
   const [leadStatus, setLeadStatus] = useState(null);
+  const [filteredLeads, setFilteredLeads] = useState([]);
 
   useEffect(() => {
     if(didMountRef.current === false){ //only for component did mount
@@ -75,48 +73,36 @@ const leadStatus = ({fetchLeads, leads, LeadLoading, history}) => {
     })
     setFilteredLeads(arr);
   };
+
   return( 
     <Fragment>
-      {
-        LeadLoading ? <p> Loading...!!!</p> : 
-      (<div><FormControl className={classes.formControl}>
-        <InputLabel id='lead-select-label'>Lead Status</InputLabel>
-        <Select
-          labelId='lead-select-label'
-          id='lead-select'
-          value= {leadStatus}
-          onChange={(event) => {handleLeadStatusChange(event.target.value)}}>
-          <MenuItem value='lead'>Lead</MenuItem>
-          <MenuItem value='good'>Good</MenuItem>
-          <MenuItem value='hot'>Hot</MenuItem>
-          <MenuItem value='closed'>Closed</MenuItem>
-          <MenuItem value='garbage'>Garbage</MenuItem>
-          <MenuItem value='dead lead'>Dead Lead</MenuItem>
-          <MenuItem value='Rejected by client'>Rejected by client</MenuItem>
-          <MenuItem value='in-communication'>In-Communication</MenuItem>
-        </Select>
-      </FormControl>
-      {leadStatus === null ? (
-        <p style={{color:'red'}}> Please select a Lead Status first.</p>):  
-        filteredLeads.length >= 1 ? (
-          <Table 
-            // history={history}
+      {leadLoading === true ? <Meassage meassage={'loading'} /> : (
+        <div>
+          <TopOptionsSelector 
+            selectChangeHandler={handleLeadStatusChange}
+            options={leadStatuses}
+            config={'Lead Status'}
+            meassage={ leadStatus === null ? 'Please select a lead status first' : null}
+          />
+          {leadStatus !== null ? filteredLeads.length >= 1 ? (
+            <Table 
             jobs={filteredLeads}
             columns={columns}
             classes={classes}
             tableHeader={'Leads'}
             history={history} 
             rowClickListener={true}/>
-        ): <p> No leads with the selected status </p>}
-        </div>)
-      }
+          ): <Meassage meassage={'No leads for the selected status'} /> : null }
+        </div>
+      )}
     </Fragment>
   )//end of return
 };
 
 const mapStateToProps = state => ({
   leads: state.LeadReducer.leads,
-  LeadLoading: state.LeadReducer.loading
+  leadLoading: state.LeadReducer.loading,
+  leadStatuses: state.SelectOptions.leadStatus
 });
   
 export default connect(mapStateToProps, { fetchLeads } )(leadStatus);

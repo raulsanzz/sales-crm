@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 
 import { updateAppliedJob } from './../../../store/actions/job';
-import ProfileSelector from './../../UI/profileSelector';
+import { fetchProfiles } from './../../../store/actions/profile';
+import TopOptionsSelector from './../../UI/topOptionsSelector';
 import Meassage from './../../UI/message';
 import Table from './../../UI/table';
 
@@ -48,7 +49,7 @@ const columns = [
     },
   }));
 
-const managerJobLinks = ({ updateAppliedJob }) => {
+const managerJobLinks = ({ updateAppliedJob, fetchProfiles, profiles }) => {
   const alert = useAlert();
   const classes = useStyles();
   const didMountRef = useRef(false);
@@ -59,6 +60,7 @@ const managerJobLinks = ({ updateAppliedJob }) => {
 
   useEffect(() => {
     if(didMountRef.current === false){ //only for component did mount
+      fetchProfiles();
       fetchAppliedJobs();
       didMountRef.current = true
     }
@@ -118,8 +120,10 @@ const managerJobLinks = ({ updateAppliedJob }) => {
     <Fragment>
       {loading === true ? <Meassage meassage={'loading'} /> :(
           <div>
-            <ProfileSelector 
-              profileChangeHandler={handleProfileChange}
+            <TopOptionsSelector 
+              selectChangeHandler={handleProfileChange}
+              options={profiles}
+              config={'Profile'}
               meassage={ selectedProfile === null ? 'Please select a profile first' : null}
             />
             {selectedProfile !== null ? filteredJobs.length >= 1 ?(
@@ -137,4 +141,7 @@ const managerJobLinks = ({ updateAppliedJob }) => {
 
 };
 
-export default  connect(null,{updateAppliedJob})(managerJobLinks);
+const mapStateToProps = state => ({
+  profiles: state.ProfileReducer.profiles
+});
+export default  connect(mapStateToProps, {updateAppliedJob, fetchProfiles})(managerJobLinks);

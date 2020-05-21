@@ -1,6 +1,5 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 import { makeStyles } from '@material-ui/core/styles';
@@ -398,9 +397,5 @@ const AddJob = ({ fetchJob, addJob, jobs}) => {
 const mapStateToProps = state => ({
   jobs: state.JobReducer.job
 });
-
-AddJob.propTypes = {
-  addJob: PropTypes.func.isRequired
-};
 
 export default connect(mapStateToProps, { addJob, fetchJob })(withRouter(AddJob));
