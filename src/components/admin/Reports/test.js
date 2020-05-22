@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, Fragment } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,7 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import ReportPage from "./reportPage";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const test = () => {
+const test = ({testStatuses}) => {
   const [report, setReport] = useState([]);
   const [tableHeader, setTableHeader] = useState('');
   const [loading, setLoading] = useState(false);
@@ -27,10 +28,29 @@ const test = () => {
     };
     const body = JSON.stringify({ startDate, endDate });
     const res = await axios.put(BASE_URL + "/api/test/testReport", body, config);
-    setReport(res.data.testReport);
+    const temp = testStatuses.map( status => {
+      const result = foundStatusInDbReport(status, res.data.testReport);
+        if(result.length === 0){
+          return {
+            status: status,
+            total: 0
+          }
+        }
+        else{
+          return result[0]
+        }
+      })
+      setReport(temp);
     setLoading(false);
   };
   
+  const foundStatusInDbReport = (status, DbReport) => {
+    let check = DbReport.filter( record => {
+      return record.status === status ? record : null;
+    });
+    return check;
+  }
+
   const displayTable = () => {
     return(
       <Fragment>
@@ -72,5 +92,8 @@ const test = () => {
     </Fragment>
   );
 };
+const mapStateToProps = state => ({
+  testStatuses : state.SelectOptions.allTestStatus
+})
 
-export default test;
+export default connect(mapStateToProps)(test);

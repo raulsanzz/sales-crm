@@ -27,7 +27,6 @@ const voice = () => {
     };
     const body = JSON.stringify({ startDate, endDate });
     const res = await axios.put(BASE_URL + "/api/note/voiceReport", body, config);
-    console.log(res.data)
     setReport(res.data.voiceReport);
     setLoading(false);
   };

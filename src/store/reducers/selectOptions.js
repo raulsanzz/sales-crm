@@ -11,6 +11,7 @@ const initialState = {
     'in-communication'
   ],
   jobStatus: [
+    'lead',
     'garbage',
     'recruiter',
     'in-house',
@@ -26,6 +27,14 @@ const initialState = {
     'Failed',
     'No Response',
     'Dropped'
+  ],
+  allTestStatus: [
+    'Passed',
+    'Failed',
+    'No Response',
+    'Dropped',
+    'In progress',
+    'Completed'
   ]
 };
 

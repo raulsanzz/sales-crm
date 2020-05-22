@@ -104,7 +104,6 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
           {filteredJobs
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row, index) => {
-              // {console.log(row)}
               return (
               <TableRow 
                 key={index}
@@ -123,6 +122,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                   </TableCell>)
                         //lead cases
                         case "status":
+                        case "voice":
                         case "interview_status":
                         case "lead_status":
                         case "createdAt":

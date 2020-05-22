@@ -92,8 +92,21 @@ const voiceStatus = ({history, callStatuses}) => {
       })
       arr = [...arr, ...temp]
     });
+    console.log('====================================');
+    console.log();
+    console.log('====================================');
     arr = arr.filter(ele => {
       return ele ? ele : null
+    })
+    arr = arr.filter((ele, index) => {
+      if (index === 0)
+      {
+        return ele;
+      }
+      //----------------------here
+      else{
+        return arr[index -1].id === arr[index].id ? ele : ele
+      }
     })
     setFilteredLeads(arr);
   };
