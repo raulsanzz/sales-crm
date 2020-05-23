@@ -86,27 +86,63 @@ const voiceStatus = ({history, callStatuses}) => {
   const handleCallStatusChange = (status) => {
     setCallStatus(status);
     let arr = [];
+    let count = 1;
     leads.forEach(lead => {
+      count = 1;
       let temp =  lead.call.agenda.notes.map( note => {
-        return note ? note.call_status === status ? {...lead, callTakenOn: note.createdAt} : null : null
+        return note ? note.call_status === status ? {...lead, callTakenOn: note.createdAt, totalCalls: count++} : null : null
       })
       arr = [...arr, ...temp]
     });
-    console.log('====================================');
-    console.log();
-    console.log('====================================');
+    let highestDateIndex = 0;
+    let lastElement = null;
+    count = 1;
     arr = arr.filter(ele => {
       return ele ? ele : null
     })
-    arr = arr.filter((ele, index) => {
-      if (index === 0)
-      {
-        return ele;
+    arr = arr.map((ele, index) => {
+      if (ele){
+        if( index !== arr.length - 1){
+          if(arr[highestDateIndex].id === arr[index].id){
+            let n =  arr[highestDateIndex].callTakenOn.localeCompare(arr[index].callTakenOn)
+            if(n < 0){//higestIndexDate is less then the current
+              highestDateIndex = index;
+            }
+            else{
+              count = arr[index].totalCalls;
+            }
+          }
+          else{
+            let temp = highestDateIndex;
+            highestDateIndex = index;
+            return {...arr[temp], totalCalls: count }
+          }
+        }
+        else{ //for the last element 
+          if(arr[highestDateIndex].id === arr[index].id){
+            let n =  arr[highestDateIndex].callTakenOn.localeCompare(arr[index].callTakenOn)
+            if(n < 0){//highestDateIndex is less then the current
+              return {...arr[index], totalCalls: count }
+            }
+            else{
+              return {...arr[highestDateIndex], totalCalls: arr[index].totalCalls }     
+            }
+          }
+          else{ //if the last ele is different from the highestDateIndex 
+            lastElement = {...arr[index], totalCalls: 1};
+            return {...arr[highestDateIndex], totalCalls: count}
+          }
+        }
       }
-      //----------------------here
       else{
-        return arr[index -1].id === arr[index].id ? ele : ele
+        return null
       }
+    });
+    if(lastElement){
+      arr = [...arr, ...[{...lastElement}]];
+    }
+    arr = arr.filter(ele => {
+      return ele ? ele : null
     })
     setFilteredLeads(arr);
   };

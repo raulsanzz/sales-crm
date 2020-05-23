@@ -116,14 +116,14 @@ Router.get( "/callTaken", auth, async (req, res) => {
                         required: true,
                         include: [{
                             model: Note,
-                        }]
+                            order: [['createdAt', 'DESC']]
+                        }],
                     }],
                 },
                 {   
                     model: Test
                 }
             ],
-            
             
         })
         return res.json({ leads }  );
