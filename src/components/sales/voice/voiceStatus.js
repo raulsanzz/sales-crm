@@ -14,7 +14,8 @@ const columns = [
   { id: 'client_name', label: 'Client Name', minWidth: 170, align: 'center' },
   { id: 'profile', label: 'Profile', minWidth: 170, align: 'center' },
   { id: 'job_title', label: 'Job Title', minWidth: 170, align: 'center' },
-  { id: 'notes_date', label: 'Call Date', minWidth: 170, align: 'center' }
+  { id: 'totalCalls', label: 'Total Calls', minWidth: 170, align: 'center' },
+  { id: 'notes_date', label: 'Last Call On', minWidth: 170, align: 'center' }
 ];
 
 const useStyles = makeStyles(theme => ({
@@ -93,51 +94,54 @@ const voiceStatus = ({history, callStatuses}) => {
         return note ? note.call_status === status ? {...lead, callTakenOn: note.createdAt, totalCalls: count++} : null : null
       })
       arr = [...arr, ...temp]
-    });
+    }); 
     let highestDateIndex = 0;
     let lastElement = null;
     count = 1;
     arr = arr.filter(ele => {
       return ele ? ele : null
     })
-    // arr = arr.map((ele, index) => {
-    //   if (ele){
-    //     if( index !== arr.length - 1){
-    //       if(arr[highestDateIndex].id === arr[index].id){
-    //         let n =  arr[highestDateIndex].callTakenOn.localeCompare(arr[index].callTakenOn)
-    //         if(n < 0){//higestIndexDate is less then the current
-    //           highestDateIndex = index;
-    //         }
-    //         else{
-    //           count = arr[index].totalCalls;
-    //         }
-    //       }
-    //       else{
-    //         let temp = highestDateIndex;
-    //         highestDateIndex = index;
-    //         return {...arr[temp], totalCalls: count }
-    //       }
-    //     }
-    //     else{ //for the last element 
-    //       if(arr[highestDateIndex].id === arr[index].id){
-    //         let n =  arr[highestDateIndex].callTakenOn.localeCompare(arr[index].callTakenOn)
-    //         if(n < 0){//highestDateIndex is less then the current
-    //           return {...arr[index], totalCalls: count }
-    //         }
-    //         else{
-    //           return {...arr[highestDateIndex], totalCalls: arr[index].totalCalls }     
-    //         }
-    //       }
-    //       else{ //if the last ele is different from the highestDateIndex 
-    //         lastElement = {...arr[index], totalCalls: 1};
-    //         return {...arr[highestDateIndex], totalCalls: count}
-    //       }
-    //     }
-    //   }
-    //   else{
-    //     return null
-    //   }
-    // });
+    arr = arr.map((ele, index) => {
+      if (ele){
+        if( index !== arr.length - 1){
+          if(arr[highestDateIndex].id === arr[index].id){
+            let n =  arr[highestDateIndex].callTakenOn.localeCompare(arr[index].callTakenOn)
+            if(n < 0){//higestIndexDate is less then the current
+              highestDateIndex = index;
+              count = arr[index].totalCalls;
+            }
+            else{
+              count = arr[index].totalCalls;
+            }
+          }
+          else{
+            let previousCount  = count;
+            let temp = highestDateIndex;
+            count  = arr[index].totalCalls;
+            highestDateIndex = index;
+            return {...arr[temp], totalCalls: previousCount }
+          }
+        }
+        else{ //for the last element 
+          if(arr[highestDateIndex].id === arr[index].id){
+            let n =  arr[highestDateIndex].callTakenOn.localeCompare(arr[index].callTakenOn)
+            if(n < 0){//highestDateIndex is less then the current
+              return {...arr[index], totalCalls: count }
+            }
+            else{
+              return {...arr[highestDateIndex], totalCalls: arr[index].totalCalls }     
+            }
+          }
+          else{ //if the last ele is different from the highestDateIndex 
+            lastElement = {...arr[index], totalCalls: 1};
+            return {...arr[highestDateIndex], totalCalls: count}
+          }
+        }
+      }
+      else{
+        return null
+      }
+    });
     if(lastElement){
       arr = [...arr, ...[{...lastElement}]];
     }
@@ -154,8 +158,7 @@ const voiceStatus = ({history, callStatuses}) => {
             selectChangeHandler={handleCallStatusChange}
             options={callStatuses}
             config={'Call Status'}
-            meassage={ callStatus === null ? 'Please select a call status first' : null}
-          />
+            meassage={ callStatus === null ? 'Please select a call status first' : null} />
           {callStatus !== null ? filteredLeads.length >= 1 ? (
             <Table 
             jobs={filteredLeads}
@@ -163,8 +166,7 @@ const voiceStatus = ({history, callStatuses}) => {
             history={history} 
             classes={classes}
             tableHeader={'Voice'}
-            rowClickListener={true}
-          /> 
+            rowClickListener={true} /> 
           ): <Meassage meassage={'No Job with the selected status'} /> : null }
         </div>
       )}

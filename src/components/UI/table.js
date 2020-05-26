@@ -125,6 +125,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                         case "voice":
                         case "interview_status":
                         case "lead_status":
+                        case "totalCalls":
                         case "createdAt":
                           return (<TableCell key={column.id} align={column.align}>
                                     {row[column.id]}

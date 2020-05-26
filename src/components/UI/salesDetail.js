@@ -15,7 +15,6 @@ export default function salesDetail({classes, tableHeader, data}) {
   })
 
   useEffect(() => {
-    console.log("WOKRINGINGIGN")
     if(data.length > 0){
       let newTotal
 
