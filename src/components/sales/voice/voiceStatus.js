@@ -100,44 +100,44 @@ const voiceStatus = ({history, callStatuses}) => {
     arr = arr.filter(ele => {
       return ele ? ele : null
     })
-    arr = arr.map((ele, index) => {
-      if (ele){
-        if( index !== arr.length - 1){
-          if(arr[highestDateIndex].id === arr[index].id){
-            let n =  arr[highestDateIndex].callTakenOn.localeCompare(arr[index].callTakenOn)
-            if(n < 0){//higestIndexDate is less then the current
-              highestDateIndex = index;
-            }
-            else{
-              count = arr[index].totalCalls;
-            }
-          }
-          else{
-            let temp = highestDateIndex;
-            highestDateIndex = index;
-            return {...arr[temp], totalCalls: count }
-          }
-        }
-        else{ //for the last element 
-          if(arr[highestDateIndex].id === arr[index].id){
-            let n =  arr[highestDateIndex].callTakenOn.localeCompare(arr[index].callTakenOn)
-            if(n < 0){//highestDateIndex is less then the current
-              return {...arr[index], totalCalls: count }
-            }
-            else{
-              return {...arr[highestDateIndex], totalCalls: arr[index].totalCalls }     
-            }
-          }
-          else{ //if the last ele is different from the highestDateIndex 
-            lastElement = {...arr[index], totalCalls: 1};
-            return {...arr[highestDateIndex], totalCalls: count}
-          }
-        }
-      }
-      else{
-        return null
-      }
-    });
+    // arr = arr.map((ele, index) => {
+    //   if (ele){
+    //     if( index !== arr.length - 1){
+    //       if(arr[highestDateIndex].id === arr[index].id){
+    //         let n =  arr[highestDateIndex].callTakenOn.localeCompare(arr[index].callTakenOn)
+    //         if(n < 0){//higestIndexDate is less then the current
+    //           highestDateIndex = index;
+    //         }
+    //         else{
+    //           count = arr[index].totalCalls;
+    //         }
+    //       }
+    //       else{
+    //         let temp = highestDateIndex;
+    //         highestDateIndex = index;
+    //         return {...arr[temp], totalCalls: count }
+    //       }
+    //     }
+    //     else{ //for the last element 
+    //       if(arr[highestDateIndex].id === arr[index].id){
+    //         let n =  arr[highestDateIndex].callTakenOn.localeCompare(arr[index].callTakenOn)
+    //         if(n < 0){//highestDateIndex is less then the current
+    //           return {...arr[index], totalCalls: count }
+    //         }
+    //         else{
+    //           return {...arr[highestDateIndex], totalCalls: arr[index].totalCalls }     
+    //         }
+    //       }
+    //       else{ //if the last ele is different from the highestDateIndex 
+    //         lastElement = {...arr[index], totalCalls: 1};
+    //         return {...arr[highestDateIndex], totalCalls: count}
+    //       }
+    //     }
+    //   }
+    //   else{
+    //     return null
+    //   }
+    // });
     if(lastElement){
       arr = [...arr, ...[{...lastElement}]];
     }
