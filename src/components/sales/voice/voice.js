@@ -10,6 +10,7 @@ import { fetchLeads} from '../../../store/actions/lead';
 const columns = [
   { id: 'client_name', label: 'Client Name', minWidth: 100, align: 'left' },
   { id: 'profile', label: 'Profile', minWidth: 170, align: 'center'},
+  { id: 'voice', label: 'Voice', minWidth: 100, align: 'center' },
   { id: 'call_time', label: 'Call Time', minWidth: 100, align: 'center' },
   { id: 'call_date', label: 'Call Date', minWidth: 100, align: 'center' },
   { id: 'interview_status', label: 'Interview Status', minWidth: 100, align: 'center' }

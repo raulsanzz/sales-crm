@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, Fragment } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,7 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import ReportPage from "./reportPage";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const leads = () => {
+const leads = ({leadStatuses}) => {
   const [report, setReport] = useState([]);
   const [tableHeader, setTableHeader] = useState('');
   const [loading, setLoading] = useState(false);
@@ -27,9 +28,28 @@ const leads = () => {
     };
     const body = JSON.stringify({ startDate, endDate });
     const res = await axios.put(BASE_URL + "/api/lead/leadReport", body, config);
-    setReport(res.data.leadReport);
+    const temp = leadStatuses.map( status => {
+    const result = foundStatusInDbReport(status, res.data.leadReport);
+      if(result.length === 0){
+        return {
+          status: status,
+          total: 0
+        }
+      }
+      else{
+        return result[0]
+      }
+    })
+    setReport(temp);
     setLoading(false);
   };
+
+  const foundStatusInDbReport = (status, DbReport) => {
+    let check = DbReport.filter( record => {
+      return record.status === status ? record : null;
+    });
+    return check;
+  }
 
   const displayTable = () => {
     return(
@@ -73,4 +93,8 @@ const leads = () => {
   );
 };
 
-export default leads;
+const mapStateToProps = state => ({
+  leadStatuses: state.SelectOptions.leadStatus
+});
+
+export default connect(mapStateToProps)(leads);

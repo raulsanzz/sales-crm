@@ -41,7 +41,7 @@ const topOptionsSelector = ({selectChangeHandler, meassage, options, config}) =>
               <MenuItem 
                key={ config === 'Profile' ? item.id : item} 
                value={ config === 'Profile' ? item.id : item}>
-                { config === 'Profile' ? item.id : item}
+                { config === 'Profile' ? item.name : item}
               </MenuItem>
             );
           })}
