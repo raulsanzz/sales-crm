@@ -9,17 +9,6 @@ import { fetchProfiles } from './../../../store/actions/profile';
 import TopOptionsSelector from '../../UI/topOptionsSelector';
 import Meassage from './../../UI/message';
 import Table from '../../UI/table';
-
-const columns = [
-    { id: 'company_name', label: 'Company Name', minWidth: 170 },
-    { id: 'client_name', label: 'Client Name', minWidth: 170 },
-    { id: 'gmail_thread', label: 'Gmail Thread', minWidth: 170 }, 
-    { id: 'onChangeList', label: 'Lead Status', minWidth: 100, align: 'center', 
-      placeholder: 'Status', for: 'status' , 
-      listItems: ['lead' ,'good', 'hot', 'closed', 'garbage', 'dead lead', 'Rejected by client', 'in-communication']},
-    { id: 'editButton', label: 'Add Test Details', minWidth: 100, align: 'center', editPath:'/add_test' },
-    { id: 'editButton', label: 'Add Lead Details', minWidth: 100, align: 'center',  editPath:'/lead_edit' }
-];
   
   const useStyles = makeStyles(theme => ({
     root:{
@@ -51,12 +40,22 @@ const columns = [
     },
   }));
 
-const managerJobLinks = ({fetchProfiles, fetchLeads, updateLead, leads, profiles, leadLoading, history}) => {
+const managerJobLinks = ({leadStatuses, fetchProfiles, fetchLeads, updateLead, leads, profiles, leadLoading, history}) => {
   const alert = useAlert();
   const classes = useStyles();
   const didMountRef = useRef(false);
   const [filteredLeads, setFilteredLeads] = useState([]);
   const [selectedProfile, setSelectedProfile] = useState(null);
+
+  const columns = [
+    { id: 'company_name', label: 'Company Name', minWidth: 170 },
+    { id: 'client_name', label: 'Client Name', minWidth: 170 },
+    { id: 'gmail_thread', label: 'Gmail Thread', minWidth: 170 }, 
+    { id: 'onChangeList', label: 'Lead Status', minWidth: 100, align: 'center', 
+      placeholder: 'Status', for: 'status' , listItems: leadStatuses},
+    { id: 'editButton', label: 'Add Test Details', minWidth: 100, align: 'center', editPath:'/add_test' },
+    { id: 'editButton', label: 'Add Lead Details', minWidth: 100, align: 'center',  editPath:'/lead_edit' }
+  ];
 
   useEffect(() => {
     if(didMountRef.current === false){ //only for component did mount
@@ -125,7 +124,8 @@ const managerJobLinks = ({fetchProfiles, fetchLeads, updateLead, leads, profiles
 const mapStateToProps = state => ({
   leads: state.LeadReducer.leads,
   leadLoading: state.LeadReducer.loading,
-  profiles: state.ProfileReducer.profiles
+  profiles: state.ProfileReducer.profiles,
+  leadStatuses : state.SelectOptions.leadStatus
 });
 
 export default  connect(mapStateToProps, { fetchLeads, updateLead, fetchProfiles })(managerJobLinks);

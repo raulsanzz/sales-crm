@@ -5,9 +5,10 @@ const sequelize = new Sequelize("sales-crm", "postgres", "Sql1server2!", {
   pool: {
     max: 5,
     min: 0,
-    require: 30000,
+    acquire: 30000,
     idle: 10000
   },
+  logging: false, //set to true if you want to see postress query logging
   host: "sales-crm.ccgqx43uwom0.us-east-2.rds.amazonaws.com",
   dialect: "postgres"
 });
@@ -17,7 +18,7 @@ const sequelize = new Sequelize("sales-crm", "postgres", "Sql1server2!", {
 //   pool: {
 //     max: 5,
 //     min: 0,
-//     require: 30000,
+//     acquire: 30000,
 //     idle: 10000
 //   },
 //   host: "localhost",
@@ -26,7 +27,7 @@ const sequelize = new Sequelize("sales-crm", "postgres", "Sql1server2!", {
 
 
 sequelize.authenticate().then(() => {
-    console.log("Connection has been established successfully.");
+    console.log("Postgres Connection has been established successfully.");
   })
   .catch(err => {
     console.error("Unable to connect to the database:", err);

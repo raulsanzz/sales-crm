@@ -18,7 +18,6 @@ Route.post("/", auth, async (req, res) => {
       ...req.body.newJobData,
       user_id: req.user.user.id,
       client_id:client.dataValues.id,
-      status: "job"
     });
     if (job) {
       const user = await User.findAll({

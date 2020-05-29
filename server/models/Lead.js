@@ -19,6 +19,9 @@ module.exports = (sequelize, Sequelize) => {
     interview_status: {
       type: Sequelize.STRING
     },
+    contract_status: {
+      type: Sequelize.STRING
+    },
     job_id: {
         type: Sequelize.INTEGER,
         references: {         
