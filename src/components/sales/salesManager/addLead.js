@@ -74,7 +74,7 @@ const useStyles = makeStyles(theme => ({
       }
   }));
 
-const addTest = ({ history, location, updateAppliedJob, addLead }) => {
+const addTest = ({ history, location, updateAppliedJob, addLead, jobStatuses }) => {
   const classes = useStyles();
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const alert = useAlert();
@@ -111,13 +111,7 @@ const addTest = ({ history, location, updateAppliedJob, addLead }) => {
       lead_status: {
         elementType: 'select',
         elementConfig:{
-            options: [
-            {value: 'lead', displayValue: 'lead' },
-            {value: 'garbage', displayValue: 'garbage' },
-            {value: 'recruiter', displayValue: 'recruiter' },
-            {value: 'in-house', displayValue: 'in-house' },
-            {value: 'rejected by client', displayValue: 'rejected by client' }
-           ],
+            options: jobStatuses,
           placeholder: 'Job Status*'
         },
         value: '',
@@ -244,7 +238,7 @@ const onSubmitHandler = async(e) => {
                   onChange={(event) => {onChangeHandler(event, elem.id)}}
                   >
                   {elem.config.elementConfig.options.map(opt => (
-                      <MenuItem key={opt.value} value={opt.value}>{opt.displayValue}</MenuItem>
+                      <MenuItem key={opt} value={opt}>{opt}</MenuItem>
                   ))} 
               </Select>
             </FormControl>
@@ -308,4 +302,8 @@ const onSubmitHandler = async(e) => {
     </Fragment>
   );
 };
-export default connect(null, {updateAppliedJob, addLead})(addTest);
+const mapStateToProps = (state) => ({
+  jobStatuses : state.SelectOptions.jobStatus
+});
+
+export default connect(mapStateToProps, {updateAppliedJob, addLead})(addTest);

@@ -219,6 +219,20 @@ const editLead = ({ history, location, updateLead }) => {
       touched: location.state.detail.call.contact_via_detail ? true : false,
       message:''
     },  
+    contract_status: {
+      elementType: 'input',
+      elementConfig:{
+        type: 'text',
+        placeholder: 'Contract Status'
+      },
+      value:  location.state.detail.contract_status ? location.state.detail.contract_status : '',
+      validation: {
+        required: false,
+      },
+      valid: location.state.detail.contract_status ? true : false,
+      touched: location.state.detail.contract_status ? true : false,
+      message:''
+    },  
     interview_status: {
       elementType: 'select',
       elementConfig:{
@@ -320,7 +334,8 @@ const onChangeHandler = (e, elementIdentifier) => {
                   formData.call_date.value.getDate();
     const LeadData = {
       gmail_thread: formData.gmail_thread.value,
-      interview_status: formData.interview_status.value
+      interview_status: formData.interview_status.value,
+      contract_status : formData.contract_status.value
     }
     const callData = {
       call_date: date,
@@ -343,7 +358,7 @@ const onChangeHandler = (e, elementIdentifier) => {
     const res = await updateLead(query, LeadData, callData, clientData);
     if(res){
       alert.success('Lead updated successfully...!!');
-      history.goBack()
+      history.goBack();
     }
     else{
       alert.success('Lead update failed...!!');

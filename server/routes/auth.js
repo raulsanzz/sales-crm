@@ -1,7 +1,6 @@
 //  Login Apis
 const express = require("express");
 const Route = express.Router();
-const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../database/config");
@@ -17,12 +16,6 @@ Route.get("/", auth, async (req, res) => {
   res.json(user);
 });
 Route.post("/",async (req, res) => {
-
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //   return res.status(422).json({ errors: errors.array() });
-    // }
-
     let { registration_number, password } = req.body.newUser;
     const user = await User.findAll({
       where: { registration_number: registration_number }

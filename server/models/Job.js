@@ -10,17 +10,11 @@ module.exports = (sequelize, Sequelize) => {
     job_title: {
       type: Sequelize.STRING
     },
-    salary: { //job salary
-      type: Sequelize.INTEGER
-    },
     url: { //url for job-link
       type: Sequelize.STRING,
       unique: true
     },
     source: { //indeed, etc
-      type: Sequelize.STRING
-    },
-    status: { // job status
       type: Sequelize.STRING
     },
     user_id: { //which user added this job

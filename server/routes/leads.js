@@ -41,7 +41,7 @@ Router.get( "/", auth, async (req, res) => {
         const leads = await Lead.findAll({
             include: [
                 {   model: Job,
-                    attributes: ['job_title', 'salary', 'url', 'source'],
+                    attributes: ['job_title', 'url', 'source'],
 
                     include: [{
                         model: Client,
@@ -98,7 +98,7 @@ Router.get( "/callTaken", auth, async (req, res) => {
             include: [
                 {   
                     model: Job,
-                    attributes: ['job_title', 'salary', 'url', 'source'],
+                    attributes: ['job_title', 'url', 'source'],
                     include: [{
                         model: Client,
                         attributes: { exclude: ['createdAt', 'updatedAt'] }
