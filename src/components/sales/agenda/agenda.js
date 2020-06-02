@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
       }
   }));
 
-const agenda = ({ history, location, pdfExportComponent }) => {
+const agenda = ({ callStatuses, location, pdfExportComponent }) => {
     const classes = useStyles();   
     const [callStatus, setCallStatus] = useState('');
     const [notes, setNotes] = useState([]);
@@ -186,7 +186,7 @@ const agenda = ({ history, location, pdfExportComponent }) => {
                 <ul className={"list-group"}>
                 <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                     <InfoIcon style={{ fontSize: 40, color:'black' }}></InfoIcon>
-                    <span>Job & call Information</span>
+                    <span>Job & Call Information</span>
                 </li>
                 <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                     Lead Status:
@@ -198,7 +198,7 @@ const agenda = ({ history, location, pdfExportComponent }) => {
                 </li>
                 <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                     Contract Status:
-                    <span>{lead.contract_status}</span>
+                    <span>{lead.contract_status ? lead.contract_status : 'None'}</span>
                 </li>
                 <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                     Call Time:
@@ -262,9 +262,7 @@ const agenda = ({ history, location, pdfExportComponent }) => {
                         id={'call-status'}
                         value={callStatus}
                         onChange={(event) => {setCallStatus(event.target.value)}}>
-                        <MenuItem value='done'>done</MenuItem>
-                        <MenuItem value='not taken'>Not Taken</MenuItem>
-                        <MenuItem value='rescheduled by client'>rescheduled by client</MenuItem>
+                        {callStatuses.map( status => <MenuItem value={status}>{status}</MenuItem> )}
                         </Select>
                     </FormControl>
                 </li>): null : null}

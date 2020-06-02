@@ -2,6 +2,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import { useAlert } from 'react-alert';
+import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
@@ -67,7 +68,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const editSalesTest = ({ history, location }) => {
+const editSalesTest = ({ history, location, testStatuses }) => {
   const classes = useStyles();
   const alert = useAlert();
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
@@ -75,12 +76,8 @@ const editSalesTest = ({ history, location }) => {
     test_status: {
       elementType: 'select',
       elementConfig:{
-        options: [
-          {value: 'In progress', displayValue: 'In progress' },
-          {value: 'Completed', displayValue: 'Completed' },
-          {value: 'Dropped', displayValue: 'Dropped' },
-         ],
-         placeholder: 'Test Status'
+        options: testStatuses,
+        placeholder: 'Test Status'
       },
       value: location.state.detail.test.status,
       validation: {
@@ -190,7 +187,7 @@ const onChangeHandler = (e, elementIdentifier) => {
                   onChange={(event) => {onChangeHandler(event, elem.id)}}
                   >
                   {elem.config.elementConfig.options.map(opt => (
-                      <MenuItem key={opt.value} value={opt.value}>{opt.displayValue}</MenuItem>
+                      <MenuItem key={opt} value={opt}>{opt}</MenuItem>
                   ))} 
               </Select>
             </FormControl>
@@ -246,5 +243,7 @@ const onChangeHandler = (e, elementIdentifier) => {
   );
 };
 
-
-export default editSalesTest
+const mapStateToProps = state => ({
+  testStatuses: state.SelectOptions.pipelineTestStatus
+});
+export default connect(mapStateToProps)(editSalesTest)

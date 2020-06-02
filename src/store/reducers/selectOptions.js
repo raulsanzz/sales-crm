@@ -22,13 +22,23 @@ const initialState = {
     'not taken',
     'rescheduled by client'
   ],
-  testStatus: [
+  pipelineTestStatus: [
+    'In progress',
+    'Completed',
+    'Dropped'
+  ],
+  CompletedTestStatus: [
+    'Passed',
+    'Failed',
+    'No Response'
+  ],
+  testStatus: [  //for 'test' under test drop down(test report)
     'Passed',
     'Failed',
     'No Response',
     'Dropped'
   ],
-  allTestStatus: [
+  allTestStatus: [ //for admin reports (test Report)
     'Passed',
     'Failed',
     'No Response',

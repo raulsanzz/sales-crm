@@ -11,15 +11,7 @@ import { fetchLeads } from "../../../store/actions/lead";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const columns = [
-    { id: "company_name", label: "Company Name", minWidth: 170 },
-    { id: "profile", label: "profile", minWidth: 100, align: "center" },
-    { id: "due_date", label: "Due Date", minWidth: 100, align: "center" },
-    { id: "due_time", label: "Due Time", minWidth: 100, align: "center" },
-    { id: "test_gmail_thread", label: "Gmail Thread", minWidth: 100, align: "center" },
-    { id: "onChangeList", label: "Test Status", minWidth: 100, align: "center",
-    placeholder: "Test Status", for: 'status' , listItems: [ "Passed", "Failed", "No Response"]},
-];
+
   
   const useStyles = makeStyles(theme => ({
     root:{
@@ -49,12 +41,21 @@ const columns = [
     },
   }));
 
-const completedTest = ({fetchLeads, leads, history, leadLoading}) => {
+const completedTest = ({fetchLeads, leads, history, leadLoading, testStatuses}) => {
   const alert = useAlert();
   const classes = useStyles();
   const didMountRef = useRef(false);
   const [filteredLeads, setFilteredLeads] = useState([]);
 
+  const columns = [
+    { id: "company_name", label: "Company Name", minWidth: 170 },
+    { id: "profile", label: "profile", minWidth: 100, align: "center" },
+    { id: "due_date", label: "Due Date", minWidth: 100, align: "center" },
+    { id: "due_time", label: "Due Time", minWidth: 100, align: "center" },
+    { id: "test_gmail_thread", label: "Gmail Thread", minWidth: 100, align: "center" },
+    { id: "onChangeList", label: "Test Status", minWidth: 100, align: "center",
+    placeholder: "Test Status", for: 'status' , listItems: testStatuses},
+];
   useEffect(() => {
     if(didMountRef.current === false){ //only for component did mount
       fetchLeads(true);
@@ -108,7 +109,8 @@ const completedTest = ({fetchLeads, leads, history, leadLoading}) => {
 
 const mapStateToProps = state => ({
     leads: state.LeadReducer.leads,
-    leadLoading: state.LeadReducer.loading
+    leadLoading: state.LeadReducer.loading,
+    testStatuses: state.SelectOptions.CompletedTestStatus
 });
 
 export default  connect(mapStateToProps, { fetchLeads })(completedTest);
