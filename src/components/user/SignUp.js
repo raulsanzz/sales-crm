@@ -1,18 +1,19 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import Avatar from "@material-ui/core/Avatar";
 import Paper from "@material-ui/core/Paper";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Select from "@material-ui/core/Select";
+import Avatar from "@material-ui/core/Avatar";
 import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
+import Typography from "@material-ui/core/Typography";
 import { makeStyles } from '@material-ui/core/styles';
+import FormControl from "@material-ui/core/FormControl";
 import HowToReg from "@material-ui/icons/HowToReg";
 
+import errorHandler from './../../hoc/ErrorHandler/ErrorHandler';
 import { signUp } from "../../store/actions/auth";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,17 +38,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(
-      3
-    )}px`,
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`,
   },
   avatar: {
     margin: `${theme.spacing()}px auto`,
     backgroundColor: theme.palette.secondary.main,
-  },
-
-  invalidElementError: {
-    color: "red",
   },
   button: {
     width: "50%",
@@ -62,9 +57,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
+  // selectEmpty: {
+  //   marginTop: theme.spacing(2),
+  // },
   typography: {
     fontFamily: "initial",
     fontSize: "25px",
@@ -74,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const signupForm = ({ signUp, history }) => {
+const signupForm = ({ userRoles, signUp, history }) => {
   const classes  = useStyles();
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const [formData, setFormData] = useState({
@@ -82,7 +77,7 @@ const signupForm = ({ signUp, history }) => {
       elementType: "input",
       elementConfig: {
         type: "text",
-        placeholder: "Employee Number * ",
+        placeholder: "Employee Number*",
       },
       value: "",
       validation: {
@@ -97,7 +92,7 @@ const signupForm = ({ signUp, history }) => {
       elementType: "input",
       elementConfig: {
         type: "text",
-        placeholder: "Name *",
+        placeholder: "Name*",
       },
       value: "",
       validation: {
@@ -111,13 +106,8 @@ const signupForm = ({ signUp, history }) => {
     select_designation: {
       elementType: "select",
       elementConfig: {
-        options: [
-          { value: "Sales Voice", displayValue: "Sales Voice" },
-          { value: "Sales Executive", displayValue: "Sales Executive" },
-          { value: "Sales Manager", displayValue: "Sales Manager" },
-          { value: "Admin", displayValue: "Admin" },
-        ],
-        placeholder: "Select Designation *",
+        options: userRoles,
+        placeholder: "Select Designation*",
       },
       value: "",
       validation: {
@@ -131,7 +121,7 @@ const signupForm = ({ signUp, history }) => {
       elementType: "input",
       elementConfig: {
         type: "password",
-        placeholder: "Password *",
+        placeholder: "Password*",
       },
       value: "",
       validation: {
@@ -146,7 +136,7 @@ const signupForm = ({ signUp, history }) => {
       elementType: "input",
       elementConfig: {
         type: "password",
-        placeholder: "Re-enter Password *",
+        placeholder: "Re-enter Password*",
       },
       value: "",
       validation: {
@@ -158,9 +148,11 @@ const signupForm = ({ signUp, history }) => {
       message: "",
     },
   });
+
   useEffect(() => {
     checkFormValidity(formData);
   }, []);
+
   const orderHandler = async (e) => {
     e.preventDefault();
     const newUser = {
@@ -170,12 +162,8 @@ const signupForm = ({ signUp, history }) => {
       password: formData.password.value,
     };
     const res = await signUp(newUser)
-  
     if(res){
       history.push("/dashboard");
-    }
-    else{
-        console.log("ERROR")
     }
   };
   
@@ -191,8 +179,8 @@ const signupForm = ({ signUp, history }) => {
     }
     setFromIsInvalid(!formIsValid);
   };
+
   const onChangeHandler = (e, elementIdentifier) => {
-    console.log(elementIdentifier);
     const updatedForm = {
       ...formData,
     };
@@ -200,16 +188,15 @@ const signupForm = ({ signUp, history }) => {
       ...updatedForm[elementIdentifier],
     };
     updatedElement.value = e.target.value;
-    console.log(updatedElement.value);
     const res = validityCheck(updatedElement.value, updatedElement.validation);
     updatedElement.valid = res.isValid;
     updatedElement.message = res.message;
     updatedElement.touched = true;
     updatedForm[elementIdentifier] = updatedElement;
-    console.log(updatedForm);
     setFormData(updatedForm);
     checkFormValidity(updatedForm);
   };
+
   const validityCheck = (value, rules) => {
     let isValid = true;
     let message = "";
@@ -217,7 +204,7 @@ const signupForm = ({ signUp, history }) => {
       if (rules.required) {
         isValid = value.trim() !== "" && isValid;
         if (!isValid) {
-          message = "required";
+          message = "Required";
         }
       }
       if (rules.same_pass) {
@@ -230,18 +217,15 @@ const signupForm = ({ signUp, history }) => {
         const re = /^[a-zA-Z]+$/;
         isValid = value.trim().match(re) && isValid;
         if (!isValid && message === '') {
-          message = "Please enter only characters";
+          message = "Only characters allowed";
         }
       }
       if (rules.onlynum) {
-        const re = /^[0-9\b]+$/;
         if (!Number(value)) {
           isValid = false;
         }
-        console.log(isValid);
-        console.log(isValid);
         if (!isValid && message === '') {
-          message = "Employee number must be integer";
+          message = "Only numbers allowed";
         }
       }
 
@@ -257,7 +241,6 @@ const signupForm = ({ signUp, history }) => {
         message = "";
       }
     }
-    console.log(message);
     return { isValid, message };
   };
 
@@ -276,8 +259,7 @@ const signupForm = ({ signUp, history }) => {
           elem.config.elementType === "select" ? (
             <FormControl
               className={(classes.formControl, classes.textField)}
-              key={elem.id}
-            >
+              key={elem.id} >
               <InputLabel id={`${elem.id}-label`}>
                 {elem.config.elementConfig.placeholder}
               </InputLabel>
@@ -287,16 +269,14 @@ const signupForm = ({ signUp, history }) => {
                 value={elem.config.value}
                 onChange={(event) => {
                   onChangeHandler(event, elem.id);
-                }}
-              >
+                }} >
                 {elem.config.elementConfig.options.map((opt) => (
-                  <MenuItem key={opt.value} value={opt.value}>
-                    {opt.displayValue}
+                  <MenuItem key={opt} value={opt}>
+                    {opt}
                   </MenuItem>
                 ))}
               </Select>
-            </FormControl>
-          ) : (
+            </FormControl> ) : (
             <TextField
               key={elem.id}
               pattern="[a-zA-Z]"
@@ -309,8 +289,7 @@ const signupForm = ({ signUp, history }) => {
               onChange={(event) => {
                 onChangeHandler(event, elem.id);
               }}
-              helperText={elem.config.message}
-            />
+              helperText={elem.config.message} />
           )
         )}
         <Button
@@ -318,14 +297,14 @@ const signupForm = ({ signUp, history }) => {
           color="primary"
           type="submit"
           className={classes.button}
-          disabled={fromIsInvalid}
-        >
+          disabled={fromIsInvalid} >
           Submit
         </Button>
       </form>
     );
     return form;
   };
+
   return (
     <React.Fragment>
       <main className={classes.layout}>
@@ -333,12 +312,15 @@ const signupForm = ({ signUp, history }) => {
           <Avatar className={classes.avatar}>
             <HowToReg />
           </Avatar>
-          <Typography variant="headline">Sign Up</Typography>
+          <Typography className={classes.typography} >Sign Up</Typography>
           {formRender()}
         </Paper>
       </main>
     </React.Fragment>
   );
 };
+const mapStateToProps = state => ({
+  userRoles: state.SelectOptions.userRole
+})
 
-export default connect(null, { signUp })(signupForm);
+export default connect(mapStateToProps, { signUp })(errorHandler(signupForm));

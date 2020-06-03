@@ -45,13 +45,18 @@ const initialState = {
     'Dropped',
     'In progress',
     'Completed'
+  ],
+  userRole: [ 
+    'Sales Voice',
+    'Sales Executive',
+    'Sales Manager',
+    'Admin'
   ]
 };
 
 export default function(state = initialState, action) {
   const { type } = action;
   switch (type) {
-    
     default:
       return state;
   }

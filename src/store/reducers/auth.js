@@ -12,7 +12,7 @@ const initialState = {
   token: localStorage.getItem("token"),
   user: [],
   loading: true,
-  error: {},
+  error: false,
   isAuth: false
 };
 export default function(state = initialState, action) {
@@ -23,7 +23,8 @@ export default function(state = initialState, action) {
         ...state,
         isAuth: true,
         loading: false,
-        user: payload
+        user:payload.user,
+        error: false,
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
@@ -32,11 +33,18 @@ export default function(state = initialState, action) {
         ...state,
         ...payload,
         isAuth: true,
-        loading: false
+        user:payload.user,
+        loading: false,
+        error: false,
       };
     case REGISTER_FAIL:
     case LOGIN_FAIL:
     case AUTH_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: true
+      };
     case LOGOUT:
       localStorage.removeItem("token");
       return {
@@ -44,7 +52,7 @@ export default function(state = initialState, action) {
         token: null,
         isAuth: false,
         loading: false,
-        user: null
+        error: false,
       };
     default:
       return state;

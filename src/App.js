@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 import AppRouter from "./routers/AppRouter";
 import setAuthToken from "../src/utills/setAuthToken";
@@ -17,7 +17,7 @@ const options = {
 };
 
 export default () => {
-  React.useEffect(() => {
+  useEffect(() => {
     store.dispatch(loadUser());
   }, []);
 

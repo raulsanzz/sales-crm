@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import LockIcon from "@material-ui/icons/LockOutlined";
 
+import errorHandler from './../../hoc/ErrorHandler/ErrorHandler';
 import { logIn } from "../../store/actions/auth";
 
 const useStyles = makeStyles(theme => ({
@@ -193,13 +194,13 @@ const SignIn = ({ logIn}) => {
     checkFormValidity(updatedForm);
   };
 
-  const submitHandler = async e => {
+  const submitHandler = e => {
     e.preventDefault();
     const newUser = {
       registration_number: formData.registration_number.value,
       password: formData.password.value,
     };
-    await logIn(newUser);
+    logIn(newUser);
   };
 
   return (
@@ -221,4 +222,4 @@ const mapStateToProps = state => ({
   auth: state.authReducer.isAuth
 });
 
-export default connect(mapStateToProps, { logIn })(SignIn);
+export default connect(mapStateToProps, { logIn })(errorHandler(SignIn));

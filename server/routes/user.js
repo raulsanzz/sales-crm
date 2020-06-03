@@ -15,11 +15,8 @@ Route.post("/",async (req, res) => {
     const userExist = await User.count({
       where: { registration_number: req.body.newUser.registration_number }
     });
-
-    if (userExist) {
-      return res
-        .status(402)
-        .json({ msg: "Employee number already used by another user" });
+    if (userExist === 1) {
+      return res.status(402).json({ msg: "Employee number already Exists" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -36,8 +33,10 @@ Route.post("/",async (req, res) => {
           id: user.registration_number
         }
       };
-
-      jwt.sign(payload, config.secret, { expiresIn: 360000 }, (err, token) => {
+      console.log('====================================');
+      console.log(user);
+      console.log('====================================');
+      jwt.sign(payload, config.secret, (err, token) => {
         if (err) throw err;
         res.json({ token });
       });
