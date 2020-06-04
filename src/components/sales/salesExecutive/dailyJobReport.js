@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, Fragment } from "react";
-import axios from "axios";
 import { makeStyles } from "@material-ui/styles";
 
 import Meassage from './../../UI/message';
+import axios from "./../../../axios-order";
 import SalesDetails from "../../UI/salesDetail";
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,29 +40,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const salesExecutive = () => {
-  const [report, setReport] = useState([]);
-  const [tableHeader, setTableHeader] = useState('');
-  const [loading, setLoading] = useState(false);
   const classes = useStyles();
+  const [report, setReport] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [tableHeader, setTableHeader] = useState('');
   
   useEffect(( ) => {
      fetchData(); 
   },[])
   
   const fetchData = async () => {
-    setLoading(true);
-    let date = new Date();
-    date =  `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-    setTableHeader(`Report of (${date})`)
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const body = JSON.stringify({ startDate: date, endDate: date });
-    const res = await axios.put(BASE_URL + "/api/appliedJob/report", body, config);
-    setReport(res.data);
-    setLoading(false);
+    try {
+      setLoading(true);
+      let date = new Date();
+      date =  `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+      setTableHeader(`Report of (${date})`)
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const body = JSON.stringify({ startDate: date, endDate: date });
+      const res = await axios.put("/api/appliedJob/report", body, config);
+      setReport(res.data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(true);
+    } 
   };
 
   return (
@@ -81,4 +85,4 @@ const salesExecutive = () => {
   );
 };
 
-export default salesExecutive;
+export default errorHandler(salesExecutive);

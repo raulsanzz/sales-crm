@@ -36,7 +36,7 @@ export default function(state = initialState, action) {
     case JOB_ADD_FAIL:
       return {
         ...state,
-        loading: true,
+        loading: false,
         error: payload
       };
     default:

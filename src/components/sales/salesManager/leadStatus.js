@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 import { fetchLeads } from '../../../store/actions/lead';
 import TopOptionsSelector from '../../UI/topOptionsSelector';
 import Meassage from './../../UI/message';
@@ -105,4 +106,4 @@ const mapStateToProps = state => ({
   leadStatuses: state.SelectOptions.leadStatus
 });
   
-export default connect(mapStateToProps, { fetchLeads } )(leadStatus);
+export default connect(mapStateToProps, { fetchLeads } )(errorHandler(leadStatus));

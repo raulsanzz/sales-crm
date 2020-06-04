@@ -23,19 +23,18 @@ export default function(state = initialState, action) {
         ...state,
         isAuth: true,
         loading: false,
-        user:payload.user,
         error: false,
+        user:payload.user,
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem("token", payload.token);
       return {
         ...state,
-        ...payload,
         isAuth: true,
-        user:payload.user,
         loading: false,
         error: false,
+        user:payload.user,
       };
     case REGISTER_FAIL:
     case LOGIN_FAIL:

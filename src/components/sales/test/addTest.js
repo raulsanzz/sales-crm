@@ -2,22 +2,22 @@
 import 'date-fns';
 import React, { useState, useEffect, Fragment } from 'react';
 import { useAlert } from 'react-alert';
-import axios from "axios";
 import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+import axios from './../../../axios-order';
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 
 const useStyles = makeStyles(theme => ({
     layout: {
@@ -77,9 +77,9 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const addTest = ({ history, location }) => {
+  const alert = useAlert();
   const classes = useStyles();
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
-  const alert = useAlert();
   const [formData, setFormData] = useState({
     gmail_thread: {
       elementType: 'input',
@@ -216,9 +216,9 @@ const onChangeHandler = (e, elementIdentifier) => {
     };
     const body = JSON.stringify({ test });  
     try {
-      const res = await axios.post ( BASE_URL + "/api/test", body, config);
-        alert.success('Test Added successfully...!!');
-        history.goBack();
+      await axios.post ("/api/test", body, config);
+      alert.success('Test Added successfully...!!');
+      history.goBack();
     } catch (error) { 
       alert.success('Failed to add Test...!!');
     }
@@ -317,4 +317,4 @@ const onChangeHandler = (e, elementIdentifier) => {
   );
 };
 
-export default addTest
+export default errorHandler(addTest)

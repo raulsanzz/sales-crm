@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { useAlert } from 'react-alert';
 import { makeStyles } from '@material-ui/styles';
 
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 import { fetchLeads, updateLead } from '../../../store/actions/lead';
 import { fetchProfiles } from './../../../store/actions/profile';
 import TopOptionsSelector from '../../UI/topOptionsSelector';
@@ -128,4 +129,5 @@ const mapStateToProps = state => ({
   leadStatuses : state.SelectOptions.leadStatus
 });
 
-export default  connect(mapStateToProps, { fetchLeads, updateLead, fetchProfiles })(managerJobLinks);
+export default  connect(mapStateToProps,
+   { fetchLeads, updateLead, fetchProfiles })(errorHandler(managerJobLinks));

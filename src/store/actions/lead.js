@@ -1,5 +1,4 @@
-import axios from "axios";
-import { setAlert } from "../actions/alert";
+import axios from "./../../axios-order";
 
 import {
   LEAD_ACTION_START,
@@ -11,13 +10,9 @@ import {
   LEAD_UPDATE_FAIL
 } from "../actions/types";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-
 //Add a new Lead
 export const addLead = ( newLeadData ) => async dispatch => {
-  dispatch({
-    type: LEAD_ACTION_START,
-  });
+  dispatch({ type: LEAD_ACTION_START });
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -26,7 +21,7 @@ export const addLead = ( newLeadData ) => async dispatch => {
   const body = JSON.stringify({ newLeadData });
 
   try {
-    const res = await axios.post ( BASE_URL + "/api/lead", body, config);
+    const res = await axios.post ("/api/lead", body, config);
     dispatch({
       type: LEAD_ADD_SUCCESS,
       payload: res.data.newLead
@@ -34,12 +29,6 @@ export const addLead = ( newLeadData ) => async dispatch => {
     return true;
   } 
   catch (error) {
-    const errors = error.response.data.errors;
-    if (errors) {
-      errors.forEach(error => {
-        dispatch(setAlert(error.msg));
-      });
-    }
     dispatch({
       type: LEAD_ADD_FAIL,
       payload: error
@@ -51,12 +40,10 @@ export const addLead = ( newLeadData ) => async dispatch => {
 //fetch all leads
 export const fetchLeads = (shouldDispatchActionStarter) => async dispatch => {
   if(shouldDispatchActionStarter){
-    dispatch({
-      type: LEAD_ACTION_START,
-    });
+    dispatch({ type: LEAD_ACTION_START });
   }
   try {
-    const res = await axios.get ( BASE_URL + "/api/lead");
+    const res = await axios.get ("/api/lead");
     dispatch({
       type: LEAD_FETCH_SUCCESS,
       payload: res.data.leads
@@ -72,9 +59,7 @@ export const fetchLeads = (shouldDispatchActionStarter) => async dispatch => {
 //update lead
 export const updateLead = ( query, newLeadData, newCallData, newClientData, shouldDispatchActionStarter ) => async dispatch => {
   if(shouldDispatchActionStarter !== false){
-    dispatch({
-      type: LEAD_ACTION_START,
-    });
+    dispatch({ type: LEAD_ACTION_START });
   }
   const config = {
     headers: {
@@ -84,7 +69,7 @@ export const updateLead = ( query, newLeadData, newCallData, newClientData, shou
   const body = JSON.stringify({ query, newLeadData, newCallData, newClientData });
 
   try {
-    await axios.put ( BASE_URL + "/api/lead", body, config);
+    await axios.put ("/api/lead", body, config);
     dispatch({
       type: LEAD_UPDATE_SUCCESS,
       payload: { lead_id: query.lead_id, newLeadData, newCallData, newClientData }
@@ -92,12 +77,6 @@ export const updateLead = ( query, newLeadData, newCallData, newClientData, shou
     return true;
   } 
   catch (error) {
-    const errors = error.response.data.errors;
-    if (errors) {
-      errors.forEach(error => {
-        dispatch(setAlert(error.msg));
-      });
-    }
     dispatch({
       type: LEAD_UPDATE_FAIL,
       payload: error

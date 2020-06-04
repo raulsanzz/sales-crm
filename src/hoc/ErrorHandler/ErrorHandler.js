@@ -36,7 +36,7 @@ const ErrorHandler = (WrappedComponent) =>  {
                 <Fragment>
                 {this.state.error ? 
                     <Alert 
-                    message={this.state.error.data.msg}/>: null}
+                    message={this.state.error.data.msg ? this.state.error.data.msg : 'Somthing went wrong'}/>: null}
                  <WrappedComponent {...this.props} />   
                 </Fragment>
             )

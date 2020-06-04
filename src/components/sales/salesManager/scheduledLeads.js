@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import axios from "axios";
 import { connect } from 'react-redux';
 import { useAlert } from 'react-alert';
 import { makeStyles } from '@material-ui/styles';
 
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 import { fetchLeads, updateLead } from '../../../store/actions/lead';
+import axios from './../../../axios-order';
 import Meassage from './../../UI/message';
 import Table from './../../UI/table';
-const BASE_URL = process.env.REACT_APP_BASE_URL;
   
 const useStyles = makeStyles(theme => ({
   root:{
@@ -56,10 +56,9 @@ const scheduledLeads = ({fetchLeads, updateLead, leads, leadLoading, history}) =
   
   const fetchVoices = async() => {
     try {
-      const res = await axios.get ( BASE_URL + "/api/user/voice");
+      const res = await axios.get ("/api/user/voice");
       let names = [];
       names = res.data.users.map(user => (user.name));
-      console.log(names)
       setVoices(names);
     } catch (error) {
      console.log(error);
@@ -130,4 +129,5 @@ const mapStateToProps = state => ({
   leadLoading: state.LeadReducer.loading
 });
 
-export default  connect(mapStateToProps, { fetchLeads, updateLead })(scheduledLeads);
+export default  connect(mapStateToProps,
+   { fetchLeads, updateLead })(errorHandler(scheduledLeads));

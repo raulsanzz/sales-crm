@@ -10,13 +10,13 @@ const User = db.user;
 const Op = sequelize.Op;
 
 //@POST api/user @user registration
-Route.post("/",async (req, res) => { 
+Route.post("/", async (req, res) => { 
     
     const userExist = await User.count({
       where: { registration_number: req.body.newUser.registration_number }
     });
     if (userExist === 1) {
-      return res.status(402).json({ msg: "Employee number already Exists" });
+      return res.status(402).json({ msg: "Employee number already exists" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -33,12 +33,9 @@ Route.post("/",async (req, res) => {
           id: user.registration_number
         }
       };
-      console.log('====================================');
-      console.log(user);
-      console.log('====================================');
       jwt.sign(payload, config.secret, (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({ user, token });
       });
     } catch (error) {
       console.log(error.message);

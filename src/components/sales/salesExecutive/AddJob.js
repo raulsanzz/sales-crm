@@ -1,14 +1,16 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { useAlert } from 'react-alert';
+import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import HowToReg from '@material-ui/icons/HowToReg';
+
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 import Meassage from './../../UI/message';
 import { fetchJob, addJob } from '../../../store/actions/job';
 
@@ -401,4 +403,5 @@ const mapStateToProps = state => ({
   jobLoading: state.JobReducer.loading
 });
 
-export default connect(mapStateToProps, { addJob, fetchJob })(withRouter(AddJob));
+export default connect(mapStateToProps, 
+  { addJob, fetchJob })(errorHandler(withRouter(AddJob)));

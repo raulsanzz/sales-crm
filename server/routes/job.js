@@ -1,5 +1,5 @@
 const express = require("express");
-const { addClient } = require('./clients');
+const { addClient, deleteClient } = require('./clients');
 const auth = require("../middleware/auth");
 const db = require("../database/db");
 const Route = express.Router();
@@ -10,14 +10,14 @@ const Client = db.client;
 
 // Create new job
 Route.post("/", auth, async (req, res) => {
-
+  let client = null;
   try {
-    const client = await addClient(req.body.newClientData);
+    client = await addClient(req.body.newClientData);
     
     let job = await Job.create({
       ...req.body.newJobData,
       user_id: req.user.user.id,
-      client_id:client.dataValues.id,
+      client_id: client.dataValues.id,
     });
     if (job) {
       const user = await User.findAll({
@@ -39,13 +39,10 @@ Route.post("/", auth, async (req, res) => {
       job.dataValues.client = {...client.dataValues}  
       return res.json({ job });
     }
-
   } 
   catch (error) {
-    console.log('====================================');
-    console.log(error);
-    console.log('====================================');
-    return res.status(402).json({ msg: "Server Error" });
+    await deleteClient(client.dataValues.id);
+    return res.status(402).json({ msg: error.errors[0].message });
   }
 });
 

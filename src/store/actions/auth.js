@@ -17,8 +17,7 @@ export const loadUser = () => async dispatch => {
     setAuthToken(localStorage.token);
   }
   try {
-    const res = await axios.get ("/api/auth");
-
+    const res = await axios.get("/api/auth");
     dispatch({
       type: USER_LOADED,
       payload: res.data
@@ -39,11 +38,15 @@ export const signUp = (newUser) => async dispatch => {
   const body = JSON.stringify({ newUser });
   try {
     const res = await axios.post( "/api/user", body, config);
+    const data = {
+      token: res.data.token,
+      user: [{...res.data.user}]
+    }
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: res.data
+      payload: data
     });
-    setAuthToken(res.data.token);
+    setAuthToken(data.token);
     return true;
   } catch (error) {
     dispatch({ type: REGISTER_FAIL });
