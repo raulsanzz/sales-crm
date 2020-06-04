@@ -2,25 +2,25 @@
 import React, { useState, useEffect } from 'react';
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
+import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import TableRow from "@material-ui/core/TableRow";
+import TextField from "@material-ui/core/TextField";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
-import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
+import TablePagination from "@material-ui/core/TablePagination";
 import EditIcon from '@material-ui/icons/Edit';
 
   
 const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, onApplyHandler, rowClickListener}) => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [match, setMatch] = useState("Search");
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filteredJobs, setFilteredJobs] = useState([]);
 
   useEffect(() => {

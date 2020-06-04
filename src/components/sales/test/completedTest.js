@@ -1,45 +1,42 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import axios from "axios";
 import { connect } from "react-redux";
 import { useAlert } from 'react-alert';
 import { makeStyles } from "@material-ui/styles";
 
 import Table from "./../../UI/table";
 import Meassage from './../../UI/message';
+import axios from './../../../axios-order';
 import { fetchLeads } from "../../../store/actions/lead";
-
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-
-
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
   
-  const useStyles = makeStyles(theme => ({
-    root:{
-      width: "100%"
-    },
-    tableWrapper: {
-      overflow: "auto"
-    },
-    paper: {
-      width: "100%",
-      marginBottom: theme.spacing(2)
-    },
-    jobHeader: {
-      textAlign: "center",
-      fontFamily: "initial",
-      color: "blue"
-    },  
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
-    },
-    textField:{
-      width: '100%',
-    },
-  }));
+const useStyles = makeStyles(theme => ({
+  root:{
+    width: "100%"
+  },
+  tableWrapper: {
+    overflow: "auto"
+  },
+  paper: {
+    width: "100%",
+    marginBottom: theme.spacing(2)
+  },
+  jobHeader: {
+    textAlign: "center",
+    fontFamily: "initial",
+    color: "blue"
+  },  
+  formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120
+  },
+  selectEmpty: {
+      marginTop: theme.spacing(2),
+  },
+  textField:{
+    width: '100%',
+  },
+}));
 
 const completedTest = ({fetchLeads, leads, history, leadLoading, testStatuses}) => {
   const alert = useAlert();
@@ -83,7 +80,7 @@ const completedTest = ({fetchLeads, leads, history, leadLoading, testStatuses}) 
     const test = { status: test_status }
     const body = JSON.stringify({test});  
     try {
-      await axios.put( BASE_URL + "/api/test/" + lead_id, body, config);
+      await axios.put("/api/test/" + lead_id, body, config);
       alert.success('Test status updated successfully...!!');
       fetchLeads();
     } catch (error) {      
@@ -113,4 +110,5 @@ const mapStateToProps = state => ({
     testStatuses: state.SelectOptions.CompletedTestStatus
 });
 
-export default  connect(mapStateToProps, { fetchLeads })(completedTest);
+export default  connect(mapStateToProps,
+   { fetchLeads })(errorHandler(completedTest));

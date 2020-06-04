@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import axios from "axios";
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 import TopOptionsSelector from '../../UI/topOptionsSelector';
+import axios from './../../../axios-order';
 import Meassage from './../../UI/message';
 import Table from './../../UI/table';
-const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const columns = [
   { id: 'company_name', label: 'Company Name', minWidth: 170},
@@ -74,7 +74,7 @@ const voiceStatus = ({history, callStatuses}) => {
       setLoading(true);
     }
       try {
-      const res = await axios.get ( BASE_URL + "/api/lead/callTaken");
+      const res = await axios.get ("/api/lead/callTaken");
       setLeads(res.data.leads);
     } catch (error) {
       console.log('====================================');
@@ -178,4 +178,4 @@ const mapStateToProps = state => ({
   callStatuses: state.SelectOptions.callStatus
 });
 
-export default   connect(mapStateToProps)(voiceStatus);
+export default   connect(mapStateToProps)(errorHandler(voiceStatus));

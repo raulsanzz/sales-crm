@@ -1,23 +1,22 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, Fragment, useRef } from 'react';
 import { useAlert } from 'react-alert';
-import axios from "axios";
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+import axios from './../../../axios-order'
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 
 const agendaForm = ({ classes, call_id, callStatus, voice, editable, updateNotes}) => {
-  const [agenda, setAgenda] = useState({});
-  const [agendaExists, setAgendaExists] = useState(false);
-  const [notes, setNotes] = useState('');
-  const [fromIsInvalid, setFromIsInvalid] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [notesRequired, setNotesRequired] = useState(true);
-  const didMountRef = useRef(false)
   const alert = useAlert();
-
+  const didMountRef = useRef(false)
+  const [notes, setNotes] = useState('');
+  const [agenda, setAgenda] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [agendaExists, setAgendaExists] = useState(false);
+  const [fromIsInvalid, setFromIsInvalid] = useState(false);
+  const [notesRequired, setNotesRequired] = useState(true);
   const [formData, setFormData] = useState({
     remote: {
       elementType: 'input',
@@ -194,7 +193,7 @@ const initilizeForm = (data) => {
 const getAgenda = async() => {
   setLoading(true);
   try {
-    const res =  await axios.get ( BASE_URL + "/api/agenda/" + call_id);
+    const res =  await axios.get ("/api/agenda/" + call_id);
     if(res.data.agenda.length === 0){
       setAgendaExists(false);
       const temp = {
@@ -228,7 +227,7 @@ const updateAgenda = async(agenda, note) => {
       headers: { "Content-Type": "application/json" }
     };
     const body = JSON.stringify({ agenda, note });
-    const res =  await axios.put ( BASE_URL + "/api/agenda/" + call_id, body, config);
+    const res =  await axios.put ("/api/agenda/" + call_id, body, config);
       if(res.data.agenda.length === 1){
         alert.success('Agenda updated successfully...!!');
       }
@@ -249,7 +248,7 @@ const createAgenda = async(agenda, note) => {
       headers: { "Content-Type": "application/json" }
     };
     const body = JSON.stringify({ agenda, note });
-    await axios.post ( BASE_URL + "/api/agenda", body, config);
+    await axios.post ("/api/agenda", body, config);
     alert.success('Agenda updated successfully...!!');
   } catch (error) {
       alert.success('Agenda update failed...!!');
@@ -355,4 +354,4 @@ const createAgenda = async(agenda, note) => {
   );
 };
 
-export default agendaForm;
+export default errorHandler(agendaForm);

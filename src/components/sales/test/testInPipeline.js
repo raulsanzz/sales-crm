@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/styles";
 import Table from "./../../UI/table";
 import Meassage from './../../UI/message';
 import { fetchLeads } from "../../../store/actions/lead";
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 
 const columns = [
     { id: "company_name", label: "Company Name", minWidth: 170 },
@@ -86,4 +87,4 @@ const mapStateToProps = state => ({
     leadLoading: state.LeadReducer.loading
 });
 
-export default  connect(mapStateToProps, { fetchLeads })(testInPipeline);
+export default  connect(mapStateToProps, { fetchLeads })(errorHandler(testInPipeline));

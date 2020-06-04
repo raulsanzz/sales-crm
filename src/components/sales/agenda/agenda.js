@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, {useState, Fragment} from 'react';
 import { connect } from 'react-redux';
-import { PDFExport } from '@progress/kendo-react-pdf';
 import { makeStyles } from '@material-ui/styles';
-import Paper from '@material-ui/core/Paper';
+import { PDFExport } from '@progress/kendo-react-pdf';
 import Grid from '@material-ui/core/Grid';
-import InputLabel from '@material-ui/core/InputLabel';
+import Paper from '@material-ui/core/Paper';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 import InfoIcon from '@material-ui/icons/Info';
 import PersonIcon from '@material-ui/icons/Person';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
@@ -59,8 +59,8 @@ const useStyles = makeStyles(theme => ({
 
 const agenda = ({ callStatuses, location, pdfExportComponent }) => {
     const classes = useStyles();   
-    const [callStatus, setCallStatus] = useState('');
     const [notes, setNotes] = useState([]);
+    const [callStatus, setCallStatus] = useState('');
     const lead = location.state.detail;
 
     let date = new Date();
