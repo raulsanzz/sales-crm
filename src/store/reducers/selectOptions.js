@@ -47,9 +47,9 @@ const initialState = {
     'Completed'
   ],
   userRole: [ 
-    'Sales Voice',
     'Sales Executive',
     'Sales Manager',
+    'Sales Voice',
     'Admin'
   ]
 };

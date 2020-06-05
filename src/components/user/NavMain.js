@@ -1,25 +1,25 @@
-import React , { Fragment }from "react";
-import { withRouter } from "react-router";
-import { connect } from "react-redux";
-import compose from "recompose/compose";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import classNames from "classnames";
-import { withStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
+import React , { Fragment }from 'react';
+import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { withStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import NavSide from "./NavSide";
-import { logout } from "../../store/actions/auth";
+import NavSide from './NavSide';
+import { logout } from '../../store/actions/auth';
 
 const drawerWidth = 250;
 
@@ -28,16 +28,16 @@ const styles = theme => ({
     flexGrow: 1
   },
   appFrame: {
-    minHeight: "100vh",
-    height: "100%",
+    minHeight: '100vh',
+    height: '100%',
     zIndex: 1,
-    position: "relative",
-    display: "flex",
-    width: "100%"
+    position: 'relative',
+    display: 'flex',
+    width: '100%'
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: "#1c304e",
+    backgroundColor: '#1c304e',
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -55,24 +55,24 @@ const styles = theme => ({
     marginRight: 36
   },
   logoText: {
-    textDecoration: "none",
-    marginLeft: "21px"
+    textDecoration: 'none',
+    marginLeft: '21px'
   },
   rightMostButton: {
     marginRight: 12
   },
   hide: {
-    display: "none"
+    display: 'none'
   },
   drawer: {
-    backgroundColor: "#1c304e",
+    backgroundColor: '#1c304e',
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
   },
   drawerOpen: {
     width: drawerWidth,
-    backgroundColor: "#1c304e",
+    backgroundColor: '#1c304e',
     color:'white',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
@@ -84,7 +84,7 @@ const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    backgroundColor: "#1c304e",
+    backgroundColor: '#1c304e',
     color:'white',
     overflowX: 'hidden',
     width: theme.spacing(7) + 1,
@@ -105,20 +105,20 @@ const styles = theme => ({
     padding: theme.spacing(3),
   },
   pushRight: {
-    marginLeft: "auto"
+    marginLeft: 'auto'
   },
   color: {
-    color: "white"
+    color: 'white'
   },
   h4: {
-    margin: "0 auto"
+    margin: '0 auto'
   }
 });
 
 class NavMain extends React.Component {
   state = {
     open: false,
-    anchor: "left"
+    anchor: 'left'
   };
 
   renderButtons = () => {
@@ -132,8 +132,8 @@ class NavMain extends React.Component {
           <h5 className={classes.h4}>User Name: {name}</h5>
           <Button
             onClick={this.handleLogout}
-            color="inherit"
-            to="/"
+            color='inherit'
+            to='/'
             component={Link}
             className={classes.rightMostButton}>
             Log Out
@@ -144,16 +144,16 @@ class NavMain extends React.Component {
       return (
         <Fragment>
           <Button
-            color="inherit"
-            to="/"
+            color='inherit'
+            to='/'
             component={Link}
             className={classes.pushRight}>
             Login
           </Button>
           <Button
-            to="/signup"
+            to='/signup'
             component={Link}
-            color="inherit"
+            color='inherit'
             className={classes.rightMostButton}>
             Sign Up
           </Button>
@@ -187,7 +187,7 @@ class NavMain extends React.Component {
       <Drawer
       onMouseEnter={this.handleDrawerOpen}
       onMouseLeave={this.handleDrawerClose}
-        variant="permanent"
+        variant='permanent'
         className={classNames(classes.drawer, {
           [classes.drawerOpen]: open,
           [classes.drawerClose]: !open,
@@ -216,7 +216,7 @@ class NavMain extends React.Component {
         <CssBaseline />
         <div className={classes.appFrame}>
           <AppBar
-            position="fixed"
+            position='fixed'
             className={classNames(classes.appBar, {
               [classes.appBarShift]: open
             })}>
@@ -224,8 +224,8 @@ class NavMain extends React.Component {
               <Typography
                 component={Link}
                 className={classes.logoText}
-                to="/"
-                color="inherit"
+                to='/'
+                color='inherit'
                 noWrap>
                 Cloud Tek
               </Typography>

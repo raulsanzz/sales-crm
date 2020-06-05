@@ -8,16 +8,16 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   LOGOUT
-} from "../actions/types";
+} from '../actions/types';
 
-import setAuthToken from "../../utills/setAuthToken";
+import setAuthToken from '../../utills/setAuthToken';
 
 export const loadUser = () => async dispatch => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
   try {
-    const res = await axios.get("/api/auth");
+    const res = await axios.get('/api/auth');
     dispatch({
       type: USER_LOADED,
       payload: res.data
@@ -32,12 +32,12 @@ export const loadUser = () => async dispatch => {
 export const signUp = (newUser) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
   const body = JSON.stringify({ newUser });
   try {
-    const res = await axios.post( "/api/user", body, config);
+    const res = await axios.post( '/api/user', body, config);
     const data = {
       token: res.data.token,
       user: [{...res.data.user}]
@@ -57,12 +57,12 @@ export const signUp = (newUser) => async dispatch => {
 export const logIn = (newUser) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
   const body = JSON.stringify({ newUser });  
   try {
-    const res = await axios.post("/api/auth", body, config);
+    const res = await axios.post('/api/auth', body, config);
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data

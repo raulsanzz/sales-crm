@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 module.exports = (sequelize, Sequelize) => {
-  return sequelize.define("appliedJobs", {
+  return sequelize.define('appliedJobs', {
     job_id: {
       allowNull: false,
       type: Sequelize.INTEGER,

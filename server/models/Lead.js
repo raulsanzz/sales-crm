@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 module.exports = (sequelize, Sequelize) => {
-  return sequelize.define("leads", {
+  return sequelize.define('leads', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,

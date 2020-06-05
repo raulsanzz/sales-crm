@@ -19,7 +19,7 @@ const alert = ({message}) => {
 
   return (
     <div className={classes.root}>
-      <Alert severity="error">{message}</Alert>
+      <Alert severity='error'>{message}</Alert>
     </div>
   );
 }

@@ -1,43 +1,43 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import Select from "@material-ui/core/Select";
-import Avatar from "@material-ui/core/Avatar";
-import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
-import InputLabel from "@material-ui/core/InputLabel";
-import Typography from "@material-ui/core/Typography";
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import Avatar from '@material-ui/core/Avatar';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import FormControl from "@material-ui/core/FormControl";
-import HowToReg from "@material-ui/icons/HowToReg";
+import FormControl from '@material-ui/core/FormControl';
+import HowToReg from '@material-ui/icons/HowToReg';
 
 import errorHandler from './../../hoc/ErrorHandler/ErrorHandler';
-import { signUp } from "../../store/actions/auth";
+import { signUp } from '../../store/actions/auth';
 
 const useStyles = makeStyles((theme) => ({
   layout: {
-    width: "100%",
-    display: "block",
-    margin: "0 auto",
-    [theme.breakpoints.up("sm")]: {
-      width: "80%",
+    width: '100%',
+    display: 'block',
+    margin: '0 auto',
+    [theme.breakpoints.up('sm')]: {
+      width: '80%',
     },
-    [theme.breakpoints.up("md")]: {
-      width: "65%",
+    [theme.breakpoints.up('md')]: {
+      width: '65%',
     },
-    [theme.breakpoints.up("lg")]: {
-      width: "45%",
+    [theme.breakpoints.up('lg')]: {
+      width: '45%',
     },
   },
   paper: {
-    minHeight: "300px",
+    minHeight: '300px',
     marginTop: theme.spacing(8),
     marginBottom: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`,
   },
   avatar: {
@@ -45,13 +45,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   button: {
-    width: "50%",
-    display: "flex",
-    justifyContent: "center",
-    margin: "10px auto",
+    width: '50%',
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '10px auto',
   },
   textField: {
-    width: "100%",
+    width: '100%',
   },
   formControl: {
     margin: theme.spacing(1),
@@ -61,11 +61,11 @@ const useStyles = makeStyles((theme) => ({
   //   marginTop: theme.spacing(2),
   // },
   typography: {
-    fontFamily: "initial",
-    fontSize: "25px",
-    display: "flex",
-    justifyContent: "center",
-    margin: "0 auto",
+    fontFamily: 'initial',
+    fontSize: '25px',
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '0 auto',
   },
 }));
 
@@ -74,78 +74,78 @@ const signupForm = ({ userRoles, signUp, history }) => {
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const [formData, setFormData] = useState({
     registration_number: {
-      elementType: "input",
+      elementType: 'input',
       elementConfig: {
-        type: "text",
-        placeholder: "Employee Number*",
+        type: 'text',
+        placeholder: 'Employee Number*',
       },
-      value: "",
+      value: '',
       validation: {
         required: true,
         onlynum: true,
       },
       valid: false,
       touched: false,
-      message: "",
+      message: '',
     },
     name: {
-      elementType: "input",
+      elementType: 'input',
       elementConfig: {
-        type: "text",
-        placeholder: "Name*",
+        type: 'text',
+        placeholder: 'Name*',
       },
-      value: "",
+      value: '',
       validation: {
         required: true,
         onlyalphabet: true,
       },
       valid: false,
       touched: false,
-      message: "",
+      message: '',
     },
     select_designation: {
-      elementType: "select",
+      elementType: 'select',
       elementConfig: {
         options: userRoles,
-        placeholder: "Select Designation*",
+        placeholder: 'Select Designation*',
       },
-      value: "",
+      value: '',
       validation: {
         required: true,
       },
       valid: false,
       touched: false,
-      message: "",
+      message: '',
     },
     password: {
-      elementType: "input",
+      elementType: 'input',
       elementConfig: {
-        type: "password",
-        placeholder: "Password*",
+        type: 'password',
+        placeholder: 'Password*',
       },
-      value: "",
+      value: '',
       validation: {
         minLength: 5,
         required: true,
       },
       valid: false,
       touched: false,
-      message: "",
+      message: '',
     },
     reenter_password: {
-      elementType: "input",
+      elementType: 'input',
       elementConfig: {
-        type: "password",
-        placeholder: "Re-enter Password*",
+        type: 'password',
+        placeholder: 'Re-enter Password*',
       },
-      value: "",
+      value: '',
       validation: {
         required: true,
         same_pass: true,
       },
       valid: false,
       touched: false,
-      message: "",
+      message: '',
     },
   });
 
@@ -163,7 +163,7 @@ const signupForm = ({ userRoles, signUp, history }) => {
     };
     const res = await signUp(newUser)
     if(res){
-      history.push("/dashboard");
+      history.push('/dashboard');
     }
   };
   
@@ -199,25 +199,25 @@ const signupForm = ({ userRoles, signUp, history }) => {
 
   const validityCheck = (value, rules) => {
     let isValid = true;
-    let message = "";
+    let message = '';
     if (rules) {
       if (rules.required) {
-        isValid = value.trim() !== "" && isValid;
+        isValid = value.trim() !== '' && isValid;
         if (!isValid) {
-          message = "Required";
+          message = 'Required';
         }
       }
       if (rules.same_pass) {
         isValid = value.trim() === formData.password.value && isValid;
         if (!isValid && message === '') {
-          message = "Password must be same";
+          message = 'Password must be same';
         }
       }
       if (rules.onlyalphabet) {
         const re = /^[a-zA-Z]+$/;
         isValid = value.trim().match(re) && isValid;
         if (!isValid && message === '') {
-          message = "Only characters allowed";
+          message = 'Only characters allowed';
         }
       }
       if (rules.onlynum) {
@@ -225,20 +225,20 @@ const signupForm = ({ userRoles, signUp, history }) => {
           isValid = false;
         }
         if (!isValid && message === '') {
-          message = "Only numbers allowed";
+          message = 'Only numbers allowed';
         }
       }
 
       if (rules.minLength) {
         isValid = value.trim().length >= rules.minLength && isValid;
         if (!isValid && message === '') {
-          message = "Password is too short";
+          message = 'Password is too short';
         }
       }
 
       if (!rules.required && value.trim() < 1) {
         isValid = true;
-        message = "";
+        message = '';
       }
     }
     return { isValid, message };
@@ -256,7 +256,7 @@ const signupForm = ({ userRoles, signUp, history }) => {
     let form = (
       <form onSubmit={orderHandler}>
         {fromElementArray.map((elem) =>
-          elem.config.elementType === "select" ? (
+          elem.config.elementType === 'select' ? (
             <FormControl
               className={(classes.formControl, classes.textField)}
               key={elem.id} >
@@ -279,7 +279,7 @@ const signupForm = ({ userRoles, signUp, history }) => {
             </FormControl> ) : (
             <TextField
               key={elem.id}
-              pattern="[a-zA-Z]"
+              pattern='[a-zA-Z]'
               className={classes.textField}
               error={!elem.config.valid && elem.config.touched}
               id={elem.id}
@@ -293,9 +293,9 @@ const signupForm = ({ userRoles, signUp, history }) => {
           )
         )}
         <Button
-          variant="contained"
-          color="primary"
-          type="submit"
+          variant='contained'
+          color='primary'
+          type='submit'
           className={classes.button}
           disabled={fromIsInvalid} >
           Submit

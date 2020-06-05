@@ -1,20 +1,20 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, Fragment } from "react";
-import axios from "axios";
-import { connect } from "react-redux";
+import React, { useState, Fragment } from 'react';
+import { connect } from 'react-redux';
 import Table from '@material-ui/core/Table';
+import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 
-import ReportPage from "./reportPage";
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+import ReportPage from './reportPage';
+import axios from './../../../axios-order';
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 
 const test = ({testStatuses}) => {
   const [report, setReport] = useState([]);
-  const [tableHeader, setTableHeader] = useState('');
   const [loading, setLoading] = useState(false);
+  const [tableHeader, setTableHeader] = useState('');
 
   const handleDate = async (startDate, endDate) => {
     setLoading(true);
@@ -23,11 +23,11 @@ const test = ({testStatuses}) => {
     setTableHeader(`Report of [${startDate}] - [${endDate}]`)
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     };
     const body = JSON.stringify({ startDate, endDate });
-    const res = await axios.put(BASE_URL + "/api/test/testReport", body, config);
+    const res = await axios.put('/api/test/testReport', body, config);
     const temp = testStatuses.map( status => {
       const result = foundStatusInDbReport(status, res.data.testReport);
         if(result.length === 0){
@@ -54,7 +54,7 @@ const test = ({testStatuses}) => {
   const displayTable = () => {
     return(
       <Fragment>
-        <Table style={{minWidth: '650'}} aria-label="simple table">
+        <Table style={{minWidth: '650'}} aria-label='simple table'>
           <TableHead>
             <TableRow>
               <TableCell>Test Status</TableCell>
@@ -65,10 +65,10 @@ const test = ({testStatuses}) => {
             {report.map((row, index) => (
               row.status ? ( 
                 <TableRow key={index}>
-                <TableCell component="th" scope="row">
+                <TableCell component='th' scope='row'>
                   {row.status} 
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell component='th' scope='row'>
                   {row.total}
                 </TableCell>
               </TableRow>
@@ -96,4 +96,4 @@ const mapStateToProps = state => ({
   testStatuses : state.SelectOptions.allTestStatus
 })
 
-export default connect(mapStateToProps)(test);
+export default connect(mapStateToProps)(errorHandler(test));

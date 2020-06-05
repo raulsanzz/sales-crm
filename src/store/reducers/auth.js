@@ -6,10 +6,10 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   LOGOUT
-} from "../actions/types";
+} from '../actions/types';
 
 const initialState = {
-  token: localStorage.getItem("token"),
+  token: localStorage.getItem('token'),
   user: [],
   loading: true,
   error: false,
@@ -28,7 +28,7 @@ export default function(state = initialState, action) {
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
-      localStorage.setItem("token", payload.token);
+      localStorage.setItem('token', payload.token);
       return {
         ...state,
         isAuth: true,
@@ -45,7 +45,7 @@ export default function(state = initialState, action) {
         error: true
       };
     case LOGOUT:
-      localStorage.removeItem("token");
+      localStorage.removeItem('token');
       return {
         ...state,
         token: null,

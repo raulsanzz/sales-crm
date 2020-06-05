@@ -1,7 +1,7 @@
-const express = require("express");
+const express = require('express');
 const { addClient, deleteClient } = require('./clients');
-const auth = require("../middleware/auth");
-const db = require("../database/db");
+const auth = require('../middleware/auth');
+const db = require('../database/db');
 const Route = express.Router();
 const User = db.user;
 const Job = db.job;
@@ -9,7 +9,7 @@ const Profile = db.profile;
 const Client = db.client;
 
 // Create new job
-Route.post("/", auth, async (req, res) => {
+Route.post('/', auth, async (req, res) => {
   let client = null;
   try {
     client = await addClient(req.body.newClientData);
@@ -47,12 +47,12 @@ Route.post("/", auth, async (req, res) => {
 });
 
 //Fetch all Job
-Route.get("/", auth, async (req, res) => {
+Route.get('/', auth, async (req, res) => {
   try {
     const result = await Job.findAll({
       include: [{
           model: User,
-          attributes: ["name"]
+          attributes: ['name']
         },
         {
           model: Client
@@ -63,12 +63,12 @@ Route.get("/", auth, async (req, res) => {
     res.json({ result });
   } catch (error) {
     console.log(error.message);
-    return res.status(402).json({ msg: "Server Error" });
+    return res.status(402).json({ msg: 'Server Error' });
   }
 });
 
 //Update job
-Route.put("/update/:id", auth, async (req, res) => {
+Route.put('/update/:id', auth, async (req, res) => {
   try {
     let result = await Job.update({
         ...req.body.updatedData
@@ -79,7 +79,7 @@ Route.put("/update/:id", auth, async (req, res) => {
     res.json({ result });
   } catch (error) {
     console.log(error.message);
-    return res.status(402).json({ msg: "Server Error" });
+    return res.status(402).json({ msg: 'Server Error' });
   }
 });
 

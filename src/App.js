@@ -1,10 +1,10 @@
-import React from "react";
-import { positions, Provider } from "react-alert";
-import AlertTemplate from "react-alert-template-basic";
+import React from 'react';
+import { positions, Provider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
 
-import store from "./store/store";
-import AppRouter from "./routers/AppRouter";
-import { loadUser } from "./store/actions/auth";
+import store from './store/store';
+import AppRouter from './routers/AppRouter';
+import { loadUser } from './store/actions/auth';
 
 if (localStorage.token) {
   store.dispatch(loadUser());

@@ -1,20 +1,20 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, Fragment } from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 import Table from "@material-ui/core/Table";
+import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 
 import ReportPage from "./reportPage";
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+import axios from './../../../axios-order';
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 
 const appliedJobs = ({jobStatuses}) => {
   const [report, setReport] = useState([]);
-  const [tableHeader, setTableHeader] = useState("");
   const [loading, setLoading] = useState(false);
+  const [tableHeader, setTableHeader] = useState("");
 
   const handleDate = async (startDate, endDate) => {
     setLoading(true);
@@ -27,7 +27,7 @@ const appliedJobs = ({jobStatuses}) => {
       },
     };
     const body = JSON.stringify({ startDate, endDate });
-    const res = await axios.put(BASE_URL + "/api/appliedJob/jobReport", body, config);
+    const res = await axios.put("/api/appliedJob/jobReport", body, config);
     const temp = jobStatuses.map( status => {
       const result = foundStatusInDbReport(status, res.data.jobReport);
       if(result.length === 0){
@@ -96,4 +96,4 @@ const mapStateToProps = state => ({
   jobStatuses: state.SelectOptions.jobStatus
 }
 )
-export default connect(mapStateToProps)(appliedJobs);
+export default connect(mapStateToProps)(errorHandler(appliedJobs));

@@ -10,9 +10,9 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import HowToReg from '@material-ui/icons/HowToReg';
 
-import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 import Meassage from './../../UI/message';
 import { fetchJob, addJob } from '../../../store/actions/job';
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 
 const useStyles = makeStyles(theme => ({
   layout: {

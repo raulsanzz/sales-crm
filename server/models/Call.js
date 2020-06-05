@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 module.exports = (sequelize, Sequelize) => {
-  return sequelize.define("calls", {
+  return sequelize.define('calls', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
     contact_via: { // phone or an app like Zoom , GotoMeeting etc
       type: Sequelize.STRING
     },
-    contact_via_detail: { // number or link deprnding on "contact_via"
+    contact_via_detail: { // number or link deprnding on 'contact_via'
       type: Sequelize.STRING
     },
     call_status: {

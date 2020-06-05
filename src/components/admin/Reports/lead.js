@@ -1,20 +1,20 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, Fragment } from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 import Table from '@material-ui/core/Table';
+import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 
 import ReportPage from "./reportPage";
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+import axios from './../../../axios-order';
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 
 const leads = ({leadStatuses}) => {
   const [report, setReport] = useState([]);
-  const [tableHeader, setTableHeader] = useState('');
   const [loading, setLoading] = useState(false);
+  const [tableHeader, setTableHeader] = useState('');
 
   const handleDate = async (startDate, endDate) => {
     setLoading(true);
@@ -27,7 +27,7 @@ const leads = ({leadStatuses}) => {
       },
     };
     const body = JSON.stringify({ startDate, endDate });
-    const res = await axios.put(BASE_URL + "/api/lead/leadReport", body, config);
+    const res = await axios.put("/api/lead/leadReport", body, config);
     const temp = leadStatuses.map( status => {
     const result = foundStatusInDbReport(status, res.data.leadReport);
       if(result.length === 0){
@@ -97,4 +97,4 @@ const mapStateToProps = state => ({
   leadStatuses: state.SelectOptions.leadStatus
 });
 
-export default connect(mapStateToProps)(leads);
+export default connect(mapStateToProps)(errorHandler(leads));

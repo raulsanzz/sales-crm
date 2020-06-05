@@ -1,4 +1,4 @@
-import axios from "./../../axios-order";
+import axios from './../../axios-order';
 
 import {
   LEAD_ACTION_START,
@@ -8,20 +8,20 @@ import {
   LEAD_FETCH_FAIL,
   LEAD_UPDATE_SUCCESS,
   LEAD_UPDATE_FAIL
-} from "../actions/types";
+} from '../actions/types';
 
 //Add a new Lead
 export const addLead = ( newLeadData ) => async dispatch => {
   dispatch({ type: LEAD_ACTION_START });
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
   const body = JSON.stringify({ newLeadData });
 
   try {
-    const res = await axios.post ("/api/lead", body, config);
+    const res = await axios.post ('/api/lead', body, config);
     dispatch({
       type: LEAD_ADD_SUCCESS,
       payload: res.data.newLead
@@ -43,7 +43,7 @@ export const fetchLeads = (shouldDispatchActionStarter) => async dispatch => {
     dispatch({ type: LEAD_ACTION_START });
   }
   try {
-    const res = await axios.get ("/api/lead");
+    const res = await axios.get ('/api/lead');
     dispatch({
       type: LEAD_FETCH_SUCCESS,
       payload: res.data.leads
@@ -63,13 +63,13 @@ export const updateLead = ( query, newLeadData, newCallData, newClientData, shou
   }
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
   const body = JSON.stringify({ query, newLeadData, newCallData, newClientData });
 
   try {
-    await axios.put ("/api/lead", body, config);
+    await axios.put ('/api/lead', body, config);
     dispatch({
       type: LEAD_UPDATE_SUCCESS,
       payload: { lead_id: query.lead_id, newLeadData, newCallData, newClientData }
