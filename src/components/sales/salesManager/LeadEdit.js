@@ -4,21 +4,22 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useAlert } from 'react-alert';
 import DateFnsUtils from '@date-io/date-fns';
-import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Edit from '@material-ui/icons/Edit';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
 
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 import { updateLead } from '../../../store/actions/lead';
 
 const useStyles = makeStyles(theme => ({
@@ -453,4 +454,4 @@ const onChangeHandler = (e, elementIdentifier) => {
   );
 };
 
-export default connect(null, { updateLead })(editLead);
+export default connect(null, { updateLead })(errorHandler(editLead));

@@ -1,4 +1,4 @@
-const db = require("../database/db");
+const db = require('../database/db');
 const Client = db.client;
 
 //Add a new Client
@@ -27,5 +27,15 @@ const updateClient = async(id, clientData) => {
         throw new error(error);
     }
 } 
-
-module.exports = {updateClient, addClient};
+const deleteClient = async(clientId) => {
+    try {
+        const deletedClient = await Client.destroy({
+            where: { id: clientId}
+          })     
+        return ( deletedClient );
+    } catch (error) {
+        console.log(error.message);
+        throw new error(error);
+    }
+}
+module.exports = {updateClient, addClient, deleteClient};

@@ -3,10 +3,11 @@ import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 
+import Table from './../../UI/table';
+import Meassage from './../../UI/message';
 import { fetchLeads } from '../../../store/actions/lead';
 import TopOptionsSelector from '../../UI/topOptionsSelector';
-import Meassage from './../../UI/message';
-import Table from './../../UI/table';
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 
 const columns = [
   { id: 'company_name', label: 'Company Name', minWidth: 170},
@@ -49,8 +50,8 @@ const useStyles = makeStyles(theme => ({
 const test = ({fetchLeads, leads, leadLoading, testStatuses, history}) => {
   const classes = useStyles();
   const didMountRef = useRef(false);
-  const [filteredLeads, setFilteredLeads] = useState([]);
   const [leadStatus, setLeadStatus] = useState(null);
+  const [filteredLeads, setFilteredLeads] = useState([]);
 
   useEffect(() => {
     if(didMountRef.current === false){ //only for component did mount
@@ -105,4 +106,4 @@ const mapStateToProps = state => ({
   testStatuses: state.SelectOptions.testStatus
 });
   
-export default connect(mapStateToProps, { fetchLeads } )(test);
+export default connect(mapStateToProps, { fetchLeads } )(errorHandler(test));

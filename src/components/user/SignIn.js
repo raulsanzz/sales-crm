@@ -1,32 +1,33 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect, Fragment } from 'react';
+import { connect } from 'react-redux';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import LockIcon from "@material-ui/icons/LockOutlined";
+import LockIcon from '@material-ui/icons/LockOutlined';
 
-import { logIn } from "../../store/actions/auth";
+import { logIn } from '../../store/actions/auth';
+import errorHandler from './../../hoc/ErrorHandler/ErrorHandler';
 
 const useStyles = makeStyles(theme => ({
   layout: {
-    width: "auto",
-    display: "block", // Fix IE11 issue.
+    width: 'auto',
+    display: 'block', // Fix IE11 issue.
     marginLeft: theme.spacing(3),
     marginRight: theme.spacing(3),
     [theme.breakpoints.up(400 + theme.spacing(6))]: {
       width: 400,
-      marginLeft: "auto",
-      marginRight: "auto"
+      marginLeft: 'auto',
+      marginRight: 'auto'
     }
   },
   paper: {
     marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`
   },
   avatar: {
@@ -35,16 +36,16 @@ const useStyles = makeStyles(theme => ({
   },
 
   invalidElementError: {
-    color: "red",
+    color: 'red',
   },
   button: {
-    width: "50%",
-    display: "flex",
-    justifyContent: "center",
-    margin: "10px auto",
+    width: '50%',
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '10px auto',
   },
   textField: {
-    width: "100%",
+    width: '100%',
   },
   formControl: {
     margin: theme.spacing(1),
@@ -54,11 +55,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
   },
   typography: {
-    fontFamily: "initial",
-    fontSize: "25px",
-    display: "flex",
-    justifyContent: "center",
-    margin: "0 auto",
+    fontFamily: 'initial',
+    fontSize: '25px',
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '0 auto',
   },
 }));
 
@@ -67,33 +68,33 @@ const SignIn = ({ logIn}) => {
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
   const [formData, setFormData] = useState({
     registration_number: {
-      elementType: "input",
+      elementType: 'input',
       elementConfig: {
-        type: "number",
-        placeholder: "Employee Number*",
+        type: 'number',
+        placeholder: 'Employee Number*',
       },
-      value: "",
+      value: '',
       validation: {
         required: true,
         onlynum: true,
       },
       valid: false,
       touched: false,
-      message: "",
+      message: '',
     },
     password: {
-      elementType: "input",
+      elementType: 'input',
       elementConfig: {
-        type: "password",
-        placeholder: "Password*",
+        type: 'password',
+        placeholder: 'Password*',
       },
-      value: "",
+      value: '',
       validation: {
         required: true,
       },
       valid: false,
       touched: false,
-      message: "",
+      message: '',
     }  
   });  
     
@@ -127,9 +128,9 @@ const SignIn = ({ logIn}) => {
           />
         )}
         <Button
-          variant="contained"
-          color="primary"
-          type="submit"
+          variant='contained'
+          color='primary'
+          type='submit'
           className={classes.button}
           disabled={fromIsInvalid}>
           Submit
@@ -141,12 +142,12 @@ const SignIn = ({ logIn}) => {
 
   const validityCheck = (value, rules) => {
     let isValid = true;
-    let message = "";
+    let message = '';
     if (rules) {
       if (rules.required) {
-        isValid = value.trim() !== "" && isValid;
+        isValid = value.trim() !== '' && isValid;
         if (!isValid) {
-          message = "required";
+          message = 'required';
         }
       }
       if (rules.onlynum) {
@@ -154,13 +155,13 @@ const SignIn = ({ logIn}) => {
           isValid = false
         }
         if (!isValid && message === '') {
-          message = "Employee number must be integer";
+          message = 'Employee number must be integer';
         }
       }
 
       if (!rules.required && value.trim() < 1) {
         isValid = true;
-        message = "";
+        message = '';
       }
     }
     return { isValid, message };
@@ -193,13 +194,13 @@ const SignIn = ({ logIn}) => {
     checkFormValidity(updatedForm);
   };
 
-  const submitHandler = async e => {
+  const submitHandler = e => {
     e.preventDefault();
     const newUser = {
       registration_number: formData.registration_number.value,
       password: formData.password.value,
     };
-    await logIn(newUser);
+    logIn(newUser);
   };
 
   return (
@@ -221,4 +222,4 @@ const mapStateToProps = state => ({
   auth: state.authReducer.isAuth
 });
 
-export default connect(mapStateToProps, { logIn })(SignIn);
+export default connect(mapStateToProps, { logIn })(errorHandler(SignIn));

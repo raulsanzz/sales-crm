@@ -1,4 +1,4 @@
-const db = require("../database/db");
+const db = require('../database/db');
 const Call = db.call;
 
 //Add a new Client

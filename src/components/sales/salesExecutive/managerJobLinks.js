@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useRef, useEffect, Fragment } from 'react';
-import axios from 'axios';
+import { makeStyles } from '@material-ui/styles';
 import { useAlert } from 'react-alert';
 import { connect } from 'react-redux';
-import { makeStyles } from '@material-ui/styles';
 
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 import { updateAppliedJob } from './../../../store/actions/job';
 import { fetchProfiles } from './../../../store/actions/profile';
 import TopOptionsSelector from './../../UI/topOptionsSelector';
+import axios from './../../../axios-order';
 import Meassage from './../../UI/message';
 import Table from './../../UI/table';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const columns = [
     { id: 'company_name', label: 'Company Name', minWidth: 170 },
@@ -76,7 +76,7 @@ const managerJobLinks = ({ updateAppliedJob, fetchProfiles, profiles }) => {
   
   const fetchAppliedJobs = async () => {
     try {
-      const jobs =  await axios.get ( BASE_URL + '/api/appliedjob');
+      const jobs =  await axios.get ('/api/appliedjob');
       setJobs(jobs.data.appliedJobs);  
     } catch (error) {
       console.log(error);
@@ -144,4 +144,5 @@ const managerJobLinks = ({ updateAppliedJob, fetchProfiles, profiles }) => {
 const mapStateToProps = state => ({
   profiles: state.ProfileReducer.profiles
 });
-export default  connect(mapStateToProps, {updateAppliedJob, fetchProfiles})(managerJobLinks);
+export default  connect(mapStateToProps, 
+  {updateAppliedJob, fetchProfiles})(errorHandler(managerJobLinks));

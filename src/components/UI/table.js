@@ -1,26 +1,26 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from 'react';
-import Paper from "@material-ui/core/Paper";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
-import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
 import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import TableRow from '@material-ui/core/TableRow';
+import TextField from '@material-ui/core/TextField';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import IconButton from '@material-ui/core/IconButton';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import TablePagination from '@material-ui/core/TablePagination';
 import EditIcon from '@material-ui/icons/Edit';
 
   
 const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, onApplyHandler, rowClickListener}) => {
   const [page, setPage] = useState(0);
+  const [match, setMatch] = useState('Search');
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [match, setMatch] = useState("Search");
   const [filteredJobs, setFilteredJobs] = useState([]);
 
   useEffect(() => {
@@ -65,29 +65,29 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
         });
         if (newList.length > 0) {
           setFilteredJobs(newList);
-          setMatch("Match");
+          setMatch('Match');
         } else {
           setFilteredJobs(jobs);
-          setMatch("Does not Match");
+          setMatch('Does not Match');
         }
       } else {
         setFilteredJobs(jobs);
-        setMatch("Search");
+        setMatch('Search');
       }
     };
   return(
     <div className={classes.root}>
       <TextField
-        id="search"
+        id='search'
         label={match}
-        margin="normal"
-        type="text"
+        margin='normal'
+        type='text'
         className={classes.textField}
         onChange={searchHandler} />
     <Paper className={classes.paper}> 
     <div className={classes.tableWrapper}>
       <h1 className={classes.jobHeader}>{tableHeader}</h1>
-      <Table stickyHeader aria-label="sticky table">
+      <Table stickyHeader aria-label='sticky table'>
         <TableHead>
           <TableRow>
             {columns.map((column, index) => (
@@ -95,7 +95,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                 key={index}
                 align={column.align}
                 style={{ minWidth: column.minWidth }}>
-                {column.id === "list" ? column.placeholder : column.label}
+                {column.id === 'list' ? column.placeholder : column.label}
               </TableCell>
             ))}
           </TableRow>
@@ -109,80 +109,80 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                 key={index}
                 onClick={rowClickListener ? (() =>
                   history.push({
-                    pathname: "/agenda",
+                    pathname: '/agenda',
                     state: { detail: row,
                       editable: tableHeader === 'Scheduled Calls' ? true : false }
                   })): null}>
                   {
                     columns.map(column => {
                       switch (column.id){
-                        case "company_name":
-                          return (<TableCell key={column.id} component="th" scope="row">
+                        case 'company_name':
+                          return (<TableCell key={column.id} component='th' scope='row'>
                                   {row.job.client.company_name}                                  
                                   </TableCell>)
                         //lead cases
-                        case "status":
-                        case "voice":
-                        case "interview_status":
-                        case "lead_status":
-                        case "totalCalls":
-                        case "createdAt":
+                        case 'status':
+                        case 'voice':
+                        case 'interview_status':
+                        case 'lead_status':
+                        case 'totalCalls':
+                        case 'createdAt':
                           return (<TableCell key={column.id} align={column.align}>
                                     {row[column.id]}
                                   </TableCell>)
                         //job cases
-                        case "job_title":
+                        case 'job_title':
                           return (<TableCell key={column.id} align={column.align}>
                                   {row.job[column.id] }
                         </TableCell>)
                         //client cases
-                        case "client_name":
-                        case "location":
+                        case 'client_name':
+                        case 'location':
                           return (<TableCell key={column.id} align={column.align}>
                                   {row.job.client[column.id] }
                         </TableCell>)
-                        case "profile":
+                        case 'profile':
                           return (<TableCell key={column.id} align={column.align}>
                                     {row.profile_id ? row.profile.name : '-' }
                                   </TableCell>)
-                        case "url":
+                        case 'url':
                           return(<TableCell key={column.id} align={column.align}>
                                   <a 
                                     href={row.job.url}
                                     target='_blank' 
-                                    rel="noopener noreferrer">  job link Url </a>
+                                    rel='noopener noreferrer'>  job link Url </a>
                                 </TableCell>)
-                        case "gmail_thread":
+                        case 'gmail_thread':
                           return(<TableCell key={column.id} align={column.align}>
                                   <a 
                                     href={row.gmail_thread}
                                     target='_blank' 
-                                    rel="noopener noreferrer">  Gmail Thread</a>  
+                                    rel='noopener noreferrer'>  Gmail Thread</a>  
                                 </TableCell>)
-                        case "test_gmail_thread":
+                        case 'test_gmail_thread':
                           return(<TableCell key={column.id} align={column.align}>
                                     <a 
                                     href={row.test.gmail_thread}
                                     target='_blank' 
-                                    rel="noopener noreferrer"> Gmail Thread</a>
+                                    rel='noopener noreferrer'> Gmail Thread</a>
                                 </TableCell>)
-                        case "test_type":
-                        case "due_date":
-                        case "due_time":
+                        case 'test_type':
+                        case 'due_date':
+                        case 'due_time':
                           return(<TableCell key={column.id} align={column.align}>
                                     {row.test[column.id]}
                                 </TableCell>)
-                        case "contact_via":
-                        case "call_date":
-                        case "call_time":
+                        case 'contact_via':
+                        case 'call_date':
+                        case 'call_time':
                           return(<TableCell key={column.id} align={column.align}>
                                     {row.call[column.id]}
                                 </TableCell>)
-                        case "notes_date":
+                        case 'notes_date':
                           return (<TableCell key={column.id} align={column.align}>
                                     {row.callTakenOn}
                                   </TableCell>)
-                        case "list":
+                        case 'list':
                           return(<TableCell key={column.label} align={column.align}>
                                   <FormControl className={classes.formControl}>
                                       <InputLabel id={`${column.label}-label`}>{column.placeholder}</InputLabel>
@@ -202,7 +202,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                       </Select>
                                   </FormControl>   
                                 </TableCell>)
-                        case "onChangeList":
+                        case 'onChangeList':
                           return(<TableCell key={column.label} align={column.align}>
                                   <FormControl className={classes.formControl}>
                                       <InputLabel id={`${column.label}-label`}>{column.placeholder}</InputLabel>
@@ -217,58 +217,58 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                       </Select>
                                   </FormControl>   
                                 </TableCell>)
-                        case "input":
+                        case 'input':
                           return (<TableCell key={column.id} align={column.align}>
-                                    <form className={classes.form} noValidate autoComplete="off">
+                                    <form className={classes.form} noValidate autoComplete='off'>
                                       <TextField 
                                       id={column.label} 
                                       label={column.label} 
-                                      variant="outlined" 
+                                      variant='outlined' 
                                       value={row[column.for]}
                                       onChange={(event) => {handleChange(event, row, column.for)}}
                                       />
                                     </form>
                                   </TableCell>)
-                        case "jobApplyButton":
+                        case 'jobApplyButton':
                           return(<TableCell  key={column.id} align={column.align}>
                                   <Button 
-                                    variant="contained" 
-                                    color="secondary"
+                                    variant='contained' 
+                                    color='secondary'
                                     onClick={() => {onApplyHandler(row)}}>
                                       Apply
                                   </Button>    
                                 </TableCell>)
-                        case "editButton":
+                        case 'editButton':
                           return (<TableCell key={column.id} align={column.align}>
                                     <IconButton 
-                                      aria-label="edit"
+                                      aria-label='edit'
                                       onClick={() =>
                                         history.push({
                                           pathname: column.editPath,
                                           state: { detail: row }
                                         })}>
-                                      <EditIcon fontSize="large"/>
+                                      <EditIcon fontSize='large'/>
                                     </IconButton>
                                   </TableCell>)
-                        case "updateButton" :
+                        case 'updateButton' :
                           return(<TableCell key={column.id} align={column.align}>
                                   <Button 
-                                    variant="contained" 
-                                    color="primary"
-                                    disabled={row.profile_id === null || row.status === "job"}
+                                    variant='contained' 
+                                    color='primary'
+                                    disabled={row.profile_id === null || row.status === 'job'}
                                     onClick={() => {onUpdateHandler(row)}}>
                                       Update
                                   </Button>
                                 </TableCell>)
-                          case "agendaButton" :
+                          case 'agendaButton' :
                           return(<TableCell key={column.id} align={column.align}>
                                   <Button 
-                                    variant="contained" 
-                                    color="primary"
-                                    disabled={row.profile_id === null || row.status === "job"}
+                                    variant='contained' 
+                                    color='primary'
+                                    disabled={row.profile_id === null || row.status === 'job'}
                                     onClick={() =>
                                       history.push({
-                                        pathname: "/agenda",
+                                        pathname: '/agenda',
                                         state: { detail: row, editable: false }
                                       })}>
                                       Agenda
@@ -276,8 +276,8 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                 </TableCell>
                           )
                         default:
-                          return(<TableCell component="th" scope="row">
-                                    {column.id} "case" not handles
+                          return(<TableCell component='th' scope='row'>
+                                    {column.id} 'case' not handles
                                   </TableCell>)
                       }
                         
@@ -291,15 +291,15 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
     </div>
     <TablePagination
       rowsPerPageOptions={[10, 25, 100]}
-      component="div"
+      component='div'
       count={filteredJobs.length}
       rowsPerPage={rowsPerPage}
       page={page}
       backIconButtonProps={{
-        "aria-label": "previous page"
+        'aria-label': 'previous page'
       }}
       nextIconButtonProps={{
-        "aria-label": "next page"
+        'aria-label': 'next page'
       }}
       onChangePage={handleChangePage}
       onChangeRowsPerPage={handleChangeRowsPerPage}

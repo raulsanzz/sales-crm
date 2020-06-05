@@ -1,23 +1,23 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, Fragment } from "react";
-import axios from "axios";
 import { useAlert } from 'react-alert';
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import TextField from "@material-ui/core/TextField";
+import InputLabel from '@material-ui/core/InputLabel';
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import FormControl from '@material-ui/core/FormControl';
 import Edit from "@material-ui/icons/Edit";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+import axios from './../../../axios-order';
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 
 const useStyles = makeStyles(theme => ({
   layout: {
@@ -159,7 +159,7 @@ const onChangeHandler = (e, elementIdentifier) => {
     }
     const body = JSON.stringify({test});
     try {
-      await axios.put( BASE_URL + "/api/test/" + location.state.detail.id, body, config);
+      await axios.put('/api/test/' + location.state.detail.id, body, config);
       alert.success('Test updated successfully...!!');
       history.goBack()
     } catch (error) {      
@@ -232,7 +232,6 @@ const onChangeHandler = (e, elementIdentifier) => {
           <Avatar className={classes.avatar}>
             <Edit />
           </Avatar>
-
           <Typography className={classes.typography} >
             Update Test Details
           </Typography>
@@ -246,4 +245,5 @@ const onChangeHandler = (e, elementIdentifier) => {
 const mapStateToProps = state => ({
   testStatuses: state.SelectOptions.pipelineTestStatus
 });
-export default connect(mapStateToProps)(editSalesTest)
+
+export default connect(mapStateToProps)(errorHandler(editSalesTest));

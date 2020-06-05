@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 import { fetchProfiles } from './../../../store/actions/profile';
 import TopOptionsSelector from './../../UI/topOptionsSelector';
+import axios from './../../../axios-order';
 import Meassage from './../../UI/message';
 import Table from './../../UI/table';
-const BASE_URL = process.env.REACT_APP_BASE_URL;
   
 const useStyles = makeStyles( theme => ({
   root: {
@@ -72,7 +72,7 @@ const managerJobList = ({ history, profiles, fetchProfiles}) => {
 
   const fetchAppliedJobs = async () => {
     try {
-      const jobs =  await axios.get ( BASE_URL + '/api/appliedjob/manager');
+      const jobs =  await axios.get ('/api/appliedjob/manager');
       setJobs(jobs.data.appliedJobs); 
     } catch (error) {
       console.log(error);
@@ -119,4 +119,5 @@ const mapStateToProps = state => ({
   profiles: state.ProfileReducer.profiles
 });
 
-export default connect(mapStateToProps, {fetchProfiles})(managerJobList);
+export default connect(mapStateToProps, 
+  {fetchProfiles})(errorHandler(managerJobList));

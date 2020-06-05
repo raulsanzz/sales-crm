@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  return sequelize.define("users", {
+  return sequelize.define('users', {
     registration_number: {
       type: Sequelize.INTEGER,
       primaryKey: true,

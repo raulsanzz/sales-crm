@@ -1,14 +1,13 @@
-import React from "react";
+import React from 'react';
+import { positions, Provider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
 
-import AppRouter from "./routers/AppRouter";
-import setAuthToken from "../src/utills/setAuthToken";
-import store from "./store/store";
-import { loadUser } from "./store/actions/auth";
-import { positions, Provider } from "react-alert";
-import AlertTemplate from "react-alert-template-basic";
+import store from './store/store';
+import AppRouter from './routers/AppRouter';
+import { loadUser } from './store/actions/auth';
 
 if (localStorage.token) {
-  setAuthToken(localStorage.token);
+  store.dispatch(loadUser());
 }
 
 const options = {
@@ -17,13 +16,9 @@ const options = {
 };
 
 export default () => {
-  React.useEffect(() => {
-    store.dispatch(loadUser());
-  }, []);
-
   return (
     <Provider template={AlertTemplate} {...options}>
       <AppRouter />
     </Provider>
-  );
+  );  
 };

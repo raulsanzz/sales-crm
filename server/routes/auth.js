@@ -1,39 +1,39 @@
 //  Login Apis
-const express = require("express");
+const express = require('express');
 const Route = express.Router();
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const config = require("../database/config");
-const auth = require("../middleware/auth");
-const db = require("../database/db");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('../database/config');
+const auth = require('../middleware/auth');
+const db = require('../database/db');
 const User = db.user;
 
-Route.get("/", auth, async (req, res) => {
-  const id = req.user.user.id;
-  const user = await User.findAll({
-    where: { registration_number: id }
-  }).map(el => el.get({ plain: true }));
-  res.json(user);
+Route.get('/', auth, async (req, res) => {
+  try {
+    const id = req.user.user.id;
+    const user = await User.findAll({
+      where: { registration_number: id }
+    });
+    return res.json({ user });
+  } catch (error) {
+    res.status(500).json({ msg: 'Server error, Please try again' });
+  }
 });
-Route.post("/",async (req, res) => {
+
+Route.post('/', async(req, res) => {
+  try {
     let { registration_number, password } = req.body.newUser;
     const user = await User.findAll({
       where: { registration_number: registration_number }
-    }).map(el => el.get({ plain: true }));
-    const len = user.length;
-
-    if (len === 0) {
-      return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
+    });
+    if (user.length === 0) {
+      return res.status(400).json({ msg: 'No user found (Invalid employee number)' });
     }
-    let db_password = user[0].password;
 
-    const isMatch = await bcrypt.compare(password, db_password);
-
+    const isMatch = await bcrypt.compare(password, user[0].password);
     if (!isMatch) {
-      return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
+      return res.status(400).json({ msg: 'Incorrect Password' });
     }
-
-    try {
       const payload = {
         user: {
           id: user[0].registration_number
@@ -42,11 +42,10 @@ Route.post("/",async (req, res) => {
 
       jwt.sign(payload, config.secret, (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        return res.json({ token, user });
       });
     } catch (error) {
-      console.log(error.message);
-      res.status(500).json("Server erroe");
+      return res.status(500).json({ msg: 'Server error, Please try again' });
     }
   }
 );

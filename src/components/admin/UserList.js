@@ -1,55 +1,56 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { useAlert } from "react-alert";
-import { makeStyles } from "@material-ui/styles";
-import Paper from "@material-ui/core/Paper";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { useAlert } from 'react-alert';
+import { makeStyles } from '@material-ui/styles';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableRow from '@material-ui/core/TableRow';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import IconButton from '@material-ui/core/IconButton';
+import TablePagination from '@material-ui/core/TablePagination';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-import { fetchUser } from "../../store/actions/user";
-import { deleteUser } from "../../store/actions/user";
+import { fetchUser } from '../../store/actions/user';
+import { deleteUser } from '../../store/actions/user';
+import errorHandler from './../../hoc/ErrorHandler/ErrorHandler';
 
 const columns = [
-  {id: "registration_number", label: "Employee Number", minWidth: 100 },
-  { id: "name", label: "Name", minWidth: 100, align: "center" },
-  { id: "Designation", label: "Designation", minWidth: 170, align: "center" },
-  { id: "role", label: "Role", minWidth: 170, align: "center" },
-  { id: "createdAt", label: "Created At", minWidth: 170, align: "center" },
-  { id: "Action", label: "Action", minWidth: 170, align: "center" }
+  { id: 'registration_number', label: 'Employee Number', minWidth: 100 },
+  { id: 'name', label: 'Name', minWidth: 100, align: 'center' },
+  { id: 'Designation', label: 'Designation', minWidth: 170, align: 'center' },
+  { id: 'role', label: 'Role', minWidth: 170, align: 'center' },
+  { id: 'createdAt', label: 'Created At', minWidth: 170, align: 'center' },
+  { id: 'Action', label: 'Action', minWidth: 170, align: 'center' }
 ];
 
 const useStyles = makeStyles({
   root: {
-    width: "100%"
+    width: '100%'
   },
   tableWrapper: {
     maxHeight: 622,
-    overflow: "auto"
+    overflow: 'auto'
   },
   jobHeader: {
-    textAlign: "center",
-    fontFamily: "initial",
-    color: "blue"
+    textAlign: 'center',
+    fontFamily: 'initial',
+    color: 'blue'
   },
   delete: {
-    backgroundColor: "red,"
+    backgroundColor: 'red,'
   }
 });
 
 const userList = ({ fetchUser, users, deleteUser, history }) => {
-  const classes = useStyles();
   const alert = useAlert();
-  const [count, setCount] = useState(0);
+  const classes = useStyles();
   const [page, setPage] = useState(0);
+  const [count, setCount] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
@@ -69,14 +70,14 @@ const userList = ({ fetchUser, users, deleteUser, history }) => {
   const userDelete = id => {
     deleteUser(id);
     setCount(count + 1);
-    alert.success("User Deleted !");
+    alert.success('User Deleted !');
   };
 
   return (
     <Paper className={classes.root}>
       <h1 className={classes.jobHeader}>Users List</h1>
       <div className={classes.tableWrapper}>
-        <Table stickyHeader aria-label="sticky table">
+        <Table stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
               {columns.map(column => (
@@ -94,27 +95,27 @@ const userList = ({ fetchUser, users, deleteUser, history }) => {
               .map(row => {
                 return (
                   <TableRow hover key={row.registration_number}>
-                    <TableCell component="th" scope="row">{row.registration_number}</TableCell>
-                    <TableCell align="center">{row.name}</TableCell>
-                    <TableCell align="center">{row.designation}</TableCell>
-                    <TableCell align="center">{row.role}</TableCell>
-                    <TableCell align="center">{row.createdAt}</TableCell>
-                    <TableCell align="center">
+                    <TableCell component='th' scope='row'>{row.registration_number}</TableCell>
+                    <TableCell align='center'>{row.name}</TableCell>
+                    <TableCell align='center'>{row.designation}</TableCell>
+                    <TableCell align='center'>{row.role}</TableCell>
+                    <TableCell align='center'>{row.createdAt}</TableCell>
+                    <TableCell align='center'>
                       <IconButton 
-                        aria-label="delete"
+                        aria-label='delete'
                         onClick={() => userDelete(row.registration_number)}>
-                        <DeleteIcon fontSize="large" />
+                        <DeleteIcon fontSize='large' />
                       </IconButton>
 
                       <IconButton 
-                        aria-label="edit"
+                        aria-label='edit'
                         onClick={() =>
                           history.push({
-                            pathname: "/edit",
+                            pathname: '/edit',
                             state: { detail: row }
                           })
                         }>
-                        <EditIcon fontSize="large" />
+                        <EditIcon fontSize='large' />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -125,15 +126,15 @@ const userList = ({ fetchUser, users, deleteUser, history }) => {
       </div>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
-        component="div"
+        component='div'
         count={users.length}
         rowsPerPage={rowsPerPage}
         page={page}
         backIconButtonProps={{
-          "aria-label": "previous page"
+          'aria-label': 'previous page'
         }}
         nextIconButtonProps={{
-          "aria-label": "next page"
+          'aria-label': 'next page'
         }}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
@@ -152,4 +153,5 @@ userList.propTypes = {
   deleteUser: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps, { fetchUser, deleteUser })(userList);
+export default connect(mapStateToProps,
+   { fetchUser, deleteUser })(errorHandler(userList));

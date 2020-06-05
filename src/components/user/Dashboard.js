@@ -1,94 +1,22 @@
-import React, { useEffect } from "react";
-import axios from "axios";
-import { connect } from "react-redux";
+import React, {Fragment} from 'react';
+import { connect } from 'react-redux';
 
 const h1 = {
-  marginTop: "-45px",
-  fontFamily: "serif",
-  color: "white"
+  marginTop: '-45px',
+  fontFamily: 'serif',
+  color: 'white'
 };
 
 const jumbo = {
-  backgroundColor: "#285151"
+  backgroundColor: '#285151'
 };
 const ul = {
-  fontWeight: "bold",
-  fontFamily: "serif",
-  fontSize: "15px"
+  fontWeight: 'bold',
+  fontFamily: 'serif',
+  fontSize: '15px'
 };
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-
 const DashboardPage = ({ user, history }) => {
-  
-  useEffect(() => {
-    // history.push({
-    //   pathname: "/working"
-    // })
-
-    
-    // // jobs count
-    // axios.get ( BASE_URL + "/api/job/status_job_count").then(res => {
-    //   SetJob(res.data.result);
-    // });
-    // //leads count
-    // axios.get ( BASE_URL + "/api/job/status_lead_count").then(res => {
-    //   SetLead(res.data.result);
-    // });
-    // // good leads count
-    // axios.get ( BASE_URL + "/api/job/status_good_lead_count").then(res => {
-    //   SetGoodLead(res.data.result);
-    // });
-    // // hot leads count
-    // axios.get ( BASE_URL + "/api/job/status_hot_lead_count").then(res => {
-    //   SetHotLead(res.data.result);
-    // });
-    // // closed lead count
-    // axios.get ( BASE_URL + "/api/job/status_closed_lead_count").then(res => {
-    //   SetClosedLead(res.data.result);
-    // });
-    // //rejected lead count
-    // axios.get ( BASE_URL + "/api/job/status_rejected_lead_count").then(res => {
-    //   SetRejectLead(res.data.result);
-    // });
-
-    // // Previous Monthly Job Report
-    // axios.get ( BASE_URL + "/api/job/status_job_monthly_count").then(res => {
-    //   SetMJob(res.data.result);
-    // });
-
-    // // Previous Monthly Lead Report
-    // axios.get ( BASE_URL + "/api/job/status_lead_monthly_count").then(res => {
-    //   SetMLead(res.data.result);
-    // });
-
-    // // Previous Monthly Good Lead Report
-    // axios
-    //   .get ( BASE_URL + "/api/job/status_good_lead_monthly_count")
-    //   .then(res => {
-    //     SetMGoodLead(res.data.result);
-    //   });
-
-    // // Previous Monthly Good Lead Report
-    // axios.get ( BASE_URL + "/api/job/status_hot_lead_month_count").then(res => {
-    //   SetMHotLead(res.data.result);
-    // });
-
-    // // Previous Monthly Good Lead Report
-    // axios
-    //   .get ( BASE_URL + "/api/job/status_closed_lead_monthly_count")
-    //   .then(res => {
-    //     SetMClosedLead(res.data.result);
-    //   });
-
-    // // Previous Monthly Good Lead Report
-    // axios
-    //   .get ( BASE_URL + "/api/job/status_rejected_lead_monthly_count")
-    //   .then(res => {
-    //     SetMRejectLead(res.data.result);
-    //   });
-  }, []);
-
   if (user) {
     for (var i = 0; i < user.length; i++) {
       var raceName = user[i].role;
@@ -97,48 +25,48 @@ const DashboardPage = ({ user, history }) => {
   }
 
   return (
-    <React.Fragment>
-      {raceName === "Admin" ? (
-        <div className="row">
-          <div className="col-md-5 offset-md-1">
-            <div style={jumbo} className="jumbotron jumbotron-fluid">
-              <h1 style={h1} className="text-center">
+    <Fragment>
+      {raceName === 'Admin' ? (
+        <div className='row'>
+          <div className='col-md-5 offset-md-1'>
+            <div style={jumbo} className='jumbotron jumbotron-fluid'>
+              <h1 style={h1} className='text-center'>
                 Previous Week Report
               </h1>
-              <ul style={ul} className="list-group">
-                <li className="list-group-item d-flex justify-content-between align-items-center">
+              <ul style={ul} className='list-group'>
+                <li className='list-group-item d-flex justify-content-between align-items-center'>
                   Total Applied Job
-                  <span className="badge badge-primary badge-pill">
+                  <span className='badge badge-primary badge-pill'>
                     
                   </span>
                 </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
+                <li className='list-group-item d-flex justify-content-between align-items-center'>
                   Total Leads
-                  <span className="badge badge-primary badge-pill">
+                  <span className='badge badge-primary badge-pill'>
                     
                   </span>
                 </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
+                <li className='list-group-item d-flex justify-content-between align-items-center'>
                   Total Good Leads
-                  <span className="badge badge-primary badge-pill">
+                  <span className='badge badge-primary badge-pill'>
                     
                   </span>
                 </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
+                <li className='list-group-item d-flex justify-content-between align-items-center'>
                   Total Hot Leads
-                  <span className="badge badge-primary badge-pill">
+                  <span className='badge badge-primary badge-pill'>
                     
                   </span>
                 </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
+                <li className='list-group-item d-flex justify-content-between align-items-center'>
                   Total Closed Leads
-                  <span className="badge badge-primary badge-pill">
+                  <span className='badge badge-primary badge-pill'>
                     
                   </span>
                 </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
+                <li className='list-group-item d-flex justify-content-between align-items-center'>
                   Total Rejected Leads
-                  <span className="badge badge-primary badge-pill">
+                  <span className='badge badge-primary badge-pill'>
                    
                   </span>
                 </li>
@@ -146,45 +74,45 @@ const DashboardPage = ({ user, history }) => {
             </div>
           </div>
 
-          <div className="col-md-5">
-            <div style={jumbo} className="jumbotron jumbotron-fluid">
-              <h1 style={h1} className="text-center">
+          <div className='col-md-5'>
+            <div style={jumbo} className='jumbotron jumbotron-fluid'>
+              <h1 style={h1} className='text-center'>
                 Previous Month Report
               </h1>
-              <ul style={ul} className="list-group">
-                <li className="list-group-item d-flex justify-content-between align-items-center">
+              <ul style={ul} className='list-group'>
+                <li className='list-group-item d-flex justify-content-between align-items-center'>
                   Total Applied Job
-                  <span className="badge badge-primary badge-pill">
+                  <span className='badge badge-primary badge-pill'>
                     
                   </span>
                 </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
+                <li className='list-group-item d-flex justify-content-between align-items-center'>
                   Total Leads
-                  <span className="badge badge-primary badge-pill">
+                  <span className='badge badge-primary badge-pill'>
                     
                   </span>
                 </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
+                <li className='list-group-item d-flex justify-content-between align-items-center'>
                   Total Good Leads
-                  <span className="badge badge-primary badge-pill">
+                  <span className='badge badge-primary badge-pill'>
                     
                   </span>
                 </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
+                <li className='list-group-item d-flex justify-content-between align-items-center'>
                   Total Hot Leads
-                  <span className="badge badge-primary badge-pill">
+                  <span className='badge badge-primary badge-pill'>
                     
                   </span>
                 </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
+                <li className='list-group-item d-flex justify-content-between align-items-center'>
                   Total Closed Leads
-                  <span className="badge badge-primary badge-pill">
+                  <span className='badge badge-primary badge-pill'>
                     
                   </span>
                 </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
+                <li className='list-group-item d-flex justify-content-between align-items-center'>
                   Total Rejected Leads
-                  <span className="badge badge-primary badge-pill">
+                  <span className='badge badge-primary badge-pill'>
                     
                   </span>
                 </li>
@@ -193,14 +121,14 @@ const DashboardPage = ({ user, history }) => {
           </div>
         </div>
       ) : (
-        <h1>Welcome "{name}" to Sales CRM</h1>
+        <h1>Welcome '{name}' to Sales CRM</h1>
       )}
       {raceName === undefined ? (
         <p>Thanks for Registration wait Untill an Admin Verified you</p>
       ) : (
-        ""
+        ''
       )}
-    </React.Fragment>
+    </Fragment>
   );
 };
 

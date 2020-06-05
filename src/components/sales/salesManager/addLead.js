@@ -4,16 +4,17 @@ import { useAlert } from 'react-alert';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 import { updateAppliedJob } from './../../../store/actions/job';
 import { addLead } from './../../../store/actions/lead';
 
@@ -75,9 +76,9 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const addTest = ({ history, location, updateAppliedJob, addLead, jobStatuses }) => {
+  const alert = useAlert();
   const classes = useStyles();
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
-  const alert = useAlert();
   const [formData, setFormData] = useState({
     gmail_thread: {
       elementType: 'input',
@@ -306,4 +307,5 @@ const mapStateToProps = (state) => ({
   jobStatuses : state.SelectOptions.jobStatus
 });
 
-export default connect(mapStateToProps, {updateAppliedJob, addLead})(addTest);
+export default connect(mapStateToProps, 
+  {updateAppliedJob, addLead})(errorHandler(addTest));

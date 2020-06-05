@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 module.exports = (sequelize, Sequelize) => {
-  return sequelize.define("agendas", {
+  return sequelize.define('agendas', {
     call_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,

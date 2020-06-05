@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, Fragment } from "react";
-import axios from "axios";
-import { PDFExport } from '@progress/kendo-react-pdf';
 import { makeStyles } from "@material-ui/styles";
+import { PDFExport } from '@progress/kendo-react-pdf';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 
 import Meassage from '../../UI/message';
-import SalesDetails from "../../UI/salesDetail";
 import DateRange from "../../UI/DateRange";
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+import axios from './../../../axios-order';
+import SalesDetails from "../../UI/salesDetail";
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,10 +60,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const salesExecutive = ({pdfExportComponent}) => {
-  const [report, setReport] = useState([]);
-  const [tableHeader, setTableHeader] = useState('');
-  const [loading, setLoading] = useState(false);
   const classes = useStyles();
+  const [report, setReport] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [tableHeader, setTableHeader] = useState('');
   
   const exportPDFWithComponent = () => {
     pdfExportComponent.save();
@@ -80,7 +80,7 @@ const salesExecutive = ({pdfExportComponent}) => {
       },
     };
     const body = JSON.stringify({ startDate, endDate });
-    const res = await axios.put(BASE_URL + "/api/appliedJob/report", body, config);
+    const res = await axios.put("/api/appliedJob/report", body, config);
     setReport(res.data);
     setLoading(false);
   };
@@ -115,4 +115,4 @@ const salesExecutive = ({pdfExportComponent}) => {
   );
 };
 
-export default salesExecutive;
+export default errorHandler(salesExecutive);

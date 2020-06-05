@@ -1,5 +1,5 @@
-import axios from "axios";
-import { setAlert } from "../actions/alert";
+
+import axios from './../../axios-order';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -8,19 +8,16 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   LOGOUT
-} from "../actions/types";
-import setAuthToken from "../../utills/setAuthToken";
+} from '../actions/types';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+import setAuthToken from '../../utills/setAuthToken';
 
 export const loadUser = () => async dispatch => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
-
   try {
-    const res = await axios.get ( BASE_URL + "/api/auth");
-
+    const res = await axios.get('/api/auth');
     dispatch({
       type: USER_LOADED,
       payload: res.data
@@ -35,81 +32,44 @@ export const loadUser = () => async dispatch => {
 export const signUp = (newUser) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
-
-  const body = JSON.stringify({
-    newUser
-  });
+  const body = JSON.stringify({ newUser });
   try {
-    const res = await axios.post ( BASE_URL + "/api/user", body, config);
-
+    const res = await axios.post( '/api/user', body, config);
+    const data = {
+      token: res.data.token,
+      user: [{...res.data.user}]
+    }
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: res.data
+      payload: data
     });
-
-    dispatch(loadUser());
-    return true
+    setAuthToken(data.token);
+    return true;
   } catch (error) {
-    const errors = error.response.data.errors;
-    const error1 = error.response.data.msg;
-    if (error1) {
-      dispatch(setAlert(error));
-    }
-    if (errors) {
-      errors.forEach(error => {
-        dispatch(setAlert(error.msg));
-      });
-    }
-
-    dispatch({
-      type: REGISTER_FAIL
-    });
-    return false
+    dispatch({ type: REGISTER_FAIL });
+    return false;
   }
 };
 
-export const logIn = (
-newUser
-) => async dispatch => {
+export const logIn = (newUser) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
-
-  const body = JSON.stringify({
-    newUser
-  });
-  
-  console.log(BASE_URL);  
+  const body = JSON.stringify({ newUser });  
   try {
-    const res = await axios.post( BASE_URL + "/api/auth", body, config);
-
+    const res = await axios.post('/api/auth', body, config);
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data
     });
-    dispatch(loadUser());
-
-    // history.push("/dashboard");
+    setAuthToken(res.data.token);
   } catch (error) {
-    const errors = error.response.data.errors;
-    const error1 = error.response.data.msg;
-    if (error1) {
-      dispatch(setAlert(error));
-    }
-    if (errors) {
-      errors.forEach(error => {
-        dispatch(setAlert(error.msg));
-      });
-    }
-
-    dispatch({
-      type: LOGIN_FAIL
-    });
+    dispatch({ type: LOGIN_FAIL});
   }
 };
 

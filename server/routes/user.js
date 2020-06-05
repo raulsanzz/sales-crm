@@ -1,25 +1,22 @@
-const express = require("express");
+const express = require('express');
 const Route = express.Router();
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const config = require("../database/config");
-const auth = require("../middleware/auth");
-const db = require("../database/db");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('../database/config');
+const auth = require('../middleware/auth');
+const db = require('../database/db');
 const sequelize = db.Sequelize;
 const User = db.user;
 const Op = sequelize.Op;
 
 //@POST api/user @user registration
-Route.post("/",async (req, res) => { 
+Route.post('/', async (req, res) => { 
     
     const userExist = await User.count({
       where: { registration_number: req.body.newUser.registration_number }
     });
-
-    if (userExist) {
-      return res
-        .status(402)
-        .json({ msg: "Employee number already used by another user" });
+    if (userExist === 1) {
+      return res.status(402).json({ msg: 'Employee number already exists' });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -36,24 +33,23 @@ Route.post("/",async (req, res) => {
           id: user.registration_number
         }
       };
-
-      jwt.sign(payload, config.secret, { expiresIn: 360000 }, (err, token) => {
+      jwt.sign(payload, config.secret, (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({ user, token });
       });
     } catch (error) {
       console.log(error.message);
-      return res.status(402).json({ msg: "Server Error" });
+      return res.status(402).json({ msg: 'Server Error' });
     }
   }
 );
 
 //Fetch all voices
-Route.get("/voice", async(req, res) => {
+Route.get('/voice', async(req, res) => {
   try {
     const users = await User.findAll({
       where: { role : {
-        [Op.in]: ["Sales Manager","Sales Voice"]
+        [Op.in]: ['Sales Manager','Sales Voice']
       }},
       attributes:['name']
     });
@@ -61,11 +57,11 @@ Route.get("/voice", async(req, res) => {
   }
   catch (error) {
     console.log(error.message);
-    return res.status(402).json({ msg: "Server Error" });
+    return res.status(402).json({ msg: 'Server Error' });
   }
 })
 
-Route.get("/", auth, async (req, res) => {
+Route.get('/', auth, async (req, res) => {
   try {
     const result = await User.findAll();
     if (result) {
@@ -73,12 +69,12 @@ Route.get("/", auth, async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
-    return res.status(402).json({ msg: "Server Error" });
+    return res.status(402).json({ msg: 'Server Error' });
   }
 });
 
 //Delete User
-Route.delete("/:id", auth, async (req, res) => {
+Route.delete('/:id', auth, async (req, res) => {
   let id = req.params.id;
 
   try {
@@ -88,16 +84,16 @@ Route.delete("/:id", auth, async (req, res) => {
       }
     });
     if (result) {
-      return res.status(200).json({ msg: "Deleted" });
+      return res.status(200).json({ msg: 'Deleted' });
     }
   } catch (error) {
     console.log(error.message);
-    return res.status(402).json({ msg: "Server Error" });
+    return res.status(402).json({ msg: 'Server Error' });
   }
 });
 
 //@POST api/user @user Update
-Route.put( "/edit/:id", auth, async (req, res) => {
+Route.put( '/edit/:id', auth, async (req, res) => {
 
     try {
       let result = await User.update(
@@ -108,12 +104,12 @@ Route.put( "/edit/:id", auth, async (req, res) => {
      return res.json({ result });
     } catch (error) {
       console.log(error.message);
-      return res.status(402).json({ msg: "Server Error" });
+      return res.status(402).json({ msg: 'Server Error' });
     }
   });
 
 //@POST api/user @user Update
-Route.put( "/edit/password/:id", auth, async (req, res) => {
+Route.put( '/edit/password/:id', auth, async (req, res) => {
 
   const salt = await bcrypt.genSalt(10);
   const password = await bcrypt.hash(req.body.updatedData.password, salt);
@@ -126,7 +122,7 @@ Route.put( "/edit/password/:id", auth, async (req, res) => {
     return res.json({ result });
   } catch (error) {
     console.log(error.message);
-    return res.status(402).json({ msg: "Server Error" });
+    return res.status(402).json({ msg: 'Server Error' });
   }
 });
 

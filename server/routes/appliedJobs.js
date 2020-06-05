@@ -1,8 +1,8 @@
-const express = require("express");
+const express = require('express');
 const Router = express.Router();
 const clients = require('./clients');
-const auth = require("../middleware/auth");
-const db = require("../database/db");
+const auth = require('../middleware/auth');
+const db = require('../database/db');
 const AppliedJob = db.appliedJob;
 const Job = db.job;
 const sequelize = db.Sequelize;
@@ -13,17 +13,17 @@ const Op = sequelize.Op;
 
 
 //get all applied jobs where applied=false
-Router.get( "/", auth, async (req, res) => {
+Router.get( '/', auth, async (req, res) => {
     try {
       const appliedJobs = await AppliedJob.findAll({
         where: {applied: false},
         include: [
           {
             model: Job,
-            attributes: ["url"],
+            attributes: ['url'],
             include: [{
                 model: Client,
-                attributes: ["company_name"]
+                attributes: ['company_name']
             }]
           }
         ],
@@ -32,22 +32,22 @@ Router.get( "/", auth, async (req, res) => {
     return res.json({ appliedJobs }  );
     } catch (error) {
       console.log(error.message);
-      return res.status(402).json({ msg: "Server Error" });
+      return res.status(402).json({ msg: 'Server Error' });
     }
 });
 
 //get all applied jobs where applied=true
-Router.get( "/manager", auth, async (req, res) => {
+Router.get( '/manager', auth, async (req, res) => {
     try {
       const appliedJobs = await AppliedJob.findAll({
         where: {applied: true, lead_status: null},
         include: [
           {
             model: Job,
-            attributes: ["url", 'client_id'],
+            attributes: ['url', 'client_id'],
             include: [{
                 model: Client,
-                attributes: ["company_name"]
+                attributes: ['company_name']
             }]
           }
         ],
@@ -56,12 +56,12 @@ Router.get( "/manager", auth, async (req, res) => {
     return res.json({ appliedJobs }  );
     } catch (error) {
       console.log(error.message);
-      return res.status(402).json({ msg: "Server Error" });
+      return res.status(402).json({ msg: 'Server Error' });
     }
 });
 
 //get all applied jobs where lead_status != lead
-Router.get( "/leads", auth, async (req, res) => {
+Router.get( '/leads', auth, async (req, res) => {
   try {
     const appliedJobs = await AppliedJob.findAll({
       where: { lead_status: {
@@ -86,12 +86,12 @@ Router.get( "/leads", auth, async (req, res) => {
   return res.json({ appliedJobs }  );
   } catch (error) {
     console.log(error.message);
-    return res.status(402).json({ msg: "Server Error" });
+    return res.status(402).json({ msg: 'Server Error' });
   }
 });
 
 //get all user daily applied jobs count
-Router.put( "/report", auth, async (req, res) => {
+Router.put( '/report', auth, async (req, res) => {
     try {
     const appliedJobs = await AppliedJob.findAll({
         where: {
@@ -123,10 +123,10 @@ Router.put( "/report", auth, async (req, res) => {
         return res.json( [] );
     }
     if(fetchedJobs.length > appliedJobs.length){
-        report = await mappingHelper(fetchedJobs, appliedJobs, "appliedJobCount");
+        report = await mappingHelper(fetchedJobs, appliedJobs, 'appliedJobCount');
     }
     else{
-        report = await mappingHelper(appliedJobs, fetchedJobs, "fetchedJobCount");
+        report = await mappingHelper(appliedJobs, fetchedJobs, 'fetchedJobCount');
     }
 
       return res.json( report );
@@ -135,11 +135,11 @@ Router.put( "/report", auth, async (req, res) => {
       console.log(error);
       console.log('====================================');
       // console.log(error.message);
-      return res.status(402).json({ msg: "Server Error" });
+      return res.status(402).json({ msg: 'Server Error' });
     }
 });
 //get all job reports with respect to status
-Router.put( "/jobReport", auth, async (req, res) => {
+Router.put( '/jobReport', auth, async (req, res) => {
   try {
   const jobReport = await AppliedJob.findAll({
       where: {
@@ -162,12 +162,12 @@ Router.put( "/jobReport", auth, async (req, res) => {
     console.log(error);
     console.log('====================================');
     // console.log(error.message);
-    return res.status(402).json({ msg: "Server Error" });
+    return res.status(402).json({ msg: 'Server Error' });
   }
 });
 
 //update applied jobs 
-Router.put("/", auth, async (req, res) => {
+Router.put('/', auth, async (req, res) => {
   try {
     if(req.body.shouldUpdateUser){ 
       req.body.updatedData.user_id = req.user.user.id;
@@ -186,7 +186,7 @@ Router.put("/", auth, async (req, res) => {
   return res.json( { updatedJob } );
   } catch (error) {
     console.log(error.message);
-    return res.status(402).json({ msg: "Server Error" });
+    return res.status(402).json({ msg: 'Server Error' });
   }
 });
 
@@ -234,7 +234,7 @@ const getUserNames = async(ids) => {
       return ( users);
       } catch (error) {
         console.log(error.message);
-        return ({ msg: "Server Error" });
+        return ({ msg: 'Server Error' });
       }
 } 
 

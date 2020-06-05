@@ -4,7 +4,7 @@ import {
   FETCH_JOB_DATA_SUCCESS,
   FETCH_JOB_DATA_FAIL,
   JOB_ACTION_START,
-} from "../actions/types";
+} from '../actions/types';
 
 const initialState = {
   job: [],
@@ -36,7 +36,7 @@ export default function(state = initialState, action) {
     case JOB_ADD_FAIL:
       return {
         ...state,
-        loading: true,
+        loading: false,
         error: payload
       };
     default:

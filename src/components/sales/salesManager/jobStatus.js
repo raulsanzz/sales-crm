@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 
-import TopOptionsSelector from '../../UI/topOptionsSelector';
-import Meassage from './../../UI/message';
 import Table from './../../UI/table';
+import Meassage from './../../UI/message';
+import axios from './../../../axios-order';
+import TopOptionsSelector from '../../UI/topOptionsSelector';
+import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
 const columns = [
   { id: 'company_name', label: 'Company Name', minWidth: 170},
   { id: 'url', label: 'Job Link URL', minWidth: 170, align: 'center' },
@@ -72,7 +72,7 @@ const jobStatus = ({jobStatuses}) => {
       setLoading(true);
     }  
     try {
-      const jobs =  await axios.get ( BASE_URL + '/api/appliedjob/leads');
+      const jobs =  await axios.get ('/api/appliedjob/leads');
       setJobs(jobs.data.appliedJobs);
     } catch (error) {
       console.log(error);
@@ -118,4 +118,4 @@ const mapStateToProps = state => ({
   jobStatuses: state.SelectOptions.jobStatus
 });
 
-export default connect(mapStateToProps)(jobStatus);
+export default connect(mapStateToProps)(errorHandler(jobStatus));

@@ -1,8 +1,8 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import NavMain from "../components/user/NavMain";
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import NavMain from '../components/user/NavMain';
 
 export const PrivateRoute = ({ auth, component: Component, ...rest }) => (
   <Route
@@ -13,7 +13,7 @@ export const PrivateRoute = ({ auth, component: Component, ...rest }) => (
           <Component {...props} />
         </NavMain>
       ) : (
-        <Redirect to="/" />
+        <Redirect to='/' />
       )
     }
   />

@@ -1,9 +1,9 @@
-const express = require("express");
+const express = require('express');
 const Router = express.Router();
-const auth = require("../middleware/auth");
+const auth = require('../middleware/auth');
 const clients = require('./clients');
 const calls = require('./calls');
-const db = require("../database/db");
+const db = require('../database/db');
 const Profile = db.profile;
 const Job = db.job;
 const Lead = db.lead;
@@ -30,13 +30,13 @@ Router.post ('/', auth, async(req, res) => {
         console.log('====================================');
         console.log(error);
         console.log('====================================');
-      return res.status(402).json({ msg: "Server Error" });
+      return res.status(402).json({ msg: 'Server Error' });
 
     }
 })
 
 // get all leads
-Router.get( "/", auth, async (req, res) => {
+Router.get( '/', auth, async (req, res) => {
     try {
         const leads = await Lead.findAll({
             include: [
@@ -64,12 +64,12 @@ Router.get( "/", auth, async (req, res) => {
         return res.json({ leads }  );
     } catch (error) {
       console.log(error.message);
-      return res.status(402).json({ msg: "Server Error" });
+      return res.status(402).json({ msg: 'Server Error' });
     }
 });
 
 // update Lead 
-Router.put("/", auth, async (req, res) => {
+Router.put('/', auth, async (req, res) => {
     try {
         if(req.body.newClientData){
             await clients.updateClient(req.body.query.client_id, req.body.newClientData);       
@@ -86,13 +86,13 @@ Router.put("/", auth, async (req, res) => {
         return res.json( { updatedLead } );
     } catch (error) {
       console.log(error.message);
-      return res.status(402).json({ msg: "Server Error" });
+      return res.status(402).json({ msg: 'Server Error' });
     }
 });
 
 
 // get all Scheduled leads
-Router.get( "/callTaken", auth, async (req, res) => {
+Router.get( '/callTaken', auth, async (req, res) => {
     try {
         const leads = await Lead.findAll({
             include: [
@@ -129,12 +129,12 @@ Router.get( "/callTaken", auth, async (req, res) => {
         return res.json({ leads }  );
     } catch (error) {
       console.log(error.message);
-      return res.status(402).json({ msg: "Server Error" });
+      return res.status(402).json({ msg: 'Server Error' });
     }
 });
 
 //get all job status of leads with respect to status
-Router.put( "/leadReport", auth, async (req, res) => {
+Router.put( '/leadReport', auth, async (req, res) => {
     try {
         const leadReport = await Lead.findAll({
             where: {
@@ -156,7 +156,7 @@ Router.put( "/leadReport", auth, async (req, res) => {
     console.log(error);
     console.log('====================================');
     // console.log(error.message);
-    return res.status(402).json({ msg: "Server Error" });
+    return res.status(402).json({ msg: 'Server Error' });
 }
 });
 
