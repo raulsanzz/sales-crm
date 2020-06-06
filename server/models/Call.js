@@ -8,10 +8,10 @@ module.exports = (sequelize, Sequelize) => {
       autoIncrement: true,
     },
     call_time: {
-        type: Sequelize.STRING
+      type: Sequelize.STRING
     },
     call_date: {
-    type: Sequelize.DATEONLY
+      type: Sequelize.DATEONLY
     },
     contact_via: { // phone or an app like Zoom , GotoMeeting etc
       type: Sequelize.STRING

@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
     call_status: { //status of every call `done, Not-Taken, rescheduled by client`
         type: Sequelize.STRING
     },
-    voice: { //extra notes for the agenda of the call
+    voice: { //name of the person who took the call
         type: Sequelize.STRING
     },
     agenda_id: {
