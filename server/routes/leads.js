@@ -160,4 +160,21 @@ Router.put( '/leadReport', auth, async (req, res) => {
 }
 });
 
+// get Lead W.R.T. voice(agendaId) 
+Router.put( '/voiceleads', auth, async (req, res) => {
+    try {
+        const leads = await Lead.findAll({
+            where: {
+                call_id: {
+                [Op.in]: req.body.ids
+            }},    
+        attributes: ['status', [sequelize.fn('COUNT', sequelize.col('status')), 'total']],
+        group: ['status']
+        })
+        return res.json({ leads } );
+    } catch (error) {
+      console.log(error.message);
+      return res.status(402).json({ msg: 'Server Error' });
+    }
+});
 module.exports = Router;
