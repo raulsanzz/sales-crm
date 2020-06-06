@@ -8,8 +8,20 @@ const Op = sequelize.Op;
 
 //Get all notes with respect to names
 Router.put( '/voiceReport', auth, async (req, res) => {
-    try {
-    let voiceReport = await Note.findAll({
+  try {
+  let voiceReport = await Note.findAll({
+    where: {
+      createdAt:{
+        [Op.and]: {
+          [Op.gte]: req.body.startDate,
+          [Op.lte]: req.body.endDate
+        }}
+      },
+      attributes: ['agenda_id', 'voice', [sequelize.fn('COUNT', sequelize.col('voice')), 'total']],
+      group: ['agenda_id', 'voice'],
+      order: [ ['voice', 'DESC'] ]
+    })
+    let voiceStatusesReport = await Note.findAll({
       where: {
         createdAt:{
           [Op.and]: {
@@ -17,34 +29,20 @@ Router.put( '/voiceReport', auth, async (req, res) => {
             [Op.lte]: req.body.endDate
           }}
         },
-        attributes: ['agenda_id', 'voice', [sequelize.fn('COUNT', sequelize.col('voice')), 'total']],
-        group: ['agenda_id', 'voice'],
-        order: [ ['voice', 'DESC'] ]
-      })
-      let voiceStatusesReport = await Note.findAll({
-        where: {
-          createdAt:{
-            [Op.and]: {
-              [Op.gte]: req.body.startDate,
-              [Op.lte]: req.body.endDate
-            }}
-          },
-        attributes: [ 'call_status', 'voice', [sequelize.fn('COUNT', sequelize.col('voice')), 'total']],
-        group: ['call_status', 'voice'],
-        order: [ ['voice', 'DESC'] ]
-      })
-      voiceReport = removeDuplicationOfVoiceReport(voiceReport);
-      voiceStatusesReport = removeDuplicationOfVoiceStatusesReport(voiceStatusesReport);
-      voiceReport = mergeReports(voiceReport, voiceStatusesReport);
-      return res.json({voiceReport});
-    } catch (error) {
-      console.log('====================================');
-      console.log(error);
-      console.log('====================================');
-      // console.log(error.message);
-      return res.status(402).json({ msg: 'Server Error' });
-    }
-  });
+      attributes: [ 'call_status', 'voice', [sequelize.fn('COUNT', sequelize.col('voice')), 'total']],
+      group: ['call_status', 'voice'],
+      order: [ ['voice', 'DESC'] ]
+    })
+    voiceReport = removeDuplicationOfVoiceReport(voiceReport);
+    voiceStatusesReport = removeDuplicationOfVoiceStatusesReport(voiceStatusesReport);
+    return res.json({voiceReport, voiceStatusesReport});
+  } catch (error) {
+    console.log('====================================');
+    console.log(error);
+    console.log('====================================');
+    return res.status(402).json({ msg: 'Server Error' });
+  }
+});
 
 const removeDuplicationOfVoiceReport = (voiceReport) => {
   let temp = {
@@ -92,6 +90,7 @@ const removeDuplicationOfVoiceReport = (voiceReport) => {
   res = res.filter(obj => obj ? obj : null);
   return res;
 }
+
 const removeDuplicationOfVoiceStatusesReport = (voiceStatusesReport) => {
   let temp = [];
   let res = voiceStatusesReport.map((obj, index) => {
@@ -124,17 +123,5 @@ const removeDuplicationOfVoiceStatusesReport = (voiceStatusesReport) => {
   res = res.filter(obj => obj ? obj : null);
   return res;
 }
-const mergeReports = (voiceReport, voiceStatusesReport) => {
-  voiceReport = voiceReport.map((obj, index) => {
-    return(
-      {
-        ...obj,
-        subTotal: voiceStatusesReport[index]
-      }
-    )
-  })
-  return voiceReport;
-}
-  
-module.exports = Router;
 
+module.exports = Router;

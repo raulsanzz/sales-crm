@@ -14,6 +14,7 @@ import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 const voice = ({history, callStatuses}) => {
   const [report, setReport] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [subTotal, setSubTotal] = useState([]);
   const [tableHeader, setTableHeader] = useState('');
 
   const handleDate = async (startDate, endDate) => {
@@ -27,10 +28,36 @@ const voice = ({history, callStatuses}) => {
       },
     };
     const body = JSON.stringify({ startDate, endDate });
-    let res = await axios.put('/api/note/voiceReport', body, config);
-    setReport(res);
+    const res = await axios.put('/api/note/voiceReport', body, config);
+    const temp = res.data.voiceStatusesReport.map( arr => {
+      return arr.length === callStatuses.length ? arr : mapRemainingStatusOnReport(arr)
+    })
+    setSubTotal(temp);
+    setReport(res.data.voiceReport);
     setLoading(false);
   };
+
+  const mapRemainingStatusOnReport = (objlist) => {
+    const temp = callStatuses.map( status => {
+      let found = null;
+      objlist.forEach(obj => {
+        if(obj.call_status === status){
+          found = {...obj} 
+          return;
+        }
+      });
+      if(found){
+          return found;
+      }  
+      else{
+        return {
+          call_status: status,
+          total: 0
+        }
+      }
+    })
+    return temp;
+  }
   
   const displayTable = () => {
     return(
@@ -39,6 +66,9 @@ const voice = ({history, callStatuses}) => {
           <TableHead>
             <TableRow>
               <TableCell>Voice Name</TableCell>
+              {callStatuses.map( (status, index) => {
+                return  <TableCell key={index}>{status}</TableCell>
+              })}
               <TableCell>Total Calls Taken</TableCell>
             </TableRow>
           </TableHead>
@@ -51,10 +81,16 @@ const voice = ({history, callStatuses}) => {
                   state: row
                 })} 
                 key={index}>
-                <TableCell component='th' scope='row'>
+                <TableCell component='th' scope='row' align='center'>
                   {row.voice} 
                 </TableCell>
-                <TableCell component='th' scope='row'>
+                {subTotal[index].map( (obj, index) => {
+                  return  (<TableCell key={index} component='th' scope='row' align='center'>
+                      {obj.total}
+                    </TableCell>
+                  )
+                })}
+                <TableCell component='th' scope='row' align='center'>
                   {row.total}
                 </TableCell>
               </TableRow>

@@ -40,7 +40,7 @@ const test = ({testStatuses}) => {
           return result[0]
         }
       })
-      setReport(temp);
+    setReport(temp);
     setLoading(false);
   };
   
