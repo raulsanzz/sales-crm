@@ -1,15 +1,15 @@
 const express = require('express');
+const auth = require('../middleware/auth');
 const router = express.Router();
 
 //Routes
 router.use('/user', require('./user'));
-router.use('/job', require('./job'));
-router.use('/auth', require('./auth'));
-router.use('/appliedjob', require('./appliedJobs'));
-router.use('/profile', require('./profile'));
-router.use('/lead', require('./leads'));
-router.use('/agenda', require('./agendas'));
-router.use('/test', require('./tests'));
-router.use('/note', require('./notes'));
+router.use('/job', auth, require('./job'));
+router.use('/appliedjob', auth, require('./appliedJobs'));
+router.use('/profile', auth, require('./profile'));
+router.use('/lead', auth, require('./leads'));
+router.use('/agenda', auth, require('./agendas'));
+router.use('/test', auth, require('./tests'));
+router.use('/note', auth, require('./notes'));
 
 module.exports = router;

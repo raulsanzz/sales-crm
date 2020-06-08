@@ -60,9 +60,8 @@ const useStyles = makeStyles(theme => ({
 const editUser = ({ history, location, updateUser, updateUserPassword, userRoles }) => {
   const alert = useAlert();
   const classes = useStyles();
-
-  const [formData, setFormData] = useState(location.state.detail);
   const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState(location.state.detail);
   
   const onChangeHandler = e => {
     setFormData({

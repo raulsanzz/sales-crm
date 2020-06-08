@@ -1,13 +1,12 @@
 const db = require('../database/db');
 const express = require('express');
-const auth = require('../middleware/auth');
-const Router = express.Router();
+const router = express.Router();
 const Note = db.note;
 const sequelize = db.Sequelize;
 const Op = sequelize.Op;
 
 //Get all notes with respect to names
-Router.put( '/voiceReport', auth, async (req, res) => {
+router.put( '/voiceReport', async (req, res) => {
   try {
   let voiceReport = await Note.findAll({
     where: {
@@ -124,4 +123,4 @@ const removeDuplicationOfVoiceStatusesReport = (voiceStatusesReport) => {
   return res;
 }
 
-module.exports = Router;
+module.exports = router;

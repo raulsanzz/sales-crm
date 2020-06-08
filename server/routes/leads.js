@@ -1,9 +1,8 @@
 const express = require('express');
-const Router = express.Router();
-const auth = require('../middleware/auth');
 const clients = require('./clients');
 const calls = require('./calls');
 const db = require('../database/db');
+const router = express.Router();
 const Profile = db.profile;
 const Job = db.job;
 const Lead = db.lead;
@@ -16,7 +15,7 @@ const sequelize = db.Sequelize;
 const Op = sequelize.Op;
 
 
-Router.post ('/', auth, async(req, res) => {
+router.post ('/', async(req, res) => {
     try{
         const call = await calls.addCall(null);
         const newLead = await Lead.create({
@@ -36,7 +35,7 @@ Router.post ('/', auth, async(req, res) => {
 })
 
 // get all leads
-Router.get( '/', auth, async (req, res) => {
+router.get( '/', async (req, res) => {
     try {
         const leads = await Lead.findAll({
             include: [
@@ -69,7 +68,7 @@ Router.get( '/', auth, async (req, res) => {
 });
 
 // update Lead 
-Router.put('/', auth, async (req, res) => {
+router.put('/', async (req, res) => {
     try {
         if(req.body.newClientData){
             await clients.updateClient(req.body.query.client_id, req.body.newClientData);       
@@ -92,7 +91,7 @@ Router.put('/', auth, async (req, res) => {
 
 
 // get all Scheduled leads
-Router.get( '/callTaken', auth, async (req, res) => {
+router.get( '/callTaken', async (req, res) => {
     try {
         const leads = await Lead.findAll({
             include: [
@@ -134,7 +133,7 @@ Router.get( '/callTaken', auth, async (req, res) => {
 });
 
 //get all job status of leads with respect to status
-Router.put( '/leadReport', auth, async (req, res) => {
+router.put( '/leadReport', async (req, res) => {
     try {
         const leadReport = await Lead.findAll({
             where: {
@@ -161,7 +160,7 @@ Router.put( '/leadReport', auth, async (req, res) => {
 });
 
 // get Lead W.R.T. voice(agendaId) 
-Router.put( '/voiceleads', auth, async (req, res) => {
+router.put( '/voiceleads', async (req, res) => {
     try {
         const leads = await Lead.findAll({
             where: {
@@ -177,4 +176,4 @@ Router.put( '/voiceleads', auth, async (req, res) => {
       return res.status(402).json({ msg: 'Server Error' });
     }
 });
-module.exports = Router;
+module.exports = router;

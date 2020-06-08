@@ -1,15 +1,14 @@
 const express = require('express');
 const { addClient, deleteClient } = require('./clients');
-const auth = require('../middleware/auth');
 const db = require('../database/db');
-const Route = express.Router();
+const router = express.Router();
 const User = db.user;
 const Job = db.job;
 const Profile = db.profile;
 const Client = db.client;
 
 // Create new job
-Route.post('/', auth, async (req, res) => {
+router.post('/', async (req, res) => {
   let client = null;
   try {
     client = await addClient(req.body.newClientData);
@@ -47,7 +46,7 @@ Route.post('/', auth, async (req, res) => {
 });
 
 //Fetch all Job
-Route.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const result = await Job.findAll({
       include: [{
@@ -68,7 +67,7 @@ Route.get('/', auth, async (req, res) => {
 });
 
 //Update job
-Route.put('/update/:id', auth, async (req, res) => {
+router.put('/update/:id', async (req, res) => {
   try {
     let result = await Job.update({
         ...req.body.updatedData
@@ -83,4 +82,4 @@ Route.put('/update/:id', auth, async (req, res) => {
   }
 });
 
-module.exports = Route;
+module.exports = router;

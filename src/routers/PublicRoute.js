@@ -20,7 +20,7 @@ export const PublicRoute = ({ isAuth, component: Component, ...rest }) => (
 );
 
 const mapStateToProps = state => ({
-  isAuth: state.authReducer.isAuth
+  isAuth: state.UserReducer.isAuth
 });
 
 export default connect(mapStateToProps)(PublicRoute);

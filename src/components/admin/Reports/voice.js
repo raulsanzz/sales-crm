@@ -67,9 +67,9 @@ const voice = ({history, callStatuses}) => {
             <TableRow>
               <TableCell>Voice Name</TableCell>
               {callStatuses.map( (status, index) => {
-                return  <TableCell key={index}>{status}</TableCell>
+                return  <TableCell key={index} align='center'>{status}</TableCell>
               })}
-              <TableCell>Total Calls Taken</TableCell>
+              <TableCell align='center'>Total Calls Taken</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -81,7 +81,7 @@ const voice = ({history, callStatuses}) => {
                   state: row
                 })} 
                 key={index}>
-                <TableCell component='th' scope='row' align='center'>
+                <TableCell component='th' scope='row'>
                   {row.voice} 
                 </TableCell>
                 {subTotal[index].map( (obj, index) => {

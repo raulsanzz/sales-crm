@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import LockIcon from '@material-ui/icons/LockOutlined';
 
-import { logIn } from '../../store/actions/auth';
+import { logIn } from '../../store/actions/user';
 import errorHandler from './../../hoc/ErrorHandler/ErrorHandler';
 
 const useStyles = makeStyles(theme => ({
@@ -219,7 +219,7 @@ const SignIn = ({ logIn}) => {
 };
 
 const mapStateToProps = state => ({
-  auth: state.authReducer.isAuth
+  auth: state.UserReducer.isAuth
 });
 
 export default connect(mapStateToProps, { logIn })(errorHandler(SignIn));

@@ -1,44 +1,58 @@
 import {
-  FETCH_USER_SUCCESS,
-  FETCH_USER_FAIL,
-  USER_DELETE_SUCCESS,
-  USER_DELETE_FAIL,
-  USER_UPDATE_FAIL,
-  USER_UPDATE_SUCCESS
-} from "../actions/types";
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  USER_LOADED,
+  AUTH_ERROR,
+  LOGOUT
+} from '../actions/types';
 
 const initialState = {
-  users: [],
-  error: {},
-  loading: true
+  token: localStorage.getItem('token'),
+  user: [],
+  loading: true,
+  error: false,
+  isAuth: false
 };
-
 export default function(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case FETCH_USER_SUCCESS:
+    case USER_LOADED:
       return {
         ...state,
-        users: payload,
+        isAuth: true,
         loading: false,
-        error: null
+        error: false,
+        user:payload.user,
       };
-    case USER_UPDATE_FAIL:
-    case USER_DELETE_FAIL:
-    case FETCH_USER_FAIL:
+    case REGISTER_SUCCESS:
+    case LOGIN_SUCCESS:
+      localStorage.setItem('token', payload.token);
       return {
         ...state,
-        error: payload,
-        loading: true
+        isAuth: true,
+        loading: false,
+        error: false,
+        user:payload.user,
       };
-    case USER_UPDATE_SUCCESS:
-    case USER_DELETE_SUCCESS:
+    case REGISTER_FAIL:
+    case LOGIN_FAIL:
+    case AUTH_ERROR:
       return {
         ...state,
         loading: false,
-        error: null
+        error: true
       };
-
+    case LOGOUT:
+      localStorage.removeItem('token');
+      return {
+        ...state,
+        token: null,
+        isAuth: false,
+        loading: false,
+        error: false,
+      };
     default:
       return state;
   }

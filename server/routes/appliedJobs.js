@@ -1,8 +1,7 @@
 const express = require('express');
-const Router = express.Router();
 const clients = require('./clients');
-const auth = require('../middleware/auth');
 const db = require('../database/db');
+const router = express.Router();
 const AppliedJob = db.appliedJob;
 const Job = db.job;
 const sequelize = db.Sequelize;
@@ -13,7 +12,7 @@ const Op = sequelize.Op;
 
 
 //get all applied jobs where applied=false
-Router.get( '/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
       const appliedJobs = await AppliedJob.findAll({
         where: {applied: false},
@@ -37,7 +36,7 @@ Router.get( '/', auth, async (req, res) => {
 });
 
 //get all applied jobs where applied=true
-Router.get( '/manager', auth, async (req, res) => {
+router.get('/manager', async (req, res) => {
     try {
       const appliedJobs = await AppliedJob.findAll({
         where: {applied: true, lead_status: null},
@@ -61,7 +60,7 @@ Router.get( '/manager', auth, async (req, res) => {
 });
 
 //get all applied jobs where lead_status != lead
-Router.get( '/leads', auth, async (req, res) => {
+router.get('/leads', async (req, res) => {
   try {
     const appliedJobs = await AppliedJob.findAll({
       where: { lead_status: {
@@ -91,7 +90,7 @@ Router.get( '/leads', auth, async (req, res) => {
 });
 
 //get all user daily applied jobs count
-Router.put( '/report', auth, async (req, res) => {
+router.put('/report', async (req, res) => {
     try {
     const appliedJobs = await AppliedJob.findAll({
         where: {
@@ -139,7 +138,7 @@ Router.put( '/report', auth, async (req, res) => {
     }
 });
 //get all job reports with respect to status
-Router.put( '/jobReport', auth, async (req, res) => {
+router.put('/jobReport', async (req, res) => {
   try {
   const jobReport = await AppliedJob.findAll({
       where: {
@@ -167,7 +166,7 @@ Router.put( '/jobReport', auth, async (req, res) => {
 });
 
 //update applied jobs 
-Router.put('/', auth, async (req, res) => {
+router.put('/', async (req, res) => {
   try {
     if(req.body.shouldUpdateUser){ 
       req.body.updatedData.user_id = req.user.user.id;
@@ -238,4 +237,4 @@ const getUserNames = async(ids) => {
       }
 } 
 
-module.exports = Router;
+module.exports = router;

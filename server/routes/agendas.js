@@ -1,12 +1,11 @@
 const express = require('express');
-const Router = express.Router();
-const auth = require('../middleware/auth');
 const db = require('../database/db');
+const router = express.Router();
 const Agenda = db.agenda;
 const Note = db.note;
 
 //Add a new Agenda
-Router.post('/', auth, async(req, res) => {
+router.post('/', async(req, res) => {
     try {
         const agenda = await Agenda.create({
             ...req.body.agenda
@@ -22,7 +21,7 @@ Router.post('/', auth, async(req, res) => {
 })
 
 //get specific agenda
-Router.get( '/:call_id', auth, async (req, res) => {
+router.get( '/:call_id', async (req, res) => {
     try {
       const agenda = await Agenda.findAll({
         where: {call_id: req.params.call_id},
@@ -41,7 +40,7 @@ Router.get( '/:call_id', auth, async (req, res) => {
 });
 
 //update a Agenda
-Router.put('/:call_id', auth, async(req, res) => {
+router.put('/:call_id', async(req, res) => {
     try {
         if(req.body.note){
             addNote(req.body.note);
@@ -71,4 +70,4 @@ const addNote = async(newNote) => {
     }
 }
 
-module.exports = Router;
+module.exports = router;
