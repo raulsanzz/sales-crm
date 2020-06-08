@@ -27,6 +27,7 @@ const updateClient = async(id, clientData) => {
         throw new error(error);
     }
 } 
+//delete a client
 const deleteClient = async(clientId) => {
     try {
         const deletedClient = await Client.destroy({

@@ -19,7 +19,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import NavSide from './NavSide';
-import { logout } from '../../store/actions/auth';
+import { logout } from '../../store/actions/user';
 
 const drawerWidth = 250;
 
@@ -250,8 +250,8 @@ NavMain.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.authReducer.isAuth,
-  user: state.authReducer.user
+  auth: state.UserReducer.isAuth,
+  user: state.UserReducer.user
 });
 
 export default compose(

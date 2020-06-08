@@ -1,12 +1,11 @@
 const express = require('express');
-const Router = express.Router();
-const auth = require('../middleware/auth');
 const db = require('../database/db');
+const router = express.Router();
 const Profile = db.profile;
 
 
 //get all profiles
-Router.get( '/', auth, async (req, res) => {
+router.get( '/', async (req, res) => {
     try {
       const profiles = await Profile.findAll({
         attributes: ['id', 'name']
@@ -18,4 +17,4 @@ Router.get( '/', auth, async (req, res) => {
     }
 });
 
-module.exports = Router;
+module.exports = router;

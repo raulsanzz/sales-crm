@@ -133,7 +133,7 @@ const DashboardPage = ({ user, history }) => {
 };
 
 const mapStateToProps = state => ({
-  user: state.authReducer.user
+  user: state.UserReducer.user
 });
 
 export default connect(mapStateToProps, {})(DashboardPage);

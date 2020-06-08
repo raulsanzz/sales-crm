@@ -14,7 +14,7 @@ import FormControl from '@material-ui/core/FormControl';
 import HowToReg from '@material-ui/icons/HowToReg';
 
 import errorHandler from './../../hoc/ErrorHandler/ErrorHandler';
-import { signUp } from '../../store/actions/auth';
+import { signUp } from '../../store/actions/user';
 
 const useStyles = makeStyles((theme) => ({
   layout: {

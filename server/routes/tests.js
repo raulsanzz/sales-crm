@@ -1,12 +1,11 @@
 const express = require('express');
-const Router = express.Router();
-const auth = require('../middleware/auth');
 const db = require('../database/db');
+const router = express.Router();
 const sequelize = db.Sequelize;
 const Test = db.test;
 const Op = sequelize.Op;
 //Add a new Test
-Router.post('/', auth, async(req, res) => {
+router.post('/', async(req, res) => {
     try {
         const test = await Test.create({
             ...req.body.test
@@ -22,7 +21,7 @@ Router.post('/', auth, async(req, res) => {
 
 
 //get all test statuses respect to pass no response etc.
-Router.put( '/testReport', auth, async (req, res) => {
+router.put( '/testReport', async (req, res) => {
   try {
   const testReport = await Test.findAll({
     where: {
@@ -49,7 +48,7 @@ Router.put( '/testReport', auth, async (req, res) => {
 });
 
 //get all tests
-Router.put( '/:id', async (req, res) => {
+router.put( '/:id', async (req, res) => {
     try {
       const test = await Test.update({
         ...req.body.test
@@ -63,4 +62,4 @@ Router.put( '/:id', async (req, res) => {
 });
 
 
-module.exports = Router;
+module.exports = router;

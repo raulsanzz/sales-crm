@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { useAlert } from 'react-alert';
 import { makeStyles } from '@material-ui/styles';
@@ -15,8 +14,8 @@ import TablePagination from '@material-ui/core/TablePagination';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { fetchUser } from '../../store/actions/user';
-import { deleteUser } from '../../store/actions/user';
+import Meassage from '../UI/message';
+import { fetchUser, deleteUser } from '../../store/actions/user';
 import errorHandler from './../../hoc/ErrorHandler/ErrorHandler';
 
 const columns = [
@@ -46,16 +45,29 @@ const useStyles = makeStyles({
   }
 });
 
-const userList = ({ fetchUser, users, deleteUser, history }) => {
+const userList = ({ fetchUser, deleteUser, history }) => {
   const alert = useAlert();
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    fetchUser();
+    fetchData();
   }, [count]);
+
+  const fetchData = async() => {
+    setLoading(true);
+    try {
+      const res = await fetchUser();      
+      setUsers(res);  
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  }
 
 
   const handleChangePage = (event, newPage) => {
@@ -74,10 +86,11 @@ const userList = ({ fetchUser, users, deleteUser, history }) => {
   };
 
   return (
-    <Paper className={classes.root}>
-      <h1 className={classes.jobHeader}>Users List</h1>
-      <div className={classes.tableWrapper}>
-        <Table stickyHeader aria-label='sticky table'>
+    <Fragment>
+    { loading ? <Meassage meassage={'loading'} /> : users.length > 0 ? (
+      <Paper className={classes.root}>
+        <h1 className={classes.jobHeader}>Users List</h1>
+        <Table stickyHeader aria-label='sticky table' className={classes.tableWrapper}>
           <TableHead>
             <TableRow>
               {columns.map(column => (
@@ -91,67 +104,54 @@ const userList = ({ fetchUser, users, deleteUser, history }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map(row => {
-                return (
-                  <TableRow hover key={row.registration_number}>
-                    <TableCell component='th' scope='row'>{row.registration_number}</TableCell>
-                    <TableCell align='center'>{row.name}</TableCell>
-                    <TableCell align='center'>{row.designation}</TableCell>
-                    <TableCell align='center'>{row.role}</TableCell>
-                    <TableCell align='center'>{row.createdAt}</TableCell>
-                    <TableCell align='center'>
-                      <IconButton 
-                        aria-label='delete'
-                        onClick={() => userDelete(row.registration_number)}>
-                        <DeleteIcon fontSize='large' />
-                      </IconButton>
-
-                      <IconButton 
-                        aria-label='edit'
-                        onClick={() =>
-                          history.push({
-                            pathname: '/edit',
-                            state: { detail: row }
-                          })
-                        }>
-                        <EditIcon fontSize='large' />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+            {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+              return (
+                <TableRow hover key={row.registration_number}>
+                  <TableCell component='th' scope='row'>{row.registration_number}</TableCell>
+                  <TableCell align='center'>{row.name}</TableCell>
+                  <TableCell align='center'>{row.designation}</TableCell>
+                  <TableCell align='center'>{row.role}</TableCell>
+                  <TableCell align='center'>{row.createdAt}</TableCell>
+                  <TableCell align='center'>
+                    <IconButton 
+                      aria-label='delete'
+                      onClick={() => userDelete(row.registration_number)}>
+                      <DeleteIcon fontSize='large' />
+                    </IconButton>
+                    <IconButton 
+                      aria-label='edit'
+                      onClick={() =>
+                        history.push({
+                          pathname: '/edit',
+                          state: { detail: row }
+                        })}>
+                      <EditIcon fontSize='large' />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              );})
+            }
           </TableBody>
         </Table>
-      </div>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component='div'
-        count={users.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        backIconButtonProps={{
-          'aria-label': 'previous page'
-        }}
-        nextIconButtonProps={{
-          'aria-label': 'next page'
-        }}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
-    </Paper>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component='div'
+          count={users.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          backIconButtonProps={{
+            'aria-label': 'previous page'
+          }}
+          nextIconButtonProps={{
+            'aria-label': 'next page'
+          }}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage} />
+      </Paper> ) : <Meassage meassage={'No User Found'} /> }
+    </Fragment>  
   );
 };
 
-const mapStateToProps = state => ({
-  users: state.userReducer.users
-});
 
-userList.propTypes = {
-  fetchUser: PropTypes.func.isRequired,
-  users: PropTypes.array.isRequired,
-  deleteUser: PropTypes.func.isRequired
-};
-
-export default connect(mapStateToProps,
+export default connect(null,
    { fetchUser, deleteUser })(errorHandler(userList));

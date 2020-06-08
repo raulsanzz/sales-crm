@@ -4,7 +4,7 @@ import AlertTemplate from 'react-alert-template-basic';
 
 import store from './store/store';
 import AppRouter from './routers/AppRouter';
-import { loadUser } from './store/actions/auth';
+import { loadUser } from './store/actions/user';
 
 if (localStorage.token) {
   store.dispatch(loadUser());
