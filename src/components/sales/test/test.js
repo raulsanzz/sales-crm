@@ -44,6 +44,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: '12px',
     marginRight: '22px',
     width: '100%'
+  },
+  hover:{
+    cursor: 'pointer'
   }
 }));
 

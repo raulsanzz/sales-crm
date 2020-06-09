@@ -45,6 +45,9 @@ const columns = [
       marginRight: '22px',
       width: '100%'
     },
+    hover:{
+      cursor: 'pointer'
+    }
   }));
 
 const voice = ({fetchLeads, leads, leadLoading, history}) => {

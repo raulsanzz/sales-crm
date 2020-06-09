@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     color: 'white',
   },
+  nested: {
+    paddingLeft: theme.spacing(3.5),
+  }
 }));
 
 const NavSide = ({ user}) => {
@@ -75,24 +78,24 @@ const NavSide = ({ user}) => {
           <ListItemIcon>
             <WorkOutlineIcon className={classes.root} />
           </ListItemIcon>
-          <ListItemText primary='Sales Executive' />
+          <ListItemText primary='Lead Generation' />
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         <Collapse in={open} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
-            <ListItem button component={Link} to='/add_job'>
+            <ListItem button className={classes.nested} component={Link} to='/add_job'>
               <ListItemIcon>
                 <AddCircleOutlineIcon className={classes.root} />
               </ListItemIcon>
               <ListItemText primary='Add Job' />
             </ListItem>
-            <ListItem button component={Link} to='/manager_job_links'>
+            <ListItem button className={classes.nested} component={Link} to='/manager_job_links'>
               <ListItemIcon>
                 <LinkIcon className={classes.root} />
               </ListItemIcon>
               <ListItemText primary='Job Links' />
             </ListItem>
-            <ListItem button component={Link} to='/daily_job_report'>
+            <ListItem button className={classes.nested} component={Link} to='/daily_job_report'>
               <ListItemIcon>
                 <PollOutlinedIcon className={classes.root} />
               </ListItemIcon>
@@ -116,31 +119,31 @@ const NavSide = ({ user}) => {
         </ListItem>
         <Collapse in={managerOpen} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
-            <ListItem button component={Link} to='/manager_job_list'>
+            <ListItem button className={classes.nested} component={Link} to='/manager_job_list'>
               <ListItemIcon>
                 <ListIcon className={classes.root} />
               </ListItemIcon>
               <ListItemText primary='Job List' />
             </ListItem>
-            <ListItem button component={Link} to='/manager_leads'>
+            <ListItem button className={classes.nested} component={Link} to='/manager_leads'>
               <ListItemIcon>
                 <LaunchOutlinedIcon className={classes.root} />
               </ListItemIcon>
               <ListItemText primary='Leads' />
             </ListItem>
-            <ListItem button component={Link} to='/scheduled_leads'>
+            <ListItem button className={classes.nested} component={Link} to='/scheduled_leads'>
               <ListItemIcon>
                 <AssignmentTurnedInOutlinedIcon className={classes.root} />
               </ListItemIcon>
               <ListItemText primary='Scheduled Leads' />
             </ListItem>
-            <ListItem button component={Link} to='/leads'>
+            <ListItem button className={classes.nested} component={Link} to='/leads'>
               <ListItemIcon>
                 <AssignmentLateOutlinedIcon className={classes.root} />
               </ListItemIcon>
               <ListItemText primary='Leads Status' />
             </ListItem>
-            <ListItem button component={Link} to='/appliedJobs'>
+            <ListItem button className={classes.nested} component={Link} to='/appliedJobs'>
               <ListItemIcon>
                 <AssignmentLateOutlinedIcon className={classes.root} />
               </ListItemIcon>
@@ -164,13 +167,13 @@ const NavSide = ({ user}) => {
         </ListItem>
         <Collapse in={salesVoiceOpen} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
-            <ListItem button component={Link} to='/voice'>
+            <ListItem button className={classes.nested} component={Link} to='/voice'>
               <ListItemIcon>
                 <PhoneOutlinedIcon className={classes.root} />
               </ListItemIcon>
               <ListItemText primary='Call Scheduled' />
             </ListItem>
-            <ListItem button component={Link} to='/voice_stauts'>
+            <ListItem button className={classes.nested} component={Link} to='/voice_stauts'>
               <ListItemIcon>
                 <PermPhoneMsgOutlinedIcon className={classes.root} />
               </ListItemIcon>
@@ -194,19 +197,19 @@ const NavSide = ({ user}) => {
         </ListItem>
         <Collapse in={salesTestOpen} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
-            <ListItem button component={Link} to='/pipeline_test'>
+            <ListItem button className={classes.nested} component={Link} to='/pipeline_test'>
               <ListItemIcon>
                 <PowerInputOutlinedIcon className={classes.root} />
               </ListItemIcon>
               <ListItemText primary='Test In pipeline' />
             </ListItem>
-            <ListItem button component={Link} to='/complete_test'>
+            <ListItem button className={classes.nested} component={Link} to='/complete_test'>
               <ListItemIcon>
                 <DoneAllOutlinedIcon className={classes.root} />
               </ListItemIcon>
               <ListItemText primary='Test Completed' />
             </ListItem>
-            <ListItem button component={Link} to='/test'>
+            <ListItem button className={classes.nested} component={Link} to='/test'>
               <ListItemIcon>
                 <PollOutlinedIcon className={classes.root} />
               </ListItemIcon>
@@ -230,37 +233,37 @@ const NavSide = ({ user}) => {
         </ListItem>
         <Collapse in={userOpen} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
-            <ListItem button component={Link} to='/user_list'>
+            <ListItem button className={classes.nested} component={Link} to='/user_list'>
               <ListItemIcon>
                 <ListIcon className={classes.root} />
               </ListItemIcon>
               <ListItemText primary='User List' />
             </ListItem>
-             <ListItem button component={Link} to='/executive_report'>
+             <ListItem button className={classes.nested} component={Link} to='/executive_report'>
               <ListItemIcon>
                 <PollOutlinedIcon className={classes.root} />
               </ListItemIcon>
               <ListItemText primary='Executive Report' />
             </ListItem>
-             <ListItem button component={Link} to='/job_report'>
+             <ListItem button className={classes.nested} component={Link} to='/job_report'>
               <ListItemIcon>
                 <PollOutlinedIcon className={classes.root} />
               </ListItemIcon>
               <ListItemText primary='Job Report' />
             </ListItem>
-             <ListItem button component={Link} to='/lead_report'>
+             <ListItem button className={classes.nested} component={Link} to='/lead_report'>
               <ListItemIcon>
                 <PollOutlinedIcon className={classes.root} />
               </ListItemIcon>
               <ListItemText primary='Lead Report' />
             </ListItem>
-             <ListItem button component={Link} to='/test_report'>
+             <ListItem button className={classes.nested} component={Link} to='/test_report'>
               <ListItemIcon>
                 <PollOutlinedIcon className={classes.root} />
               </ListItemIcon>
               <ListItemText primary='Test Report' />
             </ListItem>
-             <ListItem button component={Link} to='/voice_report'>
+             <ListItem button className={classes.nested} component={Link} to='/voice_report'>
               <ListItemIcon>
                 <PollOutlinedIcon className={classes.root} />
               </ListItemIcon>
