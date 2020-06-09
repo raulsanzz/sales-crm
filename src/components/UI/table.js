@@ -107,6 +107,8 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
               return (
               <TableRow 
                 key={index}
+                hover
+                className={`${rowClickListener ? classes.hover : null}`}
                 onClick={rowClickListener ? (() =>
                   history.push({
                     pathname: '/agenda',

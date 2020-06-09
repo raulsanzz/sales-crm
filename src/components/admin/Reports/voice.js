@@ -76,6 +76,8 @@ const voice = ({history, callStatuses}) => {
             {report.map((row, index) => (
               row.voice ? ( 
                 <TableRow
+                hover
+                style={{cursor: 'pointer'}}
                 onClick={ () =>history.push({
                   pathname: '/voice_report_person',
                   state: row

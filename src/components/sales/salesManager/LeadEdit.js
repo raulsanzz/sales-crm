@@ -238,7 +238,7 @@ const editLead = ({ history, location, updateLead }) => {
       elementType: 'select',
       elementConfig:{
         options: [
-        {value: 'Sales', displayValue: 'Sales' },
+        {value: 'HR', displayValue: 'HR' },
         {value: 'Technical', displayValue: 'Technical' },
         {value: 'Reference', displayValue: 'Reference' }
        ],
