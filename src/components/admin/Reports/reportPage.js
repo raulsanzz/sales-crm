@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-const reportTable = ({report, tableHeader, loading, displayTable, dateRangeHandler, pageHeader, pdfExportComponent}) => {
+const reportTable = ({report, tableHeader, loading, displayTable, dateRangeHandler, pageHeader, pdfExportComponent, shouldShowControls}) => {
   const classes = useStyles();
   
   const exportPDFWithComponent = () => {
@@ -69,13 +69,17 @@ const reportTable = ({report, tableHeader, loading, displayTable, dateRangeHandl
       author="cloudTek Inc." >
     <Fragment>
       <main className={classes.root}>
-      <Paper className={classes.paper} >
-          <Typography className={classes.typography}>
-            {pageHeader}
-          <PictureAsPdfIcon className={classes.pdfButton} onClick={exportPDFWithComponent}></PictureAsPdfIcon>
-          </Typography>
-        </Paper>
-        <DateRange handleClick={dateRangeHandler} classes={classes} />    
+        {shouldShowControls ? (
+          <Fragment>
+            <Paper className={classes.paper}>
+            <Typography className={classes.typography}>
+                {pageHeader}
+              <PictureAsPdfIcon className={classes.pdfButton} onClick={exportPDFWithComponent}></PictureAsPdfIcon>
+              </Typography>
+            </Paper>
+            <DateRange handleClick={dateRangeHandler} classes={classes} />    
+          </Fragment>
+        ): null }
         {tableHeader !== "" ? loading === false ? report.length > 0 ? ( 
           <Paper className={classes.paper}> { displayTable() } </Paper> ): (
           <Meassage meassage={'No reports for the selected dates'} /> ) : (

@@ -5,6 +5,7 @@ const initialState = {
     'good',
     'hot',
     'closed',
+    'legal',
     'garbage',
     'dead lead',
     'Rejected by client',
@@ -12,9 +13,10 @@ const initialState = {
   ],
   jobStatus: [
     'lead',
+    'legal',
     'garbage',
-    'recruiter',
     'in-house',
+    'recruiter',
     'rejected by client'
   ],
   callStatus: [

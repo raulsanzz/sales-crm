@@ -112,7 +112,8 @@ const voice = ({history, callStatuses}) => {
         loading={loading}
         displayTable={displayTable}  
         dateRangeHandler={handleDate}
-        pageHeader={'Voice Report'} />
+        pageHeader={'Voice Report'} 
+        shouldShowControls={true} />
     </Fragment>
   );
 };

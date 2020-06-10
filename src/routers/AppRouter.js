@@ -41,6 +41,8 @@ import VoiceReports from '../components/admin/Reports/voice';
 import AppliedJobsReports from '../components/admin/Reports/appliedJob';
 import SalesExecutiveReports from '../components/admin/Reports/SalesExecutive';
 import VoicePerPerson from "../components/admin/Reports/voicePerPerson";
+import AllReports from "../components/admin/Reports/allReports";
+
 
 const history = createBrowserHistory();
 
@@ -83,6 +85,7 @@ export default () => {
           <PrivateRoute path='/test_report' component={TestReports} />
           <PrivateRoute path='/voice_report' component={VoiceReports} />
           <PrivateRoute path='/voice_report_person' component={VoicePerPerson} />
+          <PrivateRoute path='/report' component={AllReports} />
           {/* others */}
           <PrivateRoute path='/agenda' component={Agenda} />
         </Switch>
