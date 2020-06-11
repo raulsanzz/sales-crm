@@ -5,6 +5,7 @@ const initialState = {
     'good',
     'hot',
     'closed',
+    'legal',
     'garbage',
     'dead lead',
     'Rejected by client',
@@ -12,9 +13,10 @@ const initialState = {
   ],
   jobStatus: [
     'lead',
+    'legal',
     'garbage',
-    'recruiter',
     'in-house',
+    'recruiter',
     'rejected by client'
   ],
   callStatus: [
@@ -51,6 +53,19 @@ const initialState = {
     'Sales Manager',
     'Sales Voice',
     'Admin'
+  ],
+  interviewStatus:[
+    'HR',
+    'Technical',
+    'Reference',
+  ],
+  contactViaStatus:[
+    'Phone', 
+    'Zoom',
+    'GotoMeeting', 
+    'Blue jeans', 
+    'Hangouts', 
+    'others', 
   ]
 };
 

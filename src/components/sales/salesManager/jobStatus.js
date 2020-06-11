@@ -106,7 +106,7 @@ const jobStatus = ({jobStatuses}) => {
               jobs={filteredJobs}
               columns={columns}
               classes={classes}
-              tableHeader={'Jobs'} />
+              tableHeader={'Applications'} />
           ): <Meassage meassage={'No Job with the selected status'} /> : null }
         </div>
       )}

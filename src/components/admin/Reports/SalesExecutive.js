@@ -95,7 +95,7 @@ const salesExecutive = ({pdfExportComponent}) => {
       <main className={classes.root}>
         <Paper className={classes.paper}>
           <Typography className={classes.typography}>
-            Sales Executive Report
+              Data Entry Report
             <PictureAsPdfIcon className={classes.pdfButton} onClick={exportPDFWithComponent}></PictureAsPdfIcon>
           </Typography>
         </Paper>

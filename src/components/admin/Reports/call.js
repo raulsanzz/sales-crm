@@ -1,19 +1,19 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, Fragment } from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect, Fragment } from 'react';
+import { connect } from 'react-redux';
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 
-import ReportPage from "./reportPage";
-import { getLeadReport } from './../../../store/actions/profile';
-import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
+import ReportPage from './reportPage';
+import { getInterviewReport } from '../../../store/actions/profile';
+import errorHandler from '../../../hoc/ErrorHandler/ErrorHandler';
 
-const leads = ({leadStatuses, getLeadReport, allReportStartDate, allReportEndDate, shouldFetch }) => {
+const call = ({interviewStatuses, getInterviewReport, allReportStartDate, allReportEndDate, shouldFetch }) => {
   const [report, setReport] = useState([]);
-  const [subTotal, setSubTotal] = useState('');
+  const [subTotal, setSubTotal] = useState(''); 
   const [loading, setLoading] = useState(false);
   const [tableHeader, setTableHeader] = useState('');
 
@@ -27,33 +27,33 @@ const leads = ({leadStatuses, getLeadReport, allReportStartDate, allReportEndDat
     setLoading(true);
     startDate = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`;
     endDate = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`;
-    setTableHeader(`Report of [${startDate}] - [${endDate}]`)
-    const leadReport = await getLeadReport(startDate, endDate, leadStatuses);
-    setReport(leadReport.report);
-    setSubTotal(leadReport.subTotal);
+    setTableHeader(`Report of [${startDate}] - [${endDate}]`);
+    const callReport = await getInterviewReport(startDate, endDate, interviewStatuses);
+    setReport(callReport.report);
+    setSubTotal({subtotal: callReport.subTotal, closedAfterTechnical: callReport.closedAfterTechnical});
     setLoading(false);
   };
 
   const displayTable = () => {
     return(
       <Fragment>
-        <Table style={{minWidth: '650'}} aria-label="spanning table">
+        <Table style={{minWidth: '650'}} aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell>Lead Status</TableCell>
+              <TableCell>Call Status</TableCell>
               <TableCell align='center'>Percentage</TableCell>
               <TableCell align='right'>Total</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {report.map((row, index) => (
-              row.status ? ( 
+              row.interview_status ? ( 
                 <TableRow key={index}>
                 <TableCell>
-                  {row.status} 
+                  {row.interview_status} 
                 </TableCell>
                 <TableCell align='center'>
-                {row.total > 0 ? `${((row.total/subTotal)*100).toFixed(2)} %` : 0}
+                {row.total > 0 ? `${((row.total/subTotal.subtotal)*100).toFixed(2)} %` : 0}
                 </TableCell>
                 <TableCell  align='right'>
                   {row.total}
@@ -62,8 +62,17 @@ const leads = ({leadStatuses, getLeadReport, allReportStartDate, allReportEndDat
               ): null
             ))}
             <TableRow>
-              <TableCell colSpan={2} align="right">Total Leads</TableCell>
-              <TableCell align="right">{subTotal}</TableCell>
+                <TableCell> Closed After Technical Calls </TableCell>
+                <TableCell align='center'>
+                {subTotal.closedAfterTechnical > 0 ? (
+                  `${((subTotal.closedAfterTechnical/report[1].total)*100).toFixed(2)} %`
+                ) : 0}
+                </TableCell>
+                <TableCell  align='right'> {subTotal.closedAfterTechnical} </TableCell>
+              </TableRow>
+            <TableRow>
+              <TableCell colSpan={2} align="right">Total Calls</TableCell>
+              <TableCell align="right">{subTotal.subtotal}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -77,16 +86,16 @@ const leads = ({leadStatuses, getLeadReport, allReportStartDate, allReportEndDat
         report={report}
         tableHeader={tableHeader}
         loading={loading}
-        displayTable={displayTable} 
+        displayTable={displayTable}  
         dateRangeHandler={handleDate}
-        pageHeader={'Leads Report'}
+        pageHeader={'Tests Report'} 
         shouldShowControls={!allReportEndDate && !allReportStartDate ? true : false} />
     </Fragment>
   );
 };
 
 const mapStateToProps = state => ({
-  leadStatuses: state.SelectOptions.leadStatus
-});
+  interviewStatuses : state.SelectOptions.interviewStatus
+})
 
-export default connect(mapStateToProps, {getLeadReport})(errorHandler(leads));
+export default connect(mapStateToProps, {getInterviewReport})(errorHandler(call));

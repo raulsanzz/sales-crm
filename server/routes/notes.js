@@ -42,6 +42,28 @@ router.put( '/voiceReport', async (req, res) => {
     return res.status(402).json({ msg: 'Server Error' });
   }
 });
+//Get all notes with respect to names
+router.put( '/callsReport', async (req, res) => {
+  try {
+    let callReport = await Note.findAll({
+      where: {
+        createdAt:{
+          [Op.and]: {
+            [Op.gte]: req.body.startDate,
+            [Op.lte]: req.body.endDate
+        }}
+      },
+      attributes: ['interview_status', [sequelize.fn('COUNT', sequelize.col('interview_status')), 'total']],
+      group: ['interview_status']
+    })
+    return res.json({callReport});
+  } catch (error) {
+    console.log('====================================');
+    console.log(error);
+    console.log('====================================');
+    return res.status(402).json({ msg: 'Server Error' });
+  }
+});
 
 const removeDuplicationOfVoiceReport = (voiceReport) => {
   let temp = {

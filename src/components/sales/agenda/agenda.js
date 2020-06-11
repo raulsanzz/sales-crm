@@ -306,6 +306,7 @@ const agenda = ({ callStatuses, location, pdfExportComponent }) => {
                         classes={classes} 
                         call_id={lead.call.id}
                         callStatus={callStatus} 
+                        interviewStatus={lead.interview_status}
                         voice={lead.voice}
                         editable={location.state.editable}
                         updateNotes={updateNotes}/>
@@ -330,5 +331,5 @@ const agenda = ({ callStatuses, location, pdfExportComponent }) => {
 };
 const mapStateToProps = state => ({
     callStatuses : state.SelectOptions.callStatus
-  });
+});
 export default connect(mapStateToProps)(agenda);

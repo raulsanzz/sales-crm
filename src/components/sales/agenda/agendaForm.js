@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import axios from './../../../axios-order'
 import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 
-const agendaForm = ({ classes, call_id, callStatus, voice, editable, updateNotes}) => {
+const agendaForm = ({ classes, call_id, callStatus, voice, editable, updateNotes, interviewStatus}) => {
   const alert = useAlert();
   const didMountRef = useRef(false)
   const [notes, setNotes] = useState('');
@@ -16,7 +16,6 @@ const agendaForm = ({ classes, call_id, callStatus, voice, editable, updateNotes
   const [loading, setLoading] = useState(false);
   const [agendaExists, setAgendaExists] = useState(false);
   const [fromIsInvalid, setFromIsInvalid] = useState(false);
-  const [notesRequired, setNotesRequired] = useState(true);
   const [formData, setFormData] = useState({
     remote: {
       elementType: 'input',
@@ -103,13 +102,7 @@ const agendaForm = ({ classes, call_id, callStatus, voice, editable, updateNotes
         message:''
       },
   });
-  useEffect(() => {
-    if(callStatus === 'done'){
-      setNotesRequired(false);
-    }
-    else{
-      setNotesRequired(true);
-    }      
+  useEffect(() => {   
     if(didMountRef.current === false){ //only for component did mount
       getAgenda();
       didMountRef.current = true
@@ -266,7 +259,8 @@ const createAgenda = async(agenda, note) => {
       agenda_id: call_id,
       note: notes === '' ? 'No Notes': notes,
       call_status: callStatus,
-      voice: voice 
+      voice: voice,
+      interview_status: interviewStatus
     }
     let temp = {
       remote: formData.remote.value,
@@ -312,12 +306,12 @@ const createAgenda = async(agenda, note) => {
             callStatus ? (
           <div style={{marginTop: '20px'}}>
             <TextField
-              error={notesRequired && notes === '' }
+              error={notes === '' }
               className={classes.textField}   
               id="Notes"
               label="Notes"
               multiline
-              helperText={notesRequired ? 'Please Provide Some Notes*': ''}
+              helperText={notes === ''  ? 'Please Provide Some Notes*': ''}
               rows={5}
               variant="outlined"
               value={notes}
@@ -327,7 +321,7 @@ const createAgenda = async(agenda, note) => {
               color='primary'
               type='submit'
               className={classes.button}
-              disabled={fromIsInvalid || (notesRequired && notes === '' )}>
+              disabled={fromIsInvalid || (notes === '' )}>
               Update Agenda
             </Button>
             </div>
