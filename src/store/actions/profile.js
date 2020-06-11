@@ -70,6 +70,26 @@ export const getTestReport = ( startDate, endDate, testStatuses ) => async dispa
   }
 };
 
+export const getInterviewReport = ( startDate, endDate, interviewStatuses ) => async dispatch => {
+  try {
+    const body = JSON.stringify({ startDate, endDate });
+    let res = await axios.put('/api/note/callsReport', body, config);
+    let res2 = await axios.put('/api/lead/technicalLeadReport', body, config);
+    res = await mapResponse(interviewStatuses, res.data.callReport, 'interview_status');
+    console.log('====================================');
+    console.log(res2.data.leadReport);
+    console.log('====================================');
+    res.closedAfterTechnical = res2.data.leadReport.length
+    return res;
+
+  } catch (error) {
+    console.log('====================================');
+    console.log(error);
+    console.log('====================================');
+    return false;
+  }
+};
+
 const mapResponse = (statuses, DbReport, attributeToCompare) => {
   let subTotal = 0;
   const report = statuses.map( status => {

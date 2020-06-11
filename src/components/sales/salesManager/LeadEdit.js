@@ -78,8 +78,7 @@ const useStyles = makeStyles(theme => ({
     margin: '0 auto' 
   }
 }));
-
-const editLead = ({ history, location, updateLead }) => {
+const editLead = ({ history, location, updateLead, interviewStatuses, contactViaStatuses }) => {
   const alert = useAlert();
   const classes  = useStyles();
   const [fromIsInvalid, setFromIsInvalid] = useState(true);
@@ -188,14 +187,7 @@ const editLead = ({ history, location, updateLead }) => {
     contact_via: {
       elementType: 'select',
       elementConfig:{
-          options: [
-          {value: 'Phone', displayValue: 'Phone' },
-          {value: 'Zoom', displayValue: 'Zoom' },
-          {value: 'GotoMeeting', displayValue: 'GotoMeeting' },
-          {value: 'Blue jeans', displayValue: 'Blue jeans' },
-          {value: 'Hangouts', displayValue: 'Hangouts' },
-          {value: 'others', displayValue: 'others' },
-         ],
+        options: contactViaStatuses,
         placeholder: 'Device/App'
       },
       value: location.state.detail.call.contact_via ? location.state.detail.call.contact_via : '',
@@ -237,11 +229,7 @@ const editLead = ({ history, location, updateLead }) => {
     interview_status: {
       elementType: 'select',
       elementConfig:{
-        options: [
-        {value: 'HR', displayValue: 'HR' },
-        {value: 'Technical', displayValue: 'Technical' },
-        {value: 'Reference', displayValue: 'Reference' }
-       ],
+        options: interviewStatuses,
         placeholder: 'Interview Status*'
       },
       value: location.state.detail.interview_status ? location.state.detail.interview_status : '',
@@ -255,10 +243,7 @@ const editLead = ({ history, location, updateLead }) => {
     call_status: {
       elementType: 'select',
       elementConfig:{     
-        options: [
-          {value: 'Confirmed', displayValue: 'Confirmed' },
-          {value: 'Un-Confirmed', displayValue: 'Un-Confirmed' }
-         ],
+        options: ['Confirmed', 'Un-Confirmed'],
         placeholder: 'Call Status*'
       },
       value: location.state.detail.call.call_status ? location.state.detail.call.call_status : '',
@@ -386,7 +371,7 @@ const onChangeHandler = (e, elementIdentifier) => {
                   onChange={(event) => {onChangeHandler(event, elem.id)}}
                   >
                   {elem.config.elementConfig.options.map(opt => (
-                      <MenuItem key={opt.value} value={opt.value}>{opt.displayValue}</MenuItem>
+                      <MenuItem key={opt} value={opt}>{opt}</MenuItem>
                   ))} 
               </Select>
             </FormControl>
@@ -453,5 +438,9 @@ const onChangeHandler = (e, elementIdentifier) => {
     </React.Fragment>
   );
 };
+const mapStateToProps = state => ({
+  interviewStatuses : state.SelectOptions.interviewStatus,
+  contactViaStatuses : state.SelectOptions.contactViaStatus,
+})
 
-export default connect(null, { updateLead })(errorHandler(editLead));
+export default connect(mapStateToProps, { updateLead })(errorHandler(editLead));

@@ -176,4 +176,41 @@ router.put( '/voiceleads', async (req, res) => {
       return res.status(402).json({ msg: 'Server Error' });
     }
 });
+router.put('/technicalLeadReport', async (req, res) => {
+    try {
+        const leadReport = await Lead.findAll({
+            where: {
+                createdAt: {
+                    [Op.and]: {
+                        [Op.gte]: req.body.startDate,
+                        [Op.lte]: req.body.endDate
+                    } 
+                },
+                status: 'closed'
+            },
+            include: [{   
+                model: Call,
+                required: true,
+                include: [{
+                    model: Agenda,
+                    required: true,
+                    include: [{
+                        model: Note,
+                        where: {interview_status: 'Technical',
+                                call_status: 'done'}
+                    }]
+                }]
+            }]
+        })
+        return res.json({ leadReport});
+    } 
+    catch (error) {
+    console.log('====================================');
+    console.log(error);
+    console.log('====================================');
+    // console.log(error.message);
+    return res.status(402).json({ msg: 'Server Error' });
+    }
+});
+
 module.exports = router;

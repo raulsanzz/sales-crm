@@ -2,20 +2,16 @@
 import React, { useState, Fragment } from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
-import Table from "@material-ui/core/Table";
+import Grid from '@material-ui/core/Grid';
 import Paper from "@material-ui/core/Paper";
-import TableRow from "@material-ui/core/TableRow";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
 import { PDFExport } from '@progress/kendo-react-pdf';
 import Typography from "@material-ui/core/Typography";
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 
-// import ReportPage from "./reportPage";
-import axios from './../../../axios-order';
 import LeadReport from './lead';
-import TestReport from './test'
+import TestReport from './test';
+import CallReport from "./call";
+import Meassage from '../../UI/message';
 import DateRange from "../../UI/DateRange";
 import AppliedJobReport from './appliedJob';
 import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
@@ -56,11 +52,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 const appliedJobs = ({pdfExportComponent}) => {
   const classes = useStyles();
-  const [report, setReport] = useState([]);
-  const [endDate, setEndDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
-  const [tableHeader, setTableHeader] = useState("");
+  const [endDate, setEndDate] = useState('');
+  const [startDate, setStartDate] = useState('');
 
   const exportPDFWithComponent = () => {
     pdfExportComponent.save();
@@ -71,36 +65,6 @@ const appliedJobs = ({pdfExportComponent}) => {
     setEndDate(endDate);
     setLoading(true);
   };
-
-  const displayTable = () => {
-    return(
-      <Fragment>
-        <Table style={{minWidth: '650'}} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Job Status</TableCell>
-              <TableCell>Total</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {report.map((row, index) => (
-              row.lead_status ? ( 
-                <TableRow key={index}>
-                <TableCell component="th" scope="row">
-                  {row.lead_status} 
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  {row.total}
-                </TableCell>
-              </TableRow>
-              ): null
-            ))}
-          </TableBody>
-        </Table>
-      </Fragment>
-    )
-  }
-
   return (
     <PDFExport
       ref={component => (pdfExportComponent = component)}
@@ -108,27 +72,41 @@ const appliedJobs = ({pdfExportComponent}) => {
       margin={40}
       fileName={'full report'}
       author="cloudTek Inc." >
-        <Fragment>
-            <Paper className={classes.paper}>
-            <Typography className={classes.typography}>
-                Full Report
-              <PictureAsPdfIcon className={classes.pdfButton} onClick={exportPDFWithComponent}></PictureAsPdfIcon>
-              </Typography>
-            </Paper>
-            <DateRange handleClick={handleDate} classes={classes} /> 
-            <AppliedJobReport 
-            allReportStartDate={startDate}
-            allReportEndDate={endDate}
-            shouldFetch={loading} />
-            <LeadReport 
-            allReportStartDate={startDate}
-            allReportEndDate={endDate}
-            shouldFetch={loading} />
-            <TestReport 
-            allReportStartDate={startDate}
-            allReportEndDate={endDate}
-            shouldFetch={loading} />   
-          </Fragment>
+        <Paper className={classes.paper}>
+        <Typography className={classes.typography}>
+            Executive Report
+          <PictureAsPdfIcon className={classes.pdfButton} onClick={exportPDFWithComponent}></PictureAsPdfIcon>
+          </Typography>
+        </Paper>
+        <DateRange handleClick={handleDate} classes={classes} />
+        { startDate === '' && endDate === '' ? (  
+          <Meassage meassage={'Select the date and press the show report button to display reports.'} /> ) : (
+          <Grid container spacing={1}>
+            <Grid item xs={6}>      
+              <AppliedJobReport 
+                allReportStartDate={startDate}
+                allReportEndDate={endDate}
+                shouldFetch={loading} />
+            </Grid>
+            <Grid item xs={6}>      
+              <LeadReport 
+                allReportStartDate={startDate}
+                allReportEndDate={endDate}
+                shouldFetch={loading} />
+            </Grid>
+            <Grid item xs={6}>
+              <TestReport 
+                allReportStartDate={startDate}
+                allReportEndDate={endDate}
+                shouldFetch={loading} />
+            </Grid>
+            <Grid item xs={6}>
+              <CallReport 
+                allReportStartDate={startDate}
+                allReportEndDate={endDate}
+                shouldFetch={loading} />
+            </Grid>
+          </Grid>)}      
     </PDFExport>
 
   );

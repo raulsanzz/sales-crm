@@ -53,6 +53,19 @@ const initialState = {
     'Sales Manager',
     'Sales Voice',
     'Admin'
+  ],
+  interviewStatus:[
+    'HR',
+    'Technical',
+    'Reference',
+  ],
+  contactViaStatus:[
+    'Phone', 
+    'Zoom',
+    'GotoMeeting', 
+    'Blue jeans', 
+    'Hangouts', 
+    'others', 
   ]
 };
 

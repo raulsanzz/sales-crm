@@ -13,6 +13,9 @@ module.exports = (sequelize, Sequelize) => {
     call_status: { //status of every call `done, Not-Taken, rescheduled by client`
         type: Sequelize.STRING
     },
+    interview_status: { //status of every call `HR, Technical, reference`
+        type: Sequelize.STRING
+    },
     voice: { //name of the person who took the call
         type: Sequelize.STRING
     },

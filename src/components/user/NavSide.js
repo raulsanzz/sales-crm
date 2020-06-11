@@ -274,7 +274,7 @@ const NavSide = ({ user}) => {
               <ListItemIcon>
                 <PollOutlinedIcon className={classes.root} />
               </ListItemIcon>
-              <ListItemText disableTypography primary='All Reports' />
+              <ListItemText disableTypography primary='Executive Reports' />
             </ListItem>
           </List>
         </Collapse>
