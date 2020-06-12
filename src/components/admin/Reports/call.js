@@ -11,7 +11,7 @@ import ReportPage from './reportPage';
 import { getInterviewReport } from '../../../store/actions/profile';
 import errorHandler from '../../../hoc/ErrorHandler/ErrorHandler';
 
-const call = ({interviewStatuses, getInterviewReport, allReportStartDate, allReportEndDate, shouldFetch }) => {
+const call = ({interviewStatuses, getInterviewReport, allReportStartDate, allReportEndDate, shouldFetch, closedLeads }) => {
   const [report, setReport] = useState([]);
   const [subTotal, setSubTotal] = useState(''); 
   const [loading, setLoading] = useState(false);
@@ -30,7 +30,7 @@ const call = ({interviewStatuses, getInterviewReport, allReportStartDate, allRep
     setTableHeader(`Report of [${startDate}] - [${endDate}]`);
     const callReport = await getInterviewReport(startDate, endDate, interviewStatuses);
     setReport(callReport.report);
-    setSubTotal({subtotal: callReport.subTotal, closedAfterTechnical: callReport.closedAfterTechnical});
+    setSubTotal({subtotal: callReport.subTotal, counts: callReport.counts, closedToLegals: callReport.closedToLegals});
     setLoading(false);
   };
 
@@ -61,18 +61,25 @@ const call = ({interviewStatuses, getInterviewReport, allReportStartDate, allRep
               </TableRow>
               ): null
             ))}
+            {Object.keys(subTotal.counts).map( (status, index) => {
+                return(
+                  <TableRow key={index}>
+                    <TableCell> {`Technical Call -> ${status}`}  </TableCell>
+                    <TableCell align='center'>
+                      {subTotal.counts[status] > 0 ? (
+                        `${((subTotal.counts[status]/report[1].total)*100).toFixed(2)} %`
+                      ) : 0}
+                    </TableCell>
+                    <TableCell  align='right'> {subTotal.counts[status]} </TableCell>
+                  </TableRow> )
+            })}
             <TableRow>
-              <TableCell rowSpan={2}/>
-              <TableCell align="left">Total Calls</TableCell>
-              <TableCell align="right">{subTotal.subtotal}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align='left'> Closed After Technical Calls 
+              <TableCell> {"Closed -> Legals"}   </TableCell>
+              <TableCell align='center'>
+              {subTotal.closedToLegals > 0 ? (
+                `${((subTotal.closedToLegals/closedLeads)*100).toFixed(2)} %` ) : 0}
               </TableCell>
-              <TableCell  align='right'>
-              {subTotal.closedAfterTechnical > 0 ? (
-                `${subTotal.closedAfterTechnical}(${((subTotal.closedAfterTechnical/report[1].total)*100).toFixed(2)} %)`
-              ) : 0}</TableCell>
+              <TableCell  align='right'> {subTotal.closedToLegals} </TableCell>
             </TableRow>
           </TableBody>
         </Table>

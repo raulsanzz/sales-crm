@@ -76,7 +76,9 @@ router.put('/', async (req, res) => {
         if(req.body.newCallData){
             await calls.updateCall(req.body.query.call_id, req.body.newCallData);  
         }
-
+        if(req.body.previousStatus === 'closed' && req.body.newLeadData.status === 'Legals' ){
+            req.body.newLeadData.legals_check = 'Closed'
+        }
         const updatedLead = await Lead.update({
             ...req.body.newLeadData
         },
@@ -146,9 +148,7 @@ router.put( '/leadReport', async (req, res) => {
             },
         attributes: ['status', [sequelize.fn('COUNT', sequelize.col('status')), 'total']],
         group: ['status'],
-    })
-    
-    
+    })  
     return res.json({leadReport});
 } catch (error) {
     console.log('====================================');
@@ -186,7 +186,9 @@ router.put('/technicalLeadReport', async (req, res) => {
                         [Op.lte]: req.body.endDate
                     } 
                 },
-                status: 'closed'
+                status: {
+                    [Op.in]: ['closed', 'Legals', 'Stale', 'Rejected by client', 'in-communication']
+                } 
             },
             include: [{   
                 model: Call,
@@ -202,7 +204,20 @@ router.put('/technicalLeadReport', async (req, res) => {
                 }]
             }]
         })
-        return res.json({ closedAfterTechnical: leadReport.length});
+        let counts = filterCounts(leadReport);
+        const closedToLegals = await Lead.findAll({
+            where: {
+                updatedAt:{
+                    [Op.and]: {
+                      [Op.gte]: req.body.startDate,
+                      [Op.lte]: req.body.endDate
+                    }},
+                    legals_check: 'Closed'
+                },
+                attributes: ['legals_check', [sequelize.fn('COUNT', sequelize.col('legals_check')), 'total']],
+                group: ['legals_check'],
+            })
+        return res.json({counts, closedToLegals});
     } 
     catch (error) {
     console.log('====================================');
@@ -212,5 +227,34 @@ router.put('/technicalLeadReport', async (req, res) => {
     return res.status(402).json({ msg: 'Server Error' });
     }
 });
+
+const filterCounts = (dbReport) => {
+    let counts = {
+        closed: 0, 
+        legals: 0,
+        stale: 0,
+        rejectedByClient: 0, 
+        inCommunication: 0,
+    }
+    dbReport.forEach(element => {
+        if(element.dataValues.status === 'closed'){
+            counts.closed ++;
+        }
+        else if(element.dataValues.status === 'Legals'){
+            counts.legals ++;
+        }
+        else if(element.dataValues.status === 'Stale'){
+            counts.stale ++;
+        }
+        else if(element.dataValues.status === 'Rejected by client'){
+            counts.rejectedByClient++;
+        }
+        else if(element.dataValues.status === 'in-communication'){
+            counts.inCommunication++;
+        }
+    });
+
+    return counts
+}
 
 module.exports = router;

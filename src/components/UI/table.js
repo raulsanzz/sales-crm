@@ -212,7 +212,7 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                         labelId={`${column.label}-label`}
                                         id={column.label}
                                         defaultValue={ column.label === 'Test Status' ? row.test[column.for]: row[column.for]}
-                                        onChange={(event) => {onUpdateHandler(row.id, event.target.value)}}>
+                                        onChange={(event) => {onUpdateHandler(row.id, event.target.value, row.status)}}>
                                           { column.listItems.map(item => 
                                                 <MenuItem key={item} value={item}>{item}</MenuItem>)
                                           }
