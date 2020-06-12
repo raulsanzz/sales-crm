@@ -78,8 +78,12 @@ const reportTable = ({report, tableHeader, loading, displayTable, dateRangeHandl
               </Typography>
             </Paper>
             <DateRange handleClick={dateRangeHandler} classes={classes} />    
-          </Fragment>
-        ): null }
+          </Fragment> ): (
+          <Paper className={classes.paper}>
+            <Typography className={classes.typography}>
+              {pageHeader}
+            </Typography>
+          </Paper> )}
         {tableHeader !== "" ? loading === false ? report.length > 0 ? ( 
           <Paper className={classes.paper}> { displayTable() } </Paper> ): (
           <Meassage meassage={'No reports for the selected dates'} /> ) : (

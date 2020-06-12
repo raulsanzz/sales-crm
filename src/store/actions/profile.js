@@ -76,10 +76,7 @@ export const getInterviewReport = ( startDate, endDate, interviewStatuses ) => a
     let res = await axios.put('/api/note/callsReport', body, config);
     let res2 = await axios.put('/api/lead/technicalLeadReport', body, config);
     res = await mapResponse(interviewStatuses, res.data.callReport, 'interview_status');
-    console.log('====================================');
-    console.log(res2.data.leadReport);
-    console.log('====================================');
-    res.closedAfterTechnical = res2.data.leadReport.length
+    res.closedAfterTechnical = res2.data.closedAfterTechnical
     return res;
 
   } catch (error) {

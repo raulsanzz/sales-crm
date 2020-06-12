@@ -88,14 +88,14 @@ const appliedJobs = ({pdfExportComponent}) => {
                 allReportEndDate={endDate}
                 shouldFetch={loading} />
             </Grid>
-            <Grid item xs={6}>      
-              <LeadReport 
+            <Grid item xs={6}>  
+              <TestReport 
                 allReportStartDate={startDate}
                 allReportEndDate={endDate}
                 shouldFetch={loading} />
             </Grid>
-            <Grid item xs={6}>
-              <TestReport 
+            <Grid item xs={6}>         
+              <LeadReport 
                 allReportStartDate={startDate}
                 allReportEndDate={endDate}
                 shouldFetch={loading} />

@@ -180,7 +180,7 @@ router.put('/technicalLeadReport', async (req, res) => {
     try {
         const leadReport = await Lead.findAll({
             where: {
-                createdAt: {
+                updatedAt: {
                     [Op.and]: {
                         [Op.gte]: req.body.startDate,
                         [Op.lte]: req.body.endDate
@@ -202,7 +202,7 @@ router.put('/technicalLeadReport', async (req, res) => {
                 }]
             }]
         })
-        return res.json({ leadReport});
+        return res.json({ closedAfterTechnical: leadReport.length});
     } 
     catch (error) {
     console.log('====================================');

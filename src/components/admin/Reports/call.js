@@ -62,17 +62,17 @@ const call = ({interviewStatuses, getInterviewReport, allReportStartDate, allRep
               ): null
             ))}
             <TableRow>
-                <TableCell> Closed After Technical Calls </TableCell>
-                <TableCell align='center'>
-                {subTotal.closedAfterTechnical > 0 ? (
-                  `${((subTotal.closedAfterTechnical/report[1].total)*100).toFixed(2)} %`
-                ) : 0}
-                </TableCell>
-                <TableCell  align='right'> {subTotal.closedAfterTechnical} </TableCell>
-              </TableRow>
-            <TableRow>
-              <TableCell colSpan={2} align="right">Total Calls</TableCell>
+              <TableCell rowSpan={2}/>
+              <TableCell align="left">Total Calls</TableCell>
               <TableCell align="right">{subTotal.subtotal}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align='left'> Closed After Technical Calls 
+              </TableCell>
+              <TableCell  align='right'>
+              {subTotal.closedAfterTechnical > 0 ? (
+                `${subTotal.closedAfterTechnical}(${((subTotal.closedAfterTechnical/report[1].total)*100).toFixed(2)} %)`
+              ) : 0}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -88,7 +88,7 @@ const call = ({interviewStatuses, getInterviewReport, allReportStartDate, allRep
         loading={loading}
         displayTable={displayTable}  
         dateRangeHandler={handleDate}
-        pageHeader={'Tests Report'} 
+        pageHeader={'Calls Report'} 
         shouldShowControls={!allReportEndDate && !allReportStartDate ? true : false} />
     </Fragment>
   );
