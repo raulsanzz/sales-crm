@@ -85,11 +85,11 @@ const managerJobLinks = ({leadStatuses, fetchProfiles, fetchLeads, updateLead, l
   };
 
 
-  const leadStatusChangeHandler = async(lead_id, lead_status) => {
+  const leadStatusChangeHandler = async(lead_id, lead_status, previousStatus) => {
     const data = {
       status: lead_status
     }
-    const res = await updateLead({lead_id:lead_id}, data, null, null, false);
+    const res = await updateLead({lead_id:lead_id}, data, null, null, false, previousStatus);
     if(res){
       alert.success('Lead updated successfully...!!');
     }

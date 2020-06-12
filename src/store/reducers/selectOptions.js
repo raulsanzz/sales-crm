@@ -5,9 +5,9 @@ const initialState = {
     'good',
     'hot',
     'closed',
-    'legal',
+    'Legals',
+    'Stale',
     'garbage',
-    'dead lead',
     'Rejected by client',
     'in-communication'
   ],

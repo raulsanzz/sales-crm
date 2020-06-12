@@ -35,8 +35,6 @@ router.put( '/testReport', async (req, res) => {
           attributes: ['status', [sequelize.fn('COUNT', sequelize.col('status')), 'total']],
       group: ['status'],
     })
-
-    
     return res.json({testReport});
   } catch (error) {
     console.log('====================================');

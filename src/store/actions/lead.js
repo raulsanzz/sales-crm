@@ -57,7 +57,7 @@ export const fetchLeads = (shouldDispatchActionStarter) => async dispatch => {
 };
 
 //update lead
-export const updateLead = ( query, newLeadData, newCallData, newClientData, shouldDispatchActionStarter ) => async dispatch => {
+export const updateLead = ( query, newLeadData, newCallData, newClientData, shouldDispatchActionStarter, previousStatus ) => async dispatch => {
   if(shouldDispatchActionStarter !== false){
     dispatch({ type: LEAD_ACTION_START });
   }
@@ -66,7 +66,7 @@ export const updateLead = ( query, newLeadData, newCallData, newClientData, shou
       'Content-Type': 'application/json'
     }
   };
-  const body = JSON.stringify({ query, newLeadData, newCallData, newClientData });
+  const body = JSON.stringify({ query, newLeadData, newCallData, newClientData, previousStatus });
 
   try {
     await axios.put ('/api/lead', body, config);

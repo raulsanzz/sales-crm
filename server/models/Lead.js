@@ -22,6 +22,9 @@ module.exports = (sequelize, Sequelize) => {
     contract_status: {
       type: Sequelize.STRING
     },
+    legals_check: {
+      type: Sequelize.STRING
+    },
     job_id: {
         type: Sequelize.INTEGER,
         references: {         

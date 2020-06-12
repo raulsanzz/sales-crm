@@ -11,7 +11,7 @@ import ReportPage from "./reportPage";
 import { getLeadReport } from './../../../store/actions/profile';
 import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 
-const leads = ({leadStatuses, getLeadReport, allReportStartDate, allReportEndDate, shouldFetch }) => {
+const leads = ({leadStatuses, getLeadReport, allReportStartDate, allReportEndDate, shouldFetch, setClosedCount }) => {
   const [report, setReport] = useState([]);
   const [subTotal, setSubTotal] = useState('');
   const [loading, setLoading] = useState(false);
@@ -29,6 +29,14 @@ const leads = ({leadStatuses, getLeadReport, allReportStartDate, allReportEndDat
     endDate = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`;
     setTableHeader(`Report of [${startDate}] - [${endDate}]`)
     const leadReport = await getLeadReport(startDate, endDate, leadStatuses);
+    if(allReportEndDate && allReportStartDate){
+      leadReport.report.forEach(record => {
+        if(record.status === 'closed'){
+          setClosedCount(record.total);
+          return;
+        }
+      });
+    }
     setReport(leadReport.report);
     setSubTotal(leadReport.subTotal);
     setLoading(false);

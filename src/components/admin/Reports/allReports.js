@@ -52,18 +52,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 const appliedJobs = ({pdfExportComponent}) => {
   const classes = useStyles();
-  const [loading, setLoading] = useState(false);
   const [endDate, setEndDate] = useState('');
+  const [loading, setLoading] = useState(false);
   const [startDate, setStartDate] = useState('');
+  const [closedCount, setClosedCount] = useState(0);
 
   const exportPDFWithComponent = () => {
     pdfExportComponent.save();
   };
+
   const handleDate = async (startDate, endDate) => {
     setLoading(false);
     setStartDate(startDate);
     setEndDate(endDate);
     setLoading(true);
+  };
+  const setClosed = async (total) => {
+    setClosedCount(total);
   };
   return (
     <PDFExport
@@ -98,13 +103,15 @@ const appliedJobs = ({pdfExportComponent}) => {
               <LeadReport 
                 allReportStartDate={startDate}
                 allReportEndDate={endDate}
-                shouldFetch={loading} />
+                shouldFetch={loading} 
+                setClosedCount={setClosed}/>
             </Grid>
             <Grid item xs={6}>
               <CallReport 
                 allReportStartDate={startDate}
                 allReportEndDate={endDate}
-                shouldFetch={loading} />
+                shouldFetch={loading} 
+                closedLeads={closedCount}/>
             </Grid>
           </Grid>)}      
     </PDFExport>
