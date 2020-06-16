@@ -223,8 +223,84 @@ router.put('/technicalLeadReport', async (req, res) => {
     console.log('====================================');
     console.log(error);
     console.log('====================================');
-    // console.log(error.message);
     return res.status(402).json({ msg: 'Server Error' });
+    }
+});
+
+router.put('/dateSpecificTests', async (req, res) => {
+    try {
+    const report = await Lead.findAll({
+        include: [
+          {
+            model: Job,
+            attributes: ['job_title', 'url'],
+            include: [{
+                model: Client,
+                attributes: ['company_name']
+            }]
+          },
+          {
+            model: Profile,
+            attributes: ['name']
+          },
+          {   
+            model: Test,
+            require: true,
+            where: {
+                status: req.body.status, 
+                createdAt: {
+                    [Op.and]: {
+                      [Op.gte]: req.body.startDate,
+                      [Op.lte]: req.body.endDate
+                 } 
+                }
+            },
+          }
+        ],
+    })
+      return res.json({ report });
+    } catch (error) {
+      console.log('====================================');
+      console.log(error);
+      console.log('====================================');
+      return res.status(402).json({ msg: 'Server Error' });
+    }
+});
+
+router.put('/dateSpecific', async (req, res) => {
+    try {
+    const report = await Lead.findAll({
+        where: {
+            status: req.body.status, 
+            createdAt: {
+                [Op.and]: {
+                  [Op.gte]: req.body.startDate,
+                  [Op.lte]: req.body.endDate
+             } 
+            }
+        },
+        include: [
+          {
+            model: Job,
+            attributes: ['job_title', 'url'],
+            include: [{
+                model: Client,
+                attributes: ['company_name', 'client_name']
+            }]
+          },
+          {
+            model: Profile,
+            attributes: ['name']
+          }
+        ],
+    })
+      return res.json({ report });
+    } catch (error) {
+      console.log('====================================');
+      console.log(error);
+      console.log('====================================');
+      // console.log(error.message);
+      return res.status(402).json({ msg: 'Server Error' });
     }
 });
 

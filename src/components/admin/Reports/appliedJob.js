@@ -11,11 +11,12 @@ import ReportPage from "./reportPage";
 import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 import { getApplicationReport } from './../../../store/actions/profile';
 
-const appliedJobs = ({jobStatuses, getApplicationReport, allReportStartDate, allReportEndDate, shouldFetch }) => {
+const appliedJobs = ({history, jobStatuses, getApplicationReport, allReportStartDate, allReportEndDate, shouldFetch }) => {
   const [report, setReport] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [subTotal, setSubTotal] = useState('');
-  const [tableHeader, setTableHeader] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   useEffect(()=> {
     if(shouldFetch === true){
@@ -23,12 +24,13 @@ const appliedJobs = ({jobStatuses, getApplicationReport, allReportStartDate, all
     }
   },[shouldFetch, allReportEndDate, allReportStartDate]);
   
-  const handleDate = async (startDate, endDate) => {
+  const handleDate = async (startD, endD) => {
     setLoading(true);
-    startDate = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`;
-    endDate = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`;
-    setTableHeader(`Report of [${startDate}] - [${endDate}]`);
-    const jobReport = await getApplicationReport(startDate, endDate, jobStatuses);
+    startD = `${startD.getFullYear()}-${startD.getMonth() + 1}-${startD.getDate()}`;
+    endD = `${endD.getFullYear()}-${endD.getMonth() + 1}-${endD.getDate()}`;
+    setStartDate(startD);
+    setEndDate(endD);
+    const jobReport = await getApplicationReport(startD, endD, jobStatuses);
     setReport(jobReport.report);
     setSubTotal(jobReport.subTotal);
     setLoading(false);
@@ -48,7 +50,19 @@ const appliedJobs = ({jobStatuses, getApplicationReport, allReportStartDate, all
           <TableBody>
             {report.map((row, index) => (
               row.lead_status ? ( 
-                <TableRow key={index}>
+                <TableRow 
+                  hover
+                  style={{cursor: 'pointer'}}
+                  key={index}
+                  onClick={ () =>history.push({
+                    pathname: '/detail',
+                    state: {
+                      status: row.lead_status,
+                      startDate: startDate,
+                      endDate: endDate,
+                      routeName: 'appliedJob'
+                    }
+                })}>
                 <TableCell>
                   {row.lead_status} 
                 </TableCell>
@@ -75,7 +89,7 @@ const appliedJobs = ({jobStatuses, getApplicationReport, allReportStartDate, all
     <Fragment>
       <ReportPage
         report={report}
-        tableHeader={tableHeader}
+        tableHeader={`Report of [${startDate}] - [${endDate}]`}
         loading={loading}
         displayTable={displayTable} 
         dateRangeHandler={handleDate}

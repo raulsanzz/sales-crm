@@ -153,9 +153,43 @@ router.put('/jobReport', async (req, res) => {
       attributes: ['lead_status', [sequelize.fn('COUNT', sequelize.col('lead_status')), 'total']],
       group: ['lead_status'],
   })
-
-
     return res.json({jobReport});
+  } catch (error) {
+    console.log('====================================');
+    console.log(error);
+    console.log('====================================');
+    // console.log(error.message);
+    return res.status(402).json({ msg: 'Server Error' });
+  }
+});
+router.put('/dateSpecific', async (req, res) => {
+  try {
+  const report = await AppliedJob.findAll({
+      where: {
+        lead_status: req.body.status, 
+        createdAt: {
+            [Op.and]: {
+              [Op.gte]: req.body.startDate,
+              [Op.lte]: req.body.endDate
+         } 
+        }
+      },
+      include: [
+        {
+          model: Job,
+          attributes: ['job_title', 'url'],
+          include: [{
+              model: Client,
+              attributes: ['company_name']
+          }]
+        },
+        {
+          model: Profile,
+          attributes: ['name']
+        }
+      ],
+  })
+    return res.json({ report });
   } catch (error) {
     console.log('====================================');
     console.log(error);

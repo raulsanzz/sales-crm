@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import Grid from '@material-ui/core/Grid';
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   }
   
 }));
-const appliedJobs = ({pdfExportComponent}) => {
+const allReports = ({history, pdfExportComponent}) => {
   const classes = useStyles();
   const [endDate, setEndDate] = useState('');
   const [loading, setLoading] = useState(false);
@@ -91,27 +91,31 @@ const appliedJobs = ({pdfExportComponent}) => {
               <AppliedJobReport 
                 allReportStartDate={startDate}
                 allReportEndDate={endDate}
-                shouldFetch={loading} />
+                shouldFetch={loading} 
+                history={history} />
             </Grid>
             <Grid item xs={6}>  
               <TestReport 
                 allReportStartDate={startDate}
                 allReportEndDate={endDate}
-                shouldFetch={loading} />
+                shouldFetch={loading} 
+                history={history} />
             </Grid>
             <Grid item xs={6}>         
               <LeadReport 
                 allReportStartDate={startDate}
                 allReportEndDate={endDate}
                 shouldFetch={loading} 
-                setClosedCount={setClosed}/>
+                setClosedCount={setClosed} 
+                history={history} />
             </Grid>
             <Grid item xs={6}>
               <CallReport 
                 allReportStartDate={startDate}
                 allReportEndDate={endDate}
                 shouldFetch={loading} 
-                closedLeads={closedCount}/>
+                closedLeads={closedCount} 
+                history={history} />
             </Grid>
           </Grid>)}      
     </PDFExport>
@@ -123,4 +127,4 @@ const mapStateToProps = state => ({
   jobStatuses: state.SelectOptions.jobStatus
 }
 )
-export default connect(mapStateToProps)(errorHandler(appliedJobs));
+export default connect(mapStateToProps)(errorHandler(allReports));

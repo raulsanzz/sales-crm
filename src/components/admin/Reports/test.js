@@ -11,11 +11,12 @@ import ReportPage from './reportPage';
 import { getTestReport } from './../../../store/actions/profile';
 import errorHandler from './../../../hoc/ErrorHandler/ErrorHandler';
 
-const test = ({testStatuses, getTestReport, allReportStartDate, allReportEndDate, shouldFetch }) => {
+const test = ({history, testStatuses, getTestReport, allReportStartDate, allReportEndDate, shouldFetch }) => {
   const [report, setReport] = useState([]);
+  const [endDate, setEndDate] = useState('');
   const [subTotal, setSubTotal] = useState(''); 
   const [loading, setLoading] = useState(false);
-  const [tableHeader, setTableHeader] = useState('');
+  const [startDate, setStartDate] = useState('');
 
   useEffect(()=> {
     if(shouldFetch === true){
@@ -23,12 +24,13 @@ const test = ({testStatuses, getTestReport, allReportStartDate, allReportEndDate
     }
   },[shouldFetch, allReportEndDate, allReportStartDate]);
 
-  const handleDate = async (startDate, endDate) => {
+  const handleDate = async (startD, endD) => {
     setLoading(true);
-    startDate = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`;
-    endDate = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`;
-    setTableHeader(`Report of [${startDate}] - [${endDate}]`);
-    const testReport = await getTestReport(startDate, endDate, testStatuses);
+    startD = `${startD.getFullYear()}-${startD.getMonth() + 1}-${startD.getDate()}`;
+    endD = `${endD.getFullYear()}-${endD.getMonth() + 1}-${endD.getDate()}`;
+    setStartDate(startD);
+    setEndDate(endD);
+    const testReport = await getTestReport(startD, endD, testStatuses);
     setReport(testReport.report);
     setSubTotal(testReport.subTotal);
     setLoading(false);
@@ -48,7 +50,19 @@ const test = ({testStatuses, getTestReport, allReportStartDate, allReportEndDate
           <TableBody>
             {report.map((row, index) => (
               row.status ? ( 
-                <TableRow key={index}>
+                <TableRow 
+                hover
+                style={{cursor: 'pointer'}}
+                key={index}
+                onClick={ () => history.push({
+                  pathname: '/detail',
+                  state: {
+                    status: row.status,
+                    startDate: startDate,
+                    endDate: endDate,
+                    routeName: 'test'
+                  }
+              })}>
                 <TableCell>
                   {row.status} 
                 </TableCell>
@@ -75,7 +89,7 @@ const test = ({testStatuses, getTestReport, allReportStartDate, allReportEndDate
     <Fragment>
       <ReportPage
         report={report}
-        tableHeader={tableHeader}
+        tableHeader={`Report of [${startDate}] - [${endDate}]`}
         loading={loading}
         displayTable={displayTable}  
         dateRangeHandler={handleDate}
