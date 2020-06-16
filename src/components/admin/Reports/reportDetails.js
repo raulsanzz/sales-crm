@@ -56,17 +56,26 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "22px",
     width: "100%",
   },
+  hover:{
+    cursor: 'pointer'
+  }
 }));
 
-const reportDetail = ({ location }) => {
-  const { status, startDate, endDate, routeName } = location.state;
+const reportDetail = ({ history, location }) => {
+  const { status, startDate, endDate, routeName, dataFromParent } = location.state;
 
   const classes = useStyles();
   const [report, setReport] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchData();
+    if(dataFromParent){
+      console.log(dataFromParent);
+      setReport(dataFromParent);
+    }
+    else{
+      fetchData();
+    }
   }, []);
 
   const fetchData = async () => {
@@ -81,6 +90,9 @@ const reportDetail = ({ location }) => {
       let res
       if(routeName === 'test'){
         res = await axios.put(`/api/lead/dateSpecificTests`, body, config);
+      }
+      else if(routeName === 'call'){
+        res = await axios.put(`/api/lead/dateSpecificCalls`, body, config);
       }
       else{
         res = await axios.put(`/api/${routeName}/dateSpecific`, body, config);        
@@ -107,21 +119,23 @@ const reportDetail = ({ location }) => {
     else if(routeName === 'test'){
       return(
         <Table 
-        // history={history}
+          history={history}
           jobs={report}
           columns={TestColumns}
           classes={classes}
-          tableHeader={'Tests'} />
+          tableHeader={'Tests'} 
+          rowClickListener={true} />
       )
     }
-    else if(routeName === 'lead'){
+    else if(routeName === 'lead' || routeName === 'call' ){
       return(
         <Table 
-        // history={history}
+          history={history}
           jobs={report}
           columns={LeadColumns}
           classes={classes}
-          tableHeader={'Lead'} />
+          tableHeader={'Lead'}
+          rowClickListener={true} />
       )
     }
   }
@@ -129,7 +143,7 @@ const reportDetail = ({ location }) => {
   return (
     <Fragment>
       {loading ? <Meassage meassage={"loading"} /> : report.length >= 1 ? 
-        dispalyReport() : <Meassage meassage={'No Report with the selected status'} />}
+        dispalyReport() : <Meassage meassage={'No Report'} />}
     </Fragment>
   );
 };

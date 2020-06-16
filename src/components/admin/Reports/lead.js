@@ -59,17 +59,17 @@ const leads = ({history, leadStatuses, getLeadReport, allReportStartDate, allRep
             {report.map((row, index) => (
               row.status ? ( 
                 <TableRow
-                hover
-                style={{cursor: 'pointer'}}
-                key={index}
-                onClick={ () => history.push({
-                  pathname: '/detail',
-                  state: {
-                    status: row.status,
-                    startDate: startDate,
-                    endDate: endDate,
-                    routeName: 'lead'
-                  }
+                  hover
+                  style={{cursor: 'pointer'}}
+                  key={index}
+                  onClick={ () => history.push({
+                    pathname: '/detail',
+                    state: {
+                      status: row.status,
+                      startDate: startDate,
+                      endDate: endDate,
+                      routeName: 'lead'
+                    }
               })}>
                 <TableCell>
                   {row.status} 
@@ -84,7 +84,7 @@ const leads = ({history, leadStatuses, getLeadReport, allReportStartDate, allRep
               ): null
             ))}
             <TableRow>
-              <TableCell colSpan={2} align="right">Total Leads</TableCell>
+              <TableCell colSpan={2} align="right">Total Leads Generated From Applications</TableCell>
               <TableCell align="right">{subTotal}</TableCell>
             </TableRow>
           </TableBody>

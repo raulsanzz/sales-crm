@@ -178,7 +178,7 @@ router.put( '/voiceleads', async (req, res) => {
 });
 router.put('/technicalLeadReport', async (req, res) => {
     try {
-        const leadReport = await Lead.findAll({
+        let leadReport = await Lead.findAll({
             where: {
                 updatedAt: {
                     [Op.and]: {
@@ -190,21 +190,38 @@ router.put('/technicalLeadReport', async (req, res) => {
                     [Op.in]: ['closed', 'Legals', 'Stale', 'Rejected by client', 'in-communication']
                 } 
             },
-            include: [{   
-                model: Call,
-                required: true,
-                include: [{
-                    model: Agenda,
+            include: [
+                {   
+                    model: Job,
+                    attributes: ['job_title', 'url', 'source'],
+                    include: [{
+                        model: Client,
+                        attributes: { exclude: ['createdAt', 'updatedAt'] }
+                    }]
+                },
+                {   
+                    model: Profile,
+                    attributes: ['name']
+                },
+                {   
+                    model: Call,
                     required: true,
                     include: [{
-                        model: Note,
-                        where: {interview_status: 'Technical',
-                                call_status: 'done'}
+                        model: Agenda,
+                        required: true,
+                        include: [{
+                            model: Note,
+                            where: {interview_status: 'Technical',
+                                    call_status: 'done'}
+                        }]
                     }]
-                }]
-            }]
+                },
+                {   
+                    model: Test,
+                },
+            ]
         })
-        let counts = filterCounts(leadReport);
+        leadReport = filterCounts(leadReport);
         const closedToLegals = await Lead.findAll({
             where: {
                 updatedAt:{
@@ -214,10 +231,28 @@ router.put('/technicalLeadReport', async (req, res) => {
                     }},
                     legals_check: 'Closed'
                 },
-                attributes: ['legals_check', [sequelize.fn('COUNT', sequelize.col('legals_check')), 'total']],
-                group: ['legals_check'],
-            })
-        return res.json({counts, closedToLegals});
+            include: [
+                {   
+                    model: Job,
+                    attributes: ['job_title', 'url', 'source'],
+                    include: [{
+                        model: Client,
+                        attributes: { exclude: ['createdAt', 'updatedAt'] }
+                    }]
+                },
+                {   
+                    model: Profile,
+                    attributes: ['name']
+                },
+                {   
+                    model: Call
+                },
+                {   
+                    model: Test
+                }
+            ],
+        })
+        return res.json({leadReport, closedToLegals});
     } 
     catch (error) {
     console.log('====================================');
@@ -236,12 +271,15 @@ router.put('/dateSpecificTests', async (req, res) => {
             attributes: ['job_title', 'url'],
             include: [{
                 model: Client,
-                attributes: ['company_name']
+                attributes: { exclude: ['createdAt', 'updatedAt'] }
             }]
           },
           {
             model: Profile,
             attributes: ['name']
+          },
+          {   
+            model: Call
           },
           {   
             model: Test,
@@ -255,6 +293,56 @@ router.put('/dateSpecificTests', async (req, res) => {
                  } 
                 }
             },
+          }
+        ],
+    })
+      return res.json({ report });
+    } catch (error) {
+      console.log('====================================');
+      console.log(error);
+      console.log('====================================');
+      return res.status(402).json({ msg: 'Server Error' });
+    }
+});
+
+router.put('/dateSpecificCalls', async (req, res) => {
+    try {
+    const report = await Lead.findAll({
+        include: [
+          {
+            model: Job,
+            attributes: ['job_title', 'url'],
+            include: [{
+                model: Client,
+                attributes: { exclude: ['createdAt', 'updatedAt'] }
+            }]
+          },
+          {
+            model: Profile,
+            attributes: ['name']
+          },
+          {   
+            model: Call,
+            required: true,
+            include: [{
+                model: Agenda,
+                required: true,
+                include: [{
+                    model: Note,
+                    where: {
+                        interview_status: req.body.status, 
+                        createdAt: {
+                            [Op.and]: {
+                              [Op.gte]: req.body.startDate,
+                              [Op.lte]: req.body.endDate
+                         } 
+                        }
+                    },
+                }],
+            }],
+          },
+          {
+              model: Test
           }
         ],
     })
@@ -285,12 +373,18 @@ router.put('/dateSpecific', async (req, res) => {
             attributes: ['job_title', 'url'],
             include: [{
                 model: Client,
-                attributes: ['company_name', 'client_name']
+                attributes: { exclude: ['createdAt', 'updatedAt'] }
             }]
           },
           {
             model: Profile,
             attributes: ['name']
+          },
+          {   
+              model: Call
+          },
+          {   
+              model: Test
           }
         ],
     })
@@ -305,32 +399,31 @@ router.put('/dateSpecific', async (req, res) => {
 });
 
 const filterCounts = (dbReport) => {
-    let counts = {
-        closed: 0, 
-        legals: 0,
-        stale: 0,
-        rejectedByClient: 0, 
-        inCommunication: 0,
+    let report = {
+        closed: [], 
+        legals: [],
+        stale: [],
+        rejectedByClient: [], 
+        inCommunication: [],
     }
     dbReport.forEach(element => {
         if(element.dataValues.status === 'closed'){
-            counts.closed ++;
+            report.closed.push(element.dataValues);
         }
         else if(element.dataValues.status === 'Legals'){
-            counts.legals ++;
+            report.legals.push(element.dataValues);
         }
         else if(element.dataValues.status === 'Stale'){
-            counts.stale ++;
+            report.stale.push(element.dataValues);
         }
         else if(element.dataValues.status === 'Rejected by client'){
-            counts.rejectedByClient++;
+            report.rejectedByClient.push(element.dataValues);
         }
         else if(element.dataValues.status === 'in-communication'){
-            counts.inCommunication++;
+            report.inCommunication.push(element.dataValues);
         }
     });
-
-    return counts
+    return report
 }
 
 module.exports = router;
