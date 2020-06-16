@@ -11,11 +11,12 @@ import ReportPage from './reportPage';
 import { getInterviewReport } from '../../../store/actions/profile';
 import errorHandler from '../../../hoc/ErrorHandler/ErrorHandler';
 
-const call = ({interviewStatuses, getInterviewReport, allReportStartDate, allReportEndDate, shouldFetch, closedLeads }) => {
+const call = ({history, interviewStatuses, getInterviewReport, allReportStartDate, allReportEndDate, shouldFetch, closedLeads }) => {
   const [report, setReport] = useState([]);
-  const [subTotal, setSubTotal] = useState(''); 
+  const [endDate, setEndDate] = useState('');
+  const [subTotal, setSubTotal] = useState({}); 
   const [loading, setLoading] = useState(false);
-  const [tableHeader, setTableHeader] = useState('');
+  const [startDate, setStartDate] = useState('');
 
   useEffect(()=> {
     if(shouldFetch === true){
@@ -23,14 +24,18 @@ const call = ({interviewStatuses, getInterviewReport, allReportStartDate, allRep
     }
   },[shouldFetch, allReportEndDate, allReportStartDate]);
 
-  const handleDate = async (startDate, endDate) => {
+  const handleDate = async (startD, endD) => {
     setLoading(true);
-    startDate = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`;
-    endDate = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`;
-    setTableHeader(`Report of [${startDate}] - [${endDate}]`);
-    const callReport = await getInterviewReport(startDate, endDate, interviewStatuses);
+    startD = `${startD.getFullYear()}-${startD.getMonth() + 1}-${startD.getDate()}`;
+    endD = `${endD.getFullYear()}-${endD.getMonth() + 1}-${endD.getDate()}`;
+    setStartDate(startD);
+    setEndDate(endD);
+    const callReport = await getInterviewReport(startD, endD, interviewStatuses);
     setReport(callReport.report);
-    setSubTotal({subtotal: callReport.subTotal, counts: callReport.counts, closedToLegals: callReport.closedToLegals});
+    console.log('====================================');
+    console.log(callReport.report);
+    console.log('====================================');
+    setSubTotal({subtotal: callReport.subTotal, technicalCallReport: callReport.technicalCallReport, closedToLegals: callReport.closedToLegals});
     setLoading(false);
   };
 
@@ -48,38 +53,70 @@ const call = ({interviewStatuses, getInterviewReport, allReportStartDate, allRep
           <TableBody>
             {report.map((row, index) => (
               row.interview_status ? ( 
-                <TableRow key={index}>
+                <TableRow 
+                  hover
+                  style={{cursor: 'pointer'}}
+                  key={index}
+                  onClick={ () => history.push({
+                    pathname: '/detail',
+                    state: {
+                      status: row.interview_status,
+                      startDate: startDate,
+                      endDate: endDate,
+                      routeName: 'call'
+                    }
+                  })}>
                 <TableCell>
                   {row.interview_status} 
                 </TableCell>
                 <TableCell align='center'>
                 {row.total > 0 ? `${((row.total/subTotal.subtotal)*100).toFixed(2)} %` : 0}
                 </TableCell>
-                <TableCell  align='right'>
+                <TableCell align='right'>
                   {row.total}
                 </TableCell>
               </TableRow>
               ): null
             ))}
-            {Object.keys(subTotal.counts).map( (status, index) => {
+            {Object.keys(subTotal.technicalCallReport).map( (status, index) => {
                 return(
-                  <TableRow key={index}>
+                  <TableRow                   
+                    hover
+                    style={{cursor: 'pointer'}}
+                    key={index}
+                    onClick={ () => history.push({
+                      pathname: '/detail',
+                      state: {
+                        dataFromParent: subTotal.technicalCallReport[status],
+                        routeName: 'call'
+                      }
+                    })}>
                     <TableCell> {`Technical Call -> ${status}`}  </TableCell>
                     <TableCell align='center'>
-                      {subTotal.counts[status] > 0 ? (
-                        `${((subTotal.counts[status]/report[1].total)*100).toFixed(2)} %`
+                      {subTotal.technicalCallReport[status].length > 0 ? (
+                        `${((subTotal.technicalCallReport[status].length/report[1].total)*100).toFixed(2)} %`
                       ) : 0}
                     </TableCell>
-                    <TableCell  align='right'> {subTotal.counts[status]} </TableCell>
+                    <TableCell  align='right'> {subTotal.technicalCallReport[status].length} </TableCell>
                   </TableRow> )
             })}
-            <TableRow>
-              <TableCell> {"Closed -> Legals"}   </TableCell>
+            <TableRow 
+              hover
+              style={{cursor: 'pointer'}}
+              onClick={ () => history.push({
+                pathname: '/detail',
+                state: {
+                  dataFromParent: subTotal.closedToLegals,
+                  routeName: 'call'
+                }
+              })}> 
+              <TableCell>
+               {"Closed -> Legals"}   </TableCell>
               <TableCell align='center'>
-              {subTotal.closedToLegals > 0 ? (
-                `${((subTotal.closedToLegals/closedLeads)*100).toFixed(2)} %` ) : 0}
+              {subTotal.closedToLegals.length > 0 ? (
+                `${((subTotal.closedToLegals.length/closedLeads)*100).toFixed(2)} %` ) : 0}
               </TableCell>
-              <TableCell  align='right'> {subTotal.closedToLegals} </TableCell>
+              <TableCell  align='right'> {subTotal.closedToLegals.length} </TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -91,7 +128,7 @@ const call = ({interviewStatuses, getInterviewReport, allReportStartDate, allRep
     <Fragment>
       <ReportPage
         report={report}
-        tableHeader={tableHeader}
+        tableHeader={`Report of [${startDate}] - [${endDate}]`}
         loading={loading}
         displayTable={displayTable}  
         dateRangeHandler={handleDate}
