@@ -290,10 +290,10 @@ const NavSide = ({ user}) => {
         </ListItemIcon>
         <ListItemText primary='Dashboard' />
       </ListItem>
-      {raceName === 'Sales Executive' || raceName === 'Admin' ? salesExecutive() : null }
-      {raceName === 'Sales Manager' || raceName === 'Admin' ? salesManager() : null }
-      {raceName === 'Sales Voice' || raceName === 'Admin' ? salesVoice() : null }
-      {raceName === 'Sales Voice' || raceName === 'Admin' ? salesTest() : null }
+      {raceName === 'Sales Executive' || raceName === 'Sales Manager' ? salesExecutive() : null }
+      {raceName === 'Sales Manager' || raceName === 'Sales Manager' ? salesManager() : null }
+      {raceName === 'Sales Voice' || raceName === 'Sales Manager' ? salesVoice() : null }
+      {raceName === 'Sales Manager' ? salesTest() : null }
       {raceName === 'Admin' ? admin() : null }
     </Fragment>
   );
