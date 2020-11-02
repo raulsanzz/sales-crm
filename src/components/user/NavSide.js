@@ -294,7 +294,7 @@ const NavSide = ({ user}) => {
       {raceName === 'Sales Manager' || raceName === 'Sales Manager' || raceName === 'Admin' ? salesManager() : null }
       {raceName === 'Sales Voice' || raceName === 'Sales Manager' || raceName === 'Admin' ? salesVoice() : null }
       {raceName === 'Sales Manager' || raceName === 'Admin' ? salesTest() : null }
-      {raceName === 'Admin'  ? admin() : null }
+      {raceName === 'Admin' ? admin() : null }
     </Fragment>
   );
 };
