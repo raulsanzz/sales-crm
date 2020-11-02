@@ -130,6 +130,31 @@ const agenda = ({ callStatuses, location, pdfExportComponent }) => {
         </Grid>   
         )
     }
+    var abb = lead.test.due_time;
+    function tConvert(time) { 
+        time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+        if (time.length > 1) { 
+          time = time.slice(1); 
+          time[5] = +time[0] < 12 ? 'AM' : 'PM'; 
+          time[0] = +time[0] % 12 || 12;
+        }
+        return time.join('');
+      }
+      let due_timee = tConvert(abb);
+      console.log("Resss", due_timee)
+
+      var ab = lead.call.call_time;
+    function tConvert(time) { 
+        time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+        if (time.length > 1) { 
+          time = time.slice(1); 
+          time[5] = +time[0] < 12 ? 'AM' : 'PM'; 
+          time[0] = +time[0] % 12 || 12;
+        }
+        return time.join('');
+      }
+      let call_timee = tConvert(ab);
+      console.log("Resss", call_timee)
     const getTestInfo = () => {
         return(
             <Fragment>
@@ -155,7 +180,7 @@ const agenda = ({ callStatuses, location, pdfExportComponent }) => {
                         </li>
                         <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                             Due Time:
-                            <span>{lead.test.due_time}</span>
+                            <span>{due_timee}</span>
                         </li>
                         <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                             Test Gmail Thread:
@@ -202,7 +227,7 @@ const agenda = ({ callStatuses, location, pdfExportComponent }) => {
                 </li>
                 <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                     Call Time:
-                    <span>{lead.call.call_time}</span>
+                    <span>{call_timee}</span>
                 </li>
                 <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                     Device:
