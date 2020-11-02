@@ -70,6 +70,20 @@ const voice = ({fetchLeads, leads, leadLoading, history}) => {
           (lead.call.call_date !== null && lead.voice !== null) ? lead : null
       )
     })
+
+    if (arr.length) {
+      arr.sort((first, second)=>{
+        if(new Date(first.call.call_date).getTime() > new Date(second.call.call_date).getTime()){
+          return -1
+        }
+        else if(new Date(first.call.call_date).getTime() === new Date(second.call.call_date).getTime()){
+          if(first.call.call_time > second.call.call_time){
+            return -1
+          }
+        }
+      })
+    }
+
     setFilteredLeads(arr);  
   }, [JSON.stringify(leads)]);
 
