@@ -62,6 +62,8 @@ const agenda = ({ callStatuses, location, pdfExportComponent }) => {
     const [notes, setNotes] = useState([]);
     const [callStatus, setCallStatus] = useState('');
     const lead = location.state.detail;
+    let due_time = lead.test.due_time;
+    let call_time = lead.call.call_time;
 
     let date = new Date();
     date = `(${date.getHours()}: ${date.getMinutes()}) ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
@@ -130,31 +132,15 @@ const agenda = ({ callStatuses, location, pdfExportComponent }) => {
         </Grid>   
         )
     }
-    var abb = lead.test.due_time;
-    function tConvert(time) { 
+    const tConvert = (time) => { 
         time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
         if (time.length > 1) { 
-          time = time.slice(1); 
-          time[5] = +time[0] < 12 ? 'AM' : 'PM'; 
-          time[0] = +time[0] % 12 || 12;
+            time = time.slice(1); 
+            time[5] = +time[0] < 12 ? ' AM' : ' PM'; 
+            time[0] = +time[0] % 12 || 12;
         }
         return time.join('');
-      }
-      let due_timee = tConvert(abb);
-      console.log("Resss", due_timee)
-
-      var ab = lead.call.call_time;
-    function tConvert(time) { 
-        time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
-        if (time.length > 1) { 
-          time = time.slice(1); 
-          time[5] = +time[0] < 12 ? 'AM' : 'PM'; 
-          time[0] = +time[0] % 12 || 12;
-        }
-        return time.join('');
-      }
-      let call_timee = tConvert(ab);
-      console.log("Resss", call_timee)
+    }
     const getTestInfo = () => {
         return(
             <Fragment>
@@ -180,7 +166,7 @@ const agenda = ({ callStatuses, location, pdfExportComponent }) => {
                         </li>
                         <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                             Due Time:
-                            <span>{due_timee}</span>
+                            <span>{tConvert(due_time)}</span>
                         </li>
                         <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                             Test Gmail Thread:
@@ -227,7 +213,7 @@ const agenda = ({ callStatuses, location, pdfExportComponent }) => {
                 </li>
                 <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                     Call Time:
-                    <span>{call_timee}</span>
+                    <span>{tConvert(call_time)}</span>
                 </li>
                 <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                     Device:
