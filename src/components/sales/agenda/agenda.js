@@ -132,11 +132,7 @@ const agenda = ({ callStatuses, location, pdfExportComponent }) => {
     }
     const tConvert = (time) => { 
         time = time.split(":")
-       if (time.length > 1) { 
-            time[3] = time[0] < 12 ? ' AM' : ' PM';
-            time[0] = (time[0] % 12 + ':' );
-       }
-        return time.join('');
+        return `${time[0] % 12 || 12}:${time[1]} ${time[0] < 12 ? 'AM' : 'PM'}`;
     }
     const getTestInfo = () => {
         return(
