@@ -130,6 +130,10 @@ const agenda = ({ callStatuses, location, pdfExportComponent }) => {
         </Grid>   
         )
     }
+    const tConvert = (time) => { 
+        time = time.split(":")
+        return `${time[0] % 12 || 12}:${time[1]} ${time[0] < 12 ? 'AM' : 'PM'}`;
+    }
     const getTestInfo = () => {
         return(
             <Fragment>
@@ -155,7 +159,7 @@ const agenda = ({ callStatuses, location, pdfExportComponent }) => {
                         </li>
                         <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                             Due Time:
-                            <span>{lead.test.due_time}</span>
+                            <span>{tConvert(lead.test.due_time)}</span>
                         </li>
                         <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                             Test Gmail Thread:
@@ -202,7 +206,7 @@ const agenda = ({ callStatuses, location, pdfExportComponent }) => {
                 </li>
                 <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                     Call Time:
-                    <span>{lead.call.call_time}</span>
+                    <span>{tConvert(lead.call.call_time)}</span>
                 </li>
                 <li className={"list-group-item d-flex justify-content-between align-items-center"}>
                     Device:
