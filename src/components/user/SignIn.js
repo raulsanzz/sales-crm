@@ -210,7 +210,7 @@ const SignIn = ({ logIn}) => {
           <Avatar className={classes.avatar}>
             <LockIcon />
           </Avatar>
-          <Typography>Sign in</Typography>
+          <Typography>Log In</Typography>
           {formRender()}
         </Paper>
       </main>

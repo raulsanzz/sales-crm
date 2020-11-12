@@ -7,8 +7,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
+import IconButton from '@material-ui/core/IconButton';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import DetailsIcon from '@material-ui/icons/Details';
 
-export default function salesDetail({classes, tableHeader, data}) {
+
+export default function salesDetail({classes, tableHeader, data,startDate, endDate, history}) {
   const [total, setTotal] = useState({
     appliedJobCount: 0,
     fetchedJobCount: 0
@@ -51,6 +55,7 @@ export default function salesDetail({classes, tableHeader, data}) {
               <TableCell>User Name</TableCell>
               <TableCell>Fetched Jobs</TableCell>
               <TableCell>Applied Job</TableCell>
+              <TableCell>Details</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -64,6 +69,17 @@ export default function salesDetail({classes, tableHeader, data}) {
                 </TableCell>
                 <TableCell component='th' scope='row'>
                   {row.appliedJobCount}
+                </TableCell>
+                <TableCell component='th' scope='row'>
+                    <IconButton  
+                    onClick={() =>
+                      history.push({
+                        pathname: `/sales_report`,
+                        state: { startDate: startDate, endDate:endDate, userId : row.user_id }
+                      })}
+                      >
+                      <VisibilityIcon fontSize='medium' />
+                      </IconButton>
                 </TableCell>
               </TableRow>
             ))}
