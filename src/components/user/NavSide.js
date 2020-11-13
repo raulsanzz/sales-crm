@@ -293,7 +293,7 @@ const NavSide = ({ user}) => {
       {userRole === 'Sales Executive' || userRole === 'Sales Manager' || userRole === 'Admin' ? salesExecutive() : null }
       {userRole === 'Sales Manager' || userRole === 'Admin' ? salesManager() : null }
       {userRole === 'Sales Voice' || userRole === 'Sales Manager' || userRole === 'Admin' ? salesVoice() : null }
-      {raceName === 'Sales Manager' || raceName === 'Admin' ? salesTest() : null }
+      {userRole === 'Sales Manager' || userRole === 'Admin' ? salesTest() : null }
       {userRole === 'Admin' ? admin() : null }
     </Fragment>
   );
