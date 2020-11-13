@@ -78,7 +78,7 @@ export default function salesDetail({classes, tableHeader, data,startDate, endDa
                         state: { startDate: startDate, endDate:endDate, userId : row.user_id }
                       })}
                       >
-                      <VisibilityIcon fontSize='medium' />
+                      <VisibilityIcon fontSize='small' />
                       </IconButton>
                 </TableCell>
               </TableRow>
