@@ -20,7 +20,7 @@ const DashboardPage = ({ user, history }) => {
   if (user) {
     for (var i = 0; i < user.length; i++) {
       var userRole = user[i].role;
-      var userName = user[i].userName;
+      var userName = user[i].name;
     }
   }
 

@@ -291,8 +291,9 @@ const NavSide = ({ user}) => {
         <ListItemText primary='Dashboard' />
       </ListItem>
       {userRole === 'Sales Executive' || userRole === 'Sales Manager' || userRole === 'Admin' ? salesExecutive() : null }
-      {userRole === 'Sales Manager' || userRole === 'Sales Manager' || userRole === 'Admin' ? salesManager() : null }
+      {userRole === 'Sales Manager' || userRole === 'Admin' ? salesManager() : null }
       {userRole === 'Sales Voice' || userRole === 'Sales Manager' || userRole === 'Admin' ? salesVoice() : null }
+      {raceName === 'Sales Manager' || raceName === 'Admin' ? salesTest() : null }
       {userRole === 'Admin' ? admin() : null }
     </Fragment>
   );
