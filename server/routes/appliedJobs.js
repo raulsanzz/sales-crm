@@ -133,10 +133,67 @@ router.put('/report', async (req, res) => {
       console.log('====================================');
       console.log(error);
       console.log('====================================');
-      // console.log(error.message);
       return res.status(402).json({ msg: 'Server Error' });
     }
 });
+
+//fetching user applied jobs and fetched job deatils on the basis of Start Date and End Date
+router.post('/reportDetail', async (req, res) => {
+
+  try {
+  const appliedJobsAll = await AppliedJob.findAll({
+      where: {
+        applied: true, 
+        applied_on: {
+            [Op.and]: {
+              [Op.gte]: req.body.startDate,
+              [Op.lte]: req.body.endDate
+         }
+        },
+        user_id: req.body.user_id
+      },
+      include: [
+        {
+          model: Job,
+          attributes: ['job_title', 'url']
+        },{
+          model: Profile,
+          attributes: ['name']
+        }
+      ],
+     
+  })
+  const fetchedJobsAll = await Job.findAll({
+      where: {
+        createdAt:   {
+          [Op.and]: {
+            [Op.gte]: req.body.startDate,
+            [Op.lte]: req.body.endDate
+          }
+        },
+        user_id: req.body.user_id
+        
+      }
+  })
+  let report= {};
+  if(fetchedJobsAll.length === 0 && appliedJobsAll.length === 0){
+      return res.json( [] );
+  }
+  if(fetchedJobsAll.length > 0 || appliedJobsAll.length > 0){
+      report.fetchedJobsAll = fetchedJobsAll  
+      report.appliedJobsAll = appliedJobsAll  
+     
+  }
+  return res.json( report );
+  } catch (error) {
+    console.log('====================================');
+    console.log(error);
+    console.log('====================================');
+    return res.status(402).json({ msg: 'Server Error' });
+  }
+});
+
+
 //get all job reports with respect to status
 router.put('/jobReport', async (req, res) => {
   try {
@@ -158,7 +215,6 @@ router.put('/jobReport', async (req, res) => {
     console.log('====================================');
     console.log(error);
     console.log('====================================');
-    // console.log(error.message);
     return res.status(402).json({ msg: 'Server Error' });
   }
 });
@@ -194,7 +250,6 @@ router.put('/dateSpecific', async (req, res) => {
     console.log('====================================');
     console.log(error);
     console.log('====================================');
-    // console.log(error.message);
     return res.status(402).json({ msg: 'Server Error' });
   }
 });
@@ -224,6 +279,7 @@ router.put('/', async (req, res) => {
 });
 
 const mappingHelper = async ( list1, list2, toBeAdded ) => {
+
     
     let users = list1.map((job)=> job.dataValues.user_id);
         users = await getUserNames(users);

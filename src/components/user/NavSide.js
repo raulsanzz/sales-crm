@@ -67,7 +67,7 @@ const NavSide = ({ user}) => {
   
   if (user) {
     for (var i = 0; i < user.length; i++) {
-      var raceName = user[i].role;
+      var userRole = user[i].role;
       var name = user[i].name;
     }
   }
@@ -240,7 +240,7 @@ const NavSide = ({ user}) => {
               </ListItemIcon>
               <ListItemText disableTypography primary='User List' />
             </ListItem>
-             <ListItem button className={classes.nested} component={Link} to='/executive_report'>
+             <ListItem button className={classes.nested} component={Link} to='/sales_executive_reports'>
               <ListItemIcon>
                 <PollOutlinedIcon className={classes.root} />
               </ListItemIcon>
@@ -290,11 +290,11 @@ const NavSide = ({ user}) => {
         </ListItemIcon>
         <ListItemText primary='Dashboard' />
       </ListItem>
-      {raceName === 'Sales Executive' || raceName === 'Sales Manager' || raceName === 'Admin' ? salesExecutive() : null }
-      {raceName === 'Sales Manager' || raceName === 'Sales Manager' || raceName === 'Admin' ? salesManager() : null }
-      {raceName === 'Sales Voice' || raceName === 'Sales Manager' || raceName === 'Admin' ? salesVoice() : null }
-      {raceName === 'Sales Manager' || raceName === 'Admin' ? salesTest() : null }
-      {raceName === 'Admin' ? admin() : null }
+      {userRole === 'Sales Executive' || userRole === 'Sales Manager' || userRole === 'Admin' ? salesExecutive() : null }
+      {userRole === 'Sales Manager' || userRole === 'Admin' ? salesManager() : null }
+      {userRole === 'Sales Voice' || userRole === 'Sales Manager' || userRole === 'Admin' ? salesVoice() : null }
+      {userRole === 'Sales Manager' || userRole === 'Admin' ? salesTest() : null }
+      {userRole === 'Admin' ? admin() : null }
     </Fragment>
   );
 };

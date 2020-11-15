@@ -1,3 +1,3 @@
 module.exports = {
-  secret: 'musawirhussainturi'
+  secret: '2924cf915c656a90f136d2d8fd3d1bb20be5070982d5c3d6cb0d588b801a10a21d1143bead9dfe912f072615eed047f5e43da5b2c62c1187e8cdb9044a40a5ba'
 };

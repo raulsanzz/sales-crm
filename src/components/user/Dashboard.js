@@ -19,14 +19,14 @@ const ul = {
 const DashboardPage = ({ user, history }) => {
   if (user) {
     for (var i = 0; i < user.length; i++) {
-      var raceName = user[i].role;
-      var name = user[i].name;
+      var userRole = user[i].role;
+      var userName = user[i].name;
     }
   }
 
   return (
     <Fragment>
-      {raceName === 'Admin' ? (
+      {userRole === 'Admin' ? (
         <div className='row'>
           <div className='col-md-5 offset-md-1'>
             <div style={jumbo} className='jumbotron jumbotron-fluid'>
@@ -121,9 +121,9 @@ const DashboardPage = ({ user, history }) => {
           </div>
         </div>
       ) : (
-        <h1>Welcome '{name}' to Sales CRM</h1>
+        <h1>Welcome '{userName}' to Sales CRM</h1>
       )}
-      {raceName === undefined ? (
+      {userRole === undefined ? (
         <p>Thanks for Registration wait Untill an Admin Verified you</p>
       ) : (
         ''

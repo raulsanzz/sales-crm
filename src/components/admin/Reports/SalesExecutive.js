@@ -59,9 +59,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const salesExecutive = ({pdfExportComponent}) => {
+const salesExecutive = ({pdfExportComponent,history}) => {
+
   const classes = useStyles();
   const [report, setReport] = useState([]);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [loading, setLoading] = useState(false);
   const [tableHeader, setTableHeader] = useState('');
   
@@ -79,7 +82,10 @@ const salesExecutive = ({pdfExportComponent}) => {
         "Content-Type": "application/json",
       },
     };
+    
     const body = JSON.stringify({ startDate, endDate });
+    setStartDate(startDate);
+    setEndDate(endDate);
     const res = await axios.put("/api/appliedJob/report", body, config);
     setReport(res.data);
     setLoading(false);
@@ -100,11 +106,14 @@ const salesExecutive = ({pdfExportComponent}) => {
           </Typography>
         </Paper>
         <DateRange handleClick={handleDate} classes={classes} />
-        {tableHeader !== '' ? loading === false ? report.length > 0 ? ( 
+        { tableHeader !== '' ? loading === false ? report.length > 0 ? ( 
           <SalesDetails 
             classes={classes}
             data = {report} 
-            tableHeader = {tableHeader}/> ) : (
+            tableHeader = {tableHeader}
+            startDate= {startDate}
+            endDate= {endDate}
+            history = {history}/> ) : (
           <Meassage meassage={'No reports for the selected dates'} /> ) : (
           <Meassage meassage={'loading'} /> ) : (
           <Meassage meassage={'Select the date and press the show report button to display reports'} />)
