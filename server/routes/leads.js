@@ -58,7 +58,8 @@ router.get( '/', async (req, res) => {
                     model: Test
                 }
             ],
-            order: [['createdAt', 'DESC']]
+            order: [['id', 'DESC']]
+            // order: [['createdAt', 'DESC']]
     })
         return res.json({ leads }  );
     } catch (error) {
