@@ -77,7 +77,9 @@ router.post('/login', async(req, res) => {
 //get all users
 router.get('/', auth, async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      order: [['createdAt', 'DESC']]
+    });
     if (users) {
       res.json({ users });
     }

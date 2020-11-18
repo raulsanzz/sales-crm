@@ -22,7 +22,10 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
   const [match, setMatch] = useState('Search');
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filteredJobs, setFilteredJobs] = useState([]);
-
+  const tConvert = (time) => { 
+    time = time.split(":")
+    return `${time[0] % 12 || 12}:${time[1]} ${time[0] < 12 ? 'AM' : 'PM'}`;
+}
   useEffect(() => {
       setFilteredJobs([...jobs]);
     }, [jobs]);
@@ -176,10 +179,13 @@ const table = ({ jobs, history, columns, classes, tableHeader, onUpdateHandler, 
                                 </TableCell>)
                         case 'contact_via':
                         case 'call_date':
+                          return( <TableCell key={column.id} align={column.align}>
+                            {row.call[column.id]}
+                        </TableCell> )
                         case 'call_time':
-                          return(<TableCell key={column.id} align={column.align}>
-                                    {row.call[column.id]}
-                                </TableCell>)
+                          return( <TableCell key={column.id} align={column.align}>
+                                    {tConvert(row.call[column.id])}
+                                </TableCell> )
                         case 'notes_date':
                           return (<TableCell key={column.id} align={column.align}>
                                     {row.callTakenOn}

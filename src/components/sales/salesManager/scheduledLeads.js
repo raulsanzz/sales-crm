@@ -69,7 +69,7 @@ const scheduledLeads = ({fetchLeads, updateLead, leads, leadLoading, history}) =
     { id: 'company_name', label: 'Company Name', minWidth: 170 },
     { id: 'profile', label: 'Profile', minWidth: 100, align: 'center' },
     { id: 'call_time', label: 'Time', minWidth: 100, align: 'center' },
-    { id: 'call_date', label: 'Date', minWidth: 100, align: 'center' },
+    { id: 'createdAt', label: 'Date', minWidth: 100, align: 'center' },
     { id: 'status', label: 'Lead Status', minWidth: 100, align: 'center' },
     { id: 'onChangeList', label: 'Voice', minWidth: 100, align: 'center', 
       placeholder: 'Voice', for: 'voice' , listItems: voices}
