@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme => ({
     width: '20%',
     position: 'absolute',
     right: '10px',
-    top: '40%'
+    top: '30%'
   },
   ifCompExist:{
     marginBottom: '5px',
@@ -210,11 +210,11 @@ const AddJob = ({ fetchJob, addJob, jobs, jobLoading}) => {
     setFromIsInvalid(true);
   }
   const searchCompany = (company_name) => {
-    const exist = jobs.filter(item => {
-      return item.client.company_name.toLowerCase() === company_name.toLowerCase();
-    });
+    let company = company_name.toLowerCase()
+    const exist = jobs.filter(item => item.client.company_name.includes(company)
+    );
     if (exist.length > 0) {
-      setCompExist(exist[0]);
+      setCompExist(exist);
       return true;
     } else {
       setCompExist(null);
@@ -364,35 +364,41 @@ const AddJob = ({ fetchJob, addJob, jobs, jobLoading}) => {
           </Paper>)
         }
          {/* display card if company already exists */}
-         {compExist !== null ? (
-          <div className={classes.compExist}>
-            <h1 className={classes.header}>Job Alredy Exist</h1>
+         {compExist && (
+          <div className={classes.compExist} style={{overflowY: 'scroll', overflowX: 'hidden', height: '40%'}}>
+            <h1 className={classes.header}>Similar Companies</h1>
             <ul style={{ listStyleType: 'none', textAlign: 'left', margin: '0' }}>
-              <li className={classes.ifCompExist}>
-                <b style={{ marginRight: '8px' }}>Company Name:</b>
-                <span>{compExist.client.company_name}</span>
-              </li>
-              <li className={classes.ifCompExist}>
-                <b style={{ marginRight: '8px' }}>URL:</b>
-                <span>
-                  <a 
-                    href={compExist.url} 
-                    target='_blank' 
-                    rel="noopener noreferrer">  
-                    job link Url 
-                  </a>
-                </span>
-              </li>
-              <li className={classes.ifCompExist}>
-                <b style={{ marginRight: '8px' }}>Job Title:</b>
-                <span>{compExist.job_title}</span>
-              </li>
-              <li className={classes.ifCompExist}>
-                <b style={{ marginRight: '8px' }}> Created at:</b>
-                <span>{compExist.createdAt}</span>
-              </li>
+              { /*maping array*/ }
+              { compExist.map((item,i)=>(  
+                <div key={i} style={{borderBottom: '1px solid black', marginRight: '40px', padding: '10px'}}>
+                  <li  className={classes.ifCompExist}>
+                    <b style={{ marginRight: '8px' }}>Company Name:</b>
+                    <span>{item.client.company_name}</span>
+                  </li>
+                  <li className={classes.ifCompExist}>
+                    <b style={{ marginRight: '8px' }}>URL:</b>
+                    <span>
+                      <a 
+                        href={item.url} 
+                        target='_blank' 
+                        rel="noopener noreferrer">  
+                        job link Url 
+                      </a>
+                    </span>
+                  </li>
+                  <li className={classes.ifCompExist}>
+                    <b style={{ marginRight: '8px' }}>Job Title:</b>
+                    <span>{item.job_title}</span>
+                  </li>
+                  <li className={classes.ifCompExist}>
+                    <b style={{ marginRight: '8px' }}> Created at:</b>
+                    <span>{item.createdAt}</span>
+                  </li>
+                </div>
+                )
+              )}
             </ul>
-          </div>) : null 
+          </div>) 
         }
       </main>
     </Fragment>);

@@ -125,6 +125,7 @@ const voiceStatus = ({history, callStatuses}) => {
             return {...arr[temp], totalCalls: previousCount }
           }
         }
+
         else{ //for the last element 
           if(arr[highestDateIndex].id === arr[index].id){
             let n =  arr[highestDateIndex].callTakenOn.localeCompare(arr[index].callTakenOn)
@@ -151,6 +152,8 @@ const voiceStatus = ({history, callStatuses}) => {
     arr = arr.filter(ele => {
       return ele ? ele : null
     })
+    // sorting
+     arr.sort((d1, d2) => new Date(d2.createdAt) - new Date(d1.createdAt))
     setFilteredLeads(arr);
   };
   return( 
